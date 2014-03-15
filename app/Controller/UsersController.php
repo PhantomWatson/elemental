@@ -37,7 +37,9 @@ class UsersController extends AppController {
 				// Set 'remember me' cookie
 				if ($this->request->data['User']['auto_login'] == 1) {
 					unset($this->request->data['User']['auto_login']);
-					$this->request->data['User']['password'] = $this->Auth->password($this->request->data['User']['password']);
+					App::uses('Security', 'Utility');
+					$this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
+					
 					$this->Cookie->write('remember_me', $this->request->data['User'], true, '10 years');
 				}
 				$this->Flash->success('You are now logged in.');
@@ -74,11 +76,12 @@ class UsersController extends AppController {
 	public function admin_add() {
 		if ($this->request->is('post')) {
 
-		// Format data
+			// Format data
 			App::uses('Sanitize', 'Utility');
 			$this->request->data['User']['email'] = trim(strtolower($this->request->data['User']['email']));
 			$this->request->data['User'] = Sanitize::clean($this->request->data['User']);
-			$hash = $this->Auth->password($this->request->data['User']['password']);
+			App::uses('Security', 'Utility');
+			$hash = Security::hash($this->request->data['User']['password'], null, true);
 			$this->request->data['User']['password'] = $hash;
 
 			$this->User->create();
@@ -133,7 +136,8 @@ class UsersController extends AppController {
 				// Format data
 				$this->request->data['User']['email'] = trim(strtolower($this->request->data['User']['email']));
 				$password = $this->request->data['User']['password'];
-				$this->request->data['User']['password'] = $this->Auth->password($this->request->data['User']['password']);
+				App::uses('Security', 'Utility');
+				$this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
 				$this->request->data['User']['role'] = 'student';
 				$this->request->data['User'] = Sanitize::clean($this->request->data['User']);
 
@@ -221,7 +225,8 @@ class UsersController extends AppController {
 			$this->User->id = $id;
 			$this->User->set($this->request->data);
 			if ($this->User->validates()) {
-				$hash = $this->Auth->password($this->request->data['User']['new_password']);
+				App::uses('Security', 'Utility');
+				$hash = Security::hash($this->request->data['User']['new_password'], null, true);
 				$result = $this->User->saveField('password', $hash);
 				$result = true;
 				if ($result) {
@@ -246,7 +251,8 @@ class UsersController extends AppController {
 		if ($this->request->is('post')) {
 			$this->User->set($this->request->data);
 			if ($this->User->validates()) {
-				$hash = $this->Auth->password($this->request->data['User']['new_password']);
+				App::uses('Security', 'Utility');
+				$hash = Security::hash($this->request->data['User']['new_password'], null, true);
 				$this->User->set('password', $hash);
 				if ($this->User->save()) {
 					$this->Flash->success('Password changed. You may now log in.');
