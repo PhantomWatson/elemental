@@ -5,15 +5,47 @@
 </div>
 
 <div class="users form">
-	<?php echo $this->Form->create('User');?>
-	<?php
-		echo $this->Form->input('role', array(
-			'options' => $roles
+	<?php 
+		echo $this->Form->create('User');
+		echo $this->Form->input(
+			'role', 
+			array(
+				'options' => $roles,
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group')
+			)
+		);
+		echo $this->Form->input(
+			'name', 
+			array(
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group')
+			)
+		);
+		echo $this->Form->input(
+			'email', 
+			array(
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group')
+			)
+		);
+		echo $this->Form->input(
+			'phone', 
+			array(
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group')
+			)
+		);
+		echo $this->Form->input(
+			'password', 
+			array(
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group')
+			)
+		);
+		echo $this->Form->end(array(
+			'label' => 'Add User',
+			'class' => 'btn btn-default'
 		));
-		echo $this->Form->input('name');
-		echo $this->Form->input('email');
-		echo $this->Form->input('phone');
-		echo $this->Form->input('password');
 	?>
-	<?php echo $this->Form->end(__('Submit'));?>
 </div>
