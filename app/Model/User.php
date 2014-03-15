@@ -293,9 +293,10 @@ class User extends AppModel {
 	 */
 	public function getRoleOptions() {
 		return array(
-			'admin' => 'Administrator',
+			'student' => 'Student',
 			'instructor' => 'Instructor',
-			'student' => 'Student'
+			'instructor-in-training' => 'Instructor in Training',
+			'admin' => 'Administrator'
 		);	
 	}
 }
