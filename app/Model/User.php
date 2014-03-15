@@ -286,4 +286,16 @@ class User extends AppModel {
 		$salt = 'resetmygoddamnpassword';
 		return md5($user_id.$email.$salt);
 	}
+	
+	/**
+	 * Returns an array of roles to be used as options in <select> form fields
+	 * @return array
+	 */
+	public function getRoleOptions() {
+		return array(
+			'admin' => 'Administrator',
+			'instructor' => 'Instructor',
+			'student' => 'Student'
+		);	
+	}
 }

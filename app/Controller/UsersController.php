@@ -94,7 +94,10 @@ class UsersController extends AppController {
 			$this->request->data['User']['password'] = '';
 		}
 
-		$this->set(array('title_for_layout' => 'Add User'));
+		$this->set(array(
+			'roles' => $this->User->getRoleOptions(),
+			'title_for_layout' => 'Add User'
+		));
 	}
 
 	public function register() {
@@ -342,6 +345,7 @@ class UsersController extends AppController {
 			}
 		}
 		$this->set(array(
+			'roles' => $this->User->getRoleOptions(),
 			'title_for_layout' => 'Edit User'
 		));
 	}

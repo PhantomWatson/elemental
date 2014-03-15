@@ -37,11 +37,7 @@
 			echo $this->Form->input('role', array(
 				'class' => 'form-control',
 				'div' => array('class' => 'form-group'),
-				'options' => array(
-					'admin' => 'Administrator',
-					'instructor' => 'Instructor',
-					'student' => 'Student'
-				)
+				'options' => $roles
 			));
 		?>
 	</fieldset>
