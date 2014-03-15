@@ -283,7 +283,7 @@ class User extends AppModel {
 	}
 
 	public function getResetPasswordHash($user_id, $email = null) {
-		$salt = 'resetmygoddamnpassword';
+		$salt = Configure::read('password_reset_salt');
 		return md5($user_id.$email.$salt);
 	}
 	
