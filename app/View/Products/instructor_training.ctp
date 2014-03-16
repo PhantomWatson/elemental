@@ -8,36 +8,30 @@
 	<?php if ($logged_in): ?>
 		<?php if ($can_access): ?>
 			<?php
-				$lesson_path = '/instructor_training/Lesson 1/Current Lesson';
-				$swf_path = $lesson_path.'/vizi.swf';
-				$ac_src = $lesson_path.'/vizi';
+				$lessons = array(
+					1 => 1, 
+					2 => 2, 
+					3 => 3, 
+					4 => 4, 
+					'5a' => 5, 
+					'5b' => '5b', 
+					6 => 6, 
+					'7a' => 7, 
+					'7b' => '7b', 
+					8 => 8, 
+					9 => 9
+				);
 			?>
-			
-			<script language="javascript">AC_FL_RunContent = 0;</script>
-			<script src="<?php echo $lesson_path; ?>/AC_RunActiveContent.js" language="javascript"></script>
-			<p id="vizi_player">
-				<script language="javascript">
-					if (AC_FL_RunContent == 0) {
-						alert("This page requires AC_RunActiveContent.js.");
-					} else {
-						AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0','width','898','height','495','align','left','id','ViziRECOVERED10-27-09','src','<?php echo $ac_src; ?>','quality','high','bgcolor','#ffffff','name','ViziRECOVERED10-27-09','allowscriptaccess','sameDomain','allowfullscreen','false','pluginspage','http://www.macromedia.com/go/getflashplayer','movie','<?php echo $ac_src; ?>' ); //end AC code
-					}
-				</script>
-			</p>
-			<noscript>
-				<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="898" height="495" align="left" id="ViziRECOVERED10-27-09">
-					<param name="allowScriptAccess" value="sameDomain" />
-					<param name="allowFullScreen" value="false" />
-					<param name="movie" value="<?php echo $swf_path; ?>" />
-					<param name="quality" value="high" />
-					<param name="bgcolor" value="#ffffff" />
-					<embed src="<?php echo $swf_path; ?>" width="898" height="495" align="left" quality="high" bgcolor="#ffffff" name="ViziRECOVERED10-27-09" allowscriptaccess="sameDomain" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />                        
-				</object>
-			</noscript>
-			<map name="Map">
-				<area shape="rect" coords="575,16,889,56" href="/">
-			</map>
-
+			<ul>
+				<?php foreach ($lessons as $label => $path): ?>
+					<li>
+						<a href="/vizi/instructor_training/Lesson <?php echo $path; ?>/Current Lesson/index.html" target="instructor_training_iframe">
+							Lesson <?php echo $label; ?>
+						</a>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+			<iframe src="" name="instructor_training_iframe" height="499" width="902"></iframe>
 		<?php endif; ?>
 	<?php else: ?>
 		<p class="alert alert-info">
