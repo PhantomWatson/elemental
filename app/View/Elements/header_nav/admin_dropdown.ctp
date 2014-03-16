@@ -54,11 +54,11 @@
 		</li>
 		<li>
 			<?php echo $this->Html->link(
-				'Manage certification',
+				'Add a User',
 				array(
-					'controller' => 'certifications',
-					'action' => 'manage',
-					$this->params['prefix'] => false
+					'controller' => 'users',
+					'action' => 'add',
+					'admin' => true
 				)
 			); ?>
 		</li>
