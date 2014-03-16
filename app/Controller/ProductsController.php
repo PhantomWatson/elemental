@@ -76,10 +76,19 @@ class ProductsController extends AppController {
 				// Verify that the user is authorized to access this
 				$user_id = $this->Auth->user('id');
 				$this->loadModel('User');
-				$user_purchased = $this->User->hasPurchased($user_id, $product_id);
+				switch ($product) {
+					case 'instructor_training':
+						$can_access = $this->User->canAccessInstructorTraining($user_id);
+						break;
+					case 'review_materials':
+						$can_access = $this->User->hasPurchased($user_id, $product_id);
+						break;
+					default:
+						throw new NotFoundException('Error: Unrecognized product');
+				}
 				
 				// Serve media
-				if ($user_purchased) {
+				if ($can_access) {
 					$this->response->file(WWW_ROOT.'vizi/'.$url);
 					return $this->response;
 				} else {

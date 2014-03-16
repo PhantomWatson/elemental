@@ -249,6 +249,17 @@ class User extends AppModel {
 		return $retval;	
 	}
 
+	public function canAccessInstructorTraining() {
+		$this->id = $user_id;
+		$role = $this->field('role');
+		switch ($role) {
+			case 'admin':
+			case 'instructor-in-training':
+				return true;
+		}
+		return false;
+	}
+
 	public function sendPasswordResetEmail($user_id) {
 		$this->id = $user_id;
 		$user = $this->find('first', array(
