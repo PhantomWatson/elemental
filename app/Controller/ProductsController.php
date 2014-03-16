@@ -105,6 +105,19 @@ class ProductsController extends AppController {
 	}
 
 	public function instructor_training() {
+		/* A trailing slash is required for /app/webroot/.htaccess to
+		 * correctly route the Vizi Player's (/app/webroot/vizi/instructor_training/.../vizi.swf)
+		 * requests for files stored in /app/webroot/vizi/instructor_training */ 
+		if ($this->request->url == 'instructor_training') {
+			$this->redirect('/instructor_training/');
+		}
 		
+		$user_id = $this->Auth->user('id');
+		$this->loadModel('User');
+		$this->set(array(
+			'title_for_layout' => 'Instructor Training',
+			'logged_in' => $this->Auth->loggedIn(),
+			'can_access' => $this->User->canAccessInstructorTraining($user_id)
+		));
 	}
 }
