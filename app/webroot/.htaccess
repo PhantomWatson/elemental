@@ -4,6 +4,10 @@
     # Route every request for a file in /app/webroot/vizi/review_materials/
     # to /review_materials/*, which gets routed to /products/route 
     RewriteRule ^vizi/review_materials/(.+)$ /review_materials/$1 [QSA,L]
+    
+    # Route every request for a file in /app/webroot/vizi/instructor_training/
+    # to /instructor_training/*, which gets routed to /products/route 
+    RewriteRule ^vizi/instructor_training/(.+)$ /instructor_training/$1 [QSA,L]
       
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f

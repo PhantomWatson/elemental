@@ -94,4 +94,8 @@ class ProductsController extends AppController {
 		
 		$this->redirect('/');
 	}
+
+	public function instructor_training() {
+		
+	}
 }
