@@ -2,11 +2,12 @@
 	<h1>
 		<?php echo $title_for_layout; ?>
 	</h1>
-	<p>
-		
-	</p>
 	<?php if ($logged_in): ?>
 		<?php if ($can_access): ?>
+			<p>
+				To begin, select a lesson:
+			</p>
+			
 			<?php
 				$lessons = array(
 					1 => 1, 
@@ -22,16 +23,31 @@
 					9 => 9
 				);
 			?>
-			<ul>
+			<select id="instructor_training_lesson_select">
+				<option value=""></option>
 				<?php foreach ($lessons as $label => $path): ?>
-					<li>
-						<a href="/vizi/instructor_training/Lesson <?php echo $path; ?>/Current Lesson/index.html" target="instructor_training_iframe">
-							Lesson <?php echo $label; ?>
-						</a>
-					</li>
+					<option value="<?php echo $path; ?>">
+						Lesson <?php echo $label; ?>
+					</option>
 				<?php endforeach; ?>
-			</ul>
-			<iframe src="" name="instructor_training_iframe" height="499" width="902"></iframe>
+			</select>
+			<div id="instructor_training_iframe_wrapper" style="display: none;">
+				<iframe src="" id="instructor_training_iframe" height="499" width="902"></iframe>
+			</div>
+			<?php $this->Js->buffer("
+				$('#instructor_training_lesson_select').val('');
+				$('#instructor_training_lesson_select').change(function () {
+					var select = $(this);
+					select.children().first().hide();
+					var path = select.val();
+					var iframe = $('#instructor_training_iframe');
+					var iframe_wrapper = $('#instructor_training_iframe_wrapper');
+					iframe.attr('src', '/vizi/instructor_training/Lesson '+path+'/Current Lesson/index.html');
+					if (! iframe_wrapper.is(':visible')) {
+						iframe_wrapper.slideDown(1000);
+					}
+				});
+			"); ?>
 		<?php endif; ?>
 	<?php else: ?>
 		<p class="alert alert-info">
