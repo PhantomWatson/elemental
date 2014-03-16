@@ -13,7 +13,8 @@
 					'Schedule a course',
 					array(
 						'controller' => 'courses',
-						'action' => 'add'
+						'action' => 'add',
+						$this->params['prefix'] => false
 					)
 				); ?>
 			</li>
@@ -24,7 +25,8 @@
 					'Manage courses',
 					array(
 						'controller' => 'courses',
-						'action' => 'manage'
+						'action' => 'manage',
+						$this->params['prefix'] => false
 					)
 				); ?>
 			</li>
@@ -55,7 +57,8 @@
 					'Add a testimonial',
 					array(
 						'controller' => 'testimonials',
-						'action' => 'add'
+						'action' => 'add',
+						$this->params['prefix'] => false
 					)
 				); ?>
 			</li>

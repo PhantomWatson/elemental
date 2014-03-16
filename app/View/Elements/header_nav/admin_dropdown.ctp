@@ -12,7 +12,8 @@
 				'Courses',
 				array(
 					'controller' => 'courses',
-					'action' => 'manage'
+					'action' => 'manage',
+					$this->params['prefix'] => false
 				)
 			); ?>
 		</li>
@@ -21,7 +22,8 @@
 				'Articles',
 				array(
 					'controller' => 'articles',
-					'action' => 'manage'
+					'action' => 'manage',
+					$this->params['prefix'] => false
 				)
 			); ?>
 		</li>
@@ -30,7 +32,8 @@
 				'Testimonials',
 				array(
 					'controller' => 'testimonials',
-					'action' => 'manage'
+					'action' => 'manage',
+					$this->params['prefix'] => false
 				)
 			); ?>
 		</li>
@@ -44,7 +47,8 @@
 				'Manage Users',
 				array(
 					'controller' => 'users',
-					'action' => 'manage'
+					'action' => 'manage',
+					$this->params['prefix'] => false
 				)
 			); ?>
 		</li>
@@ -53,7 +57,8 @@
 				'Manage certification',
 				array(
 					'controller' => 'certifications',
-					'action' => 'manage'
+					'action' => 'manage',
+					$this->params['prefix'] => false
 				)
 			); ?>
 		</li>

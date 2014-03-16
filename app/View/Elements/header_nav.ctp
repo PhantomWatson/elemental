@@ -7,21 +7,24 @@
 			'label' => 'Home',
 			'url' => array(
 				'controller' => 'pages',
-				'action' => 'home'
+				'action' => 'home',
+				$this->params['prefix'] => false
 			)
 		),
 		array(
 			'label' => 'Courses',
 			'url' => array(
 				'controller' => 'courses',
-				'action' => 'index'
+				'action' => 'index',
+				$this->params['prefix'] => false
 			)
 		),
 		array(
 			'label' => 'Contact',
 			'url' => array(
 				'controller' => 'pages',
-				'action' => 'contact'
+				'action' => 'contact',
+				$this->params['prefix'] => false
 			)
 		)
 	);
@@ -62,7 +65,8 @@
 						'About <b class="caret"></b>',
 						array(
 							'controller' => 'pages',
-							'action' => 'about_intro'
+							'action' => 'about_intro',
+							$this->params['prefix'] => false
 						),
 						array(
 							'escape' => false,
@@ -76,7 +80,8 @@
 								'Intro to Elemental',
 								array(
 									'controller' => 'pages',
-									'action' => 'about_intro'
+									'action' => 'about_intro',
+									$this->params['prefix'] => false
 								)
 							); ?>
 						</li>
@@ -85,7 +90,8 @@
 								'Pedagogy',
 								array(
 									'controller' => 'pages',
-									'action' => 'about_pedagogy'
+									'action' => 'about_pedagogy',
+									$this->params['prefix'] => false
 								)
 							); ?>
 						</li>
@@ -94,7 +100,8 @@
 								'Effectiveness',
 								array(
 									'controller' => 'pages',
-									'action' => 'about_effectiveness'
+									'action' => 'about_effectiveness',
+									$this->params['prefix'] => false
 								)
 							); ?>
 						</li>
@@ -103,7 +110,8 @@
 								'The People Behind Elemental',
 								array(
 									'controller' => 'pages',
-									'action' => 'about_bios'
+									'action' => 'about_bios',
+									$this->params['prefix'] => false
 								)
 							); ?>
 						</li>
@@ -130,7 +138,8 @@
 							'Account',
 							array(
 								'controller' => 'users',
-								'action' => 'account'
+								'action' => 'account',
+								$this->params['prefix'] => false
 							)
 						); ?>
 					</li>
@@ -140,7 +149,8 @@
 							'Logout',
 							array(
 								'controller' => 'users',
-								'action' => 'logout'
+								'action' => 'logout',
+								$this->params['prefix'] => false
 							)
 						); ?>
 					</li>
@@ -150,7 +160,8 @@
 							'Login',
 							array(
 								'controller' => 'users',
-								'action' => 'login'
+								'action' => 'login',
+								$this->params['prefix'] => false
 							)
 						); ?>
 					</li>
@@ -159,7 +170,8 @@
 							'Create Account',
 							array(
 								'controller' => 'users',
-								'action' => 'register'
+								'action' => 'register',
+								$this->params['prefix'] => false
 							)
 						); ?>
 					</li>

@@ -9,7 +9,8 @@
 				'Write a testimonial',
 				array(
 					'controller' => 'testimonials',
-					'action' => 'add'
+					'action' => 'add',
+					$this->params['prefix'] => false
 				)
 			); ?>
 		</li>
@@ -18,7 +19,8 @@
 				'Review materials',
 				array(
 					'controller' => 'products',
-					'action' => 'review_materials'
+					'action' => 'review_materials',
+					$this->params['prefix'] => false
 				)
 			); ?>
 		</li>
