@@ -70,32 +70,27 @@ class ProductsController extends AppController {
 					$product_id = $this->Product->getReviewMaterialsId();
 					break;	
 			}
+				
+			// Verify that the user is authorized to access this
+			$user_id = $this->Auth->user('id');
+			$this->loadModel('User');
+			switch ($product) {
+				case 'instructor_training':
+					$can_access = $this->User->canAccessInstructorTraining($user_id);
+					break;
+				case 'review_materials':
+					$can_access = $this->User->hasPurchased($user_id, $product_id);
+					break;
+				default:
+					throw new NotFoundException('Error: Unrecognized product');
+			}
 			
-			if (isset($product_id)) {
-				
-				// Verify that the user is authorized to access this
-				$user_id = $this->Auth->user('id');
-				$this->loadModel('User');
-				switch ($product) {
-					case 'instructor_training':
-						$can_access = $this->User->canAccessInstructorTraining($user_id);
-						break;
-					case 'review_materials':
-						$can_access = $this->User->hasPurchased($user_id, $product_id);
-						break;
-					default:
-						throw new NotFoundException('Error: Unrecognized product');
-				}
-				
-				// Serve media
-				if ($can_access) {
-					$this->response->file(WWW_ROOT.'vizi/'.$url);
-					return $this->response;
-				} else {
-					$this->Flash->error('Sorry, your account does not have access to that product.');
-				}
+			// Serve media
+			if ($can_access) {
+				$this->response->file(WWW_ROOT.'vizi/'.$url);
+				return $this->response;
 			} else {
-				$this->Flash->error('Sorry, that product was not found.');	
+				$this->Flash->error('Sorry, your account does not have access to that product.');
 			}
 		} else {
 			$this->Flash->error('Please log in to view that product.');	
