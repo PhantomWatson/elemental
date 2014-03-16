@@ -32,7 +32,7 @@
 				<?php endforeach; ?>
 			</select>
 			<div id="instructor_training_iframe_wrapper" style="display: none;">
-				<iframe src="" id="instructor_training_iframe" height="499" width="902"></iframe>
+				<iframe src="" id="instructor_training_iframe" height="520" width="920"></iframe>
 			</div>
 			<?php $this->Js->buffer("
 				$('#instructor_training_lesson_select').val('');
