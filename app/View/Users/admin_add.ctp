@@ -40,7 +40,8 @@
 			'password', 
 			array(
 				'class' => 'form-control',
-				'div' => array('class' => 'form-group')
+				'div' => array('class' => 'form-group'),
+				'type' => 'text'
 			)
 		);
 		echo $this->Form->end(array(
