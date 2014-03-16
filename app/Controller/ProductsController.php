@@ -53,7 +53,7 @@ class ProductsController extends AppController {
 	}
 
 	public function route() {
-		$url = $this->request->url;
+		$url = urldecode($this->request->url);
 		
 		// Strip out leading /vizi if present
 		if(stripos($url, 'vizi/') === 0) {
