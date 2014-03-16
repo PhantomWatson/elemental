@@ -129,6 +129,10 @@
 						<?php echo $this->element('header_nav/instructor_uncertified_dropdown'); ?>
 					<?php endif; ?>
 
+					<?php if ($user_role == 'admin' || $user_role == 'instructor-in-training'): ?>
+						<?php echo $this->element('header_nav/instructor_in_training_dropdown'); ?>
+					<?php endif; ?>
+
 					<?php if ($user_role == 'admin' || $user_role == 'student'): ?>
 						<?php echo $this->element('header_nav/student_dropdown'); ?>
 					<?php endif; ?>
