@@ -78,16 +78,17 @@ class UsersController extends AppController {
 
 			// Format data
 			App::uses('Sanitize', 'Utility');
-			$this->request->data['User']['email'] = trim(strtolower($this->request->data['User']['email']));
+			$this->request->data['User']['email'] = strtolower($this->request->data['User']['email']);
+			$this->request->data['User']['email'] = trim($this->request->data['User']['email']);
 			$this->request->data['User'] = Sanitize::clean($this->request->data['User']);
+			$password = $this->request->data['User']['password'];
 			App::uses('Security', 'Utility');
-			$hash = Security::hash($this->request->data['User']['password'], null, true);
+			$hash = Security::hash($password, null, true);
 			$this->request->data['User']['password'] = $hash;
 
 			$this->User->create();
 			if ($this->User->save($this->request->data)) {
 				$this->Flash->success('The user has been added.');
-				//$this->redirect(array('controller' => 'commentaries', 'action' => 'index'));
 			} else {
 				$this->Flash->error('The user could not be saved.');
 			}
