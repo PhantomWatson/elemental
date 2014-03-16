@@ -249,7 +249,7 @@ class User extends AppModel {
 		return $retval;	
 	}
 
-	public function canAccessInstructorTraining() {
+	public function canAccessInstructorTraining($user_id) {
 		$this->id = $user_id;
 		$role = $this->field('role');
 		switch ($role) {
