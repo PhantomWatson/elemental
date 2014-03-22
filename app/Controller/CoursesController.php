@@ -228,16 +228,9 @@ class CoursesController extends AppController {
 			'release_submitted' => $release > 0,
 			'title_for_layout' => 'Register for a Course'
 		));
-
-		$this->__completeRegistration($course);
-
-		$this->redirect(array(
-			'action' => 'view',
-			'id' => $id
-		));
 	}
 
-	private function __completeRegistration($course) {
+	private function complete_registration($course) {
 		$course_id = $course['Course']['id'];
 		$user_id = $this->Auth->user('id');
 		$course_full = count($course['CourseRegistration']) >= $course['Course']['max_participants'];
@@ -262,6 +255,10 @@ class CoursesController extends AppController {
 		} else {
 			$this->Flash->error('There was an error registering you for this course. Please try again or <a href="/contact">contact us</a> if you need assistance.');
 		}
+		$this->redirect(array(
+			'action' => 'register',
+			'id' => $id
+		));
 	}
 
 
