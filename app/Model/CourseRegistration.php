@@ -85,15 +85,13 @@ class CourseRegistration extends AppModel {
 	);
 
 	public function notAlreadyRegistered($data) {
-    	$result = $this->find('first', array(
+    	$count = $this->find('count', array(
 			'conditions' => array(
 				'CourseRegistration.email' => strtolower($data['email']),
     			'CourseRegistration.course_id' => strtolower($data['course_id'])
-    		),
-			'fields' => array('id'),
-			'contains' => false
+    		)
 		));
-		return empty($result);
+		return $count == 0;
     }
 
     public function getInstructorId($id) {
