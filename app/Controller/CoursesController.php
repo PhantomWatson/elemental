@@ -225,8 +225,9 @@ class CoursesController extends AppController {
 		));
 	}
 
-	private function complete_registration($course) {
-		$course_id = $course['Course']['id'];
+	private function complete_registration($course_id) {
+		$this->Course->id = $course_id;
+		$course = $this->Course->read();
 		$user_id = $this->Auth->user('id');
 
 		// Confirm receipt of release form
