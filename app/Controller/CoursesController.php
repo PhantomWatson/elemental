@@ -215,9 +215,7 @@ class CoursesController extends AppController {
 			));
 		}
 
-		// Check release status
 		$this->loadModel('Release');
-
 		$this->set(array(
 			'course' => $course,
 			'release_submitted' => $this->Release->isSubmitted($user_id, $id),
