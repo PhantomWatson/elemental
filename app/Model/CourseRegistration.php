@@ -116,4 +116,21 @@ class CourseRegistration extends AppModel {
 		));
 		return $count > 0;
 	}
+
+	public function getRegistrationId($user_id, $course_id) {
+		$result = $this->find('first', array(
+			'conditions' => array(
+				'CourseRegistration.user_id' => $user_id,
+    			'CourseRegistration.course_id' => $course_id
+    		),
+    		'fields' => array(
+    			'CourseRegistration.id'
+    		),
+    		'contain' => false
+		));
+		if (empty($result)) {
+			return null;
+		}
+		return $result['CourseRegistration']['id'];
+	}
 }
