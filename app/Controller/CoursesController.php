@@ -373,13 +373,12 @@ class CoursesController extends AppController {
 			$this->Flash->error($result);
 			return false;
 		}
-		
-		$role = $this->Auth->user('role');
-		$is_instructor = $role == 'instructor' || $role == 'admin';
-		if ($is_instructor) {
-			$this->Flash->success('Email sent to student.');
-		} else {
+
+		$user_id = $this->Auth->user('id');
+		if ($user_id == $student_id) {
 			$this->Flash->success('You should be receiving an email shortly with information about your registration.');
+		} else {
+			$this->Flash->success('The student should be receiving an email shortly with information about this registration.');
 		}
 		return true;
 	}
