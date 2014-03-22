@@ -224,13 +224,16 @@ class CoursesController extends AppController {
 		));
 		if ($this->CourseRegistration->save()) {
 			if ($course_full) {
-				$this->Flash->success('You are now on this course\'s waiting list. You may be contacted by an instructor if space becomes available.');
+				$message = 'You are now on this course\'s waiting list. You may be contacted by an instructor if space becomes available.';
 			} else {
-				$this->Flash->success('You are now registered for this course.');
+				$message = 'You are now registered for this course.';
 			}
-			if (! $this->__sendRegisteredEmail($id, $user_id)) {
+			if ($this->__sendRegisteredEmail($id, $user_id)) {
+				$message .= 'You should be receiving an email shortly with information about your registration.';
+			} else {
 				$this->Flash->error('Error sending registration email.');
 			}
+			$this->Flash->success($message);
 		} else {
 			$this->Flash->error('There was an error registering you for this course. Please try again or <a href="/contact">contact us</a> if you need assistance.');
 		}
@@ -339,11 +342,14 @@ class CoursesController extends AppController {
 							'waiting_list' => $class_full
 						));
 						if ($this->CourseRegistration->save()) {
-							$this->Flash->success($this->request->data['User']['name'].' has been registered for this course.');
+							$message = $this->request->data['User']['name'].' has been registered for this course.';
 							$this->request->data = array();
-							if (! $this->__sendRegisteredEmail($course_id, $user_id, $password)) {
+							if ($this->__sendRegisteredEmail($course_id, $user_id, $password)) {
+								$message .= ' The student should be receiving an email shortly with information about this registration.';
+							} else {
 								$this->Flash->error('Error sending email to student.');
 							}
+							$this->Flash->success($message);
 						} else {
 							$this->Flash->error('There was an error registering this student for this course.');
 						}
@@ -372,13 +378,6 @@ class CoursesController extends AppController {
 		if (gettype($result) == 'string') {
 			$this->Flash->error($result);
 			return false;
-		}
-
-		$user_id = $this->Auth->user('id');
-		if ($user_id == $student_id) {
-			$this->Flash->success('You should be receiving an email shortly with information about your registration.');
-		} else {
-			$this->Flash->success('The student should be receiving an email shortly with information about this registration.');
 		}
 		return true;
 	}
