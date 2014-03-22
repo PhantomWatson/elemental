@@ -215,10 +215,21 @@ class CoursesController extends AppController {
 			));
 		}
 
+		$this->__completeRegistration($course);
+
+		$this->redirect(array(
+			'action' => 'view',
+			'id' => $id
+		));
+	}
+
+	private function __completeRegistration($course) {
+		$course_id = $course['Course']['id'];
+		$user_id = $this->Auth->user('id');
 		$course_full = count($course['CourseRegistration']) >= $course['Course']['max_participants'];
 		$this->loadModel('CourseRegistration');
 		$this->CourseRegistration->create(array(
-			'course_id' => $id,
+			'course_id' => $course_id,
 			'user_id' => $user_id,
 			'waiting_list' => $course_full
 		));
@@ -228,7 +239,7 @@ class CoursesController extends AppController {
 			} else {
 				$message = 'You are now registered for this course.';
 			}
-			if ($this->__sendRegisteredEmail($id, $user_id)) {
+			if ($this->__sendRegisteredEmail($course_id, $user_id)) {
 				$message .= 'You should be receiving an email shortly with information about your registration.';
 			} else {
 				$this->Flash->error('Error sending registration email.');
@@ -237,13 +248,7 @@ class CoursesController extends AppController {
 		} else {
 			$this->Flash->error('There was an error registering you for this course. Please try again or <a href="/contact">contact us</a> if you need assistance.');
 		}
-
-		$this->redirect(array(
-			'action' => 'view',
-			'id' => $id
-		));
 	}
-
 
 
 	/**
