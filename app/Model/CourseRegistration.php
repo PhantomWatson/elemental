@@ -83,19 +83,19 @@ class CourseRegistration extends AppModel {
 			'order' => ''
 		)
 	);
-	
+
 	public function notAlreadyRegistered($data) {
     	$result = $this->find('first', array(
 			'conditions' => array(
 				'CourseRegistration.email' => strtolower($data['email']),
     			'CourseRegistration.course_id' => strtolower($data['course_id'])
-    		), 
+    		),
 			'fields' => array('id'),
 			'contains' => false
 		));
 		return empty($result);
     }
-    
+
     public function getInstructorId($id) {
     	$course_id = $this->field('course_id');
 		if (! $course_id) {
@@ -104,8 +104,18 @@ class CourseRegistration extends AppModel {
 		$this->Course->id = $course_id;
 		return $this->Course->field('user_id');
     }
-    
+
     public function getUnregisterHash($id) {
     	return md5($id.'unregister_me_securely');
     }
+
+	public function userIsRegistered($user_id, $course_id) {
+		$count = $this->find('count', array(
+			'conditions' => array(
+				'CourseRegistration.user_id' => $user_id,
+    			'CourseRegistration.course_id' => $course_id
+    		)
+		));
+		return $count > 0;
+	}
 }
