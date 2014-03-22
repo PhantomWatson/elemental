@@ -12,6 +12,11 @@
 	<tbody>
 		<tr>
 			<td>
+				<?php if ($release_submitted): ?>
+					<span class="glyphicon glyphicon-ok"></span>
+				<?php else: ?>
+					<span class="glyphicon glyphicon-remove"></span>
+				<?php endif; ?>
 				Submit liability release
 			</td>
 			<td>
@@ -40,23 +45,43 @@
 		</tr>
 		<tr>
 			<td>
+				<?php if ($registration_completed): ?>
+					<span class="glyphicon glyphicon-ok"></span>
+				<?php else: ?>
+					<span class="glyphicon glyphicon-remove"></span>
+				<?php endif; ?>
 				Complete registration
 			</td>
 			<td>
-				<?php if ($release_submitted): ?>
-					<?php echo $this->Html->link(
-						'Go',
+				<?php if ($registration_completed): ?>
+					<?php echo $this->Form->postLink(
+						'Cancel Registration',
 						array(
-							'controller' => 'courses',
-							'action' => 'complete_registration',
-							'course_id' => $course['Course']['id']
+							'controller' => 'course_registrations',
+							'action' => 'delete',
+							'id' => $registration_id
 						),
-						array('class' => 'btn btn-success')
+						array(
+							'class' => 'btn btn-danger'
+						),
+						'Are you sure you want to cancel your registration to this course?'
 					); ?>
 				<?php else: ?>
-					<button type="button" class="btn btn-default disabled">
-						Actions pending
-					</button>
+					<?php if ($release_submitted): ?>
+						<?php echo $this->Html->link(
+							'Go',
+							array(
+								'controller' => 'courses',
+								'action' => 'complete_registration',
+								'course_id' => $course['Course']['id']
+							),
+							array('class' => 'btn btn-success')
+						); ?>
+					<?php else: ?>
+						<button type="button" class="btn btn-default disabled">
+							Actions pending
+						</button>
+					<?php endif; ?>
 				<?php endif; ?>
 			</td>
 		</tr>
