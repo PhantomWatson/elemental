@@ -227,6 +227,13 @@ class CoursesController extends AppController {
 	private function complete_registration($course) {
 		$course_id = $course['Course']['id'];
 		$user_id = $this->Auth->user('id');
+
+		// Confirm receipt of release form
+		if (! $this->Release->isSubmitted($user_id, $course_id)) {
+			$this->Flash->error('Before you complete your registration, you msut first submit a liability release agreement.');
+			$this->redirect($this->referer());
+		}
+
 		$course_full = count($course['CourseRegistration']) >= $course['Course']['max_participants'];
 		$this->loadModel('CourseRegistration');
 		$this->CourseRegistration->create(array(
