@@ -131,4 +131,14 @@ class Release extends AppModel {
 			'order' => ''
 		)
 	);
+
+	public function isSubmitted($user_id, $course_id) {
+		$count = $this->Release->find('count', array(
+			'conditions' => array(
+				'Release.user_id' => $user_id,
+				'Release.course_id' => $course_id
+			)
+		));
+		return $count > 0;
+	}
 }

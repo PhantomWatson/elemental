@@ -217,15 +217,9 @@ class CoursesController extends AppController {
 
 		// Check release status
 		$this->loadModel('Release');
-		$release = $this->Release->find('count', array(
-			'conditions' => array(
-				'Release.user_id' => $user_id,
-				'Release.course_id' => $id
-			)
-		));
 
 		$this->set(array(
-			'release_submitted' => $release > 0,
+			'release_submitted' => $this->Release->isSubmitted($user_id, $id),
 			'title_for_layout' => 'Register for a Course'
 		));
 	}
