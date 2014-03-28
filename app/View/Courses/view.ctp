@@ -1,21 +1,21 @@
-<?php 
+<?php
 	$spots = $course['Course']['max_participants'];
 	$registered = count($course['CourseRegistration']);
 	$spots_left = max($spots - $registered, 0);
 	$deadline = date('F j, Y', strtotime($course['Course']['deadline']));
-	$deadline_passed = $course['Course']['deadline'] < date('Y-m-d');	
+	$deadline_passed = $course['Course']['deadline'] < date('Y-m-d');
 	$has_dates = ! empty($course['CourseDate']);
 	if ($has_dates) {
 		$last_key = count($course['CourseDate']) - 1;
 		$class_has_ended = $course['CourseDate'][$last_key]['date'] < date('Y-m-d');
 	}
-	
+
 	// Testing
 	//$has_dates = false;
 	//$class_has_ended = true;
 	//$deadline_passed = true;
 	//$spots_left = 0;
-	
+
 	$can_register = ! $registration_id && $has_dates && ! $deadline_passed;
 ?>
 
@@ -59,14 +59,8 @@
 			<?php
 				$action_button_label = $spots_left ? 'Register' : 'Register for the Waiting List';
 				$action_button_class = $spots_left ? 'register btn btn-primary' : 'waiting_list btn btn-warning';
-				if ($this->Session->read('Auth.User.id')) {
-					$confirmation_message = 'Are you sure you wish to register for this course';
-					$confirmation_message .= $spots_left ? '?' : '\'s waiting list?';
-				} else { 
-					$confirmation_message = null;
-				}
 			?>
-			<p> 
+			<p>
 				<?php echo $this->Html->link(
 					$action_button_label,
 					array(
@@ -77,8 +71,7 @@
 					array(
 						'id' => 'course_action_button',
 						'class' => $action_button_class
-					),
-					$confirmation_message
+					)
 				); ?>
 				<span class="deadline">
 					by <?php echo date('F j, Y', strtotime($course['Course']['deadline'])); ?>
