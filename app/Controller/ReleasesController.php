@@ -26,10 +26,10 @@ class ReleasesController extends AppController {
 				$this->Flash->error('There was an error submitting your liability release');
 			}
 		} else {
-			if ($this->request->named['course_id']) {
-				$course_id = $this->request->named['course_id'];
+			if ($this->request->course_id) {
+				$course_id = $this->request->course_id;
 				$this->loadModel('Course');
-				if ($this->Course->exists($course)) {
+				if ($this->Course->exists($course_id)) {
 					$this->set('course_id', $course_id);
 				} else {
 					throw new NotFoundException('Invalid course specified');
