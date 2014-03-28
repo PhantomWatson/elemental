@@ -12,6 +12,18 @@ class ReleasesController extends AppController {
 	}
 
 	public function add() {
+		if ($this->request->course_id) {
+			$course_id = $this->request->course_id;
+			$this->loadModel('Course');
+			if ($this->Course->exists($course_id)) {
+				$this->set('course_id', $course_id);
+			} else {
+				throw new NotFoundException('Invalid course specified');
+			}
+		} else {
+			throw new NotFoundException('Course not specified');
+		}
+
 		if ($this->request->is('post')) {
 			$this->Release->create();
 			$this->request->data['Release']['user_id'] = $this->Auth->user('id');
@@ -24,18 +36,6 @@ class ReleasesController extends AppController {
 				));
 			} else {
 				$this->Flash->error('There was an error submitting your liability release');
-			}
-		} else {
-			if ($this->request->course_id) {
-				$course_id = $this->request->course_id;
-				$this->loadModel('Course');
-				if ($this->Course->exists($course_id)) {
-					$this->set('course_id', $course_id);
-				} else {
-					throw new NotFoundException('Invalid course specified');
-				}
-			} else {
-				throw new NotFoundException('Course not specified');
 			}
 		}
 		$this->set(array(
