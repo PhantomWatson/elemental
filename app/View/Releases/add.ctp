@@ -45,9 +45,36 @@
 </p>
 
 
-<p>
-	Student's name
-</p>
+<?php
+	echo $this->Form->create('Release');
+	echo $this->Form->input(
+		'name',
+		array(
+			'class' => 'form-control',
+			'div' => array(
+				'class' => 'form-group'
+			),
+			'label' => 'Student\'s name'
+		)
+	);
+	echo $this->Form->input(
+		'age',
+		array(
+			'class' => 'form-control',
+			'div' => array(
+				'class' => 'form-group'
+			),
+			'label' => 'Student\'s age',
+			'type' => 'number'
+		)
+	);
+	echo $this->Form->end(
+		array(
+			'class' => 'btn btn-primary',
+			'label' => 'Submit'
+		)
+	);
+?>
 
 <p>
 	Parent/Guardian name
