@@ -9,7 +9,7 @@
 	Acknowledgement of Risk
 </h2>
 <p>
-	I, _________________________, affirm my desire to participate in the sexual assault protection program called Elemental. During the program, I understand I will be introduced to a variety of sexually charged situations and taught to defend myself verbally and physically.
+	I, <strong><?php echo $user_name; ?></strong>, affirm my desire to participate in the sexual assault protection program called Elemental. During the program, I understand I will be introduced to a variety of sexually charged situations and taught to defend myself verbally and physically.
 </p>
 <p>
 	These situations will include, but are not limited to, verbal sexual advances and pressure, sexual language, simulated attempted kissing, grabbing, and close-quarter self-defense situations from standing positions as well as on couches and beds.
@@ -41,7 +41,7 @@
 	I further understand that the terms of this Release are legally binding and I certify that I am ________ years old and that I am signing this Release, after having carefully read the same, of my own free will.
 </p>
 <p>
-	In witness whereof, this instrument is duly executed this ________ day of _________________, 20______.
+	In witness whereof, this instrument is duly executed this <?php echo $date; ?>.
 </p>
 
 
