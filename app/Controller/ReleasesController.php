@@ -8,9 +8,6 @@ App::uses('AppController', 'Controller');
 class ReleasesController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->deny(
-			'add',
-			'edit'
-		);
+		$this->Auth->deny();
 	}
 }
