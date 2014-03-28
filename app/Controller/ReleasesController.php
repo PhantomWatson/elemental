@@ -43,7 +43,7 @@ class ReleasesController extends AppController {
 					$course_id
 				));
 			} else {
-				$this->Flash->error('There was an error submitting your liability release');
+				$this->Flash->error('There was an error submitting your liability release. Please check for details below.');
 			}
 		}
 	}
