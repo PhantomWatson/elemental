@@ -33,9 +33,10 @@ class ReleasesController extends AppController {
 		}
 
 		if ($this->request->is('post')) {
-			$this->Release->create();
-			$this->request->data['Release']['user_id'] = $user_id;
-			if ($this->Release->save($this->request->data)) {
+			$this->Release->create($this->request->data);
+			$ip_address = $this->request->clientIp();
+			$this->Release->set(compact('user_id', 'course_id', 'ip_address'));
+			if ($this->Release->save()) {
 				$this->Flash->success('Your liability release has been submitted');
 				$this->redirect(array(
 					'controller' => 'courses',
