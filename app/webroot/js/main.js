@@ -95,3 +95,41 @@ var courseList = {
 		});
 	}
 };
+
+var releaseForm = {
+	name_field: null,
+	name_blank: null,
+	age_field: null,
+	age_blank: null,
+	
+	init: function () {
+		this.name_field = $('#ReleaseName');
+		this.name_blank = $('#name_blank');
+		this.age_field = $('#ReleaseAge');
+		this.age_blank = $('#age_blank');
+		this.updateName();
+		this.name_field.change(function () {
+			releaseForm.updateName();
+		});
+		this.updateAge();
+		this.age_field.change(function () {
+			releaseForm.updateAge();
+		});
+	},
+	updateName: function () {
+		var name = this.name_field.val();
+		if (name == '') {
+			this.name_blank.html('____________');
+		} else {
+			this.name_blank.html(name);
+		}
+	},
+	updateAge: function () {
+		var age = this.age_field.val();
+		if (age == '') {
+			this.age_blank.html('____________');
+		} else {
+			this.age_blank.html(age);
+		}
+	}
+};
