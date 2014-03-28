@@ -74,6 +74,8 @@
 			'label' => 'Submit'
 		)
 	);
+
+	$this->Js->buffer("releaseForm.init();");
 ?>
 
 <p>
