@@ -96,6 +96,10 @@ var courseList = {
 	}
 };
 
+function isNumber(n) {
+	return ! isNaN(parseFloat(n)) && isFinite(n);
+}
+
 var releaseForm = {
 	name_field: null,
 	name_blank: null,
@@ -128,8 +132,12 @@ var releaseForm = {
 		var age = this.age_field.val();
 		if (age == '') {
 			this.age_blank.html('____________');
-		} else {
+		} else if (isNumber(age)) {
 			this.age_blank.html(age);
+		} else {
+			this.age_blank.html('____________');
+			this.age_field.val('');
+			alert('Your age must be numeric');
 		}
 	}
 };
