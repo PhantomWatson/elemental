@@ -89,12 +89,17 @@
 		array('controller' => 'course_registrations', 'action' => 'take_off_waiting_list'),
 		array('id' => '[0-9]+', 'pass' => array('id'))
 	);
+	Router::connect(
+		"/releases/submit/:course_id",
+		array('controller' => 'releases', 'action' => 'add'),
+		array('course_id' => '[0-9]+', 'pass' => array('course_id'))
+	);
 
 	// Products
 	Router::connect("/review_materials", array('controller' => 'products', 'action' => 'review_materials'));
 	Router::connect("/review_materials/*", array('controller' => 'products', 'action' => 'route'));
 	Router::connect("/vizi/review_materials/*", array('controller' => 'products', 'action' => 'route'));
-	
+
 	Router::connect("/instructor_training", array('controller' => 'products', 'action' => 'instructor_training'));
 	Router::connect("/instructor_training/*", array('controller' => 'products', 'action' => 'route'));
 	Router::connect("/vizi/instructor_training/*", array('controller' => 'products', 'action' => 'route'));
