@@ -28,6 +28,13 @@ class Release extends AppModel {
  * @var array
  */
 	public $validate = array(
+		'name' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'allowEmpty' => false,
+				'required' => true
+			),
+		),
 		'user_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
