@@ -17,9 +17,13 @@ class ReleasesController extends AppController {
 			$this->loadModel('Course');
 			if ($this->Course->exists($course_id)) {
 				$user_id = $this->Auth->user('id');
+				$this->loadModel('User');
+				$this->User->id = $user_id;
 				$this->set(array(
 					'course_id' => $course_id,
-					'title_for_layout' => 'Release of Liability'
+					'date' => date('jS').' day of '.date('F, Y'),
+					'title_for_layout' => 'Release of Liability',
+					'user_name' => $this->User->field('name')
 				));
 			} else {
 				throw new NotFoundException('Invalid course specified');
