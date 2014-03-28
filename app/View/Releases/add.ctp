@@ -22,13 +22,13 @@
 	Release of All Claims
 </h2>
 <p>
-	In consideration of my participation in the sexual assault protection program, I hereby agree to release and, on behalf of myself, my heirs, representatives, executors, administrators, and assigns, hereby do release and hold harmless the program’s instructors, Elemental Sexual Assault Protection LLC, Vizi Courseware, the School or University, its Board of Trustees, officers, employees, contractors, agents, and volunteers from any liability, actions, causes of action, claims, and demands of any nature whatsoever, which I may have against the program’s instructors, Elemental Sexual Assault Protection LLC, Vizi Courseware, the School or University, its Board of Trustees, officers, employees, contractors, agents, and volunteers as a result of any personal injury, property damage, permanent disability, or death I may suffer in connection with my participation in the sexual assault protection program.
+	In consideration of my participation in the sexual assault protection program, I hereby agree to release and, on behalf of myself, my heirs, representatives, executors, administrators, and assigns, hereby do release and hold harmless the program's instructors, Elemental Sexual Assault Protection LLC, Vizi Courseware, the School or University, its Board of Trustees, officers, employees, contractors, agents, and volunteers from any liability, actions, causes of action, claims, and demands of any nature whatsoever, which I may have against the program's instructors, Elemental Sexual Assault Protection LLC, Vizi Courseware, the School or University, its Board of Trustees, officers, employees, contractors, agents, and volunteers as a result of any personal injury, property damage, permanent disability, or death I may suffer in connection with my participation in the sexual assault protection program.
 </p>
 <h2>
 	Medical Authorization
 </h2>
 <p>
-	In the event of a medical emergency in which I am not reasonably available to provide competent consent to medical treatment, the program’s instructors, officers, employee or agents of Elemental Sexual Assault Protection LLC or the School or University are hereby authorized to consent to emergency medical treatment on my behalf. I further understand that the School or University does not maintain health or accident insurance to provide coverage for me and that I should consider obtaining the protection of such insurance on an individual basis. I understand and agree that all costs of any such emergency medical treatment are my responsibility and not that of the School or University. I, for myself, my heirs, representatives, executors, administrators, and assigns, hereby release and hold harmless the program’s instructors, Elemental Sexual Assault Protection LLC, Vizi Courseware, the School or University, its Board of Trustees, officers, employees, contractors, agents, and volunteers from any liability, actions, causes of action, claims, or demands of any nature whatsoever, in connection with any decision of any of the program’s instructors, Elemental Sexual Assault Protection LLC, the School or University’s officers, employees, contractors, agents, and volunteers to obtain emergency medical treatment for me.
+	In the event of a medical emergency in which I am not reasonably available to provide competent consent to medical treatment, the program's instructors, officers, employee or agents of Elemental Sexual Assault Protection LLC or the School or University are hereby authorized to consent to emergency medical treatment on my behalf. I further understand that the School or University does not maintain health or accident insurance to provide coverage for me and that I should consider obtaining the protection of such insurance on an individual basis. I understand and agree that all costs of any such emergency medical treatment are my responsibility and not that of the School or University. I, for myself, my heirs, representatives, executors, administrators, and assigns, hereby release and hold harmless the program's instructors, Elemental Sexual Assault Protection LLC, Vizi Courseware, the School or University, its Board of Trustees, officers, employees, contractors, agents, and volunteers from any liability, actions, causes of action, claims, or demands of any nature whatsoever, in connection with any decision of any of the program's instructors, Elemental Sexual Assault Protection LLC, the School or University's officers, employees, contractors, agents, and volunteers to obtain emergency medical treatment for me.
 </p>
 
 <h2>
@@ -46,7 +46,7 @@
 
 
 <p>
-	Student’s name
+	Student's name
 </p>
 
 <p>
