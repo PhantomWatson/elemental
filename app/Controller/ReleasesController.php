@@ -46,6 +46,8 @@ class ReleasesController extends AppController {
 			} else {
 				$this->Flash->error('There was an error submitting your liability release. Please check for details below.');
 			}
+		} else {
+			$this->request->data['Release']['name'] = $this->Auth->user('name');
 		}
 	}
 }
