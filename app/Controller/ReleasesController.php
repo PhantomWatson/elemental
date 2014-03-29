@@ -48,7 +48,7 @@ class ReleasesController extends AppController {
 		}
 	}
 
-	public function add() {
+	private function __setupForm() {
 		if ($this->request->course_id) {
 			$course_id = $this->request->course_id;
 			$this->loadModel('Course');
@@ -56,23 +56,24 @@ class ReleasesController extends AppController {
 				$user_id = $this->Auth->user('id');
 				$this->loadModel('User');
 				$this->User->id = $user_id;
-				$this->set(array(
-					'course_id' => $course_id,
-					'date' => date('jS').' day of '.date('F, Y'),
-					'title_for_layout' => 'Release of Liability',
-					'user_name' => $this->User->field('name')
-				));
+				$this->set('title_for_layout', 'Release of Liability');
 			} else {
 				throw new NotFoundException('Invalid course specified');
 			}
 		} else {
 			throw new NotFoundException('Course not specified');
 		}
+	}
+
+	public function add() {
+		$this->__setupForm();
 
 		if ($this->request->is('post')) {
 			$this->__processForm();
 		} else {
 			$this->request->data['Release']['name'] = $this->Auth->user('name');
 		}
+		$date = date('jS').' day of '.date('F, Y');
+		$this->set('date', $date);
 	}
 }
