@@ -80,7 +80,7 @@ class ReleasesController extends AppController {
 			throw new NotFoundException('Cannot edit liability release. Liability release not found');
 		}
 		$this->Release->id = $release_id;
-		$submitted = $this->Release->field('created');
+		$submitted = $this->Release->field('modified');
 		$timestamp = strtotime($submitted);
 		$date = date('jS', $timestamp).' day of '.date('F, Y', $timestamp);
 		$this->set('date', $date);
