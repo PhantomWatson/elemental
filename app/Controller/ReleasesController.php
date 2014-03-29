@@ -11,6 +11,10 @@ class ReleasesController extends AppController {
 		$this->Auth->deny();
 	}
 
+	private function __passesRequirements($data) {
+
+	}
+
 	public function add() {
 		if ($this->request->course_id) {
 			$course_id = $this->request->course_id;
@@ -47,6 +51,12 @@ class ReleasesController extends AppController {
 			if (! empty($existing_release)) {
 				$release_ids = array_keys($existing_release);
 				$this->Release->set('id', $release_ids[0]);
+			}
+
+			// Remove requirement for guardian info if user is 18+
+			if ($this->request->data['Release']['age'] >= 18) {
+				unset($this->Release->validate['guardian_name']);
+				unset($this->Release->validate['guardian_phone']);
 			}
 
 			if ($this->Release->save()) {
