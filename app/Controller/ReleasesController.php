@@ -85,7 +85,7 @@ class ReleasesController extends AppController {
 		$date = date('jS', $timestamp).' day of '.date('F, Y', $timestamp);
 		$this->set('date', $date);
 
-		if ($this->request->is('post')) {
+		if ($this->request->is('post') || $this->request->is('put')) {
 			$this->__processForm();
 		} else {
 			$this->request->data = $this->Release->read();
