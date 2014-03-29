@@ -123,7 +123,7 @@ var releaseForm = {
 	updateName: function () {
 		var name = this.name_field.val();
 		if (name == '') {
-			this.name_blank.html('____________');
+			this.name_blank.html('&nbsp;');
 		} else {
 			this.name_blank.html(name);
 		}
@@ -131,11 +131,11 @@ var releaseForm = {
 	updateAge: function () {
 		var age = this.age_field.val();
 		if (age == '') {
-			this.age_blank.html('____________');
+			this.age_blank.html('&nbsp;');
 		} else if (isNumber(age)) {
 			this.age_blank.html(age);
 		} else {
-			this.age_blank.html('____________');
+			this.age_blank.html('&nbsp;');
 			this.age_field.val('');
 			alert('Your age must be numeric');
 		}
