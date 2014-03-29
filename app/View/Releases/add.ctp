@@ -109,10 +109,4 @@
 
 		$this->Js->buffer("releaseForm.init();");
 	?>
-
-	<p>
-
-		REQUIRED IF STUDENT
-		UNDER 18 YEARS OLD
-	</p>
 </div>
