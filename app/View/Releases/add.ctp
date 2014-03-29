@@ -68,6 +68,28 @@
 				'type' => 'number'
 			)
 		);
+		echo $this->Form->input(
+			'guardian_name',
+			array(
+				'after' => '<span class="footnote">Required if student is under 18 years old</span>',
+				'class' => 'form-control',
+				'div' => array(
+					'class' => 'form-group'
+				),
+				'label' => 'Parent or guardian\'s name'
+			)
+		);
+		echo $this->Form->input(
+			'guardian_phone',
+			array(
+				'class' => 'form-control',
+				'div' => array(
+					'class' => 'form-group'
+				),
+				'label' => 'Parent or guardian\'s phone number',
+				'type' => 'tel'
+			)
+		);
 		echo $this->Form->end(
 			array(
 				'class' => 'btn btn-primary',
@@ -79,7 +101,7 @@
 	?>
 
 	<p>
-		Parent/Guardian name
+
 		REQUIRED IF STUDENT
 		UNDER 18 YEARS OLD
 	</p>
