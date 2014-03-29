@@ -156,8 +156,8 @@ class Release extends AppModel {
 				'Release.course_id' => $course_id
 			)
 		));
-		if (empty($existing_release)) {
-			return false;
+		if (empty($result)) {
+			return null;
 		}
 		$release_ids = array_keys($result);
 		return $release_ids[0];
