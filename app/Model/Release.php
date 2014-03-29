@@ -148,4 +148,18 @@ class Release extends AppModel {
 		));
 		return $count > 0;
 	}
+
+	public function getId($user_id, $course_id) {
+		$result = $this->find('list', array(
+			'conditions' => array(
+				'Release.user_id' => $user_id,
+				'Release.course_id' => $course_id
+			)
+		));
+		if (empty($existing_release)) {
+			return false;
+		}
+		$release_ids = array_keys($result);
+		return $release_ids[0];
+	}
 }

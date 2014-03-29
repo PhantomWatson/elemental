@@ -19,15 +19,9 @@ class ReleasesController extends AppController {
 		$this->Release->set(compact('user_id', 'course_id', 'ip_address'));
 
 		// Check to see if this should overwrite an existing release
-		$existing_release = $this->Release->find('list', array(
-			'conditions' => array(
-				'Release.user_id' => $user_id,
-				'Release.course_id' => $course_id
-			)
-		));
-		if (! empty($existing_release)) {
-			$release_ids = array_keys($existing_release);
-			$this->Release->set('id', $release_ids[0]);
+		$existing_release_id = $this->Release->getId($user_id, $course_id);
+		if ($existing_release_id) {
+			$this->Release->set('id', $existing_release_id);
 		}
 
 		// Remove requirement for guardian info if user is 18+
