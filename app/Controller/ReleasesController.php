@@ -36,6 +36,19 @@ class ReleasesController extends AppController {
 			$this->Release->create($this->request->data);
 			$ip_address = $this->request->clientIp();
 			$this->Release->set(compact('user_id', 'course_id', 'ip_address'));
+
+			// Check to see if this should overwrite an existing release
+			$existing_release = $this->Release->find('list', array(
+				'conditions' => array(
+					'Release.user_id' => $user_id,
+					'Release.course_id' => $course_id
+				)
+			));
+			if (! empty($existing_release)) {
+				$release_ids = array_keys($existing_release);
+				$this->Release->set('id', $release_ids[0]);
+			}
+
 			if ($this->Release->save()) {
 				$this->Flash->success('Your liability release has been submitted');
 				$this->redirect(array(
