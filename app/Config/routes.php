@@ -94,6 +94,11 @@
 		array('controller' => 'releases', 'action' => 'add'),
 		array('course_id' => '[0-9]+', 'pass' => array('course_id'))
 	);
+	Router::connect(
+		"/releases/edit/:course_id",
+		array('controller' => 'releases', 'action' => 'edit'),
+		array('course_id' => '[0-9]+', 'pass' => array('course_id'))
+	);
 
 	// Products
 	Router::connect("/review_materials", array('controller' => 'products', 'action' => 'review_materials'));
