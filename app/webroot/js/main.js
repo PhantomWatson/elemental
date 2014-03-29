@@ -105,12 +105,14 @@ var releaseForm = {
 	name_blank: null,
 	age_field: null,
 	age_blank: null,
+	guardian_fields: null,
 	
 	init: function () {
 		this.name_field = $('#ReleaseName');
 		this.name_blank = $('#name_blank');
 		this.age_field = $('#ReleaseAge');
 		this.age_blank = $('#age_blank');
+		this.guardian_fields = $('#guardian_fields');
 		this.updateName();
 		this.name_field.change(function () {
 			releaseForm.updateName();
@@ -134,10 +136,27 @@ var releaseForm = {
 			this.age_blank.html('&nbsp;');
 		} else if (isNumber(age)) {
 			this.age_blank.html(age);
+			if (age < 18) {
+				this.activateGuardianFields();
+			} else {
+				this.deactivateGuardianFields();
+			}
 		} else {
 			this.age_blank.html('&nbsp;');
 			this.age_field.val('');
 			alert('Your age must be numeric');
 		}
+	},
+	activateGuardianFields: function () {
+		if (! this.guardian_fields.is(':visible')) {
+			this.guardian_fields.slideDown();
+		}
+		this.guardian_fields.find('input').prop('required', true);
+	},
+	deactivateGuardianFields: function () {
+		if (this.guardian_fields.is(':visible')) {
+			this.guardian_fields.slideUp();
+		}
+		this.guardian_fields.find('input').prop('required', false);
 	}
 };
