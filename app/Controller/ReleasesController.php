@@ -19,7 +19,7 @@ class ReleasesController extends AppController {
 		$this->Release->set(compact('user_id', 'course_id', 'ip_address'));
 
 		// Check to see if this should overwrite an existing release
-		$existing_release_id = $this->Release->getId($user_id, $course_id);
+		$existing_release_id = $this->Release->getIdFromUidCid($user_id, $course_id);
 		if ($existing_release_id) {
 			$this->Release->set('id', $existing_release_id);
 		}
@@ -69,5 +69,27 @@ class ReleasesController extends AppController {
 		}
 		$date = date('jS').' day of '.date('F, Y');
 		$this->set('date', $date);
+	}
+
+	public function edit() {
+		$this->__setupForm();
+		$course_id = $this->request->course_id;
+		$user_id = $this->Auth->user('id');
+		$release_id = $this->Release->getIdFromUidCid($user_id, $course_id);
+		if (! $release_id) {
+			throw new NotFoundException('Cannot edit liability release. Liability release not found');
+		}
+		$this->Release->id = $release_id;
+		$submitted = $this->Release->field('created');
+		$timestamp = strtotime($submitted);
+		$date = date('jS', $timestamp).' day of '.date('F, Y', $timestamp);
+		$this->set('date', $date);
+
+		if ($this->request->is('post')) {
+			$this->__processForm();
+		} else {
+			$this->request->data = $this->Release->read();
+		}
+		$this->render('add');
 	}
 }

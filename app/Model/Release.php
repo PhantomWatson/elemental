@@ -149,7 +149,7 @@ class Release extends AppModel {
 		return $count > 0;
 	}
 
-	public function getId($user_id, $course_id) {
+	public function getIdFromUidCid($user_id, $course_id) {
 		$result = $this->find('list', array(
 			'conditions' => array(
 				'Release.user_id' => $user_id,
