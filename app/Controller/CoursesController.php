@@ -239,8 +239,24 @@ class CoursesController extends AppController {
 			$this->redirect($this->referer());
 		}
 
-		$course_full = count($course['CourseRegistration']) >= $course['Course']['max_participants'];
+		// Prevent double-registration
 		$this->loadModel('CourseRegistration');
+		$registration_id = $this->CourseRegistration->getRegistrationId($user_id, $course_id);
+		if ($registration_id) {
+			$this->CourseRegistration->id = $registration_id;
+			$on_waiting_list = $this->CourseRegistration->field('waiting_list');
+			if ($on_waiting_list) {
+				$this->Flash->set('You\'re already on this course\'s waiting list.');
+			} else {
+				$this->Flash->set('You\'re already registered for this course.');
+			}
+			$this->redirect(array(
+				'action' => 'register',
+				'id' => $course_id
+			));
+		}
+
+		$course_full = count($course['CourseRegistration']) >= $course['Course']['max_participants'];
 		$this->CourseRegistration->create(array(
 			'course_id' => $course_id,
 			'user_id' => $user_id,
