@@ -376,4 +376,16 @@ class Course extends AppModel {
 		));
 		return $Email->send();
 	}
+
+	public function isFull($course_id) {
+		$this->id = $course_id;
+		$max_participants = $this->field('max_participants');
+		$registered_count = $this->CourseRegistration->find('count', array(
+			'conditions' => array(
+				'CourseRegistration.course_id' => $course_id,
+				'CourseRegistration.waiting_list' => 0,
+			)
+		));
+		return $registered_count >= $max_participants;
+	}
 }
