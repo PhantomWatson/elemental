@@ -99,6 +99,11 @@
 		array('controller' => 'releases', 'action' => 'edit'),
 		array('course_id' => '[0-9]+', 'pass' => array('course_id'))
 	);
+	Router::connect(
+		"/courses/complete_registration/:course_id",
+		array('controller' => 'courses', 'action' => 'complete_registration'),
+		array('course_id' => '[0-9]+', 'pass' => array('course_id'))
+	);
 
 	// Products
 	Router::connect("/review_materials", array('controller' => 'products', 'action' => 'review_materials'));
