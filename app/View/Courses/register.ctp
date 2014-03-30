@@ -3,10 +3,33 @@
 		<h1>
 			<?php echo $title_for_layout; ?>
 		</h1>
+		<?php
+			$dates = array();
+			foreach ($course['CourseDate'] as $k => $course_date) {
+				$dates[] = date('F j, Y', strtotime($course_date['date']));
+			}
+			$list = $this->Text->toList($dates);
+			if (count($dates) > 2) {
+				// Serial commas are important, damn it
+				$list = str_replace(' and', ', and', $list);
+			}
+			echo $list;
+		?>
+		in
+		<?php echo h($course['Course']['city']); ?>, <?php echo h($course['Course']['state']); ?>
+		<br />
+		<?php echo $this->Html->link(
+			'More Details',
+			array(
+				'controller' => 'courses',
+				'action' => 'view',
+				'id' => $course['Course']['id']
+			)
+		); ?>
 	</div>
 
 	<p>
-		Before you can register for a course, you must complete the following steps:
+		Before you can register for this course, you must complete the following steps:
 	</p>
 
 	<table cellpadding="0" cellspacing="0" class="table">
