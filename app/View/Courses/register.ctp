@@ -28,6 +28,12 @@
 		); ?>
 	</div>
 
+	<?php if (! $registration_completed && $is_full): ?>
+		<div class="alert alert-danger">
+			<strong>This course is full</strong>, but you can still add yourself to the waiting list. If you do, we'll contact you in the event that space becomes available.
+		</div>
+	<?php endif; ?>
+
 	<p>
 		Before you can register for this course, you must complete the following steps:
 	</p>
@@ -92,15 +98,18 @@
 						); ?>
 					<?php else: ?>
 						<?php if ($release_submitted): ?>
-							<?php echo $this->Html->link(
-								'Go',
-								array(
-									'controller' => 'courses',
-									'action' => 'complete_registration',
-									'course_id' => $course['Course']['id']
-								),
-								array('class' => 'btn btn-success')
-							); ?>
+							<?php
+								$label = $is_full ? 'Join Waiting List' : 'Register';
+								echo $this->Html->link(
+									$label,
+									array(
+										'controller' => 'courses',
+										'action' => 'complete_registration',
+										'course_id' => $course['Course']['id']
+									),
+									array('class' => 'btn btn-success')
+								);
+							?>
 						<?php else: ?>
 							<button type="button" class="btn btn-default disabled">
 								Actions pending
