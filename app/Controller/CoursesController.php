@@ -220,6 +220,7 @@ class CoursesController extends AppController {
 		$registration_id = $this->CourseRegistration->getRegistrationId($user_id, $id);
 		$this->set(array(
 			'course' => $course,
+			'is_full' => $this->Course->isFull($id),
 			'registration_completed' => ($registration_id != null),
 			'registration_id' => $registration_id,
 			'release_submitted' => $this->Release->isSubmitted($user_id, $id),
