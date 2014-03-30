@@ -265,12 +265,12 @@ class CoursesController extends AppController {
 		));
 		if ($this->CourseRegistration->save()) {
 			if ($course_full) {
-				$message = 'You are now on this course\'s waiting list. You may be contacted by an instructor if space becomes available.';
+				$message = 'You are now on this course\'s waiting list. You will be contacted by an instructor if space becomes available.';
 			} else {
 				$message = 'You are now registered for this course.';
 			}
 			if ($this->__sendRegisteredEmail($course_id, $user_id)) {
-				$message .= 'You should be receiving an email shortly with information about your registration.';
+				$message .= ' You should be receiving an email shortly with information about your registration.';
 			} else {
 				$this->Flash->error('Error sending registration email.');
 			}
