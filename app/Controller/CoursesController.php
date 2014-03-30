@@ -231,6 +231,7 @@ class CoursesController extends AppController {
 		$user_id = $this->Auth->user('id');
 
 		// Confirm receipt of release form
+		$this->loadModel('Release');
 		if (! $this->Release->isSubmitted($user_id, $course_id)) {
 			$this->Flash->error('Before you complete your registration, you msut first submit a liability release agreement.');
 			$this->redirect($this->referer());
@@ -260,7 +261,7 @@ class CoursesController extends AppController {
 		}
 		$this->redirect(array(
 			'action' => 'register',
-			'id' => $id
+			'id' => $course_id
 		));
 	}
 
