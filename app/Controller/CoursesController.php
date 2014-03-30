@@ -217,9 +217,11 @@ class CoursesController extends AppController {
 
 		$this->loadModel('Release');
 		$this->loadModel('CourseRegistration');
+		$registration_id = $this->CourseRegistration->getRegistrationId($user_id, $id);
 		$this->set(array(
 			'course' => $course,
-			'registration_completed' => $this->CourseRegistration->userIsRegistered($user_id, $id),
+			'registration_completed' => ($registration_id != null),
+			'registration_id' => $registration_id,
 			'release_submitted' => $this->Release->isSubmitted($user_id, $id),
 			'title_for_layout' => 'Register for a Course'
 		));
