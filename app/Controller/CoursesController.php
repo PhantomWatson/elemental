@@ -257,7 +257,7 @@ class CoursesController extends AppController {
 			));
 		}
 
-		$course_full = count($course['CourseRegistration']) >= $course['Course']['max_participants'];
+		$course_full = $this->Course->isFull($course_id);
 		$this->CourseRegistration->create(array(
 			'course_id' => $course_id,
 			'user_id' => $user_id,
