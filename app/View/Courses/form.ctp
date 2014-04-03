@@ -170,6 +170,23 @@
 					: ''
 			));
 
+			$cents = $this->Form->input('cost.cents', array(
+				'class' => 'form-control',
+				'div' => false,
+				'label' => false,
+				'maxlength' => 2
+			));
+			echo $this->Form->input('cost.dollars', array(
+				'after' => '<span class="currency_symbol">.</span>'.$cents,
+				'between' => '<div class="footnote">Enter $0.00 if free</div><span class="currency_symbol">$</a>',
+				'class' => 'form-control',
+				'div' => array(
+					'class' => 'form-group cost'
+				),
+				'label' => 'Cost to Attend',
+				'maxlength' => 2
+			));
+
 			echo $this->Form->input('details', array(
 				'between' => '<div class="footnote">This optional description of the course will be included in its listing on the Elemental website.</div>',
 				'class' => 'form-control',
