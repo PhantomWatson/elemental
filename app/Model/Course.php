@@ -39,8 +39,8 @@ class Course extends AppModel {
 			),
 		),
 		'max_participants' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
+			'naturalNumber' => array(
+				'rule' => array('naturalNumber'),
 				'allowEmpty' => true,
 				//'message' => 'Your custom message here',
 				//'required' => false,
@@ -49,8 +49,8 @@ class Course extends AppModel {
 			),
 		),
 		'cost' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
+			'naturalNumber' => array(
+				'rule' => array('naturalNumber'),
 				'allowEmpty' => true,
 				//'message' => 'Your custom message here',
 				//'required' => false,
