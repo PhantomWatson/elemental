@@ -121,6 +121,39 @@ class Course extends AppModel {
 		return true;
 	}
 
+	public function beforeValidate($options) {
+		if (isset($this->data['Course']['cost']['dollars'])) {
+			$dollars = $this->data['Course']['cost']['dollars'];
+			if (empty($dollars)) {
+				$dollars = 0;
+			} elseif (! $this->isWholeNumber($dollars)) {
+				$this->validationErrors['cost']['dollars'] = "$dollars is not a whole number";
+				return false;
+			}
+
+			// Multiply by 100 so the cost is stored in cents
+			$cost = $dollars * 100;
+
+			if (isset($this->data['Course']['cost']['cents'])) {
+				$cents = $this->data['Course']['cost']['cents'];
+				if (empty($cents)) {
+					$cents = 0;
+				} elseif (! $this->isWholeNumber($cents)) {
+					$this->validationErrors['cost']['cents'] = "$cents is not a whole number";
+					return false;
+				}
+
+				$cost += $cents;
+			}
+
+			$this->data['Course']['cost'] = $cost;
+		}
+	}
+
+	function isWholeNumber($var) {
+		return (is_numeric($var) && (intval($var) == floatval($var)));
+	}
+
 	public function getStartDate() {
 		$dates = array();
 		foreach ($this->data['CourseDate'] as $date) {
