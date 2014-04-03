@@ -48,6 +48,16 @@ class Course extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
+		'cost' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				'allowEmpty' => true,
+				//'message' => 'Your custom message here',
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
 		'user_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
