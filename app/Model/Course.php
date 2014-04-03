@@ -121,7 +121,7 @@ class Course extends AppModel {
 		return true;
 	}
 
-	public function beforeValidate($options) {
+	public function beforeValidate($options = array()) {
 		if (isset($this->data['Course']['cost']['dollars'])) {
 			$dollars = $this->data['Course']['cost']['dollars'];
 			if (empty($dollars)) {
@@ -150,7 +150,7 @@ class Course extends AppModel {
 		}
 	}
 
-	function isWholeNumber($var) {
+	public function isWholeNumber($var) {
 		return (is_numeric($var) && (intval($var) == floatval($var)));
 	}
 
