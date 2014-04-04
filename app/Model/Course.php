@@ -158,6 +158,9 @@ class Course extends AppModel {
 				$cost = $results[$key]['Course']['cost'] / 100;
 				$cost = number_format($cost, 2);
 				$results[$key]['Course']['cost'] = $cost;
+				list($dollars, $cents) = explode('.', $cost);
+				$results[$key]['Course']['cost_dollars'] = $dollars;
+				$results[$key]['Course']['cost_cents'] = $cents;
 			}
 		}
 		return $results;
