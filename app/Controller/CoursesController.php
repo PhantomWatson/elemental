@@ -107,6 +107,12 @@ class CoursesController extends AppController {
 				$this->Flash->error('The course could not be added. Please try again.');
 			}
 		}
+		if (! isset($this->request->data['Course']['cost_dollars']) || empty ($this->request->data['Course']['cost_dollars'])) {
+			$this->request->data['Course']['cost_dollars'] = '0';
+		}
+		if (! isset($this->request->data['Course']['cost_cents']) || empty ($this->request->data['Course']['cost_cents'])) {
+			$this->request->data['Course']['cost_cents'] = '00';
+		}
 		$this->set(array(
 			'title_for_layout' => 'Schedule a Course'
 		));
