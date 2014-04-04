@@ -184,7 +184,7 @@
 					'class' => 'form-group cost'
 				),
 				'label' => 'Cost to Attend',
-				'maxlength' => 2
+				'maxlength' => 3
 			));
 
 			echo $this->Form->input('details', array(
