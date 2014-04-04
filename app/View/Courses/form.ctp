@@ -178,7 +178,7 @@
 			));
 			echo $this->Form->input('cost_dollars', array(
 				'after' => '<span class="currency_symbol">.</span>'.$cents,
-				'between' => '<div class="footnote">Enter $0.00 if free</div><span class="currency_symbol">$</a>',
+				'between' => '<div class="footnote">Enter $0.00 if free</div><span class="currency_symbol">$</span></a>',
 				'class' => 'form-control',
 				'div' => array(
 					'class' => 'form-group cost'
