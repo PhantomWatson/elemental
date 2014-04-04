@@ -150,6 +150,19 @@ class Course extends AppModel {
 		}
 	}
 
+	public function afterFind($results, $primary = false) {
+		foreach ($results as $key => $val) {
+
+			// Convert cost from cents into dollars
+			if (isset($val['Course']['cost'])) {
+				$cost = $results[$key]['Course']['cost'] / 100;
+				$cost = number_format($cost, 2);
+				$results[$key]['Course']['cost'] = $cost;
+			}
+		}
+		return $results;
+	}
+
 	public function isWholeNumber($var) {
 		return (is_numeric($var) && (intval($var) == floatval($var)));
 	}
