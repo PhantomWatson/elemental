@@ -122,24 +122,24 @@ class Course extends AppModel {
 	}
 
 	public function beforeValidate($options = array()) {
-		if (isset($this->data['Course']['cost']['dollars'])) {
-			$dollars = $this->data['Course']['cost']['dollars'];
+		if (isset($this->data['Course']['cost_dollars'])) {
+			$dollars = $this->data['Course']['cost_dollars'];
 			if (empty($dollars)) {
 				$dollars = 0;
 			} elseif (! $this->isWholeNumber($dollars)) {
-				$this->validationErrors['cost']['dollars'] = "$dollars is not a whole number";
+				$this->validationErrors['cost_dollars'] = "$dollars is not a whole number";
 				return false;
 			}
 
 			// Multiply by 100 so the cost is stored in cents
 			$cost = $dollars * 100;
 
-			if (isset($this->data['Course']['cost']['cents'])) {
-				$cents = $this->data['Course']['cost']['cents'];
+			if (isset($this->data['Course']['cost_cents'])) {
+				$cents = $this->data['Course']['cost_cents'];
 				if (empty($cents)) {
 					$cents = 0;
 				} elseif (! $this->isWholeNumber($cents)) {
-					$this->validationErrors['cost']['cents'] = "$cents is not a whole number";
+					$this->validationErrors['cost_cents'] = "$cents is not a whole number";
 					return false;
 				}
 
