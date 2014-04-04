@@ -170,13 +170,13 @@
 					: ''
 			));
 
-			$cents = $this->Form->input('cost.cents', array(
+			$cents = $this->Form->input('cost_cents', array(
 				'class' => 'form-control',
 				'div' => false,
 				'label' => false,
 				'maxlength' => 2
 			));
-			echo $this->Form->input('cost.dollars', array(
+			echo $this->Form->input('cost_dollars', array(
 				'after' => '<span class="currency_symbol">.</span>'.$cents,
 				'between' => '<div class="footnote">Enter $0.00 if free</div><span class="currency_symbol">$</a>',
 				'class' => 'form-control',
