@@ -117,6 +117,29 @@ class CourseRegistration extends AppModel {
 		return $count > 0;
 	}
 
+	/**
+	 * Returns TRUE if User is currently registered for Course
+	 * @param int $user_id
+	 * @param int $course_id
+	 * @return boolean
+	 */
+	public function isOnWaitingList($user_id, $course_id) {
+		if (! $this->User->exists($user_id)) {
+			return false;
+		}
+		if (! $this->Course->exists($course_id)) {
+			return false;
+		}
+		$result = $this->find('count', array(
+			'conditions' => array(
+				'CourseRegistration.user_id' => $user_id,
+				'CourseRegistration.course_id' => $course_id,
+				'CourseRegistration.waiting_list' => 1
+			)
+		));
+		return $result > 0;
+	}
+
 	public function getRegistrationId($user_id, $course_id) {
 		$result = $this->find('first', array(
 			'conditions' => array(
