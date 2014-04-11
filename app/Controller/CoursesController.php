@@ -229,6 +229,7 @@ class CoursesController extends AppController {
 			'course' => $course,
 			'is_free' => $course['Course']['cost'] == 0,
 			'is_full' => $this->Course->isFull($course_id),
+			'is_on_waiting_list' => $this->CourseRegistration->isOnWaitingList($user_id, $course_id),
 			'jwt' => $this->Course->getJWT($course_id, $user_id),
 			'paid' => $this->CoursePayment->isPaid($user_id, $course_id),
 			'registration_completed' => ($registration_id != null),

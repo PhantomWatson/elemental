@@ -137,18 +137,21 @@
 				</td>
 				<td>
 					<?php if ($registration_completed): ?>
-						<?php echo $this->Form->postLink(
-							'Cancel Registration',
-							array(
-								'controller' => 'course_registrations',
-								'action' => 'delete',
-								'id' => $registration_id
-							),
-							array(
-								'class' => 'btn btn-danger'
-							),
-							'Are you sure you want to cancel your registration to this course?'
-						); ?>
+						<?php
+							$label = $is_on_waiting_list ? 'Remove Self From Waiting List' : 'Cancel Registration';
+							echo $this->Form->postLink(
+								$label,
+								array(
+									'controller' => 'course_registrations',
+									'action' => 'delete',
+									'id' => $registration_id
+								),
+								array(
+									'class' => 'btn btn-danger'
+								),
+								'Are you sure you want to cancel your registration to this course?'
+							);
+						?>
 					<?php else: ?>
 						<?php if ($release_submitted && ($is_free || $paid)): ?>
 							<?php
