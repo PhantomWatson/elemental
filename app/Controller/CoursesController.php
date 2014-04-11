@@ -223,10 +223,14 @@ class CoursesController extends AppController {
 
 		$this->loadModel('Release');
 		$this->loadModel('CourseRegistration');
+		$this->loadModel('CoursePayment');
 		$registration_id = $this->CourseRegistration->getRegistrationId($user_id, $course_id);
 		$this->set(array(
 			'course' => $course,
+			'is_free' => $course['Course']['cost'] == 0,
 			'is_full' => $this->Course->isFull($course_id),
+			'jwt' => $this->Course->getJWT($course_id, $user_id),
+			'paid' => $this->CoursePayment->isPaid($user_id, $course_id),
 			'registration_completed' => ($registration_id != null),
 			'registration_id' => $registration_id,
 			'release_submitted' => $this->Release->isSubmitted($user_id, $course_id),
