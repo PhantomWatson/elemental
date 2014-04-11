@@ -246,8 +246,17 @@ class CoursesController extends AppController {
 		// Confirm receipt of release form
 		$this->loadModel('Release');
 		if (! $this->Release->isSubmitted($user_id, $course_id)) {
-			$this->Flash->error('Before you complete your registration, you msut first submit a liability release agreement.');
+			$this->Flash->error('Before you complete your registration, you must first submit a liability release agreement.');
 			$this->redirect($this->referer());
+		}
+
+		// Confirm payment
+		if (floatval($course['Course']['cost']) > 0) {
+			$this->loadModel('CoursePayment');
+			if (! $this->CoursePayment->isPaid($user_id, $course_id)) {
+				$this->Flash->error('Before you complete your registration, you must first pay a registration fee of $'.$course['Course']['cost']);
+				$this->redirect($this->referer());
+			}
 		}
 
 		// Prevent double-registration
