@@ -41,7 +41,7 @@ class Course extends AppModel {
 		'max_participants' => array(
 			'naturalNumber' => array(
 				'rule' => array('naturalNumber'),
-				'allowEmpty' => true,
+				'allowEmpty' => false,
 				//'message' => 'Your custom message here',
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
