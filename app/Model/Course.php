@@ -460,7 +460,9 @@ class Course extends AppModel {
 			'conditions' => array(
 				'Course.id' => $course_id
 			),
-			'contain' => false
+			'contain' => array(
+				'CourseDate'
+			)
 		));
 		if (empty($course)) {
 			throw new NotFoundException('Course #'.$course_id.' not found.');
