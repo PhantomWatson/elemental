@@ -447,4 +447,61 @@ class Course extends AppModel {
 		));
 		return $registered_count >= $max_participants;
 	}
+
+	/**
+	 * Generates the JSON Web Token for a Google Wallet purchase button
+	 * @param int $course_id
+	 * @param int $user_id
+	 * @throws NotFoundException
+	 * @return string
+	 */
+	public function getJWT($course_id, $user_id) {
+		$course = $this->find('first', array(
+			'conditions' => array(
+				'Course.id' => $course_id
+			),
+			'contain' => false
+		));
+		if (empty($course)) {
+			throw new NotFoundException('Course #'.$course_id.' not found.');
+		}
+
+		$dates = '';
+		$count = count($course['CourseDate']);
+		foreach ($course['CourseDate'] as $i => $date) {
+			$timestamp = strtotime($date['date']);
+			if ($count == 2 && $i == 1) {
+				$dates .= ' and ';
+			} elseif ($count > 2) {
+				if ($i == $count - 1) {
+					$dates .= ', and ';
+				} elseif ($i > 0) {
+					$dates .= ', ';
+				}
+			}
+			$dates .= date('F j, Y', $timestamp);
+		}
+
+		$seller_identifier = Configure::read('google_waller_seller_id');
+		$seller_secret = Configure::read('google_wallet_seller_secret');
+
+		// Generate a JWT (JSON Web Token) for this item
+		// $payload parameters reference: https://developers.google.com/commerce/wallet/digital/docs/jsreference#jwt
+		App::import('Vendor', 'JWT');
+		$payload = array(
+			"iss" => $seller_identifier,
+			"aud" => "Google",
+			"typ" => "google/payments/inapp/item/v1",
+			"exp" => time() + 3600,
+			"iat" => time(),
+			"request" => array(
+				"name" => 'Elemental Course Registration',
+				"description" => 'Registration for an Elemental Sexual Assault Protection course taking place on '.$dates,
+				"price" => $course['Course']['cost'],
+				"currencyCode" => "USD",
+				"sellerData" => "user_id:$user_id,course_id:$course_id"
+			)
+		);
+		return JWT::encode($payload, $seller_secret);
+	}
 }
