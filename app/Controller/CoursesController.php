@@ -188,9 +188,9 @@ class CoursesController extends AppController {
 		$this->redirect(array('action' => 'manage'));
 	}
 
-	public function register($id = null) {
+	public function register($course_id = null) {
 		// Check course exists
-		$this->Course->id = $id;
+		$this->Course->id = $course_id;
 		if (! $this->Course->exists()) {
 			throw new NotFoundException('Sorry, we couldn\'t find that course.');
 		}
@@ -208,7 +208,7 @@ class CoursesController extends AppController {
 				'controller' => 'users',
 				'action' => 'login',
 				'?' => array(
-					'course' => $id
+					'course' => $course_id
 				)
 			));
 			$this->Flash->notification('Before registering, you\'ll need to create an account or <a href="'.$login_url.'">log into your existing account</a>.');
@@ -216,20 +216,20 @@ class CoursesController extends AppController {
 				'controller' => 'users',
 				'action' => 'register',
 				'?' => array(
-					'course' => $id
+					'course' => $course_id
 				)
 			));
 		}
 
 		$this->loadModel('Release');
 		$this->loadModel('CourseRegistration');
-		$registration_id = $this->CourseRegistration->getRegistrationId($user_id, $id);
+		$registration_id = $this->CourseRegistration->getRegistrationId($user_id, $course_id);
 		$this->set(array(
 			'course' => $course,
-			'is_full' => $this->Course->isFull($id),
+			'is_full' => $this->Course->isFull($course_id),
 			'registration_completed' => ($registration_id != null),
 			'registration_id' => $registration_id,
-			'release_submitted' => $this->Release->isSubmitted($user_id, $id),
+			'release_submitted' => $this->Release->isSubmitted($user_id, $course_id),
 			'title_for_layout' => 'Register for a Course'
 		));
 	}
