@@ -503,7 +503,7 @@ class Course extends AppModel {
 				"description" => 'Registration for an Elemental Sexual Assault Protection course taking place on '.$dates.' in '.$location,
 				"price" => $course['Course']['cost'],
 				"currencyCode" => "USD",
-				"sellerData" => "user_id:$user_id,course_id:$course_id"
+				"sellerData" => "type:course,user_id:$user_id,course_id:$course_id"
 			)
 		);
 		return JWT::encode($payload, $seller_secret);

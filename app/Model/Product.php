@@ -34,7 +34,7 @@ class Product extends AppModel {
 			),
 		)
 	);
-	
+
 	public $hasMany = array(
 		'Purchase' => array(
 			'className' => 'Purchase',
@@ -44,7 +44,7 @@ class Product extends AppModel {
 			'order' => 'Purchase.created DESC'
 		)
 	);
-	
+
 	/**
 	 * Generates the JSON Web Token for a Google Wallet purchase button
 	 * @param int $product_id
@@ -60,10 +60,10 @@ class Product extends AppModel {
 		if (empty($product)) {
 			throw new NotFoundException('Product with ID '.$product_id.' not found.');
 		}
-		
+
 		$seller_identifier = Configure::read('google_waller_seller_id');
 		$seller_secret = Configure::read('google_wallet_seller_secret');
-		
+
 		// Generate a JWT (JSON Web Token) for this item
 		// $payload parameters reference: https://developers.google.com/commerce/wallet/digital/docs/jsreference#jwt
 		App::import('Vendor', 'JWT');
@@ -78,10 +78,10 @@ class Product extends AppModel {
 				"description" => $product['Product']['description'],
 				"price" => $product['Product']['cost'],
 				"currencyCode" => "USD",
-				"sellerData" => "user_id:$user_id,product_id:$product_id"
+				"sellerData" => "type:module,user_id:$user_id,product_id:$product_id"
 			)
 		);
-		return JWT::encode($payload, $seller_secret);	
+		return JWT::encode($payload, $seller_secret);
 	}
 
 	public function getReviewMaterials() {
@@ -89,7 +89,7 @@ class Product extends AppModel {
 		if ($cached = Cache::read($cache_key)) {
 			return $cached;
 		}
-		
+
 		$retval = $this->find('first', array(
 			'conditions' => array(
 				'Product.name' => 'Student Review Module'
@@ -99,16 +99,16 @@ class Product extends AppModel {
 		Cache::write($cache_key, $retval);
 		return $retval;
 	}
-	
+
 	public function getReviewMaterialsId() {
 		$cache_key = "getReviewMaterialsId()";
 		if ($cached = Cache::read($cache_key)) {
 			return $cached;
 		}
-		
+
 		$product = $this->getReviewMaterials();
 		$retval = $product['Product']['id'];
 		Cache::write($cache_key, $retval);
-		return $retval;	
+		return $retval;
 	}
 }
