@@ -110,7 +110,9 @@ class StoreController extends AppController {
 				'order_id' => $order_id,
 				'jwt' => serialize($jwt_decoded)
 			));
-			if (! $this->CoursePayment->save()) {
+			if ($this->CoursePayment->save()) {
+				$this->Course->afterPayment($seller_data['course_id'], $seller_data['user_id']);
+			} else {
 				throw new InternalErrorException('Purchase could not be saved');
 			}
 		} elseif ($seller_data['type'] == 'module') {
