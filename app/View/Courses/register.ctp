@@ -73,6 +73,48 @@
 					<?php endif; ?>
 				</td>
 			</tr>
+
+			<?php if (! $is_free): ?>
+				<tr>
+					<td>
+						<?php if ($paid): ?>
+							<span class="glyphicon glyphicon-ok"></span>
+						<?php else: ?>
+							<span class="glyphicon glyphicon-remove"></span>
+						<?php endif; ?>
+						Pay $<?php echo $course['Course']['cost']; ?> course fee
+					</td>
+					<td>
+						<?php if (! $paid): ?>
+							<a href="#" class="btn btn-success" id="course_payment">
+								Pay
+							</a>
+							<?php
+								$this->Html->script(Configure::read('google_wallet_lib'), array('inline' => false));
+								$this->Js->buffer("
+									$('#course_payment').click(function(event) {
+										event.preventDefault();
+										google.payments.inapp.buy({
+											'jwt': '$jwt',
+											'success' : function(purchaseAction) {
+												if (window.console != undefined) {
+													console.log('Purchase completed successfully.');
+												}
+											},
+											'failure' : function(purchaseActionError){
+												if (window.console != undefined) {
+													console.log('Purchase did not complete.');
+												}
+											}
+										});
+									});
+								");
+							?>
+						<?php endif; ?>
+					</td>
+				</tr>
+			<?php endif; ?>
+
 			<tr>
 				<td>
 					<?php if ($registration_completed): ?>
@@ -97,7 +139,7 @@
 							'Are you sure you want to cancel your registration to this course?'
 						); ?>
 					<?php else: ?>
-						<?php if ($release_submitted): ?>
+						<?php if ($release_submitted && ($is_free || $paid)): ?>
 							<?php
 								$label = $is_full ? 'Join Waiting List' : 'Register';
 								echo $this->Html->link(
