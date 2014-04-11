@@ -84,14 +84,22 @@ class StoreController extends AppController {
 		}
 
 		// Check for required sellerData
+		$this->loadModel('User');
+		$this->loadModel('Course');
 		if (! isset($seller_data['user_id'])) {
 			throw new BadRequestException('User ID missing');
+		} elseif (! $this->User->exists($seller_data['user_id'])) {
+			throw new BadRequestException('User #'.$seller_data['user_id'].' not found');
 		} elseif (! isset($seller_data['type'])) {
 			throw new BadRequestException('Purchase type not specified');
 		} elseif ($seller_data['type'] != 'course' && $seller_data['type'] != 'module') {
 			throw new BadRequestException('Unrecognized purchase type: '.$seller_data['type']);
-		} elseif ($seller_data['type'] == 'course' && ! isset($seller_data['course_id'])) {
-			throw new BadRequestException('Course ID missing');
+		} elseif ($seller_data['type'] == 'course') {
+			if (! isset($seller_data['course_id'])) {
+				throw new BadRequestException('Course ID missing');
+			} elseif (! $this->Course->exists($seller_data['course_id'])) {
+				throw new BadRequestException('Course #'.$seller_data['course_id'].' not found');
+			}
 		} elseif ($seller_data['type'] == 'module' && ! isset($seller_data['product_id'])) {
 			throw new BadRequestException('Product ID missing');
 		}
