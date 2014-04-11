@@ -71,7 +71,8 @@ class CourseRegistrationsController extends AppController {
 		if ($this->CourseRegistration->delete()) {
 			if ($user_is_instructor) {
 				$this->Flash->success('Student un-registered from course.');
-				if ($this->__elevateWaitingListMember($course_id)) {
+				$this->loadModel('Course');
+				if ($this->Course->elevateWaitingListMembers($course_id)) {
 					$this->Flash->success('Student elevated from the waiting list to the class list.');
 				}
 			} else {
@@ -100,7 +101,8 @@ class CourseRegistrationsController extends AppController {
 		$this->CourseRegistration->id = $id;
 		$course_id = $this->CourseRegistration->field('course_id');
 		$this->CourseRegistration->delete();
-		$this->__elevateWaitingListMember($course_id);
+		$this->loadModel('Course');
+		$this->Course->elevateWaitingListMembers($course_id);
 
 		$this->set(array(
 			'title_for_layout' => 'Cancel Class Registration'
