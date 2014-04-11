@@ -92,6 +92,14 @@
 								</a>
 								<?php
 									$this->Html->script(Configure::read('google_wallet_lib'), array('inline' => false));
+									$complete_reg_url = Router::url(
+										array(
+											'controller' => 'courses',
+											'action' => 'complete_registration',
+											'course_id' => $course['Course']['id']
+										),
+										true
+									);
 									$this->Js->buffer("
 										$('#course_payment').click(function(event) {
 											event.preventDefault();
@@ -99,7 +107,7 @@
 												'jwt': '$jwt',
 												'success' : function(purchaseAction) {
 													alert('Payment received');
-													location.reload();
+													window.location.href = '$complete_reg_url';
 												},
 												'failure' : function(purchaseActionError){
 													alert('There was an error processing your payment: '+purchaseActionError.response.errorType);
