@@ -508,26 +508,4 @@ class Course extends AppModel {
 		);
 		return JWT::encode($payload, $seller_secret);
 	}
-
-	/**
-	 * Callback to be run after a successful payment
-	 * @param int $course_id
-	 * @param int $user_id
-	 */
-	public function afterPayment($course_id, $user_id) {
-		// If a release has also been submitted, then automatically complete this user's registration
-		$Release = ClassRegistry::init('Release');
-		if ($Release->isSubmitted($user_id, $course_id)) {
-			$this->CourseRegistration->create(array(
-				'course_id' => $course_id,
-				'user_id' => $user_id,
-				'waiting_list' => 0
-			));
-			if ($this->CourseRegistration->save()) {
-				$this->sendRegistrationEmail($course_id, $user_id);
-			} else {
-				throw new InternalErrorException('Course registration could not be saved');
-			}
-		}
-	}
 }
