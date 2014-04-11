@@ -46,4 +46,14 @@ class CoursePayment extends AppModel {
 			'order' => ''
 		)
 	);
+
+	public function isPaid($user_id, $course_id) {
+		$result = $this->find('count', array(
+			'conditions' => array(
+				'CoursePayment.user_id' => $user_id,
+				'CoursePayment.course_id' => $course_id
+			)
+		));
+		return $result > 0;
+	}
 }
