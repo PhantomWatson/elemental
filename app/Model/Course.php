@@ -50,7 +50,7 @@ class Course extends AppModel {
 		),
 		'cost' => array(
 			'naturalNumber' => array(
-				'rule' => array('naturalNumber'),
+				'rule' => array('naturalNumber', true), // TRUE means zero is accepted
 				'allowEmpty' => true,
 				//'message' => 'Your custom message here',
 				//'required' => false,
