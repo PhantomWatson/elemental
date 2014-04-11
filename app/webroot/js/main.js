@@ -76,7 +76,6 @@ var courseAddForm = {
 		// Set up remove button
 		input.find('.remove_date').click(function(event) {
 			event.preventDefault();
-			console.log('removing');
 			$(this).parent('div').remove();
 		});
 		
