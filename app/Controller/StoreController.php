@@ -104,6 +104,18 @@ class StoreController extends AppController {
 			throw new BadRequestException('Product ID missing');
 		}
 
+		// For courses, make sure that registration is allowed
+		if ($seller_data['type'] == 'course') {
+			$this->Course->id = $seller_data['course_id'];
+			$deadline = $this->Course->field('deadline');
+			if ($deadline < date('Y-m-d')) {
+				throw new ForbiddenException('Sorry, the deadline for registering for that course has passed');
+			}
+			if ($this->Course->isFull($seller_data['course_id'])) {
+				throw new ForbiddenException('Sorry, this course has no available spots left');
+			}
+		}
+
 		// Remove cached information
 		if (isset($seller_data['product_id'])) {
 			$cache_key = 'hasPurchased('.$seller_data['user_id'].', '.$seller_data['product_id'].')';
