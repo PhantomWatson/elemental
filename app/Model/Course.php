@@ -468,6 +468,7 @@ class Course extends AppModel {
 			throw new NotFoundException('Course #'.$course_id.' not found.');
 		}
 
+		// Gather variables for purchase description
 		$dates = '';
 		$count = count($course['CourseDate']);
 		foreach ($course['CourseDate'] as $i => $date) {
@@ -483,6 +484,7 @@ class Course extends AppModel {
 			}
 			$dates .= date('F j, Y', $timestamp);
 		}
+		$location = $course['Course']['city'].', '.$course['Course']['state'];
 
 		$seller_identifier = Configure::read('google_waller_seller_id');
 		$seller_secret = Configure::read('google_wallet_seller_secret');
@@ -498,7 +500,7 @@ class Course extends AppModel {
 			"iat" => time(),
 			"request" => array(
 				"name" => 'Elemental Course Registration',
-				"description" => 'Registration for an Elemental Sexual Assault Protection course taking place on '.$dates,
+				"description" => 'Registration for an Elemental Sexual Assault Protection course taking place on '.$dates.' in '.$location,
 				"price" => $course['Course']['cost'],
 				"currencyCode" => "USD",
 				"sellerData" => "user_id:$user_id,course_id:$course_id"
