@@ -86,30 +86,36 @@
 					</td>
 					<td>
 						<?php if (! $paid): ?>
-							<a href="#" class="btn btn-success" id="course_payment">
-								Pay
-							</a>
-							<?php
-								$this->Html->script(Configure::read('google_wallet_lib'), array('inline' => false));
-								$this->Js->buffer("
-									$('#course_payment').click(function(event) {
-										event.preventDefault();
-										google.payments.inapp.buy({
-											'jwt': '$jwt',
-											'success' : function(purchaseAction) {
-												if (window.console != undefined) {
-													console.log('Purchase completed successfully.');
+							<?php if ($release_submitted): ?>
+								<a href="#" class="btn btn-success" id="course_payment">
+									Pay
+								</a>
+								<?php
+									$this->Html->script(Configure::read('google_wallet_lib'), array('inline' => false));
+									$this->Js->buffer("
+										$('#course_payment').click(function(event) {
+											event.preventDefault();
+											google.payments.inapp.buy({
+												'jwt': '$jwt',
+												'success' : function(purchaseAction) {
+													if (window.console != undefined) {
+														console.log('Purchase completed successfully.');
+													}
+												},
+												'failure' : function(purchaseActionError){
+													if (window.console != undefined) {
+														console.log('Purchase did not complete.');
+													}
 												}
-											},
-											'failure' : function(purchaseActionError){
-												if (window.console != undefined) {
-													console.log('Purchase did not complete.');
-												}
-											}
+											});
 										});
-									});
-								");
-							?>
+									");
+								?>
+							<?php else: ?>
+								<button type="button" class="btn btn-default disabled">
+									Actions pending
+								</button>
+							<?php endif; ?>
 						<?php endif; ?>
 					</td>
 				</tr>
