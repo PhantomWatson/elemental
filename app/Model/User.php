@@ -313,7 +313,7 @@ class User extends AppModel {
 
 	public function canAccessReviewMaterials($user_id) {
 		$cache_key = "canAccessReviewMaterials($user_id)";
-		if ($cached = Cache::read($cache_key)) {
+		if ($cached = Cache::read($cache_key, 'day')) {
 			return $cached;
 		}
 
@@ -354,7 +354,7 @@ class User extends AppModel {
 			}
 		}
 
-		Cache::write($cache_key, $retval);
+		Cache::write($cache_key, $retval, 'day');
 		return $retval;
 	}
 }
