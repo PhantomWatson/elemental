@@ -237,7 +237,7 @@ class User extends AppModel {
 		if ($cached = Cache::read($cache_key)) {
 			return $cached;
 		}
-		
+
 		$result = $this->Purchase->find('count', array(
 			'conditions' => array(
 				'Purchase.user_id' => $user_id,
@@ -246,7 +246,7 @@ class User extends AppModel {
 		));
 		$retval = $result > 0;
 		Cache::write($cache_key, $retval);
-		return $retval;	
+		return $retval;
 	}
 
 	public function canAccessInstructorTraining($user_id) {
@@ -297,7 +297,7 @@ class User extends AppModel {
 		$salt = Configure::read('password_reset_salt');
 		return md5($user_id.$email.$salt);
 	}
-	
+
 	/**
 	 * Returns an array of roles to be used as options in <select> form fields
 	 * @return array
@@ -308,6 +308,43 @@ class User extends AppModel {
 			'instructor' => 'Instructor',
 			'instructor-in-training' => 'Instructor in Training',
 			'admin' => 'Administrator'
-		);	
+		);
+	}
+
+	public function canAccessReviewMaterials($user_id) {
+		// Only students who have attended courses can access review materials
+		$courses_attended = $this->CourseRegistration->find('list', array(
+			'conditions' => array(
+				'CourseRegistration.user_id' => $user_id,
+				'CourseRegistration.attended' => true
+			)
+		));
+		if (empty($courses_attended)) {
+			return false;
+		}
+
+		// Students who have attended in the last year get free access
+		$year_ago = date('Y-m-d G:i:s', strtotime('1 year ago'));
+		$count = $this->Course->find('count', array(
+			'conditions' => array(
+				'Course.id' => array_values($courses_attended),
+				'Course.begins >=' => $year_ago
+			)
+		));
+		if ($count > 0) {
+			return true;
+		}
+
+		// Students who have purchased the review material module in the past year get access
+		$Product = ClassRegistry::init('Product');
+		$product_id = $Product->getReviewMaterialsId();
+		$count = $this->Purchase->find('count', array(
+			'conditions' => array(
+				'Purchase.user_id' => $user_id,
+				'Purchase.product_id' => $product_id,
+				'Purchase.created >=' => $year_ago
+			)
+		));
+		return $count > 0;
 	}
 }
