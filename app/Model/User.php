@@ -312,6 +312,11 @@ class User extends AppModel {
 	}
 
 	public function canAccessReviewMaterials($user_id) {
+		$cache_key = "canAccessReviewMaterials($user_id)";
+		if ($cached = Cache::read($cache_key)) {
+			return $cached;
+		}
+
 		// Only students who have attended courses can access review materials
 		$courses_attended = $this->CourseRegistration->find('list', array(
 			'conditions' => array(
@@ -320,31 +325,36 @@ class User extends AppModel {
 			)
 		));
 		if (empty($courses_attended)) {
-			return false;
+			$retval = false;
+		} else {
+
+			// Students who have attended in the last year get free access
+			$year_ago = date('Y-m-d G:i:s', strtotime('1 year ago'));
+			$count = $this->Course->find('count', array(
+				'conditions' => array(
+					'Course.id' => array_values($courses_attended),
+					'Course.begins >=' => $year_ago
+				)
+			));
+			if ($count > 0) {
+				$retval = true;
+			} else {
+
+				// Students who have purchased the review material module in the past year get access
+				$Product = ClassRegistry::init('Product');
+				$product_id = $Product->getReviewMaterialsId();
+				$count = $this->Purchase->find('count', array(
+					'conditions' => array(
+						'Purchase.user_id' => $user_id,
+						'Purchase.product_id' => $product_id,
+						'Purchase.created >=' => $year_ago
+					)
+				));
+				$retval = ($count > 0);
+			}
 		}
 
-		// Students who have attended in the last year get free access
-		$year_ago = date('Y-m-d G:i:s', strtotime('1 year ago'));
-		$count = $this->Course->find('count', array(
-			'conditions' => array(
-				'Course.id' => array_values($courses_attended),
-				'Course.begins >=' => $year_ago
-			)
-		));
-		if ($count > 0) {
-			return true;
-		}
-
-		// Students who have purchased the review material module in the past year get access
-		$Product = ClassRegistry::init('Product');
-		$product_id = $Product->getReviewMaterialsId();
-		$count = $this->Purchase->find('count', array(
-			'conditions' => array(
-				'Purchase.user_id' => $user_id,
-				'Purchase.product_id' => $product_id,
-				'Purchase.created >=' => $year_ago
-			)
-		));
-		return $count > 0;
+		Cache::write($cache_key, $retval);
+		return $retval;
 	}
 }
