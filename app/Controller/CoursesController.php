@@ -475,6 +475,9 @@ class CoursesController extends AppController {
 				foreach ($registrations as $reg_id => $display_field) {
 					$this->CourseRegistration->id = $reg_id;
 					$this->CourseRegistration->saveField('attended', 1);
+					$user_id = $this->CourseRegistration->field('user_id');
+					$cache_key = "canAccessReviewMaterials($user_id)";
+					Cache::delete($cache_key, 'day');
 					// send email to student
 				}
 				$this->Flash->success('Attendance reported.');

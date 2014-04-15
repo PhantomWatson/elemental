@@ -143,6 +143,10 @@ class StoreController extends AppController {
 			if (! $this->Purchase->save()) {
 				throw new InternalErrorException('Purchase could not be saved');
 			}
+
+			// Clear relevant cache keys
+			$cache_key = 'canAccessReviewMaterials('.$seller_data['user_id'].')';
+			Cache::delete($cache_key, 'day');
 		}
 
 		// If order is okay, send 200 OK response and this order ID
