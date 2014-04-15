@@ -145,8 +145,8 @@ class StoreController extends AppController {
 			}
 
 			// Clear relevant cache keys
-			$cache_key = 'canAccessReviewMaterials('.$seller_data['user_id'].')';
-			Cache::delete($cache_key, 'day');
+			$cache_key = 'getReviewMaterialsAccessExpiration('.$seller_data['user_id'].')';
+			Cache::delete($cache_key);
 		}
 
 		// If order is okay, send 200 OK response and this order ID
