@@ -35,6 +35,7 @@ class ProductsController extends AppController {
 			$user_attended = $this->User->hasAttendedCourse($user_id);
 			$user_purchased = $this->User->hasPurchased($user_id, $product['Product']['id']);
 			$can_access = $this->User->canAccessReviewMaterials($user_id);
+			$expiration = $this->User->getReviewMaterialsAccessExpiration($user_id);
 
 			if ($user_attended && ! $can_access) {
 				$this->set('jwt', $this->Product->getJWT($product['Product']['id'], $user_id));
@@ -43,7 +44,8 @@ class ProductsController extends AppController {
 			$this->set(compact(
 				'user_attended',
 				'user_purchased',
-				'can_access'
+				'can_access',
+				'expiration'
 			));
 		} else {
 			$this->set('can_access', false);
