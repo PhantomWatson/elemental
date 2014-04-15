@@ -112,14 +112,10 @@
 						google.payments.inapp.buy({
 							'jwt': '$jwt',
 							'success' : function(purchaseAction) {
-								if (window.console != undefined) {
-									console.log('Purchase completed successfully.');
-								}
+								location.reload(true);
 							},
 							'failure' : function(purchaseActionError){
-								if (window.console != undefined) {
-									console.log('Purchase did not complete.');
-								}
+								alert('There was an error processing your payment: '+purchaseActionError.response.errorType);
 							}
 						});
 					});
