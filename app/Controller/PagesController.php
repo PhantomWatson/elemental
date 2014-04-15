@@ -186,7 +186,7 @@ class PagesController extends AppController {
 				'title_for_layout' => 'Bring Elemental to Your Campus'
 		));
 	}
-	
+
 	public function clear_cache($key = null) {
 		if ($key) {
 			if (Cache::delete($key)) {
@@ -195,13 +195,13 @@ class PagesController extends AppController {
 				$this->Flash->success('Error clearing cache ('.$key.')');
 			}
 		} else {
-			if (Cache::clear() && clearCache()) {
-				$this->Flash->success('Cache cleared');	
+			if (Cache::clear(false, 'default') && Cache::clear(false, 'day') && clearCache()) {
+				$this->Flash->success('Cache cleared');
 			} else {
-				$this->Flash->success('Error clearing cache');	
+				$this->Flash->success('Error clearing cache');
 			}
 		}
-		
+
 		$this->set(array(
 			'title_for_layout' => 'Clear Cache'
 		));
