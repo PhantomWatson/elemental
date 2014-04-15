@@ -345,7 +345,7 @@ class User extends AppModel {
 				'order' => 'Course.begins DESC'
 			));
 			if (! empty($course)) {
-				$retval = strtotime($course['Course']['begins'].' + 1 year');
+				$retval = strtotime($course['Course']['begins'].' + 1 year + 2 days');
 			}
 
 			// Students who have purchased the review material module in the past year get access
@@ -365,7 +365,7 @@ class User extends AppModel {
 			if (! empty($purchase)) {
 
 				// Base expiration date on purchase instead of class attendance if purchase was more recent
-				$expiration = strtotime($purchase['Purchase']['created'].' + 1 year');
+				$expiration = strtotime($purchase['Purchase']['created'].' + 1 year + 2 days');
 				if ($retval && $expiration > $retval) {
 					$retval = $expiration;
 				}
