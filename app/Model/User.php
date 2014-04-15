@@ -312,10 +312,17 @@ class User extends AppModel {
 	}
 
 	public function canAccessReviewMaterials($user_id) {
-		$cache_key = "canAccessReviewMaterials($user_id)";
+		$expiration = $this->getReviewMaterialsAccessExpiration($user_id);
+		return $expiration && $expiration > time();
+	}
+
+	public function getReviewMaterialsAccessExpiration($user_id) {
+		$cache_key = "getReviewMaterialsAccessExpiration($user_id)";
 		if ($cached = Cache::read($cache_key, 'day')) {
 			return $cached;
 		}
+
+		$retval = false;
 
 		// Only students who have attended courses can access review materials
 		$courses_attended = $this->CourseRegistration->find('list', array(
@@ -324,37 +331,48 @@ class User extends AppModel {
 				'CourseRegistration.attended' => true
 			)
 		));
-		if (empty($courses_attended)) {
-			$retval = false;
-		} else {
+		if (! empty($courses_attended)) {
 
 			// Students who have attended in the last year get free access
-			$year_ago = date('Y-m-d G:i:s', strtotime('1 year ago'));
-			$count = $this->Course->find('count', array(
+			$course = $this->Course->find('first', array(
 				'conditions' => array(
-					'Course.id' => array_values($courses_attended),
-					'Course.begins >=' => $year_ago
-				)
+					'Course.id' => array_values($courses_attended)
+				),
+				'contain' => false,
+				'fields' => array(
+					'Course.begins'
+				),
+				'order' => 'Course.begins DESC'
 			));
-			if ($count > 0) {
-				$retval = true;
-			} else {
+			if (! empty($course)) {
+				$retval = strtotime($course['Course']['begins'].' + 1 year');
+			}
 
-				// Students who have purchased the review material module in the past year get access
-				$Product = ClassRegistry::init('Product');
-				$product_id = $Product->getReviewMaterialsId();
-				$count = $this->Purchase->find('count', array(
-					'conditions' => array(
-						'Purchase.user_id' => $user_id,
-						'Purchase.product_id' => $product_id,
-						'Purchase.created >=' => $year_ago
-					)
-				));
-				$retval = ($count > 0);
+			// Students who have purchased the review material module in the past year get access
+			$Product = ClassRegistry::init('Product');
+			$product_id = $Product->getReviewMaterialsId();
+			$purchase = $this->Purchase->find('first', array(
+				'conditions' => array(
+					'Purchase.user_id' => $user_id,
+					'Purchase.product_id' => $product_id
+				),
+				'contain' => false,
+				'fields' => array(
+					'Purchase.created'
+				),
+				'order' => 'Purchase.created DESC'
+			));
+			if (! empty($purchase)) {
+
+				// Base expiration date on purchase instead of class attendance if purchase was more recent
+				$expiration = strtotime($purchase['Purchase']['created'].' + 1 year');
+				if ($retval && $expiration > $retval) {
+					$retval = $expiration;
+				}
 			}
 		}
 
-		Cache::write($cache_key, $retval, 'day');
+		Cache::write($cache_key, $retval);
 		return $retval;
 	}
 }
