@@ -8,6 +8,16 @@
 	</p>
 
 	<?php if ($can_access): ?>
+		<p class="alert alert-info">
+			Your access to the student review module will expire on <?php echo date('F jS, Y', $expiration); ?>.
+		</p>
+	<?php elseif (isset($expiration) && $expiration): ?>
+		<p class="alert alert-danger">
+			Your access to the student review module expired on <?php echo date('F jS, Y', $expiration); ?>.
+		</p>
+	<?php endif; ?>
+
+	<?php if ($can_access): ?>
 
 		<script language="javascript">AC_FL_RunContent = 0;</script>
 		<script src="/review_materials/AC_RunActiveContent.js" language="javascript"></script>
@@ -85,11 +95,6 @@
 		</p>
 
 	<?php else: ?>
-		<?php if ($user_purchased): ?>
-			<p class="alert alert-info">
-				Your year of access to the Elemental student review materials has expired.
-			</p>
-		<?php endif; ?>
 
 		<p>
 			<?php
