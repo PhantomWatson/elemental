@@ -318,7 +318,7 @@ class User extends AppModel {
 
 	public function getReviewMaterialsAccessExpiration($user_id) {
 		$cache_key = "getReviewMaterialsAccessExpiration($user_id)";
-		if ($cached = Cache::read($cache_key, 'day')) {
+		if ($cached = Cache::read($cache_key)) {
 			return $cached;
 		}
 
