@@ -35,7 +35,7 @@
 				This course is full.
 			<?php endif; ?>
 		</h1>
-		<?php if ($registration_id): ?>
+		<?php if ($is_registered): ?>
 			<p>
 				 <span class="label label-success">
 				 	You are registered for this course.

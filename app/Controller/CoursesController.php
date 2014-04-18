@@ -98,20 +98,27 @@ class CoursesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
-		$this->Course->id = $id;
-		if (!$this->Course->exists()) {
+	public function view($course_id = null) {
+		$this->Course->id = $course_id;
+		if (! $this->Course->exists()) {
 			throw new NotFoundException('Sorry, we couldn\'t find that course.');
 		}
-		$course = $this->Course->read(null, $id);
+
+		$course = $this->Course->read(null, $course_id);
+		$title_for_layout = 'Course Details: '.date('F j, Y', strtotime($course['CourseDate'][0]['date']));
+
+		$this->loadModel('CourseRegistration');
+		$user_id = $this->Auth->user('id');
+		$registration_id = $this->CourseRegistration->getRegistrationId($user_id, $course_id);
+
 		$this->loadModel('User');
-		$courses_registered_for = $this->User->coursesRegisteredFor($this->Auth->user('id'));
-		$this->set(array(
-			'title_for_layout' => 'Course Details: '.date('F j, Y', strtotime($course['CourseDate'][0]['date'])),
-			'course' => $course,
-			'registration_id' => isset($courses_registered_for[$id])
-				? $courses_registered_for[$id]
-				: false
+		$is_registered = $this->User->registeredForCourse($user_id, $course_id);
+
+		$this->set(compact(
+			'course',
+			'is_registered',
+			'registration_id',
+			'title_for_layout'
 		));
 	}
 
