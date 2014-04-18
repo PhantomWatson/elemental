@@ -61,9 +61,33 @@ class CoursesController extends AppController {
 			'order' => array('Course.begins ASC'),
 			'limit' => 10
 		);
+		$courses = $this->paginate();
+		foreach ($courses as &$course) {
+			$spots = $course['Course']['max_participants'];
+			$registered = 0;
+			foreach ($course['CourseRegistration'] as $reg) {
+				if (! $reg['waiting_list']) {
+					$registered++;
+				}
+			}
+			$course['spots_left'] = max($spots - $registered, 0);
+			$course['deadline'] = date('F j, Y', strtotime($course['Course']['deadline']));
+			$course['deadline_passed'] = $course['Course']['deadline'] < date('Y-m-d');
+			$course['percent_full'] = floor(($registered / $spots) * 100);
+			if ($course['percent_full'] >= 75) {
+				$course['progress_bar_class'] = 'progress-bar-danger';
+			} elseif ($course['percent_full'] >= 50) {
+				$course['progress_bar_class'] = 'progress-bar-warning';
+			} else {
+				$course['progress_bar_class'] = 'progress-bar-success';
+			}
+			$course_id = $course['Course']['id'];
+			$course['reg_id'] = isset($courses_registered_for[$course_id]) ? $courses_registered_for[$course_id] : false;
+		}
+
 		$this->set(array(
 			'title_for_layout' => 'Upcoming Courses',
-			'courses' => $this->paginate(),
+			'courses' => $courses,
 			'courses_registered_for' => $this->User->coursesRegisteredFor($this->Auth->user('id'))
 		));
 	}
