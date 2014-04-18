@@ -30,9 +30,15 @@
 
 	<?php if ($registration_completed): ?>
 		<?php if ($is_on_waiting_list): ?>
-			<p class="alert alert-warning">
-				You are on this course's waiting list. An instructor will contact you if space becomes available.
-			</p>
+			<?php if ($is_full): ?>
+				<p class="alert alert-warning">
+					You are on this course's waiting list. An instructor will contact you if space becomes available.
+				</p>
+			<?php else: ?>
+				<p class="alert alert-info">
+					Good news! Space has become available in this course. But before you can register, you must complete the following steps:
+				</p>
+			<?php endif; ?>
 		<?php else: ?>
 			<p class="alert alert-success">
 				You are registered for this course.
