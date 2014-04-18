@@ -148,7 +148,7 @@ class User extends AppModel {
 	}
 
 	/**
-	 * Returns TRUE if User is currently registered for Course
+	 * Returns TRUE if User is currently registered for Course (class list, not waiting list)
 	 * @param int $user_id
 	 * @param int $course_id
 	 * @return boolean
@@ -163,7 +163,8 @@ class User extends AppModel {
 		$result = $this->CourseRegistration->find('count', array(
 			'conditions' => array(
 				'CourseRegistration.user_id' => $user_id,
-				'CourseRegistration.course_id' => $course_id
+				'CourseRegistration.course_id' => $course_id,
+				'CourseRegistration.waiting_list' => 0
 			)
 		));
 		return ! empty($result);
