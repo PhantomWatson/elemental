@@ -112,6 +112,18 @@
 					</p>
 				</td>
 			</tr>
+			<tr>
+				<th>Cost</th>
+				<td>
+					<p>
+						<?php if ($course['Course']['cost'] == 0): ?>
+							Free
+						<?php else: ?>
+							$<?php echo $course['Course']['cost']; ?>
+						<?php endif; ?>
+					</p>
+				</td>
+			</tr>
 			<?php if (! empty($course['Course']['details'])): ?>
 				<tr>
 					<th>Details</th>
