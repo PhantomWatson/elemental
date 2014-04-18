@@ -286,28 +286,44 @@ class CoursesController extends AppController {
 		}
 
 		// Prevent double-registration
+		$elevate_registration = false;
+		$redirect = false;
 		$this->loadModel('CourseRegistration');
 		$registration_id = $this->CourseRegistration->getRegistrationId($user_id, $course_id);
-		if ($registration_id) {
-			$this->CourseRegistration->id = $registration_id;
-			$on_waiting_list = $this->CourseRegistration->field('waiting_list');
-			if ($on_waiting_list) {
+		$on_waiting_list = $this->CourseRegistration->isOnWaitingList($user_id, $course_id);
+		if ($on_waiting_list) {
+			if ($joining_waiting_list) {
 				$this->Flash->set('You\'re already on this course\'s waiting list.');
+				$redirect = true;
 			} else {
-				$this->Flash->set('You\'re already registered for this course.');
+				$elevate_registration = true;
 			}
+		} elseif ($registration_id) {
+			$this->Flash->set('You\'re already registered for this course.');
+			$redirect = true;
+		}
+		if ($redirect) {
 			$this->redirect(array(
 				'action' => 'register',
 				'id' => $course_id
 			));
 		}
 
-		$this->CourseRegistration->create(array(
-			'course_id' => $course_id,
-			'user_id' => $user_id,
-			'waiting_list' => $joining_waiting_list
-		));
-		if ($this->CourseRegistration->save()) {
+		// User is moving from the waiting list to the class list
+		if ($elevate_registration) {
+			$this->CourseRegistration->id = $registration_id;
+			$result = $this->CourseRegistration->saveField('waiting_list', 0);
+
+		// User is creating a new registration
+		} else {
+			$this->CourseRegistration->create(array(
+				'course_id' => $course_id,
+				'user_id' => $user_id,
+				'waiting_list' => $joining_waiting_list
+			));
+			$result = $this->CourseRegistration->save();
+		}
+		if ($result) {
 			if ($joining_waiting_list) {
 				$message = 'You are now on this course\'s waiting list. You will be contacted by an instructor if space becomes available.';
 			} else {
