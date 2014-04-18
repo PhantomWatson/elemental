@@ -28,34 +28,9 @@
 		); ?>
 	</div>
 
-	<?php if ($registration_completed): ?>
-		<?php if ($is_on_waiting_list): ?>
-			<?php if ($is_full): ?>
-				<p class="alert alert-warning">
-					You are on this course's waiting list. An instructor will contact you if space becomes available.
-				</p>
-			<?php else: ?>
-				<p class="alert alert-info">
-					Good news! Space has become available in this course. But before you can register, you must complete the following steps:
-				</p>
-			<?php endif; ?>
-		<?php else: ?>
-			<p class="alert alert-success">
-				You are registered for this course.
-			</p>
-		<?php endif; ?>
-	<?php else: ?>
-		<?php if ($is_full): ?>
-			<p class="alert alert-danger">
-				<strong>This course is full</strong>, but you can still add yourself to the waiting list by completing the following steps.
-				If you do, we'll contact you in the event that space becomes available.
-			</p>
-		<?php else: ?>
-			<p class="alert alert-info">
-				Before you can register for this course, you must complete the following steps:
-			</p>
-		<?php endif; ?>
-	<?php endif; ?>
+	<p class="<?php echo $intro_msg_class; ?>">
+		<?php echo $intro_msg; ?>
+	</p>
 
 	<table cellpadding="0" cellspacing="0" class="table">
 		<tbody>

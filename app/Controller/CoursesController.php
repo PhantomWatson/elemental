@@ -268,10 +268,34 @@ class CoursesController extends AppController {
 		$paid = $this->CoursePayment->isPaid($user_id, $course_id);
 		$actions_pending = ! $release_submitted || ! ($is_free || $paid);
 
+		// Determine what the intro message should say
+		if ($registration_completed) {
+			if ($is_on_waiting_list) {
+				if ($is_full) {
+					$intro_msg_class = 'alert alert-warning';
+					$intro_msg = 'You are on this course\'s waiting list. An instructor will contact you if space becomes available.';
+				} else {
+					$intro_msg_class = 'alert alert-info';
+					$intro_msg = 'Good news! Space has become available in this course. But before you can register, you must complete the following steps:';
+				}
+			} else {
+				$intro_msg_class = 'alert alert-success';
+				$intro_msg = 'You are registered for this course.';
+			}
+		} elseif ($is_full) {
+			$intro_msg_class = 'alert alert-danger';
+			$intro_msg = '<strong>This course is full</strong>, but you can still add yourself to the waiting list by completing the following steps. If you do, we\'ll contact you in the event that space becomes available.';
+		} else {
+			$intro_msg_class = 'alert alert-info';
+			$intro_msg = 'Before you can register for this course, you must complete the following steps:';
+		}
+
 		$this->set(compact(
 			'actions_pending',
 			'can_elevate',
 			'course',
+			'intro_msg',
+			'intro_msg_class',
 			'is_free',
 			'is_full',
 			'is_on_waiting_list',
