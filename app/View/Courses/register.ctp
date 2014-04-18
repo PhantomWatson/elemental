@@ -87,7 +87,7 @@
 				</td>
 			</tr>
 
-			<?php if (! $is_free): ?>
+			<?php if (! $is_free && ! $is_full): ?>
 				<tr>
 					<td>
 						<?php if ($paid): ?>
@@ -166,7 +166,7 @@
 							);
 						?>
 					<?php else: ?>
-						<?php if ($release_submitted && ($is_free || $paid)): ?>
+						<?php if ($release_submitted && ($is_free || $paid || $is_full)): ?>
 							<?php
 								$label = $is_full ? 'Join Waiting List' : 'Register';
 								echo $this->Html->link(
