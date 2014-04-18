@@ -113,9 +113,11 @@ class CoursesController extends AppController {
 
 		$this->loadModel('User');
 		$is_registered = $this->User->registeredForCourse($user_id, $course_id);
+		$is_on_waiting_list = $this->CourseRegistration->isOnWaitingList($user_id, $course_id);
 
 		$this->set(compact(
 			'course',
+			'is_on_waiting_list',
 			'is_registered',
 			'registration_id',
 			'title_for_layout'

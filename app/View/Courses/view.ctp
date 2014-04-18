@@ -35,15 +35,29 @@
 				This course is full.
 			<?php endif; ?>
 		</h1>
-		<?php if ($is_registered): ?>
+
+		<?php if ($is_registered || $is_on_waiting_list): ?>
+
+			<?php
+				$alert_class = $is_registered ? 'success' : 'warning';
+				$alert = $is_registered
+					? 'You are registered for this course.'
+					: 'You are on this course\'s waiting list.';
+				$button_label = $is_registered
+					? 'Cancel Registration'
+					: 'Remove Self From Waiting List';
+				$confirmation = $is_registered
+					? 'Are you sure you want to cancel your registration to this course?'
+					: 'Are you sure you want to remove yourself from this course\'s waiting list?';
+			?>
 			<p>
-				 <span class="label label-success">
-				 	You are registered for this course.
-				 </span>
+				<span class="label label-<?php echo $alert_class; ?>">
+					<?php echo $alert; ?>
+				</span>
 			</p>
 			<p>
 				 <?php echo $this->Form->postLink(
-					'Cancel Registration',
+					$button_label,
 					array(
 						'controller' => 'course_registrations',
 						'action' => 'delete',
@@ -52,12 +66,14 @@
 					array(
 						'class' => 'btn btn-danger'
 					),
-					'Are you sure you want to cancel your registration to this course?'
+					$confirmation
 				); ?>
 			</p>
+
 		<?php elseif ($can_register): ?>
+
 			<?php
-				$action_button_label = $spots_left ? 'Register' : 'Register for the Waiting List';
+				$action_button_label = $spots_left ? 'Register' : 'Join the Waiting List';
 				$action_button_class = $spots_left ? 'register btn btn-primary' : 'waiting_list btn btn-warning';
 			?>
 			<p>
@@ -77,8 +93,10 @@
 					by <?php echo date('F j, Y', strtotime($course['Course']['deadline'])); ?>
 				</span>
 			</p>
+
 		<?php endif; ?>
 	</div>
+
 	<table>
 		<tbody>
 			<?php if ($has_dates): ?>
