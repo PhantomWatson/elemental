@@ -266,7 +266,7 @@ class CoursesController extends AppController {
 		$release_submitted = $this->Release->isSubmitted($user_id, $course_id);
 		$is_free = $course['Course']['cost'] == 0;
 		$paid = $this->CoursePayment->isPaid($user_id, $course_id);
-		$actions_pending = ! $release_submitted || ! ($is_free || $paid);
+		$actions_pending = ! ($release_submitted && ($is_free || $paid || $is_full));
 
 		// Determine what the intro message should say
 		if ($registration_completed) {

@@ -122,7 +122,7 @@
 
 			<tr>
 				<td>
-					<?php if ($actions_pending): ?>
+					<?php if (! $registration_completed || $can_elevate): ?>
 						<span class="glyphicon glyphicon-remove"></span>
 					<?php else: ?>
 						<span class="glyphicon glyphicon-ok"></span>
