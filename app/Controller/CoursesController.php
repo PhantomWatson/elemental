@@ -285,7 +285,7 @@ class CoursesController extends AppController {
 			}
 		}
 
-		// Prevent double-registration
+		// Prevent double-registration, detect elevation condition
 		$elevate_registration = false;
 		$redirect = false;
 		$this->loadModel('CourseRegistration');
