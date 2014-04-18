@@ -59,14 +59,20 @@ class CourseRegistrationsController extends AppController {
 			throw new MethodNotAllowedException();
 		}
 
-		if (!$this->CourseRegistration->exists($id)) {
+		if (! $this->CourseRegistration->exists($id)) {
 			throw new NotFoundException('Course registration not found. This student may have already been un-registered.');
 		}
 
 		$this->CourseRegistration->id = $id;
 		$course_id = $this->CourseRegistration->field('course_id');
 		$instructor_id = $this->CourseRegistration->getInstructorId($id);
-		$user_is_instructor = $this->Auth->user('id') == $instructor_id;
+		$user_id = $this->Auth->user('id');
+		$user_is_instructor = $user_id == $instructor_id;
+		$registration_user_id = $this->CourseRegistration->field('user_id');
+		if ($user_id != $registration_user_id && ! $user_is_instructor) {
+			throw new ForbiddenException('You are not authorized to cancel that student\'s class registration');
+		}
+		$is_on_waiting_list = $this->CourseRegistration->isOnWaitingList($user_id, $course_id);
 
 		if ($this->CourseRegistration->delete()) {
 			if ($user_is_instructor) {
