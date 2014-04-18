@@ -294,6 +294,7 @@ class CoursesController extends AppController {
 			'actions_pending',
 			'can_elevate',
 			'course',
+			'in_class',
 			'intro_msg',
 			'intro_msg_class',
 			'is_free',
