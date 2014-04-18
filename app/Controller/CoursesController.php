@@ -267,6 +267,7 @@ class CoursesController extends AppController {
 		$this->Course->id = $course_id;
 		$course = $this->Course->read();
 		$user_id = $this->Auth->user('id');
+		$joining_waiting_list = $this->Course->isFull($course_id);
 
 		// Confirm receipt of release form
 		$this->loadModel('Release');
@@ -275,8 +276,8 @@ class CoursesController extends AppController {
 			$this->redirect($this->referer());
 		}
 
-		// Confirm payment
-		if (floatval($course['Course']['cost']) > 0) {
+		// Confirm payment (unless if joining the waiting list)
+		if (! $joining_waiting_list && floatval($course['Course']['cost']) > 0) {
 			$this->loadModel('CoursePayment');
 			if (! $this->CoursePayment->isPaid($user_id, $course_id)) {
 				$this->Flash->error('Before you complete your registration, you must first pay a registration fee of $'.$course['Course']['cost']);
@@ -301,14 +302,13 @@ class CoursesController extends AppController {
 			));
 		}
 
-		$course_full = $this->Course->isFull($course_id);
 		$this->CourseRegistration->create(array(
 			'course_id' => $course_id,
 			'user_id' => $user_id,
-			'waiting_list' => $course_full
+			'waiting_list' => $joining_waiting_list
 		));
 		if ($this->CourseRegistration->save()) {
-			if ($course_full) {
+			if ($joining_waiting_list) {
 				$message = 'You are now on this course\'s waiting list. You will be contacted by an instructor if space becomes available.';
 			} else {
 				$message = 'You are now registered for this course.';
