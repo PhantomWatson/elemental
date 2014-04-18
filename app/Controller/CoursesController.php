@@ -258,16 +258,30 @@ class CoursesController extends AppController {
 		$this->loadModel('CourseRegistration');
 		$this->loadModel('CoursePayment');
 		$registration_id = $this->CourseRegistration->getRegistrationId($user_id, $course_id);
+		$registration_completed = ($registration_id != null);
+		$is_on_waiting_list = $this->CourseRegistration->isOnWaitingList($user_id, $course_id);
+		$in_class = $registration_completed && ! $is_on_waiting_list;
+		$is_full = $this->Course->isFull($course_id);
+		$can_elevate = $is_on_waiting_list && ! $is_full;
+		$release_submitted = $this->Release->isSubmitted($user_id, $course_id);
+		$is_free = $course['Course']['cost'] == 0;
+		$paid = $this->CoursePayment->isPaid($user_id, $course_id);
+		$actions_pending = ! $release_submitted || ! ($is_free || $paid);
+
+		$this->set(compact(
+			'actions_pending',
+			'can_elevate',
+			'course',
+			'is_free',
+			'is_full',
+			'is_on_waiting_list',
+			'paid',
+			'registration_completed',
+			'registration_id',
+			'release_submitted'
+		));
 		$this->set(array(
-			'course' => $course,
-			'is_free' => $course['Course']['cost'] == 0,
-			'is_full' => $this->Course->isFull($course_id),
-			'is_on_waiting_list' => $this->CourseRegistration->isOnWaitingList($user_id, $course_id),
 			'jwt' => $this->Course->getJWT($course_id, $user_id),
-			'paid' => $this->CoursePayment->isPaid($user_id, $course_id),
-			'registration_completed' => ($registration_id != null),
-			'registration_id' => $registration_id,
-			'release_submitted' => $this->Release->isSubmitted($user_id, $course_id),
 			'title_for_layout' => 'Register for a Course'
 		));
 	}

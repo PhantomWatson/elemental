@@ -141,13 +141,12 @@
 
 			<tr>
 				<td>
-					<?php if ($registration_completed): ?>
-						<span class="glyphicon glyphicon-ok"></span>
-					<?php else: ?>
+					<?php if ($actions_pending): ?>
 						<span class="glyphicon glyphicon-remove"></span>
+					<?php else: ?>
+						<span class="glyphicon glyphicon-ok"></span>
 					<?php endif; ?>
 					<?php
-						$in_class = $registration_completed && ! $is_on_waiting_list;
 						if ($is_full && ! $in_class) {
 							echo 'Join waiting list';
 						} else {
@@ -156,7 +155,9 @@
 					?>
 				</td>
 				<td>
-					<?php if ($registration_completed): ?>
+					<?php
+						if ($registration_completed && ! $can_elevate):
+					?>
 						<?php
 							$label = $is_on_waiting_list ? 'Remove Self From Waiting List' : 'Cancel Registration';
 							$confirmation = $is_on_waiting_list
@@ -176,7 +177,11 @@
 							);
 						?>
 					<?php else: ?>
-						<?php if ($release_submitted && ($is_free || $paid || $is_full)): ?>
+						<?php if ($actions_pending): ?>
+							<button type="button" class="btn btn-default disabled">
+								Actions pending
+							</button>
+						<?php else: ?>
 							<?php
 								$label = $is_full ? 'Join Waiting List' : 'Register';
 								echo $this->Html->link(
@@ -189,10 +194,6 @@
 									array('class' => 'btn btn-success')
 								);
 							?>
-						<?php else: ?>
-							<button type="button" class="btn btn-default disabled">
-								Actions pending
-							</button>
 						<?php endif; ?>
 					<?php endif; ?>
 				</td>
