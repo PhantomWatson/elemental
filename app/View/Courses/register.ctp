@@ -146,7 +146,11 @@
 					<?php else: ?>
 						<span class="glyphicon glyphicon-remove"></span>
 					<?php endif; ?>
-					Complete registration
+					<?php if ($is_on_waiting_list || (! $registration_completed && $is_full)): ?>
+						Join waiting list
+					<?php else: ?>
+						Complete registration
+					<?php endif; ?>
 				</td>
 				<td>
 					<?php if ($registration_completed): ?>
