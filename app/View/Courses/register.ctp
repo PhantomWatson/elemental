@@ -156,6 +156,9 @@
 					<?php if ($registration_completed): ?>
 						<?php
 							$label = $is_on_waiting_list ? 'Remove Self From Waiting List' : 'Cancel Registration';
+							$confirmation = $is_on_waiting_list
+								? 'Are you sure you want to remove yourself from this course\'s waiting list?'
+								: 'Are you sure you want to cancel your registration to this course?';
 							echo $this->Form->postLink(
 								$label,
 								array(
@@ -166,7 +169,7 @@
 								array(
 									'class' => 'btn btn-danger'
 								),
-								'Are you sure you want to cancel your registration to this course?'
+								$confirmation
 							);
 						?>
 					<?php else: ?>
