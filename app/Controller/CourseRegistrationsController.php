@@ -82,7 +82,11 @@ class CourseRegistrationsController extends AppController {
 					$this->Flash->success('Student elevated from the waiting list to the class list.');
 				}
 			} else {
-				$this->Flash->success('Your registration has been canceled.');
+				if ($is_on_waiting_list) {
+					$this->Flash->success('You have been removed from the waiting list.');
+				} else {
+					$this->Flash->success('Your registration has been canceled.');
+				}
 			}
 			$this->redirect($this->request->referer());
 		}
