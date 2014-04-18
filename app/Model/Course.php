@@ -265,25 +265,82 @@ class Course extends AppModel {
 			),
 			'contain' => false
 		));
+		$free_class = $this->field('cost') == 0;
 		foreach ($waiting_list as $wl_member) {
 			if ($spaces_open < 1) {
 				break;
 			}
 
-			// Elevate student
-			$reg_id = $wl_member['CourseRegistration']['id'];
-			$this->CourseRegistration->id = $reg_id;
-			$this->CourseRegistration->saveField('waiting_list', 0);
-
-			// Send email
 			$student_id = $wl_member['CourseRegistration']['user_id'];
 			$course_id = $wl_member['CourseRegistration']['course_id'];
-			$this->sendWaitingListElevationEmail($course_id, $student_id);
 
-			$spaces_open--;
+			// Automatically elevate students
+			if ($free_class) {
+
+				$reg_id = $wl_member['CourseRegistration']['id'];
+				$this->CourseRegistration->id = $reg_id;
+				$this->CourseRegistration->saveField('waiting_list', 0);
+				$this->sendWaitingListElevationEmail($course_id, $student_id);
+				$spaces_open--;
+
+			// Send out emails announcing open space (that students must pay to fill)
+			} else {
+
+				$this->sendWaitingListOpeningEmail($course_id, $student_id);
+			}
 		}
 
 		return ! empty($waiting_list);
+	}
+
+	public function sendWaitingListOpeningEmail($course_id, $student_id) {
+		// Get course
+		$this->id = $course_id;
+		$course = $this->read();
+
+		// Get student
+		$this->User->id = $student_id;
+		$student = $this->User->read();
+
+		// Get registration info
+		$registration = $this->CourseRegistration->find('first', array(
+			'conditions' => array(
+				'CourseRegistration.course_id' => $course_id,
+				'CourseRegistration.user_id' => $student_id
+			),
+			'contain' => false
+		));
+
+		if (empty($course) || empty($student) || empty($registration)) {
+			return false;
+		}
+
+		// Get URLs
+		$course_view_url = Router::url(array(
+			'controller' => 'courses',
+			'action' => 'view',
+			'id' => $course['Course']['id']
+		), true);
+		$reg_url = Router::url(array(
+			'controller' => 'courses',
+			'action' => 'register',
+			'id' => $course['Course']['id']
+		), true);
+
+		// Send email
+		App::uses('CakeEmail', 'Network/Email');
+		$Email = new CakeEmail('default');
+		$Email->to($student['User']['email']);
+		$Email->replyTo($instructor['User']['email']);
+		$Email->returnPath($instructor['User']['email']);
+		$Email->subject('Space is available in an upcoming Elemental course');
+		$Email->template('wl_opening', 'default');
+		$Email->viewVars(compact(
+			'student',
+			'course_view_url',
+			'reg_url'
+		));
+		return $Email->send();
 	}
 
 	public function sendWaitingListElevationEmail($course_id, $student_id) {
