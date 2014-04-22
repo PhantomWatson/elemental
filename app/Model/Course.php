@@ -78,19 +78,6 @@ class Course extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'CourseRegistration' => array(
-			'className' => 'CourseRegistration',
-			'foreignKey' => 'course_id',
-			'dependent' => true,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
 		'CourseDate' => array(
 			'className' => 'CourseDate',
 			'foreignKey' => 'course_id',
@@ -98,6 +85,32 @@ class Course extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => array('CourseDate.date ASC', 'CourseDate.start_time ASC'),
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'CoursePayment' => array(
+			'className' => 'CoursePayment',
+			'foreignKey' => 'course_id',
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => array('CoursePayment.created ASC'),
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'CourseRegistration' => array(
+			'className' => 'CourseRegistration',
+			'foreignKey' => 'course_id',
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
 			'limit' => '',
 			'offset' => '',
 			'exclusive' => '',
