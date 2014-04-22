@@ -290,7 +290,12 @@ class Course extends AppModel {
 			}
 		}
 
-		return ! empty($waiting_list);
+		// Return true iff a student was automatically elevated
+		if ($free_class) {
+			return ! empty($waiting_list);
+		}
+
+		return false;
 	}
 
 	public function sendWaitingListOpeningEmail($course_id, $student_id) {
