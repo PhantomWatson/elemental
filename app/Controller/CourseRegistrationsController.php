@@ -72,10 +72,8 @@ class CourseRegistrationsController extends AppController {
 		if ($user_id != $registration_user_id && ! $user_is_instructor) {
 			throw new ForbiddenException('You are not authorized to cancel that student\'s class registration');
 		}
-		$is_on_waiting_list = $this->CourseRegistration->isOnWaitingList($user_id, $course_id);
+
 		$this->loadModel('Course');
-
-
 		if ($this->CourseRegistration->delete()) {
 			if ($user_is_instructor) {
 				$this->Flash->success('Student un-registered from course.');
@@ -83,6 +81,7 @@ class CourseRegistrationsController extends AppController {
 					$this->Flash->success('Student elevated from the waiting list to the class list.');
 				}
 			} else {
+				$is_on_waiting_list = $this->CourseRegistration->isOnWaitingList($user_id, $course_id);
 				if ($is_on_waiting_list) {
 					$this->Flash->success('You have been removed from the waiting list.');
 				} else {
