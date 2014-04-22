@@ -36,7 +36,7 @@
 			<?php endif; ?>
 		</h1>
 
-		<?php if ($is_registered || $is_on_waiting_list): ?>
+		<?php if (! $class_has_ended && ($is_registered || $is_on_waiting_list)): ?>
 
 			<?php
 				$alert_class = $is_registered ? 'success' : 'warning';
