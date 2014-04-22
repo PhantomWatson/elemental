@@ -73,11 +73,12 @@ class CourseRegistrationsController extends AppController {
 			throw new ForbiddenException('You are not authorized to cancel that student\'s class registration');
 		}
 		$is_on_waiting_list = $this->CourseRegistration->isOnWaitingList($user_id, $course_id);
+		$this->loadModel('Course');
+
 
 		if ($this->CourseRegistration->delete()) {
 			if ($user_is_instructor) {
 				$this->Flash->success('Student un-registered from course.');
-				$this->loadModel('Course');
 				if ($this->Course->elevateWaitingListMembers($course_id)) {
 					$this->Flash->success('Student elevated from the waiting list to the class list.');
 				}
@@ -88,8 +89,25 @@ class CourseRegistrationsController extends AppController {
 					$this->Flash->success('Your registration has been canceled.');
 				}
 			}
+
+			// Handle refunds
+			$this->Course->id = $course_id;
+			$course_is_free = $this->Course->field('cost') == 0;
+			if (! $course_is_free) {
+				if ($this->Course->sendRefundEmail($course_id, $registration_user_id)) {
+					if ($user_is_instructor) {
+						$this->Flash->set('An email has been sent to an Elemental administrator, who will execute a refund for this student\'s registration fee in the next 5 business days.');
+					} else {
+						$this->Flash->set('Your registration fee will be refunded within the next 5 business days. Please contact '.Configure::read('admin_email').' if you have any questions.');
+					}
+				} else {
+					$this->Flash->error('There was an error contacting an Elemental administrator to request a registration fee refund. Please email '.Configure::read('admin_email').' for assistance.');
+				}
+			}
+
 			$this->redirect($this->request->referer());
 		}
+
 		if ($user_is_instructor) {
 			$this->Flash->error('There was an error un-registering this student from the course.');
 		} else {
