@@ -110,10 +110,10 @@ class CourseRegistrationsController extends AppController {
 					if ($user_is_instructor) {
 						$this->Flash->set('An email has been sent to an Elemental administrator, who will execute a refund for this student\'s registration fee in the next 5 business days.');
 					} else {
-						$this->Flash->set('Your registration fee will be refunded within the next 5 business days. Please contact '.Configure::read('admin_email').' if you have any questions.');
+						$this->Flash->set('Your registration fee will be refunded within the next 5 business days. Please contact '.Configure::read('refund_email').' if you have any questions.');
 					}
 				} else {
-					$this->Flash->error('There was an error contacting an Elemental administrator to request a registration fee refund. Please email '.Configure::read('admin_email').' for assistance.');
+					$this->Flash->error('There was an error contacting an Elemental administrator to request a registration fee refund. Please email '.Configure::read('refund_email').' for assistance.');
 				}
 			}
 
