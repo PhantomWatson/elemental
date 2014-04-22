@@ -72,24 +72,37 @@ class CourseRegistrationsController extends AppController {
 		if ($user_id != $registration_user_id && ! $user_is_instructor) {
 			throw new ForbiddenException('You are not authorized to cancel that student\'s class registration');
 		}
+		$is_on_waiting_list = $this->CourseRegistration->isOnWaitingList($user_id, $course_id);
 
+		// Successful cancellation
 		$this->loadModel('Course');
 		if ($this->CourseRegistration->delete()) {
-			if ($user_is_instructor) {
-				$this->Flash->success('Student un-registered from course.');
-				if ($this->Course->elevateWaitingListMembers($course_id)) {
-					$this->Flash->success('Student elevated from the waiting list to the class list.');
-				}
-			} else {
-				$is_on_waiting_list = $this->CourseRegistration->isOnWaitingList($user_id, $course_id);
-				if ($is_on_waiting_list) {
+
+			// Confirmation, removal from waiting list
+			if ($is_on_waiting_list) {
+				if ($user_is_instructor) {
 					$this->Flash->success('You have been removed from the waiting list.');
+				} else {
+					$this->Flash->success('Student removed from waiting list.');
+				}
+
+			// Confirmation, removal from class list
+			} else {
+				if ($user_is_instructor) {
+					$this->Flash->success('Student un-registered from course.');
 				} else {
 					$this->Flash->success('Your registration has been canceled.');
 				}
 			}
 
-			// Handle refunds
+			// Waiting list elevation
+			if ($this->Course->elevateWaitingListMembers($course_id)) {
+				if ($user_is_instructor) {
+					$this->Flash->success('Student elevated from the waiting list to the class list.');
+				}
+			}
+
+			// Refunds
 			$this->Course->id = $course_id;
 			$course_is_free = $this->Course->field('cost') == 0;
 			if (! $course_is_free) {
@@ -104,14 +117,23 @@ class CourseRegistrationsController extends AppController {
 				}
 			}
 
-			$this->redirect($this->request->referer());
+		// Unsuccessful cancellation
+		} else {
+			if ($is_on_waiting_list) {
+				if ($user_is_instructor) {
+					$this->Flash->error('There was an error un-registering this student from the course.');
+				} else {
+					$this->Flash->error('There was an error canceling your registration.');
+				}
+			} else {
+				if ($user_is_instructor) {
+					$this->Flash->error('There was an error removing this student from the waiting list.');
+				} else {
+					$this->Flash->error('There was an error removing you from the waiting list.');
+				}
+			}
 		}
 
-		if ($user_is_instructor) {
-			$this->Flash->error('There was an error un-registering this student from the course.');
-		} else {
-			$this->Flash->error('There was an error canceling your registration.');
-		}
 		$this->redirect($this->request->referer());
 	}
 
