@@ -142,25 +142,34 @@ class CourseRegistrationsController extends AppController {
 	}
 
 	public function unregister_via_link($id = null, $hash = null) {
-		if (! $this->CourseRegistration->exists($id)) {
-			throw new NotFoundException('Course registration not found. It looks like you already canceled your registration.');
-		}
+		if ($this->CourseRegistration->exists($id)) {
+			$expected_hash = $this->CourseRegistration->getUnregisterHash($id);
+			if ($hash != $expected_hash) {
+				throw new ForbiddenException('Error unregistering. Security code incorrect.');
+			}
 
-		$expected_hash = $this->CourseRegistration->getUnregisterHash($id);
-		if ($hash != $expected_hash) {
-			throw new ForbiddenException('Error unregistering. Security code incorrect.');
+			$this->CourseRegistration->id = $id;
+			$course_id = $this->CourseRegistration->field('course_id');
+			$user_id = $this->CourseRegistration->field('user_id');
+			if ($this->CourseRegistration->delete()) {
+				$this->__sendRefundEmail($course_id, $user_id);
+				$this->loadModel('Course');
+				$this->Course->elevateWaitingListMembers($course_id);
+				$message = 'You have been successfully unregistered.';
+				$msg_class = 'success';
+			} else {
+				$message = 'There was an error canceling your registration.';
+				$msg_class = 'danger';
+			}
+		} else {
+			$message = 'Course registration not found. It looks like you already canceled your registration.';
+			$msg_class = 'info';
 		}
-
-		$this->CourseRegistration->id = $id;
-		$this->CourseRegistration->delete();
-		$course_id = $this->CourseRegistration->field('course_id');
-		$user_id = $this->CourseRegistration->field('user_id');
-		$this->__sendRefundEmail($course_id, $user_id);
-		$this->loadModel('Course');
-		$this->Course->elevateWaitingListMembers($course_id);
 
 		$this->set(array(
-			'title_for_layout' => 'Cancel Class Registration'
+			'title_for_layout' => 'Cancel Course Registration',
+			'message' => $message,
+			'msg_class' => $msg_class
 		));
 	}
 }
