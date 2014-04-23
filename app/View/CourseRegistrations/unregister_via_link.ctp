@@ -5,5 +5,5 @@
 </div>
 
 <p class="alert alert-success">
-	You are no longer registered for the selected Elemental course.
+	You have successfully unregistered.
 </p>
