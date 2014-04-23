@@ -104,17 +104,20 @@
 								</p>
 							<?php else: ?>
 								<?php if (! $course['deadline_passed']): ?>
-									<?php echo $this->Html->link(
-										'Register',
-										array(
-											'controller' => 'courses',
-											'action' => 'view',
-											'id' => $course['Course']['id']
-										),
-										array(
-											'class' => $course['spots_left'] ? 'btn btn-primary' : 'btn btn-warning'
-										)
-									); ?>
+									<?php
+										$label = $course['spots_left'] ? 'Register' : 'Join the Waiting List';
+										echo $this->Html->link(
+											$label,
+											array(
+												'controller' => 'courses',
+												'action' => 'view',
+												'id' => $course['Course']['id']
+											),
+											array(
+												'class' => $course['spots_left'] ? 'btn btn-primary' : 'btn btn-warning'
+											)
+										);
+									?>
 								<?php endif; ?>
 								<span class="deadline">
 									<?php if ($course['deadline_passed']): ?>
@@ -123,10 +126,6 @@
 										<?php echo $course['deadline']; ?>
 									<?php else: ?>
 										by <?php echo $course['deadline']; ?>
-										<?php if (! $course['spots_left']): ?>
-											<br />
-											to be added to the waiting list
-										<?php endif; ?>
 									<?php endif; ?>
 								</span>
 							<?php endif; ?>
