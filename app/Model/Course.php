@@ -585,7 +585,7 @@ class Course extends AppModel {
 	}
 
 	public function sendRefundEmail($course_id, $user_id) {
-		$payment = $this->CoursePayment->find('all', array(
+		$payment = $this->CoursePayment->find('first', array(
 			'conditions' => array(
 				'CoursePayment.course_id' => $course_id,
 				'CoursePayment.user_id' => $user_id
@@ -621,7 +621,7 @@ class Course extends AppModel {
 			'Student Name' => $user['User']['name'],
 			'Student Email' => $user['User']['email'],
 			'Student Phone' => $user['User']['phone'],
-			'Paid' => $payment_date,
+			'Paid' => $payment_time,
 			'Cost' => '$'.$course['Course']['cost'],
 			'Course' => $course_url
 		);
