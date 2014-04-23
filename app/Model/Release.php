@@ -9,13 +9,6 @@ App::uses('AppModel', 'Model');
 class Release extends AppModel {
 
 /**
- * Use database config
- *
- * @var string
- */
-	public $useDbConfig = 'development';
-
-/**
  * Display field
  *
  * @var string
