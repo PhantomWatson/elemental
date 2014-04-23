@@ -4,6 +4,6 @@
 	</h1>
 </div>
 
-<p class="alert alert-success">
-	You have successfully unregistered.
+<p class="alert alert-<?php echo $msg_class; ?>">
+	<?php echo $message; ?>
 </p>
