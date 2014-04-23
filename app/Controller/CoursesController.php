@@ -62,6 +62,9 @@ class CoursesController extends AppController {
 			'limit' => 10
 		);
 		$courses = $this->paginate();
+		$this->loadModel('User');
+		$this->loadModel('CourseRegistration');
+		$user_id = $this->Auth->user('id');
 		foreach ($courses as &$course) {
 			$spots = $course['Course']['max_participants'];
 			$registered = 0;
@@ -82,7 +85,9 @@ class CoursesController extends AppController {
 				$course['progress_bar_class'] = 'progress-bar-success';
 			}
 			$course_id = $course['Course']['id'];
-			$course['reg_id'] = isset($courses_registered_for[$course_id]) ? $courses_registered_for[$course_id] : false;
+			$course['on_class_list'] = $this->User->registeredForCourse($user_id, $course_id);
+			$course['on_waiting_list'] = $this->CourseRegistration->isOnWaitingList($user_id, $course_id);
+			$course['registration_id'] = $this->CourseRegistration->getRegistrationId($user_id, $course_id);
 		}
 
 		$this->set(array(
