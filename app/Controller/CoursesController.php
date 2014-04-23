@@ -288,7 +288,7 @@ class CoursesController extends AppController {
 				$intro_msg = 'You are registered for this course.';
 			}
 		} elseif ($is_full) {
-			$intro_msg_class = 'alert alert-danger';
+			$intro_msg_class = 'alert alert-warning';
 			$intro_msg = '<strong>This course is full</strong>, but you can still add yourself to the waiting list by completing the following steps. If you do, we\'ll contact you in the event that space becomes available.';
 		} else {
 			$intro_msg_class = 'alert alert-info';
