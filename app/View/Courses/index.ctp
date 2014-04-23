@@ -62,9 +62,9 @@
 							<?php endif; ?>
 						</td>
 						<td class="actions">
-							<?php if ($course['reg_id']): ?>
+							<?php if ($course['on_class_list']): ?>
 								<p>
-									<span class="">
+									<span>
 										You are registered
 									</span>
 								</p>
@@ -74,14 +74,33 @@
 										array(
 											'controller' => 'course_registrations',
 											'action' => 'delete',
-											'id' => $course['reg_id']
+											'id' => $course['registration_id']
 										),
 										array(
 											'class' => 'btn btn-danger'
 										),
 										'Are you sure you want to cancel your registration to this course?'
-									);
-									?>
+									); ?>
+								</p>
+							<?php elseif ($course['on_waiting_list']): ?>
+								<p>
+									<span>
+										On waiting list
+									</span>
+								</p>
+								<p>
+									<?php echo $this->Form->postLink(
+										'Remove Self from Waiting List',
+										array(
+											'controller' => 'course_registrations',
+											'action' => 'delete',
+											'id' => $course['registration_id']
+										),
+										array(
+											'class' => 'btn btn-danger'
+										),
+										'Are you sure you want to remove yourself from this course\'s waiting list?'
+									); ?>
 								</p>
 							<?php else: ?>
 								<?php if (! $course['deadline_passed']): ?>
