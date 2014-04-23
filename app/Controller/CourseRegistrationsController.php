@@ -152,8 +152,10 @@ class CourseRegistrationsController extends AppController {
 		}
 
 		$this->CourseRegistration->id = $id;
-		$course_id = $this->CourseRegistration->field('course_id');
 		$this->CourseRegistration->delete();
+		$course_id = $this->CourseRegistration->field('course_id');
+		$user_id = $this->CourseRegistration->field('user_id');
+		$this->__sendRefundEmail($course_id, $user_id);
 		$this->loadModel('Course');
 		$this->Course->elevateWaitingListMembers($course_id);
 
