@@ -35,10 +35,21 @@
 	echo h($course['Course']['city']); ?>, <?php echo $course['Course']['state'];
 	echo "\n\n";
 
-	echo 'If you will not be able to attend this course, please let us know as soon as possible by canceling your registration. ';
-	echo "If you are logged in to the Elemental website, you can do this by clicking the 'Cancel Registration' button for this course's listing. ";
-	echo "You can also visit this secure link to be automatically unregistered: $unreg_url. ";
-	echo 'If you cancel your registration, you will still be able to re-register up until '.date('F j, Y', strtotime($course['Course']['deadline'])).'.';
+	if ($registration['CourseRegistration']['waiting_list']) {
+		$cancelling = 'removing yourself from the waiting list';
+		$button_label = 'Remove Self from Waiting List';
+		$unregistered = 'removed';
+	} else {
+		$cancelling = 'canceling your registration';
+		$button_label = 'Cancel Registration';
+		$unregistered = 'unregistered';
+	}
+	echo 'If you will not be able to attend this course, please let us know as soon as possible by '.$cancelling.'. ';
+	echo "If you are logged in to the Elemental website, you can do this by clicking the '$button_label' button for this course's listing. ";
+	echo "You can also visit this secure link to be automatically $unregistered: $unreg_url. ";
+	if (! $registration['CourseRegistration']['waiting_list']) {
+		echo 'If you cancel your registration, you will still be able to re-register up until '.date('F j, Y', strtotime($course['Course']['deadline'])).'.';
+	}
 	echo "\n\n";
 
 	$instructor_name = $instructor['User']['name'];

@@ -41,10 +41,23 @@
 </p>
 
 <p>
-	If you will not be able to attend this course, please let us know as soon as possible by canceling your registration.
-	If you are logged in to the Elemental website, you can do this by clicking the 'Cancel Registration' button for <a href="<?php echo $course_view_url; ?>">this course's listing</a>.
-	You can also visit this secure link to be automatically unregistered: <?php echo $this->Html->link($unreg_url, $unreg_url); ?>.
-	If you cancel your registration, you will still be able to re-register up until <?php echo date('F j, Y', strtotime($course['Course']['deadline'])); ?>.
+	<?php
+		if ($registration['CourseRegistration']['waiting_list']) {
+			$cancelling = 'removing yourself from the waiting list';
+			$button_label = 'Remove Self from Waiting List';
+			$unregistered = 'removed';
+		} else {
+			$cancelling = 'canceling your registration';
+			$button_label = 'Cancel Registration';
+			$unregistered = 'unregistered';
+		}
+	?>
+	If you will not be able to attend this course, please let us know as soon as possible by <?php echo $cancelling; ?>.
+	If you are logged in to the Elemental website, you can do this by clicking the '<?php echo $button_label; ?>' button for <a href="<?php echo $course_view_url; ?>">this course's listing</a>.
+	You can also visit this secure link to be automatically <?php echo $unregistered; ?>: <?php echo $this->Html->link($unreg_url, $unreg_url); ?>.
+	<?php if (! $registration['CourseRegistration']['waiting_list']): ?>
+		If you cancel your registration, you will still be able to re-register up until <?php echo date('F j, Y', strtotime($course['Course']['deadline'])); ?>.
+	<?php endif; ?>
 </p>
 
 <?php if ($course['Course']['message']): ?>
