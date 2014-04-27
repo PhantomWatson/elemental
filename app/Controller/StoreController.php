@@ -123,6 +123,7 @@ class StoreController extends AppController {
 		}
 
 		// Record purchase
+		$this->loadModel('CoursePayment');
 		if ($seller_data['type'] == 'course') {
 			$this->CoursePayment->create(array(
 				'course_id' => $seller_data['course_id'],
