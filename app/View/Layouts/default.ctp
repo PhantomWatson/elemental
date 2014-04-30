@@ -40,7 +40,7 @@
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-	
+
 	  ga('create', 'UA-43654529-1', 'elementalprotection.org');
 	  ga('send', 'pageview');
 	</script>
@@ -89,7 +89,7 @@
 	<!-- /container -->
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+	<script>window.jQuery || document.write('<script src="/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 	<script src="/js/vendor/bootstrap.min.js"></script>
 	<script src="/js/main.js"></script>
 	<?php echo $this->fetch('script'); ?>
