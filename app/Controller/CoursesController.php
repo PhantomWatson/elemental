@@ -194,7 +194,8 @@ class CoursesController extends AppController {
 			$this->request->data = $this->Course->read(null, $id);
 		}
 		$this->set(array(
-			'title_for_layout' => 'Edit Course'
+			'title_for_layout' => 'Edit Course',
+			'payments_received' => $this->Course->paymentsReceived($id)
 		));
 		$this->set(compact(
 			'class_list_count', 'waiting_list_count'
