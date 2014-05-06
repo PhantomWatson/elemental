@@ -637,4 +637,12 @@ class Course extends AppModel {
 		$Email->viewVars(compact('details'));
 		return $Email->send();
 	}
+
+	public function paymentsReceived($course_id) {
+		return $this->CoursePayment->find('count', array(
+			'conditions' => array(
+				'CoursePayment.course_id' => $course_id
+			)
+		));
+	}
 }
