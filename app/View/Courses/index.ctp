@@ -110,7 +110,7 @@
 											$label,
 											array(
 												'controller' => 'courses',
-												'action' => 'view',
+												'action' => 'register',
 												'id' => $course['Course']['id']
 											),
 											array(
