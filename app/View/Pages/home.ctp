@@ -60,7 +60,7 @@
 			</div>
 			<div class="row">
 					<?php echo $this->Html->link(
-						'<span class="glyphicon glyphicon-info-sign"></span> Learn more',
+						'<span class="glyphicon glyphicon-info-sign"></span> Learn More',
 						array(
 							'controller' => 'pages',
 							'action' => 'about'
@@ -72,7 +72,7 @@
 					); ?>
 
 					<?php echo $this->Html->link(
-						'<span class="glyphicon glyphicon-shopping-cart"></span> Buy Review Materials',
+						'<span class="glyphicon glyphicon-play"></span> Student Review Materials',
 						array(
 							'controller' => 'products',
 							'action' => 'review_materials'
