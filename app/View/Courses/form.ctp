@@ -81,13 +81,16 @@
 <div class="alert alert-info" id="scheduling_help">
 	<ul>
 		<li>
-			After you add a course, students will be able to register for it through the Elemental website. You will also be able to add students to a course manually through the course management page.
+			After you add a course, students will be able to register for it through the Elemental website.
 		</li>
 		<li>
 			Once the class is full, students will be able to add themselves to a waiting list.
 		</li>
 		<li>
-			When students remove themselves from a course or are removed by an instructor, members of the waiting list will be automatically added up until the first day of the course.
+			For free classes: When students remove themselves from a course or are removed by an instructor, members of the waiting list will be automatically added up until the first day of the course.
+		</li>
+		<li>
+			For classes with a registration fee: Members of the waiting list will be emailed when space becomes available on a first-come, first-served basis.
 		</li>
 	</ul>
 </div>
