@@ -68,7 +68,7 @@
 				</td>
 			</tr>
 
-			<?php if (! $is_free && ! $is_full): ?>
+			<?php if ($paid || (! $is_free && ! $is_full)): ?>
 				<tr>
 					<td>
 						<?php if ($paid): ?>
