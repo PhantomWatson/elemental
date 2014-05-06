@@ -24,17 +24,6 @@
 			'class' => 'btn btn-primary'
 		)
 	); ?>
-	<?php echo $this->Html->link(
-		'<span class="glyphicon glyphicon-plus glyphicon-white"></span> Add Students',
-		array(
-			'action' => 'add_students',
-			'id' => $course['Course']['id']
-		),
-		array(
-			'escape' => false,
-			'class' => 'btn btn-success'
-		)
-	); ?>
 </p>
 
 <?php if (empty($class_list) && empty($waiting_list)): ?>

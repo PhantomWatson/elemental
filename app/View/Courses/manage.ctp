@@ -115,15 +115,6 @@
 								</li>
 								<li>
 									<?php echo $this->Html->link(
-										'Add Student',
-										array(
-											'action' => 'add_students',
-											'id' => $course['Course']['id']
-										)
-									); ?>
-								</li>
-								<li>
-									<?php echo $this->Html->link(
 										'Manage Students',
 										array(
 											'action' => 'students',

@@ -14,7 +14,6 @@ class CoursesController extends AppController {
 			'edit',
 			'delete',
 			'manage',
-			'add_students',
 			'students',
 			'report_attendance'
 		);
@@ -31,7 +30,6 @@ class CoursesController extends AppController {
 
 	public function isAuthorized($user) {
 		$instructor_owned_actions = array(
-			'add_students'.
 			'edit',
 			'delete',
 			'students',
@@ -424,97 +422,6 @@ class CoursesController extends AppController {
 			'title_for_layout' => 'Manage Courses',
 			'courses' => $this->paginate(),
 			'is_admin' => $this->Auth->user('role') == 'admin'
-		));
-	}
-
-	public function add_students($course_id) {
-		$this->Course->id = $course_id;
-		if (! $this->Course->exists($course_id)) {
-			throw new NotFoundException('Invalid course selected.');
-		}
-
-		$course = $this->Course->read();
-		$class_full = $course['Course']['max_participants'] <= count($course['CourseRegistration']);
-		$password = null;
-
-		if ($this->request->is('post') || $this->request->is('put')) {
-
-			// Clean data
-			App::uses('Sanitize', 'Utility');
-			$this->request->data['User']['name'] = trim($this->request->data['User']['name']);
-			$this->request->data['User']['phone'] = trim($this->request->data['User']['phone']);
-			$this->request->data['User']['email'] = trim(strtolower($this->request->data['User']['email']));
-			$this->request->data['User']['role'] = 'student';
-			$this->request->data['User'] = Sanitize::clean($this->request->data['User']);
-
-			$this->loadModel('User');
-			$this->User->create($this->request->data);
-			if ($this->User->validates()) {
-				$user_id = $this->User->findIdByEmail($this->request->data['User']['email']);
-
-				// If user account already exists
-				if ($user_id) {
-
-					// Add details if they're missing from the existing account
-					$this->User->id = $user_id;
-					foreach (array('name', 'phone') as $field) {
-						$instructor_provided = ! empty($this->request->data['User'][$field]);
-						$existing_field = $this->User->field($field);
-						$user_provided = ! empty($existing_field);
-						if ($instructor_provided && ! $user_provided) {
-							$this->User->saveField($field, $this->request->data['User'][$field]);
-							$this->Flash->success(ucwords($field).' added for student.');
-						}
-
-					}
-
-				// If user account must be created
-				} else {
-					$password = $this->User->randomPassword();
-					$this->request->data['User']['password'] = $this->Auth->password($password);
-					if ($this->User->save($this->request->data)) {
-						$user_id = $this->User->id;
-					} else {
-						$this->Flash->error('There was an error creating an account for this user.');
-					}
-				}
-
-				// If there are no errors
-				if ($user_id) {
-					// Already registered for course
-					if ($this->User->registeredForCourse($user_id, $course_id)) {
-						$this->Flash->notification($this->request->data['User']['name'].' was already registered for this course.');
-
-					// Register for course
-					} else {
-						$this->loadModel('CourseRegistration');
-						$this->CourseRegistration->create(array(
-							'user_id' => $user_id,
-							'course_id' => $course_id,
-							'waiting_list' => $class_full
-						));
-						if ($this->CourseRegistration->save()) {
-							$message = $this->request->data['User']['name'].' has been registered for this course.';
-							$this->request->data = array();
-							if ($this->__sendRegisteredEmail($course_id, $user_id, $password)) {
-								$message .= ' The student should be receiving an email shortly with information about this registration.';
-							} else {
-								$this->Flash->error('Error sending email to student.');
-							}
-							$this->Flash->success($message);
-						} else {
-							$this->Flash->error('There was an error registering this student for this course.');
-						}
-					}
-				}
-			}
-		}
-
-		$this->set(array(
-			'title_for_layout' => 'Add a Student to a Course',
-			'course_id' => $course_id,
-			'course' => $course,
-			'class_full' => $class_full
 		));
 	}
 

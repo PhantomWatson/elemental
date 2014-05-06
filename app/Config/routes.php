@@ -60,11 +60,6 @@
 		array('id' => '[0-9]+', 'pass' => array('id'))
 	);
 	Router::connect(
-		"/courses/add_students/:id",
-		array('controller' => 'courses', 'action' => 'add_students'),
-		array('id' => '[0-9]+', 'pass' => array('id'))
-	);
-	Router::connect(
 		"/courses/students/:id",
 		array('controller' => 'courses', 'action' => 'students'),
 		array('id' => '[0-9]+', 'pass' => array('id'))
