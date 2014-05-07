@@ -130,17 +130,17 @@
 						<?php echo $this->element('header_nav/admin_dropdown'); ?>
 					<?php endif; ?>
 
-					<?php if (in_array('admin', $user_roles) || (in_array('instructor', $user_roles) && $certified)): ?>
+					<?php if (in_array('instructor', $user_roles) && $certified): ?>
 						<?php echo $this->element('header_nav/instructor_certified_dropdown'); ?>
-					<?php elseif ($user_role == 'instructor' && ! $certified): ?>
+					<?php elseif (in_array('instructor', $user_roles) && ! $certified): ?>
 						<?php echo $this->element('header_nav/instructor_uncertified_dropdown'); ?>
 					<?php endif; ?>
 
-					<?php if (in_array('admin', $user_roles) || in_array('trainee', $user_roles)): ?>
+					<?php if (in_array('trainee', $user_roles)): ?>
 						<?php echo $this->element('header_nav/instructor_in_training_dropdown'); ?>
 					<?php endif; ?>
 
-					<?php if (in_array('admin', $user_roles) || in_array('student', $user_roles)): ?>
+					<?php if (in_array('student', $user_roles)): ?>
 						<?php echo $this->element('header_nav/student_dropdown'); ?>
 					<?php endif; ?>
 
