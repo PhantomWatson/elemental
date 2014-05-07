@@ -1,6 +1,13 @@
 <?php
 	$logged_in = (boolean) $this->Session->read('Auth.User.id');
-	$user_role = $this->Session->read('Auth.User.role');
+	$session_roles = $this->Session->read('Auth.User.Role');
+	$user_roles = array();
+	if (! empty($session_roles)) {
+		foreach ($session_roles as $session_role) {
+			$user_roles[] = $session_role['name'];
+		}
+	}
+
 	$certified = $this->Session->read('Auth.User.certified');
 	$primary_links = array(
 		array(
@@ -119,21 +126,21 @@
 				</li>
 
 				<?php if ($logged_in): ?>
-					<?php if ($user_role == 'admin'): ?>
+					<?php if (in_array('admin', $user_roles)): ?>
 						<?php echo $this->element('header_nav/admin_dropdown'); ?>
 					<?php endif; ?>
 
-					<?php if ($user_role == 'admin' || ($user_role == 'instructor' && $certified)): ?>
+					<?php if (in_array('instructor', $user_roles) && $certified): ?>
 						<?php echo $this->element('header_nav/instructor_certified_dropdown'); ?>
-					<?php elseif ($user_role == 'instructor' && ! $certified): ?>
+					<?php elseif (in_array('instructor', $user_roles) && ! $certified): ?>
 						<?php echo $this->element('header_nav/instructor_uncertified_dropdown'); ?>
 					<?php endif; ?>
 
-					<?php if ($user_role == 'admin' || $user_role == 'instructor-in-training'): ?>
+					<?php if (in_array('trainee', $user_roles)): ?>
 						<?php echo $this->element('header_nav/instructor_in_training_dropdown'); ?>
 					<?php endif; ?>
 
-					<?php if ($user_role == 'admin' || $user_role == 'student'): ?>
+					<?php if (in_array('student', $user_roles)): ?>
 						<?php echo $this->element('header_nav/student_dropdown'); ?>
 					<?php endif; ?>
 

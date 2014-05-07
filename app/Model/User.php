@@ -125,6 +125,12 @@ class User extends AppModel {
 		)
 	);
 
+	public $hasAndBelongsToMany = array(
+		'Role' => array(
+			'className' => 'Role'
+		)
+    );
+
 	/*
 	public function beforeSave($options = array()) {
 		if (! $this->id) {

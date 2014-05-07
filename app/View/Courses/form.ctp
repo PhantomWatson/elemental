@@ -164,16 +164,23 @@
 			if (isset($waiting_list_count) && $waiting_list_count > 0) {
 				$max_participants_footnote .= 'There '.__n('is 1 participant', "are $waiting_list_count participants", $waiting_list_count).' on the waiting list who will be automatically moved into the course if the participant limit is increased. ';
 			}
+			if ($max_participants_footnote != '') {
+				$max_participants_footnote = ' <span class="label label-info">'.$max_participants_footnote.'</span>';
+			}
 			echo $this->Form->input('max_participants', array(
 				'label' => 'Maximum Number of Participants',
 				'class' => 'form-control',
 				'div' => array('class' => 'form-group'),
 				'between' => $max_participants_footnote
-					? '<div class="footnote">'.$max_participants_footnote.'</div>'
-					: ''
 			));
-
+			if ($payments_received) {
+				$warning = $payments_received.__n(' student has', ' students have', $payments_received).' already paid.';
+				$warning = ' <span class="label label-info">'.$warning.'</span>';
+			} else {
+				$warning = '';
+			}
 			$cents = $this->Form->input('cost_cents', array(
+				'after' => '<div class="footnote">Enter $0.00 if free</div>',
 				'class' => 'form-control',
 				'div' => false,
 				'label' => false,
@@ -181,7 +188,7 @@
 			));
 			echo $this->Form->input('cost_dollars', array(
 				'after' => '<span class="currency_symbol">.</span>'.$cents,
-				'between' => '<div class="footnote">Enter $0.00 if free</div><span class="currency_symbol">$</span></a>',
+				'between' => $warning.'<br /><span class="currency_symbol">$</span></a>',
 				'class' => 'form-control',
 				'div' => array(
 					'class' => 'form-group cost'
