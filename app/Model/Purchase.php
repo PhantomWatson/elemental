@@ -27,9 +27,19 @@ class Purchase extends AppModel {
 			'notempty' => array(
 				'rule' => array('notempty')
 			)
+		),
+		'quantity' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				'message' => 'Quantity must be numeric'
+			),
+			'nonzero' => array(
+				'rule' => array('comparison', '>', 0),
+				'message' => 'Quantity must be greater than zero'
+			)
 		)
 	);
-	
+
 	public $belongsTo = array(
 		'Product' => array(
 			'className' => 'Product',
