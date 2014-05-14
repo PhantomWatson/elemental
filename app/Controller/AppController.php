@@ -105,6 +105,19 @@ class AppController extends Controller {
 		}
 	}
 
+	public function beforeRender() {
+		if ($this->layout == 'default') {
+			$user_roles = array();
+			$session_roles = $this->Auth->user('Role');
+			if (! empty($session_roles)) {
+				foreach ($session_roles as $session_role) {
+					$user_roles[] = $session_role['name'];
+				}
+			}
+			$this->set('user_roles', $user_roles);
+		}
+	}
+
 	/**
 	 * Sets up everything that the Recaptcha plugin depends on
 	 */

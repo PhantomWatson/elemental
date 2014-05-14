@@ -1,13 +1,5 @@
 <?php
 	$logged_in = (boolean) $this->Session->read('Auth.User.id');
-	$session_roles = $this->Session->read('Auth.User.Role');
-	$user_roles = array();
-	if (! empty($session_roles)) {
-		foreach ($session_roles as $session_role) {
-			$user_roles[] = $session_role['name'];
-		}
-	}
-
 	$certified = $this->Session->read('Auth.User.certified');
 	$primary_links = array(
 		array(
