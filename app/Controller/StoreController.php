@@ -155,4 +155,51 @@ class StoreController extends AppController {
 			'order_id' => $order_id
 		));
 	}
+
+	public function prepaid_student_review_module() {
+		$step = 'prep';
+		$user_roles = $this->__getUserRoles();
+		$is_instructor = in_array('instructor', $user_roles);
+
+		if ($this->request->is('post')) {
+			// Create temporary validation rule
+			$this->Purchase->validate['instructor_id'] = array(
+				'notempty' => array(
+					'rule' => 'notEmpty',
+					'required' => true,
+					'message' => 'Please select an instructor'
+				)
+			);
+			$this->Purchase->create($this->request->data);
+			$validates = $this->Purchase->validates();
+			$valid_quantity = true;
+			if (! isset($this->request->data['Purchase']['quantity'])) {
+				// For some reason, using Purchase->validate['quantity'] didn't work
+				$this->Purchase->validationErrors['quantity'] = 'Please specify a quantity!';
+				$valid_quantity = false;
+				$this->request->data['Purchase']['quantity'] = 10;
+			}
+			if ($validates && $valid_quantity) {
+				$step = 'purchase';
+			}
+
+		} else {
+			$this->request->data['Purchase']['quantity'] = 10;
+		}
+
+		if ($step == 'prep') {
+			if (! isset($this->request->data['Purchase']['instructor_id'])) {
+				$this->request->data['Purchase']['instructor_id'] = $this->Auth->user('id');
+			}
+			$this->loadModel('User');
+			$this->set(array(
+				'instructors' => $this->User->getInstructorList()
+			));
+		}
+		$this->set(array(
+			'cost' => 20,
+			'step' => $step,
+			'title_for_layout' => 'Purchase Prepaid Student Review Modules'
+		));
+	}
 }
