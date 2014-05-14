@@ -105,6 +105,13 @@ class AppController extends Controller {
 		}
 	}
 
+	public function beforeRender() {
+		if ($this->layout == 'default') {
+			$user_roles = $this->__getUserRoles();
+			$this->set('user_roles', $user_roles);
+		}
+	}
+
 	/**
 	 * Sets up everything that the Recaptcha plugin depends on
 	 */
@@ -112,6 +119,17 @@ class AppController extends Controller {
 		$this->helpers[] = 'Recaptcha.Recaptcha';
     	$this->Components->load('Recaptcha.Recaptcha')->startup($this);
 		Configure::load('Recaptcha.key');
+	}
+
+	protected function __getUserRoles() {
+		$user_roles = array();
+		$session_roles = $this->Auth->user('Role');
+		if (! empty($session_roles)) {
+			foreach ($session_roles as $session_role) {
+				$user_roles[] = $session_role['name'];
+			}
+		}
+		return $user_roles;
 	}
 
 }

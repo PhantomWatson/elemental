@@ -313,7 +313,7 @@ class User extends AppModel {
 		return array(
 			'student' => 'Student',
 			'instructor' => 'Instructor',
-			'instructor-in-training' => 'Instructor in Training',
+			'trainee' => 'Instructor in Training',
 			'admin' => 'Administrator'
 		);
 	}
@@ -380,6 +380,31 @@ class User extends AppModel {
 		}
 
 		Cache::write($cache_key, $retval);
+		return $retval;
+	}
+
+	public function getInstructorList() {
+		$results = $this->Role->find('first', array(
+			'conditions' => array(
+				'name' => 'instructor'
+			),
+			'contain' => array(
+				'User' => array(
+					'fields' => array(
+						'User.id',
+						'User.name'
+					),
+					'order' => 'User.name'
+				)
+			),
+			'fields' => array(
+				'Role.id'
+			)
+		));
+		$retval = array();
+		foreach ($results['User'] as $user) {
+			$retval[$user['id']] = $user['name'];
+		}
 		return $retval;
 	}
 }
