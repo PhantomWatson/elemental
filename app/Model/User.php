@@ -313,7 +313,7 @@ class User extends AppModel {
 		return array(
 			'student' => 'Student',
 			'instructor' => 'Instructor',
-			'instructor-in-training' => 'Instructor in Training',
+			'trainee' => 'Instructor in Training',
 			'admin' => 'Administrator'
 		);
 	}
