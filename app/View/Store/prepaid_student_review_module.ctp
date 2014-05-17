@@ -12,7 +12,7 @@
 	<ul>
 		<li>
 			<strong>Cost:</strong>
-			$20 each
+			$<?php echo $cost; ?> each
 		</li>
 		<li>
 			<strong>Ownership:</strong>
@@ -94,5 +94,34 @@
 	?>
 
 <?php elseif ($step == 'purchase'): ?>
-	Purchasetime!
+	<p>
+		Purchase <?php echo $quantity; ?> prepaid Student Review <?php echo __n('Module', 'Modules', $quantity); ?>
+		for instructor <?php echo $instructor_name; ?>
+		at $<?php echo $cost; ?> each
+		for a <strong>total of $<?php echo $total; ?></strong>?
+	</p>
+	<a href="#" class="btn btn-success" id="purchase_button">
+		Purchase
+	</a>
+	<a href="javascript:history.back()" class="btn btn-default">
+		Go back
+	</a>
+	<?php
+		$this->Html->script(Configure::read('google_wallet_lib'), array('inline' => false));
+		$this->Js->buffer("
+			$('#purchase_button').click(function(event) {
+				event.preventDefault();
+				google.payments.inapp.buy({
+					'jwt': '$jwt',
+					'success' : function(purchaseAction) {
+						alert('Purchase complete');
+						window.location.href = '$redirect_url';
+					},
+					'failure' : function(purchaseActionError){
+						alert('There was an error processing your payment: '+purchaseActionError.response.errorType);
+					}
+				});
+			});
+		");
+	?>
 <?php endif; ?>
