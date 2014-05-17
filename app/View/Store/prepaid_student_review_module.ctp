@@ -117,8 +117,8 @@
 						alert('Purchase complete');
 						window.location.href = '$redirect_url';
 					},
-					'failure' : function(purchaseActionError){
-						alert('There was an error processing your payment: '+purchaseActionError.response.errorType);
+					'failure' : function(purchaseActionError) {
+						console.log('There was an error processing your payment: '+purchaseActionError.response.errorType);
 					}
 				});
 			});
