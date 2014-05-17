@@ -111,4 +111,20 @@ class Product extends AppModel {
 		Cache::write($cache_key, $retval);
 		return $retval;
 	}
+
+	public function getPrepaidReviewModuleCost() {
+		$result = $this->find(
+			'first',
+			array(
+				'conditions' => array(
+					'Product.name' => 'Prepaid Student Review Module'
+				),
+				'contain' => false,
+				'fields' => array(
+					'Product.cost'
+				)
+			)
+		);
+		return $result ? $result['Product']['cost'] : false;
+	}
 }
