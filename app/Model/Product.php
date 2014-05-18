@@ -127,4 +127,44 @@ class Product extends AppModel {
 		);
 		return $result ? $result['Product']['cost'] : false;
 	}
+
+	public function getPrepaidReviewModuleJWT($quantity, $user_id, $instructor_id) {
+		$seller_identifier = Configure::read('google_waller_seller_id');
+		$seller_secret = Configure::read('google_wallet_seller_secret');
+
+		$purchase_name = 'Prepaid Elemental Student Review '.__n('Module', 'Modules', $quantity).' ('.$quantity.')';
+		$product = $this->find(
+			'first',
+			array(
+				'conditions' => array(
+					'Product.name' => 'Prepaid Student Review Module'
+				),
+				'contain' => false,
+				'fields' => array(
+					'Product.cost',
+					'Product.description'
+				)
+			)
+		);
+		$total = $quantity * $product['Product']['cost'];
+
+		// Generate a JWT (JSON Web Token) for this item
+		// $payload parameters reference: https://developers.google.com/commerce/wallet/digital/docs/jsreference#jwt
+		App::import('Vendor', 'JWT');
+		$payload = array(
+			"iss" => $seller_identifier,
+			"aud" => "Google",
+			"typ" => "google/payments/inapp/item/v1",
+			"exp" => time() + 3600,
+			"iat" => time(),
+			"request" => array(
+				"name" => $purchase_name,
+				"description" => $product['Product']['description'],
+				"price" => $total,
+				"currencyCode" => "USD",
+				"sellerData" => "type:prepaid_module,user_id:$user_id,instructor_id:$instructor_id"
+			)
+		);
+		return JWT::encode($payload, $seller_secret);
+	}
 }
