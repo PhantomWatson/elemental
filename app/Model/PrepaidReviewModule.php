@@ -74,4 +74,22 @@ class PrepaidReviewModule extends AppModel {
 		);
 		return JWT::encode($payload, $seller_secret);
 	}
+
+	public function getCost() {
+		App::import('Model', 'Product');
+		$ProductObj = new Product();
+		$result = $ProductObj->find(
+			'first',
+			array(
+				'conditions' => array(
+					'Product.name' => 'Prepaid Student Review Module'
+				),
+				'contain' => false,
+				'fields' => array(
+					'Product.cost'
+				)
+			)
+		);
+		return $result ? $result['Product']['cost'] : false;
+	}
 }

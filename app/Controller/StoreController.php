@@ -88,7 +88,8 @@ class StoreController extends AppController {
 		$step = 'prep';
 		$user_roles = $this->__getUserRoles();
 		$is_instructor = in_array('instructor', $user_roles);
-		$cost = $this->Product->getPrepaidReviewModuleCost();
+		$this->loadModel('PrepaidReviewModule');
+		$cost = $this->PrepaidReviewModule->getCost();
 
 		if ($this->request->is('post')) {
 			// Create temporary validation rule
@@ -115,7 +116,6 @@ class StoreController extends AppController {
 				$this->loadModel('User');
 				$this->User->id = $instructor_id;
 				$user_id = $this->Auth->user('id');
-				$this->loadModel('PrepaidReviewModule');
 				$this->set(array(
 					'instructor_name' => $this->User->field('name'),
 					'jwt' => $this->PrepaidReviewModule->getJWT($quantity, $user_id, $instructor_id),
