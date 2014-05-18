@@ -137,4 +137,60 @@ class PrepaidReviewModule extends AppModel {
 			$this->saveField('course_id', null);
 		}
 	}
+
+	public function assignToAttendingStudents($course_id) {
+		App::import('Model', 'CourseRegistration');
+		$CourseRegistration = new CourseRegistration();
+		$attending_students = $CourseRegistration->find(
+			'list',
+			array(
+				'conditions' => array(
+					'CourseRegistration.course_id' => $course_id,
+					'CourseRegistration.attended' => true
+				),
+				'fields' => array(
+					'CourseRegistration.id',
+					'CourseRegistration.user_id'
+				)
+			)
+		);
+		foreach ($attending_students as $reg_id => $student_id) {
+			$already_assigned = $this->find(
+				'count',
+				array(
+					'conditions' => array(
+						'PrepaidReviewModule.course_id' => $course_id,
+						'PrepaidReviewModule.student_id' => $student_id
+					)
+				)
+			);
+			if ($already_assigned) {
+				continue;
+			}
+
+			$available_module = $this->find(
+				'list',
+				array(
+					'conditions' => array(
+						'PrepaidReviewModule.course_id' => $course_id,
+						'PrepaidReviewModule.student_id' => null
+					),
+					'limit' => 1
+				)
+			);
+			if (empty($available_module)) {
+				/* Ruh roh. The instructor somehow managed to have more students
+				 * registered and attended than was allowed in this free class.
+				 * Students will have access to the review module regardless,
+				 * since their access is determined by whether or not they attended
+				 * a class or personally purchased the module in the past year.
+				 * An automatic email to an administrator right here might be the only
+				 * practical course of action. */
+				continue;
+			}
+			$module_ids = array_keys($available_module);
+			$this->id = $module_ids[0];
+			$this->saveField('student_id', $student_id);
+		}
+	}
 }
