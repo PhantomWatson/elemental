@@ -92,4 +92,34 @@ class PrepaidReviewModule extends AppModel {
 		);
 		return $result ? $result['Product']['cost'] : false;
 	}
+
+	public function getAvailableCount($instructor_id) {
+		return $this->find(
+			'count',
+			array(
+				'conditions' => array(
+					'PrepaidReviewModule.instructor_id' => $instructor_id,
+					'PrepaidReviewModule.course_id' => null
+				)
+			)
+		);
+	}
+
+	public function assignToCourse($instructor_id, $quantity, $course_id) {
+		$available_modules = $this->find('list', array(
+			'conditions' => array(
+				'PrepaidReviewModule.instructor_id' => $instructor_id,
+				'PrepaidReviewModule.course_id' => null
+			)
+		));
+
+		if (count($available_modules) < $quantity) {
+			throw new BadRequestException("Cannot assign $quantity Prepaid Student Review Modules, only $available_count are available");
+		}
+
+		foreach ($available_modules as $module_id => $course_id) {
+			$this->id = $module_id;
+			$this->saveField('course_id', $course_id);
+		}
+	}
 }
