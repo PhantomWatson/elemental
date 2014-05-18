@@ -193,4 +193,54 @@ class PrepaidReviewModule extends AppModel {
 			$this->saveField('student_id', $student_id);
 		}
 	}
+
+	public function getReport($instructor_id) {
+		$modules = $this->find(
+			'all',
+			array(
+				'conditions' => array(
+					'PrepaidReviewModule.instructor_id' => $instructor_id
+				),
+				'contain' => false,
+				'order' => 'PrepaidReviewModule.course_id DESC'
+			)
+		);
+		$retval = array(
+			'available' => 0,
+			'pending' => array(),
+			'used' => array()
+		);
+		foreach ($modules as $module) {
+			$course_id = $module['course_id'];
+			if ($course_id == null) {
+				$retval['available']++;
+				continue;
+			}
+			$type = $module['student_id'] == null ? 'pending' : 'used';
+			if (isset($retval[$type][$course_id])) {
+				$retval[$type][$course_id]['count']++;
+			} else {
+				$dates = $this->Course->CourseDate->find(
+					'list',
+					array(
+						'conditions' => array(
+							'CourseDate.course_id' => $course_id
+						),
+						'order' => 'CourseDate.date ASC'
+					)
+				);
+				$start = reset($dates);
+				$start = strtotime($start);
+				$end = end($dates);
+				$end = strtotime($end);
+				$date = date('F j, Y', $date);
+				$retval[$type][$course_id] = array(
+					'count' => 1,
+					'start' => $start,
+					'end' => $end
+				);
+			}
+		}
+		return $retval;
+	}
 }
