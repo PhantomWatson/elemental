@@ -33,7 +33,7 @@ class PrepaidReviewModule extends AppModel {
 		)
 	);
 
-	public function getPrepaidReviewModuleJWT($quantity, $user_id, $instructor_id) {
+	public function getJWT($quantity, $user_id, $instructor_id) {
 		$seller_identifier = Configure::read('google_waller_seller_id');
 		$seller_secret = Configure::read('google_wallet_seller_secret');
 
