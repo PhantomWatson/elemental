@@ -122,4 +122,19 @@ class PrepaidReviewModule extends AppModel {
 			$this->saveField('course_id', $course_id);
 		}
 	}
+
+
+	public function releaseUnclaimedFromCourse($course_id) {
+		$assigned_modules = $this->find('list', array(
+			'conditions' => array(
+				'PrepaidReviewModule.course_id' => $course_id,
+				'PrepaidReviewModule.student_id' => null
+			)
+		));
+
+		foreach ($assigned_modules as $module_id => $course_id) {
+			$this->id = $module_id;
+			$this->saveField('course_id', null);
+		}
+	}
 }
