@@ -48,29 +48,6 @@ class StoreController extends AppController {
 		App::import('Vendor', 'JWT');
 		$seller_secret = Configure::read('google_wallet_seller_secret');
 		$jwt_decoded = JWT::decode($jwt, $seller_secret);
-
-		/* Reference: https://developers.google.com/commerce/wallet/digital/docs/tutorial#5
-		 * I think that $_POST['jwt'] should be provided.
-		 * It includes a copy of the JSON from the call to buy(), plus an order ID
-		 * Example expected results of $jwt_decoded:
-		{
-		  "iss": "Google",
-		  "aud": "1337133713371337",
-		  "typ": "google/payments/inapp/item/v1/postback/buy",
-		  "iat": "1309988959",
-		  "exp": "1409988959",
-		  "request": {
-		    "name": "Piece of Cake",
-		    "description": "Virtual chocolate cake to fill your virtual tummy",
-		    "price": "10.50",
-		    "currencyCode": "USD",
-		    "sellerData": "user_id:1224245,offer_code:3098576987,affiliate:aksdfbovu9j"
-		  },
-		  "response": {
-		    "orderId": "3485709183457474939449"
-		  }
-		}
-		*/
 		if (isset($jwt_decoded->response->orderId)) {
 			$order_id = $jwt_decoded->response->orderId;
 		} else {
