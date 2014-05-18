@@ -131,4 +131,46 @@ class Purchase extends AppModel {
 
 		return true;
 	}
+
+	public function purchasePrepaidStudentReviewModule($seller_data, $order_id, $jwt_decoded) {
+		// Check for required sellerData
+		if (! isset($seller_data['user_id'])) {
+			throw new BadRequestException('User ID missing');
+		} elseif (! $this->User->exists($seller_data['user_id'])) {
+			throw new BadRequestException('User #'.$seller_data['user_id'].' not found');
+		} elseif (! isset($seller_data['instructor_id'])) {
+			throw new BadRequestException('Instructor ID missing');
+		} elseif (! $this->User->exists($seller_data['instructor_id'])) {
+			throw new BadRequestException('Instructor #'.$seller_data['instructor_id'].' not found');
+		} elseif (! isset($seller_data['product_id'])) {
+			throw new BadRequestException('Product ID missing');
+		} elseif (! isset($seller_data['quantity'])) {
+			throw new BadRequestException('Quantity missing');
+		}
+
+		// Record purchase
+		$this->create(array(
+			'quantity' => $seller_data['quantity'],
+			'product_id' => $seller_data['product_id'],
+			'user_id' => $seller_data['user_id'],
+			'order_id' => $order_id,
+			'jwt' => serialize($jwt_decoded)
+		));
+		if (! $this->save()) {
+			throw new InternalErrorException('Purchase could not be saved');
+		}
+		$purchase_id = $this->id;
+
+		// Create PrepaidReviewModule records
+		App::import('Model','PrepaidReviewModule');
+		$PrepaidReviewModule = new PrepaidReviewModule();
+		for ($i = 1; $i <= $seller_data['quantity']; $i++) {
+			$PrepaidReviewModule->create(array(
+				'purchase_id' => $purchase_id,
+				'instructor_id' => $seller_data['instructor_id']
+			));
+		}
+
+		return true;
+	}
 }
