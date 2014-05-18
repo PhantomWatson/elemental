@@ -83,71 +83,22 @@ class StoreController extends AppController {
 			$seller_data[$var] = $val;
 		}
 
-		// Check for required sellerData
-		$this->loadModel('User');
-		$this->loadModel('Course');
-		if (! isset($seller_data['user_id'])) {
-			throw new BadRequestException('User ID missing');
-		} elseif (! $this->User->exists($seller_data['user_id'])) {
-			throw new BadRequestException('User #'.$seller_data['user_id'].' not found');
-		} elseif (! isset($seller_data['type'])) {
+		// Run product-specific processing
+		if (! isset($seller_data['type'])) {
 			throw new BadRequestException('Purchase type not specified');
-		} elseif ($seller_data['type'] != 'course' && $seller_data['type'] != 'module') {
-			throw new BadRequestException('Unrecognized purchase type: '.$seller_data['type']);
-		} elseif ($seller_data['type'] == 'course') {
-			if (! isset($seller_data['course_id'])) {
-				throw new BadRequestException('Course ID missing');
-			} elseif (! $this->Course->exists($seller_data['course_id'])) {
-				throw new BadRequestException('Course #'.$seller_data['course_id'].' not found');
-			}
-		} elseif ($seller_data['type'] == 'module' && ! isset($seller_data['product_id'])) {
-			throw new BadRequestException('Product ID missing');
 		}
-
-		// For courses, make sure that registration is allowed
-		if ($seller_data['type'] == 'course') {
-			$this->Course->id = $seller_data['course_id'];
-			$deadline = $this->Course->field('deadline');
-			if ($deadline < date('Y-m-d')) {
-				throw new ForbiddenException('Sorry, the deadline for registering for that course has passed');
-			}
-			if ($this->Course->isFull($seller_data['course_id'])) {
-				throw new ForbiddenException('Sorry, this course has no available spots left');
-			}
-		}
-
-		// Remove cached information
-		if (isset($seller_data['product_id'])) {
-			$cache_key = 'hasPurchased('.$seller_data['user_id'].', '.$seller_data['product_id'].')';
-			Cache::delete($cache_key);
-		}
-
-		// Record purchase
-		$this->loadModel('CoursePayment');
-		if ($seller_data['type'] == 'course') {
-			$this->CoursePayment->create(array(
-				'course_id' => $seller_data['course_id'],
-				'user_id' => $seller_data['user_id'],
-				'order_id' => $order_id,
-				'jwt' => serialize($jwt_decoded)
-			));
-			if (! $this->CoursePayment->save()) {
-				throw new InternalErrorException('Purchase could not be saved');
-			}
-		} elseif ($seller_data['type'] == 'module') {
-			$this->Purchase->create(array(
-				'product_id' => $seller_data['product_id'],
-				'user_id' => $seller_data['user_id'],
-				'order_id' => $order_id,
-				'jwt' => serialize($jwt_decoded)
-			));
-			if (! $this->Purchase->save()) {
-				throw new InternalErrorException('Purchase could not be saved');
-			}
-
-			// Clear relevant cache keys
-			$cache_key = 'getReviewMaterialsAccessExpiration('.$seller_data['user_id'].')';
-			Cache::delete($cache_key);
+		switch ($seller_data['type']) {
+			case 'course':
+				$this->Purchase->purchaseCourseRegistration($seller_data, $order_id, $jwt_decoded);
+				break;
+			case 'module':
+				$this->Purchase->purchaseStudentReviewModule($seller_data, $order_id, $jwt_decoded);
+				break;
+			case 'prepaid_module':
+				$this->Purchase->purchasePrepaidStudentReviewModule($seller_data, $order_id, $jwt_decoded);
+				break;
+			default:
+				throw new BadRequestException('Unrecognized purchase type: '.$seller_data['type']);
 		}
 
 		// If order is okay, send 200 OK response and this order ID
