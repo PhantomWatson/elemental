@@ -111,13 +111,14 @@ class StoreController extends AppController {
 			if ($validates && $valid_quantity) {
 				$step = 'purchase';
 				$quantity = $this->request->data['Purchase']['quantity'];
-				$this->loadModel('User');
 				$instructor_id = $this->request->data['Purchase']['instructor_id'];
+				$this->loadModel('User');
 				$this->User->id = $instructor_id;
 				$user_id = $this->Auth->user('id');
+				$this->loadModel('PrepaidReviewModule');
 				$this->set(array(
 					'instructor_name' => $this->User->field('name'),
-					'jwt' => $this->Product->getPrepaidReviewModuleJWT($quantity, $user_id, $instructor_id),
+					'jwt' => $this->PrepaidReviewModule->getJWT($quantity, $user_id, $instructor_id),
 					'quantity' => $quantity,
 					'redirect_url' => Router::url(
 						array(
