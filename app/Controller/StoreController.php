@@ -48,29 +48,6 @@ class StoreController extends AppController {
 		App::import('Vendor', 'JWT');
 		$seller_secret = Configure::read('google_wallet_seller_secret');
 		$jwt_decoded = JWT::decode($jwt, $seller_secret);
-
-		/* Reference: https://developers.google.com/commerce/wallet/digital/docs/tutorial#5
-		 * I think that $_POST['jwt'] should be provided.
-		 * It includes a copy of the JSON from the call to buy(), plus an order ID
-		 * Example expected results of $jwt_decoded:
-		{
-		  "iss": "Google",
-		  "aud": "1337133713371337",
-		  "typ": "google/payments/inapp/item/v1/postback/buy",
-		  "iat": "1309988959",
-		  "exp": "1409988959",
-		  "request": {
-		    "name": "Piece of Cake",
-		    "description": "Virtual chocolate cake to fill your virtual tummy",
-		    "price": "10.50",
-		    "currencyCode": "USD",
-		    "sellerData": "user_id:1224245,offer_code:3098576987,affiliate:aksdfbovu9j"
-		  },
-		  "response": {
-		    "orderId": "3485709183457474939449"
-		  }
-		}
-		*/
 		if (isset($jwt_decoded->response->orderId)) {
 			$order_id = $jwt_decoded->response->orderId;
 		} else {
@@ -83,71 +60,22 @@ class StoreController extends AppController {
 			$seller_data[$var] = $val;
 		}
 
-		// Check for required sellerData
-		$this->loadModel('User');
-		$this->loadModel('Course');
-		if (! isset($seller_data['user_id'])) {
-			throw new BadRequestException('User ID missing');
-		} elseif (! $this->User->exists($seller_data['user_id'])) {
-			throw new BadRequestException('User #'.$seller_data['user_id'].' not found');
-		} elseif (! isset($seller_data['type'])) {
+		// Run product-specific processing
+		if (! isset($seller_data['type'])) {
 			throw new BadRequestException('Purchase type not specified');
-		} elseif ($seller_data['type'] != 'course' && $seller_data['type'] != 'module') {
-			throw new BadRequestException('Unrecognized purchase type: '.$seller_data['type']);
-		} elseif ($seller_data['type'] == 'course') {
-			if (! isset($seller_data['course_id'])) {
-				throw new BadRequestException('Course ID missing');
-			} elseif (! $this->Course->exists($seller_data['course_id'])) {
-				throw new BadRequestException('Course #'.$seller_data['course_id'].' not found');
-			}
-		} elseif ($seller_data['type'] == 'module' && ! isset($seller_data['product_id'])) {
-			throw new BadRequestException('Product ID missing');
 		}
-
-		// For courses, make sure that registration is allowed
-		if ($seller_data['type'] == 'course') {
-			$this->Course->id = $seller_data['course_id'];
-			$deadline = $this->Course->field('deadline');
-			if ($deadline < date('Y-m-d')) {
-				throw new ForbiddenException('Sorry, the deadline for registering for that course has passed');
-			}
-			if ($this->Course->isFull($seller_data['course_id'])) {
-				throw new ForbiddenException('Sorry, this course has no available spots left');
-			}
-		}
-
-		// Remove cached information
-		if (isset($seller_data['product_id'])) {
-			$cache_key = 'hasPurchased('.$seller_data['user_id'].', '.$seller_data['product_id'].')';
-			Cache::delete($cache_key);
-		}
-
-		// Record purchase
-		$this->loadModel('CoursePayment');
-		if ($seller_data['type'] == 'course') {
-			$this->CoursePayment->create(array(
-				'course_id' => $seller_data['course_id'],
-				'user_id' => $seller_data['user_id'],
-				'order_id' => $order_id,
-				'jwt' => serialize($jwt_decoded)
-			));
-			if (! $this->CoursePayment->save()) {
-				throw new InternalErrorException('Purchase could not be saved');
-			}
-		} elseif ($seller_data['type'] == 'module') {
-			$this->Purchase->create(array(
-				'product_id' => $seller_data['product_id'],
-				'user_id' => $seller_data['user_id'],
-				'order_id' => $order_id,
-				'jwt' => serialize($jwt_decoded)
-			));
-			if (! $this->Purchase->save()) {
-				throw new InternalErrorException('Purchase could not be saved');
-			}
-
-			// Clear relevant cache keys
-			$cache_key = 'getReviewMaterialsAccessExpiration('.$seller_data['user_id'].')';
-			Cache::delete($cache_key);
+		switch ($seller_data['type']) {
+			case 'course':
+				$this->Purchase->purchaseCourseRegistration($seller_data, $order_id, $jwt_decoded);
+				break;
+			case 'module':
+				$this->Purchase->purchaseStudentReviewModule($seller_data, $order_id, $jwt_decoded);
+				break;
+			case 'prepaid_module':
+				$this->Purchase->purchasePrepaidStudentReviewModule($seller_data, $order_id, $jwt_decoded);
+				break;
+			default:
+				throw new BadRequestException('Unrecognized purchase type: '.$seller_data['type']);
 		}
 
 		// If order is okay, send 200 OK response and this order ID
@@ -160,6 +88,8 @@ class StoreController extends AppController {
 		$step = 'prep';
 		$user_roles = $this->__getUserRoles();
 		$is_instructor = in_array('instructor', $user_roles);
+		$this->loadModel('PrepaidReviewModule');
+		$cost = $this->PrepaidReviewModule->getCost();
 
 		if ($this->request->is('post')) {
 			// Create temporary validation rule
@@ -181,6 +111,24 @@ class StoreController extends AppController {
 			}
 			if ($validates && $valid_quantity) {
 				$step = 'purchase';
+				$quantity = $this->request->data['Purchase']['quantity'];
+				$instructor_id = $this->request->data['Purchase']['instructor_id'];
+				$this->loadModel('User');
+				$this->User->id = $instructor_id;
+				$user_id = $this->Auth->user('id');
+				$this->set(array(
+					'instructor_name' => $this->User->field('name'),
+					'jwt' => $this->PrepaidReviewModule->getJWT($quantity, $user_id, $instructor_id),
+					'quantity' => $quantity,
+					'redirect_url' => Router::url(
+						array(
+							'controller' => 'products',
+							'action' => 'prepaid_review_modules'
+						),
+						true
+					),
+					'total' => number_format(($quantity * $cost), 2)
+				));
 			}
 
 		} else {
@@ -197,7 +145,7 @@ class StoreController extends AppController {
 			));
 		}
 		$this->set(array(
-			'cost' => 20,
+			'cost' => $cost,
 			'step' => $step,
 			'title_for_layout' => 'Purchase Prepaid Student Review Modules'
 		));

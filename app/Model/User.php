@@ -122,6 +122,11 @@ class User extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
+		),
+		'PrepaidReviewModule' => array(
+			'className' => 'PrepaidReviewModule',
+			'foreignKey' => 'user_id',
+			'dependent' => false
 		)
 	);
 

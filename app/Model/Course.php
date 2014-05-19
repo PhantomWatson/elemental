@@ -116,6 +116,11 @@ class Course extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
+		),
+		'PrepaidReviewModule' => array(
+			'className' => 'PrepaidReviewModule',
+			'foreignKey' => 'course_id',
+			'dependent' => false
 		)
 	);
 
