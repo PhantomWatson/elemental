@@ -89,13 +89,13 @@ class AppController extends Controller {
 						'User.password' => $cookie['password']
 					),
 					'fields' => array('id', 'role', 'name'),
-					'contain' => false
+					'contain' => array(
+						'Role'
+					)
 				));
 
 				// Include user data
-				$cookie['id'] = $user['User']['id'];
-				$cookie['name'] = $user['User']['name'];
-				$cookie['role'] = $user['User']['role'];
+				$cookie = $user['User'];
 
 				$login_successful = $this->Auth->login($cookie);
 				if ($user && ! $login_successful) {
