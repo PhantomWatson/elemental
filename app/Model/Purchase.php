@@ -147,6 +147,7 @@ class Purchase extends AppModel {
 		// Record purchase
 		if (! isset($seller_data['user_id']) || empty($seller_data['user_id'])) {
 			$seller_data['user_id'] = null;
+			unset($this->validate['user_id']);
 		}
 		$this->create(array(
 			'quantity' => $seller_data['quantity'],
