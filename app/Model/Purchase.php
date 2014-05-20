@@ -169,6 +169,7 @@ class Purchase extends AppModel {
 				'purchase_id' => $purchase_id,
 				'instructor_id' => $seller_data['instructor_id']
 			));
+			$PrepaidReviewModule->save();
 		}
 
 		return true;
