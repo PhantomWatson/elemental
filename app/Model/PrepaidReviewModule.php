@@ -48,12 +48,14 @@ class PrepaidReviewModule extends AppModel {
 				),
 				'contain' => false,
 				'fields' => array(
+					'Product.id',
 					'Product.cost',
 					'Product.description'
 				)
 			)
 		);
 		$total = $quantity * $product['Product']['cost'];
+		$product_id = $product['Product']['id'];
 
 		// Generate a JWT (JSON Web Token) for this item
 		// $payload parameters reference: https://developers.google.com/commerce/wallet/digital/docs/jsreference#jwt
@@ -69,7 +71,7 @@ class PrepaidReviewModule extends AppModel {
 				"description" => $product['Product']['description'],
 				"price" => $total,
 				"currencyCode" => "USD",
-				"sellerData" => "type:prepaid_module,user_id:$user_id,instructor_id:$instructor_id"
+				"sellerData" => "type:prepaid_module,user_id:$user_id,instructor_id:$instructor_id,product_id:$product_id"
 			)
 		);
 		return JWT::encode($payload, $seller_secret);
