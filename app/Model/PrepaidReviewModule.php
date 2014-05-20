@@ -71,7 +71,7 @@ class PrepaidReviewModule extends AppModel {
 				"description" => $product['Product']['description'],
 				"price" => $total,
 				"currencyCode" => "USD",
-				"sellerData" => "type:prepaid_module,user_id:$user_id,instructor_id:$instructor_id,product_id:$product_id"
+				"sellerData" => "type:prepaid_module,user_id:$user_id,instructor_id:$instructor_id,product_id:$product_id,quantity:$quantity"
 			)
 		);
 		return JWT::encode($payload, $seller_secret);
