@@ -220,12 +220,12 @@ class PrepaidReviewModule extends AppModel {
 			'used' => array()
 		);
 		foreach ($modules as $module) {
-			$course_id = $module['course_id'];
+			$course_id = $module['PrepaidReviewModule']['course_id'];
 			if ($course_id == null) {
 				$retval['available']++;
 				continue;
 			}
-			$type = $module['student_id'] == null ? 'pending' : 'used';
+			$type = $module['PrepaidReviewModule']['student_id'] == null ? 'pending' : 'used';
 			if (isset($retval[$type][$course_id])) {
 				$retval[$type][$course_id]['count']++;
 			} else {
