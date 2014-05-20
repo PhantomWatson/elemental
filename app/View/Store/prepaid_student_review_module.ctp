@@ -114,7 +114,6 @@
 				google.payments.inapp.buy({
 					'jwt': '$jwt',
 					'success' : function(purchaseAction) {
-						alert('Purchase complete');
 						window.location.href = '$redirect_url';
 					},
 					'failure' : function(purchaseActionError) {
