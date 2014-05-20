@@ -242,11 +242,10 @@ class PrepaidReviewModule extends AppModel {
 				$start = strtotime($start);
 				$end = end($dates);
 				$end = strtotime($end);
-				$date = date('F j, Y', $date);
 				$retval[$type][$course_id] = array(
 					'count' => 1,
-					'start' => $start,
-					'end' => $end
+					'start' => date('F j, Y', $start),
+					'end' => date('F j, Y', $end)
 				);
 			}
 		}
