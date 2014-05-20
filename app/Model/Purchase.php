@@ -134,11 +134,7 @@ class Purchase extends AppModel {
 
 	public function purchasePrepaidStudentReviewModule($seller_data, $order_id, $jwt_decoded) {
 		// Check for required sellerData
-		if (! isset($seller_data['user_id'])) {
-			throw new BadRequestException('User ID missing');
-		} elseif (! $this->User->exists($seller_data['user_id'])) {
-			throw new BadRequestException('User #'.$seller_data['user_id'].' not found');
-		} elseif (! isset($seller_data['instructor_id'])) {
+		if (! isset($seller_data['instructor_id'])) {
 			throw new BadRequestException('Instructor ID missing');
 		} elseif (! $this->User->exists($seller_data['instructor_id'])) {
 			throw new BadRequestException('Instructor #'.$seller_data['instructor_id'].' not found');
@@ -149,6 +145,9 @@ class Purchase extends AppModel {
 		}
 
 		// Record purchase
+		if (! isset($seller_data['user_id']) || empty($seller_data['user_id'])) {
+			$seller_data['user_id'] = null;
+		}
 		$this->create(array(
 			'quantity' => $seller_data['quantity'],
 			'product_id' => $seller_data['product_id'],
