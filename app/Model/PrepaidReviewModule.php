@@ -214,6 +214,8 @@ class PrepaidReviewModule extends AppModel {
 				'order' => 'PrepaidReviewModule.course_id DESC'
 			)
 		);
+		App::import('Model', 'Course');
+		$Course = new Course();
 		$retval = array(
 			'available' => 0,
 			'pending' => array(),
@@ -245,7 +247,8 @@ class PrepaidReviewModule extends AppModel {
 				$retval[$type][$course_id] = array(
 					'count' => 1,
 					'start' => date('F j, Y', $start),
-					'end' => date('F j, Y', $end)
+					'end' => date('F j, Y', $end),
+					'attendance_reported' => $Course->attendanceIsReported($course_id)
 				);
 			}
 		}
