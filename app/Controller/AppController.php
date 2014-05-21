@@ -94,10 +94,10 @@ class AppController extends Controller {
 					)
 				));
 
-				// Include user data
-				$cookie = $user['User'];
+				$login_data = $user['User'];
+				$login_data['Role'] = $user['Role'];
 
-				$login_successful = $this->Auth->login($cookie);
+				$login_successful = $this->Auth->login($login_data);
 				if ($user && ! $login_successful) {
 					$this->redirect(array('controller' => 'users', 'action' => 'logout'));
 				}
