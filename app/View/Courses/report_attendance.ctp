@@ -36,7 +36,7 @@
 	</p>
 <?php endif; ?>
 
-<?php if (! $course_has_begun): ?>
+<?php if ($course_has_begun): ?>
 	<?php if (empty($class_list)): ?>
 		<p class="alert alert-danger">
 			No students are registered for this course.
@@ -115,6 +115,17 @@
 					'class' => 'btn btn-default',
 					'div' => array('class' => 'form-group')
 				));
+				$this->Js->buffer("
+					$('#report_attendance_form').submit(function() {
+						var checkboxes = $('table.attendance tbody input[type=\"checkbox\"]');
+						for (var i = 0; i < checkboxes.length; i++) {
+							if ($(checkboxes[i]).prop('checked')) {
+								return true;
+							}
+						}
+						return confirm('You didn\'t select any students. Are you sure you want to report that no one attended this course?');
+					});
+				");
 			}
 		?>
 
