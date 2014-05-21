@@ -469,9 +469,8 @@ class CoursesController extends AppController {
 			if (! $course_has_begun) {
 				throw new ForbiddenException('Cannot report attendance on a course before it begins');
 			}
-			if (empty($this->request->data['user_ids'])) {
-				$this->Flash->error('No students selected.');
-			} else {
+
+			if (! empty($this->request->data['user_ids'])) {
 				$this->loadModel('CourseRegistration');
 				$registrations = $this->CourseRegistration->find('list', array(
 					'conditions' => array(
@@ -487,10 +486,11 @@ class CoursesController extends AppController {
 					Cache::delete($cache_key);
 					// send email to student
 				}
-				$this->Course->saveField('attendance_reported', true);
-				$this->Flash->success('Attendance reported.');
-				$this->request->data = array();
 			}
+
+			$this->Course->saveField('attendance_reported', true);
+			$this->Flash->success('Attendance reported.');
+			$this->request->data = array();
 		}
 
 		$this->set(array(
