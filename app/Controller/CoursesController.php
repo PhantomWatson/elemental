@@ -462,7 +462,13 @@ class CoursesController extends AppController {
 			throw new NotFoundException('Invalid course selected.');
 		}
 
+		$course = $this->Course->read();
+		$course_has_begun = $course['Course']['begins'] <= date('Y-m-d');
+
 		if ($this->request->is('post')) {
+			if (! $course_has_begun) {
+				throw new ForbiddenException('Cannot report attendance on a course before it begins');
+			}
 			if (empty($this->request->data['user_ids'])) {
 				$this->Flash->error('No students selected.');
 			} else {
@@ -486,12 +492,11 @@ class CoursesController extends AppController {
 			}
 		}
 
-		$course = $this->Course->read();
 		$this->set(array(
 			'title_for_layout' => 'Report Attendance',
 			'course' => $course,
 			'class_list' => $this->Course->getClassList($course_id),
-			'course_has_begun' => $course['Course']['begins'] <= date('Y-m-d')
+			'course_has_begun' => $course_has_begun
 		));
 	}
 }
