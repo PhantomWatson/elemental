@@ -76,7 +76,7 @@
 								'Report attendance',
 								array(
 									'controller' => 'courses',
-									'action' => 'attendance',
+									'action' => 'report_attendance',
 									'id' => $course_id
 								),
 								array(
