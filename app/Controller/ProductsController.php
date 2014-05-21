@@ -124,6 +124,7 @@ class ProductsController extends AppController {
 
 	public function prepaid_review_modules() {
 		$user_id = $this->Auth->user('id');
+		$this->loadModel('PrepaidReviewModule');
 		$this->set(array(
 			'title_for_layout' => 'Prepaid Student Review Modules',
 			'report' => $this->PrepaidReviewModule->getReport($user_id)

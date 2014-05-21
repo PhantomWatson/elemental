@@ -48,16 +48,25 @@ class PrepaidReviewModule extends AppModel {
 				),
 				'contain' => false,
 				'fields' => array(
+					'Product.id',
 					'Product.cost',
 					'Product.description'
 				)
 			)
 		);
 		$total = $quantity * $product['Product']['cost'];
+		$product_id = $product['Product']['id'];
 
 		// Generate a JWT (JSON Web Token) for this item
 		// $payload parameters reference: https://developers.google.com/commerce/wallet/digital/docs/jsreference#jwt
 		App::import('Vendor', 'JWT');
+		$seller_data = array(
+			"type:prepaid_module",
+			"user_id:$user_id",
+			"instructor_id:$instructor_id",
+			"product_id:$product_id",
+			"quantity:$quantity"
+		);
 		$payload = array(
 			"iss" => $seller_identifier,
 			"aud" => "Google",
@@ -69,7 +78,7 @@ class PrepaidReviewModule extends AppModel {
 				"description" => $product['Product']['description'],
 				"price" => $total,
 				"currencyCode" => "USD",
-				"sellerData" => "type:prepaid_module,user_id:$user_id,instructor_id:$instructor_id"
+				"sellerData" => implode(',', $seller_data)
 			)
 		);
 		return JWT::encode($payload, $seller_secret);
@@ -205,18 +214,20 @@ class PrepaidReviewModule extends AppModel {
 				'order' => 'PrepaidReviewModule.course_id DESC'
 			)
 		);
+		App::import('Model', 'Course');
+		$Course = new Course();
 		$retval = array(
 			'available' => 0,
 			'pending' => array(),
 			'used' => array()
 		);
 		foreach ($modules as $module) {
-			$course_id = $module['course_id'];
+			$course_id = $module['PrepaidReviewModule']['course_id'];
 			if ($course_id == null) {
 				$retval['available']++;
 				continue;
 			}
-			$type = $module['student_id'] == null ? 'pending' : 'used';
+			$type = $module['PrepaidReviewModule']['student_id'] == null ? 'pending' : 'used';
 			if (isset($retval[$type][$course_id])) {
 				$retval[$type][$course_id]['count']++;
 			} else {
@@ -233,11 +244,11 @@ class PrepaidReviewModule extends AppModel {
 				$start = strtotime($start);
 				$end = end($dates);
 				$end = strtotime($end);
-				$date = date('F j, Y', $date);
 				$retval[$type][$course_id] = array(
 					'count' => 1,
-					'start' => $start,
-					'end' => $end
+					'start' => date('F j, Y', $start),
+					'end' => date('F j, Y', $end),
+					'attendance_reported' => $Course->attendanceIsReported($course_id)
 				);
 			}
 		}

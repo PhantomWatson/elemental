@@ -462,10 +462,20 @@ class CoursesController extends AppController {
 			throw new NotFoundException('Invalid course selected.');
 		}
 
+		$course = $this->Course->read();
+		$course_has_begun = $course['Course']['begins'] <= date('Y-m-d');
+		$attendance_already_reported = $this->Course->attendanceIsReported($course_id);
+
 		if ($this->request->is('post')) {
-			if (empty($this->request->data['user_ids'])) {
-				$this->Flash->error('No students selected.');
-			} else {
+			if (! $course_has_begun) {
+				throw new ForbiddenException('Cannot report attendance on a course before it begins');
+			}
+
+			if ($attendance_already_reported) {
+				throw new ForbiddenException('Cannot report attendance: Attendance has already been reported for this course');
+			}
+
+			if (! empty($this->request->data['user_ids'])) {
 				$this->loadModel('CourseRegistration');
 				$registrations = $this->CourseRegistration->find('list', array(
 					'conditions' => array(
@@ -481,15 +491,19 @@ class CoursesController extends AppController {
 					Cache::delete($cache_key);
 					// send email to student
 				}
-				$this->Flash->success('Attendance reported.');
-				$this->request->data = array();
 			}
+
+			$this->Course->saveField('attendance_reported', true);
+			$this->Flash->success('Attendance reported.');
+			$this->request->data = array();
 		}
 
 		$this->set(array(
 			'title_for_layout' => 'Report Attendance',
-			'course' => $this->Course->read(),
-			'class_list' => $this->Course->getClassList($course_id)
+			'course' => $course,
+			'class_list' => $this->Course->getClassList($course_id),
+			'course_has_begun' => $course_has_begun,
+			'attendance_already_reported' => $attendance_already_reported
 		));
 	}
 }

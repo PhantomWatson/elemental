@@ -45,6 +45,19 @@ class Product extends AppModel {
 		)
 	);
 
+	public function afterFind($results, $primary = false) {
+		foreach ($results as $key => $val) {
+
+			// Convert cost from cents into dollars
+			if (isset($val['Product']['cost'])) {
+				$cost = $results[$key]['Product']['cost'] / 100;
+				$cost = number_format($cost, 2);
+				$results[$key]['Product']['cost'] = $cost;
+			}
+		}
+		return $results;
+	}
+
 	/**
 	 * Generates the JSON Web Token for a Google Wallet purchase button
 	 * @param int $product_id
