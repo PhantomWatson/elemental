@@ -486,10 +486,12 @@ class CoursesController extends AppController {
 			}
 		}
 
+		$course = $this->Course->read();
 		$this->set(array(
 			'title_for_layout' => 'Report Attendance',
-			'course' => $this->Course->read(),
-			'class_list' => $this->Course->getClassList($course_id)
+			'course' => $course,
+			'class_list' => $this->Course->getClassList($course_id),
+			'course_has_begun' => $course['Course']['begins'] <= date('Y-m-d')
 		));
 	}
 }
