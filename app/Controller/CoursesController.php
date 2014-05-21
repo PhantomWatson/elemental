@@ -487,6 +487,7 @@ class CoursesController extends AppController {
 					Cache::delete($cache_key);
 					// send email to student
 				}
+				$this->Course->saveField('attendance_reported', true);
 				$this->Flash->success('Attendance reported.');
 				$this->request->data = array();
 			}
