@@ -23,42 +23,63 @@
 	); ?>
 </p>
 
-<?php if ($course_has_begun): ?>
+<?php if ($attendance_already_reported): ?>
+	<p class="alert alert-info">
+		Attendance has been reported for this course. If you need to edit this attendance report, please
+		<?php echo $this->Html->link(
+			'contact an administrator',
+			array(
+				'controller' => 'pages',
+				'action' => 'contact'
+			)
+		); ?>
+	</p>
+<?php endif; ?>
+
+<?php if (! $course_has_begun): ?>
 	<?php if (empty($class_list)): ?>
 		<p class="alert alert-danger">
 			No students are registered for this course.
 		</p>
 	<?php else: ?>
-		<?php echo $this->Form->create(false, array('id' => 'report_attendance_form')); ?>
+
+		<?php
+			if (! $attendance_already_reported) {
+				echo $this->Form->create(false, array('id' => 'report_attendance_form'));
+			}
+		?>
 		<table class="table attendance">
-			<thead>
-				<tr>
-					<th colspan="2">
-						<?php echo $this->Form->input("select_all", array(
-							'id' => 'select_all',
-							'label' => 'Select all',
-							'type' => 'checkbox',
-							'value' => 1,
-							'div' => false,
-							'checked' => false
-						)); ?>
-						<?php $this->Js->buffer("
-							$('#select_all').click(function() {
-								$('table.attendance tbody input[type=\"checkbox\"]').prop('checked', $(this).prop('checked'));
-							});
-						"); ?>
-					</th>
-					<th>
-						Attended
-					</th>
-				</tr>
-			</thead>
+			<?php if (! $attendance_already_reported): ?>
+				<thead>
+					<tr>
+						<th colspan="2">
+							<?php echo $this->Form->input("select_all", array(
+								'id' => 'select_all',
+								'label' => 'Select all',
+								'type' => 'checkbox',
+								'value' => 1,
+								'div' => false,
+								'checked' => false
+							)); ?>
+							<?php $this->Js->buffer("
+								$('#select_all').click(function() {
+									$('table.attendance tbody input[type=\"checkbox\"]').prop('checked', $(this).prop('checked'));
+								});
+							"); ?>
+						</th>
+						<th>
+							Attended
+						</th>
+					</tr>
+				</thead>
+			<?php endif; ?>
+
 			<tbody>
 				<?php foreach ($class_list as $n => $student): ?>
 					<?php $attended = $student['CourseRegistration']['attended']; ?>
 					<tr class="<?php echo $attended ? 'alert-success' : 'alert-danger'; ?>">
 						<td>
-							<?php if (! $attended && $student['User']['id']): ?>
+							<?php if (! $attendance_already_reported && ! $attended && $student['User']['id']): ?>
 								<?php echo $this->Form->input("user_ids.$n", array(
 									'label' => false,
 									'type' => 'checkbox',
@@ -87,11 +108,15 @@
 			</tbody>
 		</table>
 
-		<?php echo $this->Form->end(array(
-			'label' => 'Mark as Attended',
-			'class' => 'btn btn-default',
-			'div' => array('class' => 'form-group')
-		)); ?>
+		<?php
+			if (! $attendance_already_reported) {
+				echo $this->Form->end(array(
+					'label' => 'Mark as Attended',
+					'class' => 'btn btn-default',
+					'div' => array('class' => 'form-group')
+				));
+			}
+		?>
 
 	<?php endif; ?>
 <?php else: ?>
