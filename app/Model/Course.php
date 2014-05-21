@@ -650,4 +650,9 @@ class Course extends AppModel {
 			)
 		));
 	}
+
+	public function attendanceIsReported($course_id) {
+		$this->id = $course_id;
+		return $this->field('attendance_reported');
+	}
 }
