@@ -25,16 +25,22 @@
 				Available
 			</td>
 			<td>
-				<?php echo $this->Html->link(
-					'Purchase',
-					array(
-						'controller' => 'store',
-						'action' => 'prepaid_student_review_module'
-					),
-					array(
-						'class' => 'btn btn-default'
-					)
-				); ?>
+				<?php
+					$label = 'Purchase';
+					if ($report['available']) {
+						$label .= ' more';
+					}
+					echo $this->Html->link(
+						$label,
+						array(
+							'controller' => 'store',
+							'action' => 'prepaid_student_review_module'
+						),
+						array(
+							'class' => 'btn btn-default'
+						)
+					);
+				?>
 			</td>
 		</tr>
 
