@@ -177,7 +177,7 @@ class Course extends AppModel {
 		// If shrinking
 		} elseif ($growth < 0) {
 			$shrinkage = -1 * $growth; // I WAS IN THE POOL
-			$this->PrepaidReviewModule->releaseUnclaimedFromCourse($course_id, $shrinkage);
+			$this->PrepaidReviewModule->releaseUnclaimedFromCourse($this->id, $shrinkage);
 		}
 	}
 
