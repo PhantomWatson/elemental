@@ -1,7 +1,7 @@
 <li class="dropdown">
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-		Instructor 
-		<b class="caret"></b> 
+		Instructor
+		<b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">
 		<li class="dropdown-header">
@@ -31,22 +31,7 @@
 				); ?>
 			</li>
 		</li>
-		
-		<li class="divider"></li>
-		<li class="dropdown-header">
-			Certification
-		</li>
-		<li>
-			<a href="#">
-				Check current status
-			</a>
-		</li>
-		<li>
-			<a href="#">
-				Get recertified
-			</a>
-		</li>
-		
+
 		<li class="divider"></li>
 		<li class="dropdown-header">
 			Other
