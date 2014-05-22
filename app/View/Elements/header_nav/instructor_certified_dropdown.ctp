@@ -10,7 +10,7 @@
 		<li>
 			<li>
 				<?php echo $this->Html->link(
-					'Schedule a course',
+					'Schedule a Course',
 					array(
 						'controller' => 'courses',
 						'action' => 'add',
@@ -22,10 +22,20 @@
 		<li>
 			<li>
 				<?php echo $this->Html->link(
-					'Manage courses',
+					'Manage Courses',
 					array(
 						'controller' => 'courses',
 						'action' => 'manage',
+						$this->params['prefix'] => false
+					)
+				); ?>
+			</li>
+			<li>
+				<?php echo $this->Html->link(
+					'Prepaid Review Modules',
+					array(
+						'controller' => 'products',
+						'action' => 'prepaid_review_modules',
 						$this->params['prefix'] => false
 					)
 				); ?>
