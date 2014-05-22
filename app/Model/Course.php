@@ -173,7 +173,7 @@ class Course extends AppModel {
 
 	public function validateFreeClassSize($check) {
 		$new_size = $check['max_participants'];
-		$free = $this->request->data['Course']['cost'] == 0;
+		$free = $this->data['Course']['cost'] == 0;
 
 		// If course has a registration fee, any class size is allowed
 		if (! $free) {
@@ -185,8 +185,8 @@ class Course extends AppModel {
 		$logged_in_user_id = $Session->read('Auth.User.id');
 
 		// If editing
-		if (isset($this->request->data['Course']['id'])) {
-			$course_id = $this->request->data['Course']['id'];
+		if (isset($this->data['Course']['id'])) {
+			$course_id = $this->data['Course']['id'];
 
 			// In case an administrator is editing another instructor's course,
 			// pull original instructor ID from DB
