@@ -139,7 +139,36 @@ class Course extends AppModel {
 
 	public function beforeSave($options) {
 		$this->data['Course']['begins'] = $this->getStartDate();
+
+		// If editing, handle growing/shrinking of free classes
+		if (isset($this->data['Course']['id'])) {
+			$this->adjustReservedPrepaidReviewModules();
+		}
+
 		return true;
+	}
+
+	/**
+	 * Handles when a free class size changes and either more
+	 * PRMs need to be reserved for this course or reserved
+	 * PRMs need to be put back into the 'available' pool
+	 */
+	public function adjustReservedPrepaidReviewModules() {
+		$this->id = $this->data['Course']['id'];
+		$new_size = $this->data['Course']['max_participants'];
+		$old_size = $this->field('max_participants');
+		$growth = $new_size - $old_size;
+
+		// If growing
+		if ($growth > 0) {
+			$instructor_id = $this->field('instructor_id');
+			$this->PrepaidReviewModule->assignToCourse($instructor_id, $growth, $this->id);
+
+		// If shrinking
+		} elseif ($growth < 0) {
+			$shrinkage = -1 * $growth; // I WAS IN THE POOL
+			$this->PrepaidReviewModule->releaseUnclaimedFromCourse($course_id, $shrinkage);
+		}
 	}
 
 	public function beforeValidate($options = array()) {
