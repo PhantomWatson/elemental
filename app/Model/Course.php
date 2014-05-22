@@ -140,12 +140,22 @@ class Course extends AppModel {
 	public function beforeSave($options = array()) {
 		$this->data['Course']['begins'] = $this->getStartDate();
 
-		// If editing, handle growing/shrinking of free classes
+		// If editing a free course, handle growing/shrinking of free classes
 		if ($this->data['Course']['cost'] == 0 && isset($this->data['Course']['id'])) {
 			$this->adjustReservedPrepaidReviewModules();
 		}
 
 		return true;
+	}
+
+	public function afterSave($created, $options = array()) {
+		// If adding a free course, reserve PRMs
+		if ($created && $this->data['Course']['cost'] == 0) {
+			$instructor_id = $this->data['Course']['user_id'];
+			$quantity = $this->data['Course']['max_participants'];
+			$course_id = $this->id;
+			$this->PrepaidReviewModule->assignToCourse($instructor_id, $quantity, $course_id);
+		}
 	}
 
 	/**
