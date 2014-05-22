@@ -148,6 +148,13 @@ class PrepaidReviewModule extends AppModel {
 	}
 
 	public function assignToAttendingStudents($course_id) {
+		// Abort if this is not a free course
+		$this->Course->id = $course_id;
+		$cost = $this->Course->field('cost');
+		if ($cost > 0) {
+			return;
+		}
+
 		App::import('Model', 'CourseRegistration');
 		$CourseRegistration = new CourseRegistration();
 		$attending_students = $CourseRegistration->find(
