@@ -494,6 +494,9 @@ class CoursesController extends AppController {
 			}
 
 			$this->Course->saveField('attendance_reported', true);
+			if ($course['Course']['cost'] == 0) {
+				$this->PrepaidReviewModule->assignToAttendingStudents($course_id);
+			}
 			$this->Flash->success('Attendance reported.');
 			$this->request->data = array();
 		}
