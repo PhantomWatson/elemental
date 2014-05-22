@@ -132,16 +132,21 @@ class PrepaidReviewModule extends AppModel {
 		}
 	}
 
-
-	public function releaseUnclaimedFromCourse($course_id) {
-		$assigned_modules = $this->find('list', array(
+	/**
+	 * Moves modules reserved for this course but not claimed by a student into the 'available' pool
+	 * @param int $course_id
+	 * @param int $quantity If unspecified, applies to all such modules
+	 */
+	public function releaseUnclaimedFromCourse($course_id, $quantity = null) {
+		$reserved_modules = $this->find('list', array(
 			'conditions' => array(
 				'PrepaidReviewModule.course_id' => $course_id,
 				'PrepaidReviewModule.student_id' => null
-			)
+			),
+			'limit' => $quantity
 		));
 
-		foreach ($assigned_modules as $module_id => $course_id) {
+		foreach ($reserved_modules as $module_id => $course_id) {
 			$this->id = $module_id;
 			$this->saveField('course_id', null);
 		}
