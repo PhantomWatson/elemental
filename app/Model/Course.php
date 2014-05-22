@@ -137,11 +137,11 @@ class Course extends AppModel {
 		)
 	);
 
-	public function beforeSave($options) {
+	public function beforeSave($options = array()) {
 		$this->data['Course']['begins'] = $this->getStartDate();
 
 		// If editing, handle growing/shrinking of free classes
-		if (isset($this->data['Course']['id'])) {
+		if ($this->data['Course']['cost'] == 0 && isset($this->data['Course']['id'])) {
 			$this->adjustReservedPrepaidReviewModules();
 		}
 
