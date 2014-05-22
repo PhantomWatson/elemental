@@ -6,10 +6,10 @@
 	<thead>
 		<tr>
 			<th>
-				Quantity
+				Status
 			</th>
 			<th>
-				Status
+				Quantity
 			</th>
 			<th>
 				Actions
@@ -19,10 +19,10 @@
 	<tbody>
 		<tr>
 			<td>
-				<?php echo $report['available']; ?>
+				Available
 			</td>
 			<td>
-				Available
+				<?php echo $report['available']; ?>
 			</td>
 			<td>
 				<?php
@@ -47,10 +47,10 @@
 		<?php if (empty($report['pending'])): ?>
 			<tr>
 				<td>
-					0
+					Reserved for upcoming courses
 				</td>
 				<td>
-					Reserved for upcoming courses
+					0
 				</td>
 				<td>
 					<?php if ($report['available']): ?>
@@ -71,10 +71,10 @@
 			<?php foreach ($report['pending'] as $course_id => $course): ?>
 				<tr>
 					<td>
-						<?php echo $course['count']; ?>
+						Reserved for course on <?php echo $course['start']; ?>
 					</td>
 					<td>
-						Reserved for course on <?php echo $course['start']; ?>
+						<?php echo $course['count']; ?>
 					</td>
 					<td>
 						<?php if (strtotime($course['end']) < time() && ! $course['attendance_reported']): ?>
@@ -98,10 +98,10 @@
 		<?php if (empty($report['pending'])): ?>
 			<tr>
 				<td>
-					0
+					Assigned to students
 				</td>
 				<td>
-					Assigned to students
+					0
 				</td>
 				<td>
 				</td>
@@ -110,10 +110,10 @@
 			<?php foreach ($report['used'] as $course_id => $course): ?>
 				<tr>
 					<td>
-						<?php echo $course['count']; ?>
+						Assigned to students of the course on <?php echo $course['start']; ?>
 					</td>
 					<td>
-						Assigned to students of the course on <?php echo $course['start']; ?>
+						<?php echo $course['count']; ?>
 					</td>
 					<td>
 					</td>
