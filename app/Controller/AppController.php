@@ -96,6 +96,7 @@ class AppController extends Controller {
 
 				$login_data = $user['User'];
 				$login_data['Role'] = $user['Role'];
+				$login_data['User']['certified'] = $user['User']['certified'];
 
 				$login_successful = $this->Auth->login($login_data);
 				if ($user && ! $login_successful) {
