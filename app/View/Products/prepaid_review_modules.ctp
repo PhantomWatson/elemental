@@ -80,6 +80,9 @@
 				<td>
 					<?php echo $course['count']; ?>
 					reserved for course on <?php echo $course['start']; ?>
+					<?php if (strtotime($course['end']) < time() && ! $course['attendance_reported']): ?>
+						<span class="label label-danger">Attendance not reported</span>
+					<?php endif; ?>
 				</td>
 				<td>
 					<?php if (strtotime($course['end']) < time() && ! $course['attendance_reported']): ?>
