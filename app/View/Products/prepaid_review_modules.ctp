@@ -44,21 +44,51 @@
 			</td>
 		</tr>
 
-		<?php if (empty($report['pending'])): ?>
-			<tr>
+		<tr>
+			<td>
+				Reserved for upcoming courses
+			</td>
+			<td>
+				<?php
+					$total = 0;
+					foreach ($report['pending'] as $course_id => $course) {
+						$total += $course['count'];
+					}
+					echo $total;
+				?>
+			</td>
+			<td>
+				<?php if ($report['available']): ?>
+					<?php echo $this->Html->link(
+						'Schedule a free course',
+						array(
+							'controller' => 'courses',
+							'action' => 'add'
+						),
+						array(
+							'class' => 'btn btn-default'
+						)
+					); ?>
+				<?php endif; ?>
+			</td>
+		</tr>
+
+		<?php foreach ($report['pending'] as $course_id => $course): ?>
+			<tr class="detail">
 				<td>
-					Reserved for upcoming courses
+					Reserved for course on <?php echo $course['start']; ?>
 				</td>
 				<td>
-					0
+					<?php echo $course['count']; ?>
 				</td>
 				<td>
-					<?php if ($report['available']): ?>
+					<?php if (strtotime($course['end']) < time() && ! $course['attendance_reported']): ?>
 						<?php echo $this->Html->link(
-							'Schedule a free course',
+							'Report attendance',
 							array(
 								'controller' => 'courses',
-								'action' => 'add'
+								'action' => 'report_attendance',
+								'id' => $course_id
 							),
 							array(
 								'class' => 'btn btn-default'
@@ -67,58 +97,36 @@
 					<?php endif; ?>
 				</td>
 			</tr>
-		<?php else: ?>
-			<?php foreach ($report['pending'] as $course_id => $course): ?>
-				<tr>
-					<td>
-						Reserved for course on <?php echo $course['start']; ?>
-					</td>
-					<td>
-						<?php echo $course['count']; ?>
-					</td>
-					<td>
-						<?php if (strtotime($course['end']) < time() && ! $course['attendance_reported']): ?>
-							<?php echo $this->Html->link(
-								'Report attendance',
-								array(
-									'controller' => 'courses',
-									'action' => 'report_attendance',
-									'id' => $course_id
-								),
-								array(
-									'class' => 'btn btn-default'
-								)
-							); ?>
-						<?php endif; ?>
-					</td>
-				</tr>
-			<?php endforeach; ?>
-		<?php endif; ?>
+		<?php endforeach; ?>
 
-		<?php if (empty($report['pending'])): ?>
-			<tr>
+		<tr>
+			<td>
+				Assigned to students
+			</td>
+			<td>
+				<?php
+					$total = 0;
+					foreach ($report['used'] as $course_id => $course) {
+						$total += $course['count'];
+					}
+					echo $total;
+				?>
+			</td>
+			<td>
+			</td>
+		</tr>
+
+		<?php foreach ($report['used'] as $course_id => $course): ?>
+			<tr class="detail">
 				<td>
-					Assigned to students
+					Assigned to students of the course on <?php echo $course['start']; ?>
 				</td>
 				<td>
-					0
+					<?php echo $course['count']; ?>
 				</td>
 				<td>
 				</td>
 			</tr>
-		<?php else: ?>
-			<?php foreach ($report['used'] as $course_id => $course): ?>
-				<tr>
-					<td>
-						Assigned to students of the course on <?php echo $course['start']; ?>
-					</td>
-					<td>
-						<?php echo $course['count']; ?>
-					</td>
-					<td>
-					</td>
-				</tr>
-			<?php endforeach; ?>
-		<?php endif; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
