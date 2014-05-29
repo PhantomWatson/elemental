@@ -79,7 +79,15 @@
 				</td>
 				<td>
 					<?php echo $course['count']; ?>
-					reserved for course on <?php echo $course['start']; ?>
+					reserved for course on
+					<?php echo $this->Html->link(
+						$course['start'],
+						array(
+							'controller' => 'courses',
+							'action' => 'view',
+							'id' => $course_id
+						)
+					); ?>
 					<?php if (strtotime($course['end']) < time() && ! $course['attendance_reported']): ?>
 						<span class="label label-danger">Attendance not reported</span>
 					<?php endif; ?>
@@ -125,7 +133,15 @@
 				</td>
 				<td>
 					<?php echo $course['count']; ?>
-					assigned to students of the course on <?php echo $course['start']; ?>
+					assigned to students of the course on
+					<?php echo $this->Html->link(
+						$course['start'],
+						array(
+							'controller' => 'courses',
+							'action' => 'view',
+							'id' => $course_id
+						)
+					); ?>
 				</td>
 				<td>
 				</td>
