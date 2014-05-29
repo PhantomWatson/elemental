@@ -171,6 +171,8 @@ class CoursesController extends AppController {
 			throw new NotFoundException('Invalid course');
 		}
 
+		$instructor_id = $this->Course->field('user_id');
+		$available_psrm = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
 		$max_participants_footnote = '';
 		$class_list_count = count($this->Course->getClassList($id));
 		$waiting_list_count = count($this->Course->getWaitingList($id));
@@ -202,7 +204,9 @@ class CoursesController extends AppController {
 			'payments_received' => $this->Course->paymentsReceived($id)
 		));
 		$this->set(compact(
-			'class_list_count', 'waiting_list_count'
+			'available_psrm',
+			'class_list_count',
+			'waiting_list_count'
 		));
 		$this->render('form');
 	}
