@@ -22,7 +22,9 @@
 				<?php echo $report['available']; ?>
 			</td>
 			<td>
-				Available
+				<strong>
+					Available
+				</strong>
 			</td>
 			<td>
 				<?php
@@ -55,7 +57,10 @@
 				?>
 			</td>
 			<td>
-				Reserved for upcoming courses
+				<strong>
+					Reserved
+				</strong>
+				for upcoming courses
 			</td>
 			<td>
 				<?php if ($report['available']): ?>
@@ -121,7 +126,10 @@
 				?>
 			</td>
 			<td>
-				Assigned to students
+				<strong>
+					Assigned
+				</strong>
+				to students
 			</td>
 			<td>
 			</td>
