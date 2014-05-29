@@ -88,7 +88,7 @@ class AppController extends Controller {
 						'User.email' => $cookie['email'],
 						'User.password' => $cookie['password']
 					),
-					'fields' => array('id', 'role', 'name'),
+					'fields' => array('id', 'role', 'name', 'certified'),
 					'contain' => array(
 						'Role'
 					)
