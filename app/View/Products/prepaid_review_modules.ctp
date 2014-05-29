@@ -4,6 +4,10 @@
 
 <?php echo $this->element('psrm_explanation'); ?>
 
+<h2>
+	Your Modules:
+</h2>
+
 <table class="table" id="psrm_report">
 	<thead>
 		<tr>
