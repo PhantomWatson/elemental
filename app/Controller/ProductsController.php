@@ -127,6 +127,7 @@ class ProductsController extends AppController {
 		$this->loadModel('PrepaidReviewModule');
 		$this->set(array(
 			'title_for_layout' => 'Prepaid Student Review Modules',
+			'cost' => $this->PrepaidReviewModule->getCost(),
 			'report' => $this->PrepaidReviewModule->getReport($user_id)
 		));
 	}

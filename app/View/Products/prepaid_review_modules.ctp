@@ -2,6 +2,8 @@
 	<?php echo $title_for_layout; ?>
 </h1>
 
+<?php echo $this->element('psrm_explanation'); ?>
+
 <table class="table" id="psrm_report">
 	<thead>
 		<tr>
