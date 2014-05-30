@@ -157,6 +157,54 @@
 				'div' => array('class' => 'form-group')
 			));
 
+			// Free versus fee
+		?>
+		
+		<div class="form-group" id="free_vs_fee">
+			<label>
+				Cost to Attend
+			</label>
+			<input name="data[Course][free]" id="CourseFree_" value="" type="hidden">
+			<div class="radio">
+				<label for="CourseFree1">
+					<input name="data[Course][free]" id="CourseFree1" value="1" type="radio" <?php if ($this->data['Course']['free']) echo 'checked="checked"'; ?> />
+					Free course
+				</label>
+			</div>
+			<div class="radio">
+				<label for="CourseFree0">
+					<input name="data[Course][free]" id="CourseFree0" value="0" type="radio" <?php if (! $this->data['Course']['free']) echo 'checked="checked"'; ?> />
+					Registration fee
+				</label>
+			</div>
+		</div>
+		
+		<?php
+			if (isset($payments_received) && $payments_received) {
+				$warning = $payments_received.__n(' student has', ' students have', $payments_received).' already paid.';
+				$warning = ' <span class="label label-info">'.$warning.'</span><br />';
+			} else {
+				$warning = '';
+			}
+			$cents = $this->Form->input('cost_cents', array(
+				'class' => 'form-control',
+				'div' => false,
+				'label' => false,
+				'maxlength' => 2
+			));
+			echo $this->Form->input('cost_dollars', array(
+				'after' => '<span class="currency_symbol">.</span>'.$cents,
+				'between' => $warning.'<span class="currency_symbol">$</span></a>',
+				'class' => 'form-control',
+				'div' => array(
+					'class' => 'form-group cost'
+				),
+				'label' => false,
+				'maxlength' => 3
+			));
+
+
+			// Class size
 			$max_participants_footnote = '';
 			if (isset($class_list_count) && $class_list_count > 0) {
 				$max_participants_footnote .= 'There '.__n("is 1 participant", "are $class_list_count participants", $class_list_count).' currently registered. ';
@@ -173,30 +221,8 @@
 				'div' => array('class' => 'form-group'),
 				'between' => $max_participants_footnote
 			));
-			if (isset($payments_received) && $payments_received) {
-				$warning = $payments_received.__n(' student has', ' students have', $payments_received).' already paid.';
-				$warning = ' <span class="label label-info">'.$warning.'</span>';
-			} else {
-				$warning = '';
-			}
-			$cents = $this->Form->input('cost_cents', array(
-				'after' => '<div class="footnote">Enter $0.00 if free</div>',
-				'class' => 'form-control',
-				'div' => false,
-				'label' => false,
-				'maxlength' => 2
-			));
-			echo $this->Form->input('cost_dollars', array(
-				'after' => '<span class="currency_symbol">.</span>'.$cents,
-				'between' => $warning.'<br /><span class="currency_symbol">$</span></a>',
-				'class' => 'form-control',
-				'div' => array(
-					'class' => 'form-group cost'
-				),
-				'label' => 'Cost to Attend',
-				'maxlength' => 3
-			));
-
+			
+			
 			echo $this->Form->input('details', array(
 				'between' => '<div class="footnote">This optional description of the course will be included in its listing on the Elemental website.</div>',
 				'class' => 'form-control',
