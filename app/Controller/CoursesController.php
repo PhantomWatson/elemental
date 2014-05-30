@@ -145,6 +145,8 @@ class CoursesController extends AppController {
 			} else {
 				$this->Flash->error('The course could not be added. Please try again.');
 			}
+		} else {
+			$this->request->data['Course']['free'] = false;
 		}
 		if (! isset($this->request->data['Course']['cost_dollars']) || empty ($this->request->data['Course']['cost_dollars'])) {
 			$this->request->data['Course']['cost_dollars'] = '0';
