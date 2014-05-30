@@ -88,7 +88,7 @@ class AppController extends Controller {
 						'User.email' => $cookie['email'],
 						'User.password' => $cookie['password']
 					),
-					'fields' => array('id', 'role', 'name'),
+					'fields' => array('id', 'role', 'name', 'certified'),
 					'contain' => array(
 						'Role'
 					)
@@ -96,6 +96,7 @@ class AppController extends Controller {
 
 				$login_data = $user['User'];
 				$login_data['Role'] = $user['Role'];
+				$login_data['User']['certified'] = $user['User']['certified'];
 
 				$login_successful = $this->Auth->login($login_data);
 				if ($user && ! $login_successful) {

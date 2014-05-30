@@ -133,9 +133,11 @@ class CoursesController extends AppController {
  * @return void
  */
 	public function add() {
+		$instructor_id = $this->Auth->user('id');
+		$available_psrm = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
 		if ($this->request->is('post')) {
 			$this->Course->create();
-			$this->request->data['Course']['user_id'] = $this->Auth->user('id');
+			$this->request->data['Course']['user_id'] = $instructor_id;
 			if ($this->Course->saveAssociated($this->request->data)) {
 				$this->Flash->success('The course has been added');
 				$this->redirect(array('action' => 'manage'));
@@ -149,8 +151,10 @@ class CoursesController extends AppController {
 		if (! isset($this->request->data['Course']['cost_cents']) || empty ($this->request->data['Course']['cost_cents'])) {
 			$this->request->data['Course']['cost_cents'] = '00';
 		}
+		$this->loadModel('PrepaidReviewModule');
 		$this->set(array(
-			'title_for_layout' => 'Schedule a Course'
+			'title_for_layout' => 'Schedule a Course',
+			'available_psrm' => $available_psrm
 		));
 		$this->render('form');
 	}
@@ -167,6 +171,8 @@ class CoursesController extends AppController {
 			throw new NotFoundException('Invalid course');
 		}
 
+		$instructor_id = $this->Course->field('user_id');
+		$available_psrm = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
 		$max_participants_footnote = '';
 		$class_list_count = count($this->Course->getClassList($id));
 		$waiting_list_count = count($this->Course->getWaitingList($id));
@@ -198,7 +204,9 @@ class CoursesController extends AppController {
 			'payments_received' => $this->Course->paymentsReceived($id)
 		));
 		$this->set(compact(
-			'class_list_count', 'waiting_list_count'
+			'available_psrm',
+			'class_list_count',
+			'waiting_list_count'
 		));
 		$this->render('form');
 	}
@@ -494,6 +502,9 @@ class CoursesController extends AppController {
 			}
 
 			$this->Course->saveField('attendance_reported', true);
+			if ($course['Course']['cost'] == 0) {
+				$this->PrepaidReviewModule->assignToAttendingStudents($course_id);
+			}
 			$this->Flash->success('Attendance reported.');
 			$this->request->data = array();
 		}

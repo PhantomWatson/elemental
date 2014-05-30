@@ -173,7 +173,7 @@
 				'div' => array('class' => 'form-group'),
 				'between' => $max_participants_footnote
 			));
-			if ($payments_received) {
+			if (isset($payments_received) && $payments_received) {
 				$warning = $payments_received.__n(' student has', ' students have', $payments_received).' already paid.';
 				$warning = ' <span class="label label-info">'.$warning.'</span>';
 			} else {

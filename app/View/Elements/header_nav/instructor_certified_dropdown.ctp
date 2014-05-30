@@ -1,7 +1,7 @@
 <li class="dropdown">
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-		Instructor 
-		<b class="caret"></b> 
+		Instructor
+		<b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">
 		<li class="dropdown-header">
@@ -10,7 +10,7 @@
 		<li>
 			<li>
 				<?php echo $this->Html->link(
-					'Schedule a course',
+					'Schedule a Course',
 					array(
 						'controller' => 'courses',
 						'action' => 'add',
@@ -22,7 +22,7 @@
 		<li>
 			<li>
 				<?php echo $this->Html->link(
-					'Manage courses',
+					'Manage Courses',
 					array(
 						'controller' => 'courses',
 						'action' => 'manage',
@@ -30,23 +30,18 @@
 					)
 				); ?>
 			</li>
+			<li>
+				<?php echo $this->Html->link(
+					'Prepaid Review Modules',
+					array(
+						'controller' => 'products',
+						'action' => 'prepaid_review_modules',
+						$this->params['prefix'] => false
+					)
+				); ?>
+			</li>
 		</li>
-		
-		<li class="divider"></li>
-		<li class="dropdown-header">
-			Certification
-		</li>
-		<li>
-			<a href="#">
-				Check current status
-			</a>
-		</li>
-		<li>
-			<a href="#">
-				Get recertified
-			</a>
-		</li>
-		
+
 		<li class="divider"></li>
 		<li class="dropdown-header">
 			Other
