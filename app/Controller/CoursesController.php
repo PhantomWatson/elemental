@@ -134,6 +134,7 @@ class CoursesController extends AppController {
  */
 	public function add() {
 		$instructor_id = $this->Auth->user('id');
+		$this->loadModel('PrepaidReviewModule');
 		$available_psrm = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
 		if ($this->request->is('post')) {
 			$this->Course->create();
@@ -172,6 +173,7 @@ class CoursesController extends AppController {
 		}
 
 		$instructor_id = $this->Course->field('user_id');
+		$this->loadModel('PrepaidReviewModule');
 		$available_psrm = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
 		$max_participants_footnote = '';
 		$class_list_count = count($this->Course->getClassList($id));
