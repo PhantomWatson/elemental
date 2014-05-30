@@ -203,6 +203,9 @@ class CoursesController extends AppController {
 		} else {
 			$this->request->data = $this->Course->read(null, $id);
 		}
+		
+		$this->request->data['Course']['free'] = $this->request->data['Course']['cost'] == 0;
+		
 		$this->set(array(
 			'title_for_layout' => 'Edit Course',
 			'payments_received' => $this->Course->paymentsReceived($id)
