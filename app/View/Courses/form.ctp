@@ -182,7 +182,17 @@
 			<input name="data[Course][free]" id="CourseFree_" value="" type="hidden">
 			<div class="radio">
 				<label for="CourseFree1">
-					<input name="data[Course][free]" id="CourseFree1" value="1" type="radio" <?php if ($this->data['Course']['free']) echo 'checked="checked"'; ?> />
+					<?php
+						$attributes = '';
+						if ($available_psrm) {
+							if ($this->data['Course']['free']) {
+								$attributes .= 'checked="checked" ';
+							}
+						} else {
+							$attributes .= 'disabled="disabled" ';
+						}
+					?>
+					<input name="data[Course][free]" id="CourseFree1" value="1" type="radio" <?php echo $attributes; ?> />
 					Free course
 					<div>
 						<?php if ($available_psrm): ?>
@@ -202,7 +212,13 @@
 			</div>
 			<div class="radio">
 				<label for="CourseFree0">
-					<input name="data[Course][free]" id="CourseFree0" value="0" type="radio" <?php if (! $this->data['Course']['free']) echo 'checked="checked"'; ?> />
+					<?php
+						$attributes = '';
+						if (! $this->data['Course']['free']) {
+							 $attributes .= 'checked="checked"';
+						}
+					?>
+					<input name="data[Course][free]" id="CourseFree0" value="0" type="radio" <?php echo $attributes; ?> />
 					Registration fee
 				</label>
 			</div>
