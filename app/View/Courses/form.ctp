@@ -276,10 +276,12 @@
 			}
 
 			echo $this->Form->input('max_participants', array(
-				'label' => 'Maximum Number of Participants',
+				'after' => $class_size_footnotes,
 				'class' => 'form-control',
 				'div' => array('class' => 'form-group'),
-				'after' => $class_size_footnotes
+				'label' => 'Maximum Number of Participants',
+				'min' => 1,
+				'step' => 1
 			));
 		?>
 	</fieldset>
