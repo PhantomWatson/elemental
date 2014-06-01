@@ -1,5 +1,8 @@
 <?php
-	$this->Js->buffer("courseAddForm.setup();");
+	$this->Js->buffer("courseAddForm.setup({
+		available_psrm: $available_psrm,
+		action: ".$this->request->action."
+	});");
 	function dateTimeInput($view, $key = 0, $course_date = null, $is_dummy_input = false) {
 		$remove_button = '<a href="#" class="remove_date btn btn-danger">';
 		$remove_button .= '<span class="glyphicon glyphicon-remove glyphicon-white"></span> Remove';
