@@ -205,7 +205,18 @@
 						<span class="after_label">
 							prepaid student review
 							<?php echo __n('module is', 'modules are', $available_psrm); ?>
-							available
+							available.
+							<?php echo $this->Html->link(
+								'Get more <span class="glyphicon glyphicon-new-window"></span>',
+								array(
+									'controller' => 'store',
+									'action' => 'prepaid_student_review_module'
+								),
+								array(
+									'escape' => false,
+									'target' => '_blank'
+								)
+							); ?>
 						</span>
 					</div>
 				</label>
