@@ -145,6 +145,13 @@ class CoursesController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Course->create();
 			$this->request->data['Course']['user_id'] = $instructor_id;
+
+			// Prevent nonzero cost from being saved with a free course
+			if ($this->request->data['Course']['free']) {
+				$this->request->data['Course']['cost_dollars'] = '0';
+				$this->request->data['Course']['cost_cents'] = '00';
+			}
+
 			if ($this->Course->saveAssociated($this->request->data)) {
 				$this->Flash->success('The course has been added');
 				$this->redirect(array('action' => 'manage'));
