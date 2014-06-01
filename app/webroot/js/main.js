@@ -59,7 +59,6 @@ var courseAddForm = {
 		
 		
 		$('#free_vs_fee input[type="radio"]').change(function () {
-			console.log('hrm');
 			courseAddForm.toggleCostFields(true);
 		});
 		
