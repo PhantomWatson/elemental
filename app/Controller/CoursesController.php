@@ -160,6 +160,7 @@ class CoursesController extends AppController {
 			}
 		} else {
 			$this->request->data['Course']['free'] = false;
+			$this->request->data['Course']['max_participants'] = 10;
 		}
 
 		// Set default dollars/cents
