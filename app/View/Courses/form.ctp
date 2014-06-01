@@ -159,7 +159,7 @@
 
 			// Free versus fee
 		?>
-		
+
 		<div class="form-group" id="free_vs_fee">
 			<label>
 				Cost to Attend
@@ -178,7 +178,7 @@
 				</label>
 			</div>
 		</div>
-		
+
 		<?php
 			if (isset($payments_received) && $payments_received) {
 				$warning = $payments_received.__n(' student has', ' students have', $payments_received).' already paid.';
@@ -197,7 +197,8 @@
 				'between' => $warning.'<span class="currency_symbol">$</span></a>',
 				'class' => 'form-control',
 				'div' => array(
-					'class' => 'form-group cost'
+					'class' => 'form-group cost',
+					'id' => 'cost_fields'
 				),
 				'label' => false,
 				'maxlength' => 3
@@ -221,8 +222,8 @@
 				'div' => array('class' => 'form-group'),
 				'between' => $max_participants_footnote
 			));
-			
-			
+
+
 			echo $this->Form->input('details', array(
 				'between' => '<div class="footnote">This optional description of the course will be included in its listing on the Elemental website.</div>',
 				'class' => 'form-control',
