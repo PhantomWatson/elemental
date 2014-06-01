@@ -103,79 +103,6 @@
 
 	<fieldset>
 		<legend>
-			When
-		</legend>
-		<div class="form-group">
-			<label>
-				Date(s)
-			</label>
-			<?php echo dateTimeInput($this, 0, null, true); ?>
-			<div id="input_dates" class="input">
-				<?php
-					if (! isset($this->request->data['CourseDate']) || empty($this->request->data['CourseDate'])) {
-						$this->Js->buffer("courseAddForm.addDate();");
-					} else {
-						foreach ($this->request->data['CourseDate'] as $k => $course_date) {
-							echo dateTimeInput($this, $k, $course_date);
-						}
-					}
-				?>
-				<a id="add_date" class="btn btn-success" href="#">
-					<span class="glyphicon glyphicon-plus"></span> Add date
-				</a>
-			</div>
-		</div>
-
-		<?php
-			echo $this->Form->input('deadline', array(
-				'label' => 'Deadline to Register',
-				'between' => '<div class="footnote">This is the last day that students will be able to register through the website.</div>',
-				'maxYear' => (date('Y') + 2),
-				'minYear' => date('Y'),
-				'separator' => '',
-				'class' => 'form-control',
-				'div' => array('class' => 'form-group deadline_inputs')
-			));
-		?>
-	</fieldset>
-
-	<fieldset>
-		<legend>
-			Where
-		</legend>
-		<?php
-			echo $this->Form->input('location', array(
-				'label' => 'Name of Location',
-				'class' => 'form-control',
-				'div' => array('class' => 'form-group')
-			));
-			echo $this->Form->input('address', array(
-				'label' => 'Street Address',
-				'class' => 'form-control',
-				'div' => array('class' => 'form-group')
-			));
-			echo $this->Form->input('city', array(
-				'class' => 'form-control',
-				'div' => array('class' => 'form-group')
-			));
-			$states = array(
-				"AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC",
-				"DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA",
-				"MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE",
-				"NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC",
-				"SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"
-			);
-			echo $this->Form->input('state', array(
-				'type' => 'select',
-				'options' => array_combine($states, $states),
-				'class' => 'form-control',
-				'div' => array('class' => 'form-group')
-			));
-		?>
-	</fieldset>
-
-	<fieldset>
-		<legend>
 			Class Type and Size
 		</legend>
 		<div class="form-group" id="free_vs_fee">
@@ -282,6 +209,79 @@
 				'label' => 'Maximum Number of Participants',
 				'min' => 1,
 				'step' => 1
+			));
+		?>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			When
+		</legend>
+		<div class="form-group">
+			<label>
+				Date(s)
+			</label>
+			<?php echo dateTimeInput($this, 0, null, true); ?>
+			<div id="input_dates" class="input">
+				<?php
+					if (! isset($this->request->data['CourseDate']) || empty($this->request->data['CourseDate'])) {
+						$this->Js->buffer("courseAddForm.addDate();");
+					} else {
+						foreach ($this->request->data['CourseDate'] as $k => $course_date) {
+							echo dateTimeInput($this, $k, $course_date);
+						}
+					}
+				?>
+				<a id="add_date" class="btn btn-success" href="#">
+					<span class="glyphicon glyphicon-plus"></span> Add date
+				</a>
+			</div>
+		</div>
+
+		<?php
+			echo $this->Form->input('deadline', array(
+				'label' => 'Deadline to Register',
+				'between' => '<div class="footnote">This is the last day that students will be able to register through the website.</div>',
+				'maxYear' => (date('Y') + 2),
+				'minYear' => date('Y'),
+				'separator' => '',
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group deadline_inputs')
+			));
+		?>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			Where
+		</legend>
+		<?php
+			echo $this->Form->input('location', array(
+				'label' => 'Name of Location',
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group')
+			));
+			echo $this->Form->input('address', array(
+				'label' => 'Street Address',
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group')
+			));
+			echo $this->Form->input('city', array(
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group')
+			));
+			$states = array(
+				"AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC",
+				"DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA",
+				"MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE",
+				"NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC",
+				"SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"
+			);
+			echo $this->Form->input('state', array(
+				'type' => 'select',
+				'options' => array_combine($states, $states),
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group')
 			));
 		?>
 	</fieldset>
