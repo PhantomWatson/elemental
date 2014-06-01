@@ -136,6 +136,12 @@ class CoursesController extends AppController {
 		$instructor_id = $this->Auth->user('id');
 		$this->loadModel('PrepaidReviewModule');
 		$available_psrm = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
+
+		// Force non-free class if free is not possible
+		if (! $available_psrm) {
+			$this->request->data['Course']['free'] = false;
+		}
+
 		if ($this->request->is('post')) {
 			$this->Course->create();
 			$this->request->data['Course']['user_id'] = $instructor_id;
@@ -148,12 +154,15 @@ class CoursesController extends AppController {
 		} else {
 			$this->request->data['Course']['free'] = false;
 		}
+
+		// Set default dollars/cents
 		if (! isset($this->request->data['Course']['cost_dollars']) || empty ($this->request->data['Course']['cost_dollars'])) {
 			$this->request->data['Course']['cost_dollars'] = '0';
 		}
 		if (! isset($this->request->data['Course']['cost_cents']) || empty ($this->request->data['Course']['cost_cents'])) {
 			$this->request->data['Course']['cost_cents'] = '00';
 		}
+
 		$this->loadModel('PrepaidReviewModule');
 		$this->set(array(
 			'title_for_layout' => 'Schedule a Course',
@@ -203,9 +212,9 @@ class CoursesController extends AppController {
 		} else {
 			$this->request->data = $this->Course->read(null, $id);
 		}
-		
+
 		$this->request->data['Course']['free'] = $this->request->data['Course']['cost'] == 0;
-		
+
 		$this->set(array(
 			'title_for_layout' => 'Edit Course',
 			'payments_received' => $this->Course->paymentsReceived($id)
