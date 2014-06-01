@@ -184,6 +184,20 @@
 				<label for="CourseFree1">
 					<input name="data[Course][free]" id="CourseFree1" value="1" type="radio" <?php if ($this->data['Course']['free']) echo 'checked="checked"'; ?> />
 					Free course
+					<div>
+						<?php if ($available_psrm): ?>
+							<span class="label label-success"><?php
+								echo $available_psrm;
+							?></span>
+						<?php else: ?>
+							<span class="label label-danger">0</span>
+						<?php endif; ?>
+						<span class="after_label">
+							prepaid student review
+							<?php echo __n('module is', 'modules are', $available_psrm); ?>
+							available
+						</span>
+					</div>
 				</label>
 			</div>
 			<div class="radio">
@@ -221,21 +235,21 @@
 
 
 			// Class size
-			$max_participants_footnote = '';
-			if (isset($class_list_count) && $class_list_count > 0) {
-				$max_participants_footnote .= 'There '.__n("is 1 participant", "are $class_list_count participants", $class_list_count).' currently registered. ';
+			$class_size_footnotes = '';
+			if ($this->request->action == 'edit') {
+				if (isset($class_list_count) && $class_list_count > 0) {
+					$class_size_footnotes .= '<br /><span class="label label-info">Note</span> There '.__n("is 1 participant", "are $class_list_count participants", $class_list_count).' currently registered. The class size cannot be reduced below this number.';
+				}
+				if (! $this->data['Course']['free'] && isset($waiting_list_count) && $waiting_list_count > 0) {
+					$class_size_footnotes .= '<br /><span class="label label-info">Note</span> There '.__n('is 1 participant', "are $waiting_list_count participants", $waiting_list_count).' on the waiting list who will be automatically moved into the course if the participant limit is increased. ';
+				}
 			}
-			if (isset($waiting_list_count) && $waiting_list_count > 0) {
-				$max_participants_footnote .= 'There '.__n('is 1 participant', "are $waiting_list_count participants", $waiting_list_count).' on the waiting list who will be automatically moved into the course if the participant limit is increased. ';
-			}
-			if ($max_participants_footnote != '') {
-				$max_participants_footnote = ' <span class="label label-info">'.$max_participants_footnote.'</span>';
-			}
+
 			echo $this->Form->input('max_participants', array(
 				'label' => 'Maximum Number of Participants',
 				'class' => 'form-control',
 				'div' => array('class' => 'form-group'),
-				'between' => $max_participants_footnote
+				'after' => $class_size_footnotes
 			));
 		?>
 	</fieldset>
