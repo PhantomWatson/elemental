@@ -97,10 +97,14 @@
 
 <div class="courses form">
 	<?php echo $this->Form->create('Course', array('id' => 'course_form'));?>
+
 	<fieldset>
+		<legend>
+			When
+		</legend>
 		<div class="form-group">
 			<label>
-				When
+				Date(s)
 			</label>
 			<?php echo dateTimeInput($this, 0, null, true); ?>
 			<div id="input_dates" class="input">
@@ -129,6 +133,14 @@
 				'class' => 'form-control',
 				'div' => array('class' => 'form-group deadline_inputs')
 			));
+		?>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			Where
+		</legend>
+		<?php
 			echo $this->Form->input('location', array(
 				'label' => 'Name of Location',
 				'class' => 'form-control',
@@ -156,10 +168,13 @@
 				'class' => 'form-control',
 				'div' => array('class' => 'form-group')
 			));
-
-			// Free versus fee
 		?>
+	</fieldset>
 
+	<fieldset>
+		<legend>
+			Class Type and Size
+		</legend>
 		<div class="form-group" id="free_vs_fee">
 			<label>
 				Cost to Attend
@@ -222,8 +237,14 @@
 				'div' => array('class' => 'form-group'),
 				'between' => $max_participants_footnote
 			));
+		?>
+	</fieldset>
 
-
+	<fieldset>
+		<legend>
+			Messages
+		</legend>
+		<?php
 			echo $this->Form->input('details', array(
 				'between' => '<div class="footnote">This optional description of the course will be included in its listing on the Elemental website.</div>',
 				'class' => 'form-control',
@@ -237,6 +258,7 @@
 			));
 		?>
 	</fieldset>
+
 	<?php
 		$label = ($this->action == 'edit') ? 'Update' : 'Submit';
 		echo $this->Form->end(array(
