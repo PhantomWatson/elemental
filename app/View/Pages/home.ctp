@@ -63,7 +63,7 @@
 						'<span class="glyphicon glyphicon-info-sign"></span> Learn More',
 						array(
 							'controller' => 'pages',
-							'action' => 'about'
+							'action' => 'about_intro'
 						),
 						array(
 							'class' => 'btn btn-primary btn-large col-xs-12 col-sm-5',
