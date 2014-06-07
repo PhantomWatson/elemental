@@ -159,10 +159,6 @@ input[type="checkbox"] {width: auto;}
 			font-size: 150%;
 		}
 	}
-	label[for='CourseFree1'],
-	label[for='CourseFree0'] {
-		font-weight: normal;
-	}
 	label[for='CourseFree1'] {
 		span {
 			font-size: 75%;
@@ -182,6 +178,17 @@ input[type="checkbox"] {width: auto;}
 	}
 	legend {
 		margin-left: -60px;
+	}
+}
+#course_form[action="/courses/add"] {
+	label[for='CourseFree1'],
+	label[for='CourseFree0'] {
+		font-weight: normal;
+	}
+}
+form:not([action="/courses/add"]) {
+	#free_vs_fee {
+		margin-bottom: 0;
 	}
 }
 #CourseCostDollars {
