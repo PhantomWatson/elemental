@@ -178,29 +178,31 @@
 		</div>
 
 		<?php
-			if (isset($payments_received) && $payments_received) {
-				$warning = $payments_received.__n(' student has', ' students have', $payments_received).' already paid.';
-				$warning = ' <span class="label label-info">'.$warning.'</span><br />';
-			} else {
-				$warning = '';
+			if ($this->request->action == 'add' || ! $this->data['Course']['free']) {
+				if (isset($payments_received) && $payments_received) {
+					$warning = $payments_received.__n(' student has', ' students have', $payments_received).' already paid.';
+					$warning = ' <span class="label label-info">'.$warning.'</span><br />';
+				} else {
+					$warning = '';
+				}
+				$cents = $this->Form->input('cost_cents', array(
+					'class' => 'form-control',
+					'div' => false,
+					'label' => false,
+					'maxlength' => 2
+				));
+				echo $this->Form->input('cost_dollars', array(
+					'after' => '<span class="currency_symbol">.</span>'.$cents,
+					'between' => $warning.'<span class="currency_symbol">$</span></a>',
+					'class' => 'form-control',
+					'div' => array(
+						'class' => 'form-group cost',
+						'id' => 'cost_fields'
+					),
+					'label' => false,
+					'maxlength' => 3
+				));
 			}
-			$cents = $this->Form->input('cost_cents', array(
-				'class' => 'form-control',
-				'div' => false,
-				'label' => false,
-				'maxlength' => 2
-			));
-			echo $this->Form->input('cost_dollars', array(
-				'after' => '<span class="currency_symbol">.</span>'.$cents,
-				'between' => $warning.'<span class="currency_symbol">$</span></a>',
-				'class' => 'form-control',
-				'div' => array(
-					'class' => 'form-group cost',
-					'id' => 'cost_fields'
-				),
-				'label' => false,
-				'maxlength' => 3
-			));
 
 
 			// Class size
