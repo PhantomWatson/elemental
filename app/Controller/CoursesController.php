@@ -196,6 +196,7 @@ class CoursesController extends AppController {
 		$available_psrm = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
 		$max_participants_footnote = '';
 		$class_list_count = count($this->Course->getClassList($id));
+		$max_free_class_size = $this->Course->field('max_participants') + $available_psrm;
 		$waiting_list_count = count($this->Course->getWaitingList($id));
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->request->data['Course']['max_participants'] < $class_list_count) {
@@ -230,6 +231,7 @@ class CoursesController extends AppController {
 		$this->set(compact(
 			'available_psrm',
 			'class_list_count',
+			'max_free_class_size',
 			'waiting_list_count'
 		));
 		$this->render('form');
