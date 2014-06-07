@@ -106,63 +106,75 @@
 			Class Type and Size
 		</legend>
 		<div class="form-group" id="free_vs_fee">
-			<label>
-				Cost to Attend
-			</label>
-			<input name="data[Course][free]" id="CourseFree_" value="" type="hidden">
-			<div class="radio">
-				<label for="CourseFree1">
-					<?php
-						$attributes = '';
-						if ($available_psrm) {
-							if ($this->data['Course']['free']) {
-								$attributes .= 'checked="checked" ';
+			<?php if ($this->request->action == 'add'): ?>
+				<label>
+					Cost to Attend
+				</label>
+				<input name="data[Course][free]" id="CourseFree_" value="" type="hidden">
+				<div class="radio">
+					<label for="CourseFree1">
+						<?php
+							$attributes = '';
+							if ($available_psrm) {
+								if ($this->data['Course']['free']) {
+									$attributes .= 'checked="checked" ';
+								}
+							} else {
+								$attributes .= 'disabled="disabled" ';
 							}
-						} else {
-							$attributes .= 'disabled="disabled" ';
-						}
-					?>
-					<input name="data[Course][free]" id="CourseFree1" value="1" type="radio" <?php echo $attributes; ?> />
-					Free course
-					<div>
-						<?php if ($available_psrm): ?>
-							<span class="label label-success"><?php
-								echo $available_psrm;
-							?></span>
-						<?php else: ?>
-							<span class="label label-danger">0</span>
-						<?php endif; ?>
-						<span class="after_label">
-							prepaid student review
-							<?php echo __n('module is', 'modules are', $available_psrm); ?>
-							available.
-							<?php echo $this->Html->link(
-								'Get more <span class="glyphicon glyphicon-new-window"></span>',
-								array(
-									'controller' => 'store',
-									'action' => 'prepaid_student_review_module'
-								),
-								array(
-									'escape' => false,
-									'target' => '_blank'
-								)
-							); ?>
-						</span>
-					</div>
-				</label>
-			</div>
-			<div class="radio">
-				<label for="CourseFree0">
-					<?php
-						$attributes = '';
-						if (! $this->data['Course']['free']) {
-							 $attributes .= 'checked="checked"';
-						}
-					?>
-					<input name="data[Course][free]" id="CourseFree0" value="0" type="radio" <?php echo $attributes; ?> />
-					Registration fee
-				</label>
-			</div>
+						?>
+						<input name="data[Course][free]" id="CourseFree1" value="1" type="radio" <?php echo $attributes; ?> />
+						Free course
+						<div>
+							<?php if ($available_psrm): ?>
+								<span class="label label-success"><?php
+									echo $available_psrm;
+								?></span>
+							<?php else: ?>
+								<span class="label label-danger">0</span>
+							<?php endif; ?>
+							<span class="after_label">
+								prepaid student review
+								<?php echo __n('module is', 'modules are', $available_psrm); ?>
+								available.
+								<?php echo $this->Html->link(
+									'Get more <span class="glyphicon glyphicon-new-window"></span>',
+									array(
+										'controller' => 'store',
+										'action' => 'prepaid_student_review_module'
+									),
+									array(
+										'escape' => false,
+										'target' => '_blank'
+									)
+								); ?>
+							</span>
+						</div>
+					</label>
+				</div>
+				<div class="radio">
+					<label for="CourseFree0">
+						<?php
+							$attributes = '';
+							if (! $this->data['Course']['free']) {
+								 $attributes .= 'checked="checked"';
+							}
+						?>
+						<input name="data[Course][free]" id="CourseFree0" value="0" type="radio" <?php echo $attributes; ?> />
+						Registration fee
+					</label>
+				</div>
+			<?php elseif ($this->request->action == 'edit'): ?>
+				<?php if ($this->data['Course']['free']): ?>
+					<label>
+						Free course
+					</label>
+				<?php else: ?>
+					<label for="CourseCostDollars">
+						Registration fee
+					</label>
+				<?php endif; ?>
+			<?php endif; ?>
 		</div>
 
 		<?php
@@ -196,18 +208,22 @@
 			if ($this->request->action == 'edit') {
 				if (isset($class_list_count) && $class_list_count > 0) {
 					$class_size_footnotes .= '<br /><span class="label label-info">Note</span> There '.__n("is 1 participant", "are $class_list_count participants", $class_list_count).' currently registered. The class size cannot be reduced below this number.';
+					$minimum_participants = $class_list_count;
 				}
 				if (! $this->data['Course']['free'] && isset($waiting_list_count) && $waiting_list_count > 0) {
 					$class_size_footnotes .= '<br /><span class="label label-info">Note</span> There '.__n('is 1 participant', "are $waiting_list_count participants", $waiting_list_count).' on the waiting list who will be automatically moved into the course if the participant limit is increased. ';
 				}
 			}
 
+			if (! isset($minimum_participants)) {
+				$minimum_participants = 1;
+			}
 			echo $this->Form->input('max_participants', array(
 				'after' => $class_size_footnotes,
 				'class' => 'form-control',
 				'div' => array('class' => 'form-group'),
 				'label' => 'Maximum Number of Participants',
-				'min' => 1,
+				'min' => $minimum_participants,
 				'step' => 1
 			));
 		?>
