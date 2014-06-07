@@ -211,22 +211,31 @@
 			if ($this->request->action == 'edit') {
 				if (isset($class_list_count) && $class_list_count > 0) {
 					$class_size_footnotes .= '<br /><span class="label label-info">Note</span> There '.__n("is 1 participant", "are $class_list_count participants", $class_list_count).' currently registered. The class size cannot be reduced below this number.';
-					$minimum_participants = $class_list_count;
+					$min_class_size = $class_list_count;
 				}
 				if (! $this->data['Course']['free'] && isset($waiting_list_count) && $waiting_list_count > 0) {
 					$class_size_footnotes .= '<br /><span class="label label-info">Note</span> There '.__n('is 1 participant', "are $waiting_list_count participants", $waiting_list_count).' on the waiting list who will be automatically moved into the course if the participant limit is increased. ';
 				}
+				if ($this->data['Course']['free']) {
+					$class_size_footnotes .= $available_psrm_note;
+					$max_class_size = $max_free_class_size;
+					pr($max_class_size);
+				}
 			}
 
-			if (! isset($minimum_participants)) {
-				$minimum_participants = 1;
+			if (! isset($min_class_size)) {
+				$min_class_size = 1;
+			}
+			if (! isset($max_class_size)) {
+				$max_class_size = null;
 			}
 			echo $this->Form->input('max_participants', array(
 				'after' => $class_size_footnotes,
 				'class' => 'form-control',
 				'div' => array('class' => 'form-group'),
 				'label' => 'Maximum Number of Participants',
-				'min' => $minimum_participants,
+				'max' => $max_class_size,
+				'min' => $min_class_size,
 				'step' => 1
 			));
 		?>
