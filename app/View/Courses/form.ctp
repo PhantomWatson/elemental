@@ -99,7 +99,30 @@
 </div>
 
 <div class="courses form">
-	<?php echo $this->Form->create('Course', array('id' => 'course_form'));?>
+	<?php
+		echo $this->Form->create('Course', array('id' => 'course_form'));
+
+		// Create note about available PSRMs (which will be used in multiple places in this file)
+		$available_psrm_note = '';
+		if ($available_psrm) {
+			$available_psrm_note .= '<span class="label label-success">'.$available_psrm.'</span>';
+		} else {
+			$available_psrm_note .= '<span class="label label-danger">0</span>';
+		}
+		$available_psrm_note .= ' <span class="after_label">prepaid student review '.__n('module is', 'modules are', $available_psrm).' available. ';
+		$available_psrm_note .= $this->Html->link(
+			'Get more <span class="glyphicon glyphicon-new-window"></span>',
+			array(
+				'controller' => 'store',
+				'action' => 'prepaid_student_review_module'
+			),
+			array(
+				'escape' => false,
+				'target' => '_blank'
+			)
+		);
+		$available_psrm_note .= '</span>';
+	?>
 
 	<fieldset>
 		<legend>
@@ -126,29 +149,7 @@
 						<input name="data[Course][free]" id="CourseFree1" value="1" type="radio" <?php echo $attributes; ?> />
 						Free course
 						<div>
-							<?php if ($available_psrm): ?>
-								<span class="label label-success"><?php
-									echo $available_psrm;
-								?></span>
-							<?php else: ?>
-								<span class="label label-danger">0</span>
-							<?php endif; ?>
-							<span class="after_label">
-								prepaid student review
-								<?php echo __n('module is', 'modules are', $available_psrm); ?>
-								available.
-								<?php echo $this->Html->link(
-									'Get more <span class="glyphicon glyphicon-new-window"></span>',
-									array(
-										'controller' => 'store',
-										'action' => 'prepaid_student_review_module'
-									),
-									array(
-										'escape' => false,
-										'target' => '_blank'
-									)
-								); ?>
-							</span>
+							<?php echo $available_psrm_note; ?>
 						</div>
 					</label>
 				</div>
