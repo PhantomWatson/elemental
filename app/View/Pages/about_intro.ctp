@@ -4,6 +4,17 @@
 	</h1>
 </div>
 
+<section class="about alert alert-info">
+	<h2>
+		New Podcast
+	</h2>
+	<p>
+		Mellisa Holtzman, one of the directors of Elemental, recently recorded a podcast about the program with the Journal of Applied Social Sciences.
+		In it, she describes Elemental and some of the research on the program's effectiveness.  <a href="/files/JASS_MellisaHoltzman.mp3">Download the episode</a> (10 minutes, 4MB).
+	</p>
+</section>
+
+
 <section class="about">
 	<h2>
 		What is Elemental?
@@ -28,7 +39,7 @@
 			</p>
 		</div>
 	</div>
-	
+
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			Although many protection programs attempt to deal with both stranger and acquaintance assaults, few actually account for how an acquaintance assault changes the way a victim <em>feels</em> about using self-protective strategies.
@@ -42,7 +53,7 @@
 				<?php echo $this->Html->link(
 					'Pedagogy',
 					array(
-						'controller' => 'pages', 
+						'controller' => 'pages',
 						'action' => 'about_pedagogy'
 					)
 				); ?>).
@@ -50,7 +61,7 @@
 			</p>
 		</div>
 	</div>
-	
+
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			Most sexual assault protection programs assume female victims and male aggressors.  While statistically many assaults conform to this assumption, not all do.
@@ -60,7 +71,7 @@
 				One in four college women are victims of a completed or attempted sexual assault before they graduate and rates are similarly high for gay and bisexual men, but they are rarely included in prevention efforts.
 			</p>
 			<p>
-				Elemental is open to heterosexual, homosexual, bisexual, transsexual, and transgender women and men.  The program is <strong>inclusive of all individuals</strong> because anyone can be at risk of sexual assault. 
+				Elemental is open to heterosexual, homosexual, bisexual, transsexual, and transgender women and men.  The program is <strong>inclusive of all individuals</strong> because anyone can be at risk of sexual assault.
 			</p>
 		</div>
 	</div>
@@ -70,7 +81,7 @@
 	<h2>
 		Elemental Program History
 	</h2>
-	<p>		
-		Since the initial interdisciplinary fellowship project to develop the program through the <a href="http://cms.bsu.edu/academics/centersandinstitutes/virginiaballcenter">Virginia Ball Center for Creative Inquiry</a> at Ball State University in the spring of 2011, over 250 students have trained in Elemental's system. The success of this innovative program on Ball State's campus and its growing record of effectiveness have sparked the expansion of the program beyond its home institution. Today, Elemental Sexual Assault Protection LLC partners with Vizi Courseware to deliver seminars, cutting-edge instructional and review materials, and instructor certification on small and large scales. Through our certification programs, individuals and institutions can receive training for themselves or their staff and then offer the Elemental program within their communities, university settings, and so forth. 
+	<p>
+		Since the initial interdisciplinary fellowship project to develop the program through the <a href="http://cms.bsu.edu/academics/centersandinstitutes/virginiaballcenter">Virginia Ball Center for Creative Inquiry</a> at Ball State University in the spring of 2011, over 250 students have trained in Elemental's system. The success of this innovative program on Ball State's campus and its growing record of effectiveness have sparked the expansion of the program beyond its home institution. Today, Elemental Sexual Assault Protection LLC partners with Vizi Courseware to deliver seminars, cutting-edge instructional and review materials, and instructor certification on small and large scales. Through our certification programs, individuals and institutions can receive training for themselves or their staff and then offer the Elemental program within their communities, university settings, and so forth.
 	</p>
 </section>
