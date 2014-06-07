@@ -63,10 +63,12 @@ var courseAddForm = {
 			$(this).parent('div').remove();
 		});
 		
-		$('#free_vs_fee input[type="radio"]').change(function () {
-			courseAddForm.toggleCostFields(true);
-		});
-		this.toggleCostFields(false);
+		if (this.action == 'add') {
+			$('#free_vs_fee input[type="radio"]').change(function () {
+				courseAddForm.toggleCostFields(true);
+			});
+			this.toggleCostFields(false);
+		}
 	},
 	
 	addDate: function() {
