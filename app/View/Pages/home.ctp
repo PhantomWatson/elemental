@@ -117,17 +117,6 @@
 
 <hr />
 
-<div class="row">
-	<div class="col-lg-6">
-		<?php echo $this->element('courses/front_page_list'); ?>
-	</div>
-	<div class="col-lg-6">
-		<?php echo $this->element('testimonials/front_page'); ?>
-	</div>
-</div>
-
-<hr />
-
 <?php if (! empty($article)): ?>
 	<div class="row">
 		<div class="<?php echo empty($more_articles) ? 'col-lg-12' : 'col-lg-9'; ?>">
@@ -192,3 +181,14 @@
 		<?php endif; ?>
 	</div>
 <?php endif; ?>
+
+<hr />
+
+<div class="row">
+	<div class="col-lg-6">
+		<?php echo $this->element('courses/front_page_list'); ?>
+	</div>
+	<div class="col-lg-6">
+		<?php echo $this->element('testimonials/front_page'); ?>
+	</div>
+</div>
