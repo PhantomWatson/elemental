@@ -142,7 +142,10 @@ class Course extends AppModel {
 	);
 
 	public function beforeSave($options = array()) {
-		$this->data['Course']['begins'] = $this->getStartDate();
+		$start_date = $this->getStartDate();
+		if ($start_date) {
+			$this->data['Course']['begins'] = $start_date;
+		}
 
 		// If editing a free course, handle growing/shrinking of free classes
 		if ($this->data['Course']['cost'] == 0 && isset($this->data['Course']['id'])) {
@@ -322,6 +325,10 @@ class Course extends AppModel {
 	}
 
 	public function getStartDate() {
+		if (! isset($this->data['CourseDate']) || empty($this->data['CourseDate'])) {
+			return null;
+		}
+
 		$dates = array();
 		foreach ($this->data['CourseDate'] as $date) {
 			if (isset($date['CourseDate']['date'])) {
