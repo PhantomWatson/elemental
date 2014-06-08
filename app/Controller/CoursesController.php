@@ -542,6 +542,7 @@ class CoursesController extends AppController {
 			if ($course['Course']['cost'] == 0) {
 				$this->loadModel('PrepaidReviewModule');
 				$this->PrepaidReviewModule->assignToAttendingStudents($course_id);
+				$this->PrepaidReviewModule->releaseUnclaimedFromCourse($course_id);
 			}
 			$this->Flash->success('Attendance reported.');
 			$this->request->data = array();
