@@ -158,6 +158,11 @@ class Course extends AppModel {
 		}
 	}
 
+	public function afterDelete() {
+		$course_id = $this->id;
+		$this->PrepaidReviewModule->releaseUnclaimedFromCourse($course_id);
+	}
+
 	/**
 	 * Handles when a free class size changes and either more
 	 * PRMs need to be reserved for this course or reserved
