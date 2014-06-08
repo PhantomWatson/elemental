@@ -49,6 +49,10 @@ class Course extends AppModel {
 			),
 			'usingPrepaidReviewModules' => array(
 				'rule' => array('validateFreeClassSize')
+			),
+			'notLessThanExistingClass' => array(
+				'rule' => array('validateEditedClassSize'),
+				'on' => 'update'
 			)
 		),
 		'cost' => array(
@@ -213,6 +217,16 @@ class Course extends AppModel {
 
 			$this->data['Course']['cost'] = $cost;
 		}
+	}
+
+	public function validateEditedClassSize($check) {
+		$new_size = $check['max_participants'];
+		$course_id = $this->data['Course']['id'];
+		$class_size = count($this->getClassList($course_id));
+		if ($new_size < $class_size) {
+			return "You cannot reduce the size of this course below $class_size, since $class_size students have already registered.";
+		}
+		return true;
 	}
 
 	public function validateFreeClassSize($check) {
