@@ -148,7 +148,7 @@ class Course extends AppModel {
 		}
 
 		// If editing a free course, handle growing/shrinking of free classes
-		if ($this->data['Course']['cost'] == 0 && isset($this->data['Course']['id'])) {
+		if (isset($this->data['Course']['max_participants']) && $this->data['Course']['cost'] == 0 && isset($this->data['Course']['id'])) {
 			$this->adjustReservedPrepaidReviewModules();
 		}
 
