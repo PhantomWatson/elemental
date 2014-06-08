@@ -219,7 +219,6 @@
 				if ($this->data['Course']['free']) {
 					$class_size_footnotes .= $available_psrm_note;
 					$max_class_size = $max_free_class_size;
-					pr($max_class_size);
 				}
 			}
 
