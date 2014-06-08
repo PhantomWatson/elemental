@@ -187,7 +187,7 @@ class CoursesController extends AppController {
  */
 	public function edit($id = null) {
 		$this->Course->id = $id;
-		if (!$this->Course->exists()) {
+		if (! $this->Course->exists()) {
 			throw new NotFoundException('Invalid course');
 		}
 
@@ -198,8 +198,15 @@ class CoursesController extends AppController {
 		$class_list_count = count($this->Course->getClassList($id));
 		$max_free_class_size = $this->Course->field('max_participants') + $available_psrm;
 		$waiting_list_count = count($this->Course->getWaitingList($id));
-		if ($this->Course->field('cost') == 0) {
+		$original_cost = $this->Course->field('cost');
+
+		// Prevent free courses from being changed to non-free
+		if ($original_cost == 0) {
 			$this->request->data['Course']['cost'] = 0;
+
+		// Set cost (not provided by form)
+		} elseif (! isset($this->request->data['Course']['cost'])) {
+			$this->request->data['Course']['cost'] = $original_cost;
 		}
 
 		if ($this->request->is('post') || $this->request->is('put')) {
@@ -230,7 +237,7 @@ class CoursesController extends AppController {
 			$this->request->data = $this->Course->read(null, $id);
 		}
 
-		$this->request->data['Course']['free'] = $this->request->data['Course']['cost'] == 0;
+		$this->request->data['Course']['free'] = $original_cost == 0;
 
 		$this->set(array(
 			'title_for_layout' => 'Edit Course',
