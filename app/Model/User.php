@@ -261,7 +261,7 @@ class User extends AppModel {
 		$role = $this->field('role');
 		switch ($role) {
 			case 'admin':
-			case 'instructor-in-training':
+			case 'trainee':
 				return true;
 		}
 		return false;
