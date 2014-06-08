@@ -207,8 +207,11 @@ class CoursesController extends AppController {
 				$this->Course->validationErrors['max_participants'] = "Can't set class size any smaller than the number of participants already registered.";
 			}
 
+			$this->request->data['Course']['id'] = $id;
+			$this->Course->set($this->request->data);
+
 			if ($this->Course->validates() && empty($this->Course->validationErrors)) {
-				if ($this->Course->save($this->request->data)) {
+				if ($this->Course->save()) {
 					$this->Flash->success('The course has been updated');
 					if ($waiting_list_count && $this->request->data['Course']['max_participants'] > $class_list_count) {
 						if ($this->Course->elevateWaitingListMembers($id)) {
