@@ -244,10 +244,10 @@ class Course extends AppModel {
 		}
 
 		$available_modules = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
+		$old_size = $this->field('max_participants');
 
 		// If editing
 		if ($course_id) {
-			$old_size = $this->field('max_participants');
 
 			// No validation needed if not increasing class size
 			if ($new_size <= $old_size) {
@@ -284,8 +284,7 @@ class Course extends AppModel {
 				: 'This instructor has ';
 			$message .= 'no available Prepaid Review Modules';
 		}
-		$this->validate['usingPrepaidReviewModules']['message'] = $message;
-		return false;
+		return $message;
 	}
 
 	public function afterFind($results, $primary = false) {
