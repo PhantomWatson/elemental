@@ -198,10 +198,11 @@ class CoursesController extends AppController {
 		$class_list_count = count($this->Course->getClassList($id));
 		$max_free_class_size = $this->Course->field('max_participants') + $available_psrm;
 		$waiting_list_count = count($this->Course->getWaitingList($id));
+		if ($this->Course->field('cost') == 0) {
+			$this->request->data['Course']['cost'] = 0;
+		}
+
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Course->field('cost') == 0) {
-				$this->request->data['Course']['cost'] = 0;
-			}
 
 			if ($this->request->data['Course']['max_participants'] < $class_list_count) {
 				$this->Course->validationErrors['max_participants'] = "Can't set class size any smaller than the number of participants already registered.";
