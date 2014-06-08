@@ -210,7 +210,7 @@ class CoursesController extends AppController {
 			$this->request->data['Course']['id'] = $id;
 			$this->Course->set($this->request->data);
 
-			if ($this->Course->validates() && empty($this->Course->validationErrors)) {
+			if (empty($this->Course->validationErrors) && $this->Course->validates() && empty($this->Course->validationErrors)) {
 				if ($this->Course->save()) {
 					$this->Flash->success('The course has been updated');
 					if ($waiting_list_count && $this->request->data['Course']['max_participants'] > $class_list_count) {
