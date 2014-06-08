@@ -39,7 +39,7 @@ class UsersController extends AppController {
 					unset($this->request->data['User']['auto_login']);
 					App::uses('Security', 'Utility');
 					$this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
-					
+
 					$this->Cookie->write('remember_me', $this->request->data['User'], true, '10 years');
 				}
 				$this->Flash->success('You are now logged in.');
@@ -87,7 +87,7 @@ class UsersController extends AppController {
 			$this->request->data['User']['password'] = $hash;
 
 			$this->User->create();
-			if ($this->User->save($this->request->data)) {
+			if ($this->User->saveAssociated($this->request->data)) {
 				$this->Flash->success('The user has been added.');
 			} else {
 				$this->Flash->error('The user could not be saved.');
