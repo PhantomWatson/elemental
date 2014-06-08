@@ -176,7 +176,7 @@ class Course extends AppModel {
 
 		// If growing
 		if ($growth > 0) {
-			$instructor_id = $this->field('instructor_id');
+			$instructor_id = $this->field('user_id');
 			$this->PrepaidReviewModule->assignToCourse($instructor_id, $growth, $this->id);
 
 		// If shrinking
@@ -235,7 +235,7 @@ class Course extends AppModel {
 			// In case an administrator is editing another instructor's course,
 			// pull original instructor ID from DB
 			$this->id = $course_id;
-			$instructor_id = $this->field('instructor_id');
+			$instructor_id = $this->field('user_id');
 
 		// If adding
 		} else {
