@@ -109,7 +109,11 @@
 		} else {
 			$available_psrm_note .= '<span class="label label-danger">0</span>';
 		}
-		$available_psrm_note .= ' <span class="after_label">prepaid student review '.__n('module is', 'modules are', $available_psrm).' available. ';
+		$available_psrm_note .= ' <span class="after_label">';
+		if ($this->request->action == 'edit') {
+			$available_psrm_note .= 'more ';
+		}
+		$available_psrm_note .= 'prepaid student review '.__n('module is', 'modules are', $available_psrm).' available. ';
 		$available_psrm_note .= $this->Html->link(
 			'Get more <span class="glyphicon glyphicon-new-window"></span>',
 			array(
@@ -217,7 +221,7 @@
 					$class_size_footnotes .= '<br /><span class="label label-info">Note</span> There '.__n('is 1 participant', "are $waiting_list_count participants", $waiting_list_count).' on the waiting list who will be automatically moved into the course if the participant limit is increased. ';
 				}
 				if ($this->data['Course']['free']) {
-					$class_size_footnotes .= $available_psrm_note;
+					$class_size_footnotes .= '<br />'.$available_psrm_note;
 					$max_class_size = $max_free_class_size;
 				}
 			}
