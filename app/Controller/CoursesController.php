@@ -426,12 +426,16 @@ class CoursesController extends AppController {
 			} else {
 				$message = 'You are now registered for this course.';
 			}
+
 			if ($this->__sendRegisteredEmail($course_id, $user_id)) {
 				$message .= ' You should be receiving an email shortly with information about your registration.';
 			} else {
 				$this->Flash->error('Error sending registration email.');
 			}
+
 			$this->Flash->success($message);
+			$this->loadModel('User');
+			$this->User->grantStudentRole($user_id);
 		} else {
 			$this->Flash->error('There was an error registering you for this course. Please try again or <a href="/contact">contact us</a> if you need assistance.');
 		}

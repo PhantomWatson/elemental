@@ -433,4 +433,32 @@ class User extends AppModel {
 		Cache::write($cache_key, false);
 		return false;
 	}
+
+	public function grantStudentRole($user_id) {
+		$role_id = $this->Role->getIdWithName('student');
+		$result = $this->RolesUser->find(
+			'count',
+			array(
+				'conditions' => array(
+					'RolesUser.role_id' => $role_id,
+					'RolesUser.user_id' => $user_id
+				)
+			)
+		);
+
+		// User is already a student
+		if ($result) {
+			return;
+		}
+
+		$this->RolesUser->create();
+		$this->RolesUser->save(array(
+			'RolesUser' => array(
+				'role_id' => $role_id,
+				'user_id' => $user_id
+			)
+		));
+		$cache_key = "hasRole($user_id, student)";
+		Cache::delete($cache_key);
+	}
 }
