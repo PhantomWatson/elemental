@@ -8,6 +8,11 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController {
 	public $components = array('Recaptcha.Recaptcha');
 	public $helpers = array('Recaptcha.Recaptcha');
+	public $paginate = array(
+		'contain' => array(
+			'Role'
+		)
+	);
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -39,7 +44,7 @@ class UsersController extends AppController {
 					unset($this->request->data['User']['auto_login']);
 					App::uses('Security', 'Utility');
 					$this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
-					
+
 					$this->Cookie->write('remember_me', $this->request->data['User'], true, '10 years');
 				}
 				$this->Flash->success('You are now logged in.');
@@ -87,7 +92,7 @@ class UsersController extends AppController {
 			$this->request->data['User']['password'] = $hash;
 
 			$this->User->create();
-			if ($this->User->save($this->request->data)) {
+			if ($this->User->saveAssociated($this->request->data)) {
 				$this->Flash->success('The user has been added.');
 			} else {
 				$this->Flash->error('The user could not be saved.');
@@ -99,7 +104,7 @@ class UsersController extends AppController {
 		}
 
 		$this->set(array(
-			'roles' => $this->User->getRoleOptions(),
+			'roles' => $this->User->Role->find('list'),
 			'title_for_layout' => 'Add User'
 		));
 	}
@@ -139,7 +144,8 @@ class UsersController extends AppController {
 				$password = $this->request->data['User']['password'];
 				App::uses('Security', 'Utility');
 				$this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
-				$this->request->data['User']['role'] = 'student';
+				$this->loadModel('Role');
+				$this->request->data['Role']['id'] = $this->Role->getIdWithName('student');
 				$this->request->data['User'] = Sanitize::clean($this->request->data['User']);
 
 				if ($this->User->save($this->request->data)) {
@@ -309,6 +315,13 @@ class UsersController extends AppController {
 
 	public function manage() {
 		$this->User->recursive = 0;
+		/* $this->Paginator->settings = array(
+			'User' => array(
+				'contain' => array(
+					'Role'
+				)
+			)
+		); */
 		$this->set(array(
 			'title_for_layout' => 'Manage Users',
 			'users' => $this->paginate()
@@ -343,16 +356,22 @@ class UsersController extends AppController {
 
 		} else {
 			$this->request->data = $this->User->find('first', array(
-				'fields' => array('id', 'name', 'email', 'role', 'phone'),
-				'conditions' => array('id' => $id),
-				'contain' => false
+				'fields' => array(
+					'User.id',
+					'User.name',
+					'User.email',
+					'User.phone'
+				),
+				'conditions' => array(
+					'User.id' => $id
+				),
+				'contain' => array(
+					'Role'
+				)
 			));
-			if (empty($this->request->data['User']['role'])) {
-				$this->request->data['User']['role'] = 'student';
-			}
 		}
 		$this->set(array(
-			'roles' => $this->User->getRoleOptions(),
+			'roles' => $this->User->Role->find('list'),
 			'title_for_layout' => 'Edit User'
 		));
 	}

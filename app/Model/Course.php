@@ -49,6 +49,10 @@ class Course extends AppModel {
 			),
 			'usingPrepaidReviewModules' => array(
 				'rule' => array('validateFreeClassSize')
+			),
+			'notLessThanExistingClass' => array(
+				'rule' => array('validateEditedClassSize'),
+				'on' => 'update'
 			)
 		),
 		'cost' => array(
@@ -138,10 +142,13 @@ class Course extends AppModel {
 	);
 
 	public function beforeSave($options = array()) {
-		$this->data['Course']['begins'] = $this->getStartDate();
+		$start_date = $this->getStartDate();
+		if ($start_date) {
+			$this->data['Course']['begins'] = $start_date;
+		}
 
 		// If editing a free course, handle growing/shrinking of free classes
-		if ($this->data['Course']['cost'] == 0 && isset($this->data['Course']['id'])) {
+		if (isset($this->data['Course']['max_participants']) && $this->data['Course']['cost'] == 0 && isset($this->data['Course']['id'])) {
 			$this->adjustReservedPrepaidReviewModules();
 		}
 
@@ -158,6 +165,11 @@ class Course extends AppModel {
 		}
 	}
 
+	public function afterDelete() {
+		$course_id = $this->id;
+		$this->PrepaidReviewModule->releaseUnclaimedFromCourse($course_id);
+	}
+
 	/**
 	 * Handles when a free class size changes and either more
 	 * PRMs need to be reserved for this course or reserved
@@ -171,7 +183,7 @@ class Course extends AppModel {
 
 		// If growing
 		if ($growth > 0) {
-			$instructor_id = $this->field('instructor_id');
+			$instructor_id = $this->field('user_id');
 			$this->PrepaidReviewModule->assignToCourse($instructor_id, $growth, $this->id);
 
 		// If shrinking
@@ -210,6 +222,16 @@ class Course extends AppModel {
 		}
 	}
 
+	public function validateEditedClassSize($check) {
+		$new_size = $check['max_participants'];
+		$course_id = $this->data['Course']['id'];
+		$class_size = count($this->getClassList($course_id));
+		if ($new_size < $class_size) {
+			return "You cannot reduce the size of this course below $class_size, since $class_size students have already registered.";
+		}
+		return true;
+	}
+
 	public function validateFreeClassSize($check) {
 		$new_size = $check['max_participants'];
 		$free = $this->data['Course']['cost'] == 0;
@@ -230,7 +252,7 @@ class Course extends AppModel {
 			// In case an administrator is editing another instructor's course,
 			// pull original instructor ID from DB
 			$this->id = $course_id;
-			$instructor_id = $this->field('instructor_id');
+			$instructor_id = $this->field('user_id');
 
 		// If adding
 		} else {
@@ -239,10 +261,10 @@ class Course extends AppModel {
 		}
 
 		$available_modules = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
+		$old_size = $this->field('max_participants');
 
 		// If editing
 		if ($course_id) {
-			$old_size = $this->field('max_participants');
 
 			// No validation needed if not increasing class size
 			if ($new_size <= $old_size) {
@@ -279,8 +301,7 @@ class Course extends AppModel {
 				: 'This instructor has ';
 			$message .= 'no available Prepaid Review Modules';
 		}
-		$this->validate['usingPrepaidReviewModules']['message'] = $message;
-		return false;
+		return $message;
 	}
 
 	public function afterFind($results, $primary = false) {
@@ -304,6 +325,10 @@ class Course extends AppModel {
 	}
 
 	public function getStartDate() {
+		if (! isset($this->data['CourseDate']) || empty($this->data['CourseDate'])) {
+			return null;
+		}
+
 		$dates = array();
 		foreach ($this->data['CourseDate'] as $date) {
 			if (isset($date['CourseDate']['date'])) {

@@ -119,14 +119,15 @@ class PrepaidReviewModule extends AppModel {
 			'conditions' => array(
 				'PrepaidReviewModule.instructor_id' => $instructor_id,
 				'PrepaidReviewModule.course_id' => null
-			)
+			),
+			'limit' => $quantity
 		));
 
 		if (count($available_modules) < $quantity) {
 			throw new BadRequestException("Cannot assign $quantity Prepaid Student Review Modules, only $available_count are available");
 		}
 
-		foreach ($available_modules as $module_id => $course_id) {
+		foreach ($available_modules as $module_id => $null) {
 			$this->id = $module_id;
 			$this->saveField('course_id', $course_id);
 		}

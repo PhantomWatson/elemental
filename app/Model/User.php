@@ -257,14 +257,7 @@ class User extends AppModel {
 	}
 
 	public function canAccessInstructorTraining($user_id) {
-		$this->id = $user_id;
-		$role = $this->field('role');
-		switch ($role) {
-			case 'admin':
-			case 'instructor-in-training':
-				return true;
-		}
-		return false;
+		return ($this->hasRole($user_id, 'admin') || $this->hasRole($user_id, 'trainee'));
 	}
 
 	public function sendPasswordResetEmail($user_id) {
@@ -406,5 +399,66 @@ class User extends AppModel {
 			$retval[$user['id']] = $user['name'];
 		}
 		return $retval;
+	}
+
+	public function hasRole($user_id, $role_name) {
+		$cache_key = "hasRole($user_id, $role_name)";
+		if ($cached = Cache::read($cache_key)) {
+			return $cached;
+		}
+		$result = $this->find(
+			'first',
+			array(
+				'conditions' => array(
+					'User.id' => $user_id
+				),
+				'contain' => array(
+					'Role' => array(
+						'fields' => array(
+							'Role.name'
+						)
+					)
+				),
+				'fields' => array(
+					'User.id'
+				)
+			)
+		);
+		foreach ($result['Role'] as $role) {
+			if ($role['name'] == $role_name) {
+				Cache::write($cache_key, true);
+				return true;
+			}
+		}
+		Cache::write($cache_key, false);
+		return false;
+	}
+
+	public function grantStudentRole($user_id) {
+		$role_id = $this->Role->getIdWithName('student');
+		$result = $this->RolesUser->find(
+			'count',
+			array(
+				'conditions' => array(
+					'RolesUser.role_id' => $role_id,
+					'RolesUser.user_id' => $user_id
+				)
+			)
+		);
+
+		// User is already a student
+		if ($result) {
+			return;
+		}
+
+		$this->RolesUser->create();
+		$this->RolesUser->save(array(
+			'RolesUser' => array(
+				'role_id' => $role_id,
+				'user_id' => $user_id
+			)
+		));
+		$cache_key = "hasRole($user_id, student)";
+		Cache::delete($cache_key);
 	}
 }

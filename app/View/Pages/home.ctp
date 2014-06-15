@@ -12,16 +12,18 @@
 			</p>
 			<ul>
 				<li>
-					Focuses on assaults as they are likely to happen to college students, as evidenced by research.
+					Combines the best of classroom education and self-defense training in a program <a href="http://jax.sagepub.com/site/misc/Index/Podcasts.xhtml">with proven long-term effectiveness</a>.
 				</li>
 				<li>
-					Offers an organized, holistic curriculum that is grounded in social science research and is inclusive of a variety of participants, including sexual minorities.
+ 					Offers an organized, cost-effective, and holistic curriculum that is grounded in social science research and is inclusive of a variety of participants, including gender and sexual minorities (GSM).
 				</li>
 				<li>
-					Provides program participants with choices in the way they respond to an assault, each based on
-					the four elements of <a href="http://www.skhquest.com/">To-Shin Do</a>.
+					Assists your institution in filling the most recent requirements of the <a href="http://media.wix.com/ugd/c62206_3b605aa14dc748d39efef9add87bedb1.pdf">Violence Against Women Act (including the SaVE Act)</a>. Elemental is a primary prevention and awareness program that offers face-to-face training and ongoing prevention through self-directed student review.
 				</li>
-			</ul>
+				<li>
+					Provides program participants with choices in the way they respond to an assault, each based on the four elements of <a href="http://skhquest.com">To-Shin Do</a>. Our name comes from this element-based problem-solving paradigm:
+				</li>
+ 			</ul>
 			<div class="row">
 				<div class="col-sm-2 col-xs-4">
 					<img src="/img/logo_earth.png" class="img-responsive" />
@@ -63,7 +65,7 @@
 						'<span class="glyphicon glyphicon-info-sign"></span> Learn More',
 						array(
 							'controller' => 'pages',
-							'action' => 'about'
+							'action' => 'about_intro'
 						),
 						array(
 							'class' => 'btn btn-primary btn-large col-xs-12 col-sm-5',
@@ -110,17 +112,6 @@
 
 			</div>
 		</div>
-	</div>
-</div>
-
-<hr />
-
-<div class="row">
-	<div class="col-lg-6">
-		<?php echo $this->element('courses/front_page_list'); ?>
-	</div>
-	<div class="col-lg-6">
-		<?php echo $this->element('testimonials/front_page'); ?>
 	</div>
 </div>
 
@@ -190,3 +181,14 @@
 		<?php endif; ?>
 	</div>
 <?php endif; ?>
+
+<hr />
+
+<div class="row">
+	<div class="col-lg-6">
+		<?php echo $this->element('courses/front_page_list'); ?>
+	</div>
+	<div class="col-lg-6">
+		<?php echo $this->element('testimonials/front_page'); ?>
+	</div>
+</div>

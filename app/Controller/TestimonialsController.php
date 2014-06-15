@@ -14,14 +14,16 @@ class TestimonialsController extends AppController {
 
 	public function isAuthorized($user) {
 		// Students and instructors can only add
-		if (in_array($user['role'], array('student', 'instructor'))) {
+		$this->loadModel('User');
+		$user_id = $this->Auth->user('id');
+		if ($this->User->hasRole($user_id, 'student') || $this->User->hasRole($user_id, 'instructor')) {
 			return $this->action == 'add';
 		}
-		
+
         // Admins can access everything
 		return parent::isAuthorized($user);
 	}
-	
+
 /**
  * index method
  *
@@ -41,32 +43,33 @@ class TestimonialsController extends AppController {
  * @return void
  */
 	public function add() {
-		$role = $this->Auth->user('role');
 		if ($this->request->is('post')) {
 			$this->Testimonial->create();
-			$this->request->data['Testimonial']['user_id'] = $this->Auth->user('id');
-			
+			$user_id = $this->Auth->user('id');
+			$this->request->data['Testimonial']['user_id'] = $user_id;
+
 			// Auto-approved if posted by an admin
-			$this->request->data['Testimonial']['approved'] = ($role == 'admin');
-			
+			$this->loadModel('User');
+			$this->request->data['Testimonial']['approved'] = $this->User->hasRole($user_id, 'admin');
+
 			if ($this->Testimonial->save($this->request->data)) {
-				if ($role == 'student') {
-					$this->Flash->success('Thanks! Your testimonial has been submitted. After an administrator reviews it, it will be published to the website.');
+				if ($this->User->hasRole($user_id, 'admin')) {
+					$this->Flash->success('The testimonial has been added and published.');
+					$this->request->data = array();
 					$this->redirect(array(
-						'controller' => 'pages', 
-						'action' => 'home'
+						'action' => 'add'
 					));
-				} elseif ($role == 'instructor') {
+				} elseif ($this->User->hasRole($user_id, 'instructor')) {
 					$this->Flash->success('The testimonial has been added. After an administrator reviews it, it will be published.');
 					$this->request->data = array();
 					$this->redirect(array(
 						'action' => 'add'
 					));
-				} elseif ($role == 'admin') {
-					$this->Flash->success('The testimonial has been added and published.');
-					$this->request->data = array();
+				} elseif ($this->User->hasRole($user_id, 'student')) {
+					$this->Flash->success('Thanks! Your testimonial has been submitted. After an administrator reviews it, it will be published to the website.');
 					$this->redirect(array(
-						'action' => 'add'
+						'controller' => 'pages',
+						'action' => 'home'
 					));
 				}
 			} else {
@@ -74,7 +77,7 @@ class TestimonialsController extends AppController {
 			}
 		} else {
 			// If the user is a student, automatically suggest they use their own name
-			if ($role == 'student') {
+			if ($this->User->hasRole($user_id, 'student')) {
 				$this->loadModel('User');
 				$this->User->id = $this->Auth->user('id');
 				$this->request->data['Testimonial']['author'] = $this->User->field('name');
@@ -82,7 +85,7 @@ class TestimonialsController extends AppController {
 		}
 		$this->set(array(
 			'title_for_layout' => 'Submit a Testimonial',
-			'role' => $role
+			'is_student' => $this->User->hasRole($user_id, 'student')
 		));
 		$this->render('form');
 	}
@@ -108,9 +111,10 @@ class TestimonialsController extends AppController {
 		} else {
 			$this->request->data = $this->Testimonial->read(null, $id);
 		}
+		$this->loadModel('User');
 		$this->set(array(
 			'title_for_layout' => 'Edit Testimonial',
-			'role' => $this->Auth->user('role')
+			'is_student' => $this->User->hasRole($user_id, 'student')
 		));
 		$this->render('form');
 	}
@@ -136,7 +140,7 @@ class TestimonialsController extends AppController {
 		$this->Flash->error(__('Testimonial was not deleted'));
 		$this->redirect($this->request->referer());
 	}
-	
+
 	public function manage() {
 		$this->paginate = array(
 			'contain' => array('User'),
@@ -147,7 +151,7 @@ class TestimonialsController extends AppController {
 			'testimonials' => $this->paginate()
 		));
 	}
-	
+
 	public function approve($id = null) {
 		if (!$this->request->is('post')) {
 			throw new MethodNotAllowedException();

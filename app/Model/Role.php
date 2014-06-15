@@ -7,4 +7,20 @@ class Role extends AppModel {
 			'className' => 'User'
 		)
     );
+
+	public function getIdWithName($role_name) {
+		$result = $this->find(
+			'list',
+			array(
+				'conditions' => array(
+					'Role.name' => $role_name
+				)
+			)
+		);
+		if (empty($result)) {
+			return false;
+		}
+		$role_ids = array_keys($result);
+		return $role_ids[0];
+	}
 }

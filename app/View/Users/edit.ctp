@@ -22,23 +22,39 @@
 	<fieldset>
 		<?php
 			echo $this->Form->input('id');
-			echo $this->Form->input('name', array(
-				'class' => 'form-control',
-				'div' => array('class' => 'form-group')
-			));
-			echo $this->Form->input('email', array(
-				'class' => 'form-control',
-				'div' => array('class' => 'form-group')
-			));
-			echo $this->Form->input('phone', array(
-				'class' => 'form-control',
-				'div' => array('class' => 'form-group')
-			));
-			echo $this->Form->input('role', array(
-				'class' => 'form-control',
-				'div' => array('class' => 'form-group'),
-				'options' => $roles
-			));
+			echo $this->Form->input(
+				'name',
+				array(
+					'class' => 'form-control',
+					'div' => array('class' => 'form-group')
+				)
+			);
+			echo $this->Form->input(
+				'email',
+				array(
+					'class' => 'form-control',
+					'div' => array('class' => 'form-group')
+				)
+			);
+			echo $this->Form->input(
+				'phone',
+				array(
+					'class' => 'form-control',
+					'div' => array('class' => 'form-group')
+				)
+			);
+			echo $this->Form->input(
+				'Role',
+				array(
+					'class' => 'form-control',
+					'div' => array(
+						'class' => 'form-group roles_checkboxes'
+					),
+					'label' => 'Role(s)',
+					'options' => $roles,
+					'multiple' => 'checkbox'
+				)
+			);
 		?>
 	</fieldset>
 	<?php echo $this->Form->end(array(

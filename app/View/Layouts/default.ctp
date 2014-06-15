@@ -21,7 +21,6 @@
 	<link rel="shortcut icon" href="/favicon.ico" />
 	<link rel="icon" type="image/png" href="/favicon.png" />
 	<link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
-	<link rel="stylesheet" href="/css/vendor/bootstrap-glyphicons.css">
 
 	<style>
 		body {

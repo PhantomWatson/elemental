@@ -41,7 +41,13 @@ function setupTestimonialExcerpt() {
 }
 
 var courseAddForm = {
-	setup: function() {
+	available_psrm: 0,
+	action: null,
+		
+	setup: function (params) {
+		this.available_psrm = params.available_psrm;
+		this.action = params.action;
+		
 		$('#scheduling_help_toggler').click(function(event) {
 			event.preventDefault();
 			$('#scheduling_help').slideToggle(300);
@@ -56,6 +62,13 @@ var courseAddForm = {
 			event.preventDefault();
 			$(this).parent('div').remove();
 		});
+		
+		if (this.action == 'add') {
+			$('#free_vs_fee input[type="radio"]').change(function () {
+				courseAddForm.toggleCostFields(true);
+			});
+			this.toggleCostFields(false);
+		}
 	},
 	
 	addDate: function() {
@@ -81,6 +94,44 @@ var courseAddForm = {
 		
 		// Add new date input
 		input.insertBefore('#add_date');
+	},
+	
+	toggleCostFields: function (animated) {
+		var cost_fields_container = $('#cost_fields');
+		var cost_fields = cost_fields_container.find('input');
+		var class_size = $('#CourseMaxParticipants');
+		
+		// Free
+		if ($('#CourseFree1').is(':checked')) {
+			cost_fields.prop('required', false);
+			if (cost_fields_container.is(':visible')) {
+				if (animated) {
+					cost_fields_container.slideUp();
+				} else {
+					cost_fields_container.hide();
+				}
+			}
+			
+			if (this.action == 'add') {
+				class_size.attr('max', this.available_psrm);
+				if (class_size.val() > this.available_psrm) {
+					class_size.val(this.available_psrm);
+				}
+			}
+			
+		// Fee
+		} else {
+			cost_fields.prop('required', true);
+			if (! cost_fields_container.is(':visible')) {
+				if (animated) {
+					cost_fields_container.slideDown();
+				} else {
+					cost_fields_container.show();
+				}
+			}
+			
+			class_size.attr('max', '');
+		}
 	}
 };
 

@@ -134,23 +134,43 @@ class CoursesController extends AppController {
  */
 	public function add() {
 		$instructor_id = $this->Auth->user('id');
+		$this->loadModel('PrepaidReviewModule');
 		$available_psrm = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
+
+		// Force non-free class if free is not possible
+		if (! $available_psrm) {
+			$this->request->data['Course']['free'] = false;
+		}
+
 		if ($this->request->is('post')) {
 			$this->Course->create();
 			$this->request->data['Course']['user_id'] = $instructor_id;
+
+			// Prevent nonzero cost from being saved with a free course
+			if ($this->request->data['Course']['free']) {
+				$this->request->data['Course']['cost_dollars'] = '0';
+				$this->request->data['Course']['cost_cents'] = '00';
+			}
+
 			if ($this->Course->saveAssociated($this->request->data)) {
 				$this->Flash->success('The course has been added');
 				$this->redirect(array('action' => 'manage'));
 			} else {
 				$this->Flash->error('The course could not be added. Please try again.');
 			}
+		} else {
+			$this->request->data['Course']['free'] = false;
+			$this->request->data['Course']['max_participants'] = 10;
 		}
+
+		// Set default dollars/cents
 		if (! isset($this->request->data['Course']['cost_dollars']) || empty ($this->request->data['Course']['cost_dollars'])) {
-			$this->request->data['Course']['cost_dollars'] = '0';
+			$this->request->data['Course']['cost_dollars'] = '20';
 		}
 		if (! isset($this->request->data['Course']['cost_cents']) || empty ($this->request->data['Course']['cost_cents'])) {
 			$this->request->data['Course']['cost_cents'] = '00';
 		}
+
 		$this->loadModel('PrepaidReviewModule');
 		$this->set(array(
 			'title_for_layout' => 'Schedule a Course',
@@ -167,22 +187,35 @@ class CoursesController extends AppController {
  */
 	public function edit($id = null) {
 		$this->Course->id = $id;
-		if (!$this->Course->exists()) {
+		if (! $this->Course->exists()) {
 			throw new NotFoundException('Invalid course');
 		}
 
 		$instructor_id = $this->Course->field('user_id');
+		$this->loadModel('PrepaidReviewModule');
 		$available_psrm = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
 		$max_participants_footnote = '';
 		$class_list_count = count($this->Course->getClassList($id));
+		$max_free_class_size = $this->Course->field('max_participants') + $available_psrm;
 		$waiting_list_count = count($this->Course->getWaitingList($id));
+		$original_cost = $this->Course->field('cost');
+
+		// Prevent free courses from being changed to non-free
+		if ($original_cost == 0) {
+			$this->request->data['Course']['cost'] = 0;
+
+		// Set cost (not provided by form)
+		} elseif (! isset($this->request->data['Course']['cost'])) {
+			$this->request->data['Course']['cost'] = $original_cost;
+		}
+
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->request->data['Course']['max_participants'] < $class_list_count) {
-				$this->Course->validationErrors['max_participants'] = "Can't set class size any smaller than the number of participants already registered.";
-			}
+
+			$this->request->data['Course']['id'] = $id;
+			$this->Course->set($this->request->data);
 
 			if ($this->Course->validates() && empty($this->Course->validationErrors)) {
-				if ($this->Course->save($this->request->data)) {
+				if ($this->Course->save()) {
 					$this->Flash->success('The course has been updated');
 					if ($waiting_list_count && $this->request->data['Course']['max_participants'] > $class_list_count) {
 						if ($this->Course->elevateWaitingListMembers($id)) {
@@ -199,6 +232,9 @@ class CoursesController extends AppController {
 		} else {
 			$this->request->data = $this->Course->read(null, $id);
 		}
+
+		$this->request->data['Course']['free'] = $original_cost == 0;
+
 		$this->set(array(
 			'title_for_layout' => 'Edit Course',
 			'payments_received' => $this->Course->paymentsReceived($id)
@@ -206,6 +242,7 @@ class CoursesController extends AppController {
 		$this->set(compact(
 			'available_psrm',
 			'class_list_count',
+			'max_free_class_size',
 			'waiting_list_count'
 		));
 		$this->render('form');
@@ -389,12 +426,16 @@ class CoursesController extends AppController {
 			} else {
 				$message = 'You are now registered for this course.';
 			}
+
 			if ($this->__sendRegisteredEmail($course_id, $user_id)) {
 				$message .= ' You should be receiving an email shortly with information about your registration.';
 			} else {
 				$this->Flash->error('Error sending registration email.');
 			}
+
 			$this->Flash->success($message);
+			$this->loadModel('User');
+			$this->User->grantStudentRole($user_id);
 		} else {
 			$this->Flash->error('There was an error registering you for this course. Please try again or <a href="/contact">contact us</a> if you need assistance.');
 		}
@@ -414,23 +455,30 @@ class CoursesController extends AppController {
 	}
 
 	public function manage() {
+		$user_id = $this->Auth->user('id');
+		$is_admin = $this->User->hasRole($user_id, 'admin');
+
 		// Admins can access all courses
-		if ($this->Auth->user('role') == 'admin') {
+		if ($is_admin) {
 			$conditions = null;
+
 		// Instructors can only access their own courses
 		} else {
 			$conditions = array(
-				'Course.user_id' => $this->Auth->user('id'),
+				'Course.user_id' => $user_id,
 			);
 		}
+
 		$this->paginate = array(
 			'conditions' => $conditions,
-			'order' => array('Course.created DESC')
+			'order' => array(
+				'Course.created DESC'
+			)
 		);
 		$this->set(array(
 			'title_for_layout' => 'Manage Courses',
 			'courses' => $this->paginate(),
-			'is_admin' => $this->Auth->user('role') == 'admin'
+			'is_admin' => $is_admin
 		));
 	}
 
@@ -503,7 +551,9 @@ class CoursesController extends AppController {
 
 			$this->Course->saveField('attendance_reported', true);
 			if ($course['Course']['cost'] == 0) {
+				$this->loadModel('PrepaidReviewModule');
 				$this->PrepaidReviewModule->assignToAttendingStudents($course_id);
+				$this->PrepaidReviewModule->releaseUnclaimedFromCourse($course_id);
 			}
 			$this->Flash->success('Attendance reported.');
 			$this->request->data = array();

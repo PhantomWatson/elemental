@@ -86,8 +86,9 @@ class StoreController extends AppController {
 
 	public function prepaid_student_review_module() {
 		$step = 'prep';
-		$user_roles = $this->__getUserRoles();
-		$is_instructor = in_array('instructor', $user_roles);
+		$user_id = $this->Auth->user('id');
+		$this->loadModel('User');
+		$is_instructor = $this->User->hasRole($user_id, 'instructor');
 		$this->loadModel('PrepaidReviewModule');
 		$cost = $this->PrepaidReviewModule->getCost();
 

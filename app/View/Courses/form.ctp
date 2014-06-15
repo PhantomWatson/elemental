@@ -1,5 +1,8 @@
 <?php
-	$this->Js->buffer("courseAddForm.setup();");
+	$this->Js->buffer("courseAddForm.setup({
+		available_psrm: $available_psrm,
+		action: '".$this->request->action."'
+	});");
 	function dateTimeInput($view, $key = 0, $course_date = null, $is_dummy_input = false) {
 		$remove_button = '<a href="#" class="remove_date btn btn-danger">';
 		$remove_button .= '<span class="glyphicon glyphicon-remove glyphicon-white"></span> Remove';
@@ -96,11 +99,158 @@
 </div>
 
 <div class="courses form">
-	<?php echo $this->Form->create('Course', array('id' => 'course_form'));?>
+	<?php
+		echo $this->Form->create('Course', array('id' => 'course_form'));
+
+		// Create note about available PSRMs (which will be used in multiple places in this file)
+		$available_psrm_note = '';
+		if ($available_psrm) {
+			$available_psrm_note .= '<span class="label label-success">'.$available_psrm.'</span>';
+		} else {
+			$available_psrm_note .= '<span class="label label-danger">0</span>';
+		}
+		$available_psrm_note .= ' <span class="after_label">';
+		if ($this->request->action == 'edit') {
+			$available_psrm_note .= 'more ';
+		}
+		$available_psrm_note .= 'prepaid student review '.__n('module is', 'modules are', $available_psrm).' available. ';
+		$available_psrm_note .= $this->Html->link(
+			'Get more <span class="glyphicon glyphicon-new-window"></span>',
+			array(
+				'controller' => 'store',
+				'action' => 'prepaid_student_review_module'
+			),
+			array(
+				'escape' => false,
+				'target' => '_blank'
+			)
+		);
+		$available_psrm_note .= '</span>';
+	?>
+
 	<fieldset>
+		<legend>
+			Class Type and Size
+		</legend>
+		<div class="form-group" id="free_vs_fee">
+			<?php if ($this->request->action == 'add'): ?>
+				<label>
+					Cost to Attend
+				</label>
+				<input name="data[Course][free]" id="CourseFree_" value="" type="hidden">
+				<div class="radio">
+					<label for="CourseFree1">
+						<?php
+							$attributes = '';
+							if ($available_psrm) {
+								if ($this->data['Course']['free']) {
+									$attributes .= 'checked="checked" ';
+								}
+							} else {
+								$attributes .= 'disabled="disabled" ';
+							}
+						?>
+						<input name="data[Course][free]" id="CourseFree1" value="1" type="radio" <?php echo $attributes; ?> />
+						Free course
+						<div>
+							<?php echo $available_psrm_note; ?>
+						</div>
+					</label>
+				</div>
+				<div class="radio">
+					<label for="CourseFree0">
+						<?php
+							$attributes = '';
+							if (! $this->data['Course']['free']) {
+								 $attributes .= 'checked="checked"';
+							}
+						?>
+						<input name="data[Course][free]" id="CourseFree0" value="0" type="radio" <?php echo $attributes; ?> />
+						Registration fee
+					</label>
+				</div>
+			<?php elseif ($this->request->action == 'edit'): ?>
+				<?php if ($this->data['Course']['free']): ?>
+					<label>
+						Free course
+					</label>
+				<?php else: ?>
+					<label for="CourseCostDollars">
+						Registration fee
+					</label>
+				<?php endif; ?>
+			<?php endif; ?>
+		</div>
+
+		<?php
+			if ($this->request->action == 'add' || ! $this->data['Course']['free']) {
+				if (isset($payments_received) && $payments_received) {
+					$warning = $payments_received.__n(' student has', ' students have', $payments_received).' already paid.';
+					$warning = ' <span class="label label-info">'.$warning.'</span><br />';
+				} else {
+					$warning = '';
+				}
+				$cents = $this->Form->input('cost_cents', array(
+					'class' => 'form-control',
+					'div' => false,
+					'label' => false,
+					'maxlength' => 2
+				));
+				echo $this->Form->input('cost_dollars', array(
+					'after' => '<span class="currency_symbol">.</span>'.$cents,
+					'between' => $warning.'<span class="currency_symbol">$</span></a>',
+					'class' => 'form-control',
+					'div' => array(
+						'class' => 'form-group cost',
+						'id' => 'cost_fields'
+					),
+					'label' => false,
+					'maxlength' => 3
+				));
+			}
+
+
+			// Class size
+			$class_size_footnotes = '';
+			if ($this->request->action == 'edit') {
+				if (isset($class_list_count) && $class_list_count > 0) {
+					$class_size_footnotes .= '<br /><span class="label label-info">Note</span> There '.__n("is 1 participant", "are $class_list_count participants", $class_list_count).' currently registered. The class size cannot be reduced below this number.';
+					$min_class_size = $class_list_count;
+				}
+				if (! $this->data['Course']['free'] && isset($waiting_list_count) && $waiting_list_count > 0) {
+					$class_size_footnotes .= '<br /><span class="label label-info">Note</span> There '.__n('is 1 participant', "are $waiting_list_count participants", $waiting_list_count).' on the waiting list who will be automatically moved into the course if the participant limit is increased. ';
+				}
+				if ($this->data['Course']['free']) {
+					$class_size_footnotes .= '<br />'.$available_psrm_note;
+					$max_class_size = $max_free_class_size;
+				}
+			}
+
+			if (! isset($min_class_size)) {
+				$min_class_size = 1;
+			}
+			if (! isset($max_class_size)) {
+				$max_class_size = null;
+			}
+			echo $this->Form->input('max_participants', array(
+				'after' => $class_size_footnotes,
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group'),
+				'label' => 'Maximum Number of Participants',
+				'max' => $max_class_size,
+				'min' => $min_class_size,
+				'step' => 1
+			));
+		?>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			When
+		</legend>
 		<div class="form-group">
 			<label>
-				When
+				Date(s)
 			</label>
 			<?php echo dateTimeInput($this, 0, null, true); ?>
 			<div id="input_dates" class="input">
@@ -129,6 +279,14 @@
 				'class' => 'form-control',
 				'div' => array('class' => 'form-group deadline_inputs')
 			));
+		?>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			Where
+		</legend>
+		<?php
 			echo $this->Form->input('location', array(
 				'label' => 'Name of Location',
 				'class' => 'form-control',
@@ -156,47 +314,14 @@
 				'class' => 'form-control',
 				'div' => array('class' => 'form-group')
 			));
+		?>
+	</fieldset>
 
-			$max_participants_footnote = '';
-			if (isset($class_list_count) && $class_list_count > 0) {
-				$max_participants_footnote .= 'There '.__n("is 1 participant", "are $class_list_count participants", $class_list_count).' currently registered. ';
-			}
-			if (isset($waiting_list_count) && $waiting_list_count > 0) {
-				$max_participants_footnote .= 'There '.__n('is 1 participant', "are $waiting_list_count participants", $waiting_list_count).' on the waiting list who will be automatically moved into the course if the participant limit is increased. ';
-			}
-			if ($max_participants_footnote != '') {
-				$max_participants_footnote = ' <span class="label label-info">'.$max_participants_footnote.'</span>';
-			}
-			echo $this->Form->input('max_participants', array(
-				'label' => 'Maximum Number of Participants',
-				'class' => 'form-control',
-				'div' => array('class' => 'form-group'),
-				'between' => $max_participants_footnote
-			));
-			if (isset($payments_received) && $payments_received) {
-				$warning = $payments_received.__n(' student has', ' students have', $payments_received).' already paid.';
-				$warning = ' <span class="label label-info">'.$warning.'</span>';
-			} else {
-				$warning = '';
-			}
-			$cents = $this->Form->input('cost_cents', array(
-				'after' => '<div class="footnote">Enter $0.00 if free</div>',
-				'class' => 'form-control',
-				'div' => false,
-				'label' => false,
-				'maxlength' => 2
-			));
-			echo $this->Form->input('cost_dollars', array(
-				'after' => '<span class="currency_symbol">.</span>'.$cents,
-				'between' => $warning.'<br /><span class="currency_symbol">$</span></a>',
-				'class' => 'form-control',
-				'div' => array(
-					'class' => 'form-group cost'
-				),
-				'label' => 'Cost to Attend',
-				'maxlength' => 3
-			));
-
+	<fieldset>
+		<legend>
+			Messages
+		</legend>
+		<?php
 			echo $this->Form->input('details', array(
 				'between' => '<div class="footnote">This optional description of the course will be included in its listing on the Elemental website.</div>',
 				'class' => 'form-control',
@@ -210,6 +335,7 @@
 			));
 		?>
 	</fieldset>
+
 	<?php
 		$label = ($this->action == 'edit') ? 'Update' : 'Submit';
 		echo $this->Form->end(array(
