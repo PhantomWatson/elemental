@@ -12,8 +12,7 @@
 			array(
 				'class' => 'form-control',
 				'div' => array(
-					'id' => 'roles_checkboxes',
-					'class' => 'form-group'
+					'class' => 'form-group roles_checkboxes'
 				),
 				'label' => 'Role(s)',
 				'options' => $roles,
