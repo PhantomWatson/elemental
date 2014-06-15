@@ -14,14 +14,16 @@ class TestimonialsController extends AppController {
 
 	public function isAuthorized($user) {
 		// Students and instructors can only add
-		if (in_array($user['role'], array('student', 'instructor'))) {
+		$this->loadModel('User');
+		$user_id = $this->Auth->user('id');
+		if ($this->User->hasRole($user_id, 'student') || $this->User->hasRole($user_id, 'instructor')) {
 			return $this->action == 'add';
 		}
-		
+
         // Admins can access everything
 		return parent::isAuthorized($user);
 	}
-	
+
 /**
  * index method
  *
@@ -45,15 +47,15 @@ class TestimonialsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Testimonial->create();
 			$this->request->data['Testimonial']['user_id'] = $this->Auth->user('id');
-			
+
 			// Auto-approved if posted by an admin
 			$this->request->data['Testimonial']['approved'] = ($role == 'admin');
-			
+
 			if ($this->Testimonial->save($this->request->data)) {
 				if ($role == 'student') {
 					$this->Flash->success('Thanks! Your testimonial has been submitted. After an administrator reviews it, it will be published to the website.');
 					$this->redirect(array(
-						'controller' => 'pages', 
+						'controller' => 'pages',
 						'action' => 'home'
 					));
 				} elseif ($role == 'instructor') {
@@ -136,7 +138,7 @@ class TestimonialsController extends AppController {
 		$this->Flash->error(__('Testimonial was not deleted'));
 		$this->redirect($this->request->referer());
 	}
-	
+
 	public function manage() {
 		$this->paginate = array(
 			'contain' => array('User'),
@@ -147,7 +149,7 @@ class TestimonialsController extends AppController {
 			'testimonials' => $this->paginate()
 		));
 	}
-	
+
 	public function approve($id = null) {
 		if (!$this->request->is('post')) {
 			throw new MethodNotAllowedException();
