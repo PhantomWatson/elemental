@@ -90,7 +90,8 @@ class AppController extends Controller {
 					),
 					'fields' => array(
 						'User.id',
-						'User.name'
+						'User.name',
+						'User.certified'
 					),
 					'contain' => array(
 						'Role'
