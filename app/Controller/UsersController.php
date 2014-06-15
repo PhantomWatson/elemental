@@ -8,6 +8,11 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController {
 	public $components = array('Recaptcha.Recaptcha');
 	public $helpers = array('Recaptcha.Recaptcha');
+	public $paginate = array(
+		'contain' => array(
+			'Role'
+		)
+	);
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -310,6 +315,13 @@ class UsersController extends AppController {
 
 	public function manage() {
 		$this->User->recursive = 0;
+		/* $this->Paginator->settings = array(
+			'User' => array(
+				'contain' => array(
+					'Role'
+				)
+			)
+		); */
 		$this->set(array(
 			'title_for_layout' => 'Manage Users',
 			'users' => $this->paginate()

@@ -12,10 +12,18 @@
 	<div class="index manage_users">
 		<table cellpadding="0" cellspacing="0" class="table">
 			<tr>
-				<th><?php echo $this->Paginator->sort('name');?></th>
-				<th><?php echo $this->Paginator->sort('role');?></th>
-				<th><?php echo $this->Paginator->sort('created', 'Account Created');?></th>
-				<th class="actions"><?php echo __('Actions');?></th>
+				<th>
+					<?php echo $this->Paginator->sort('name');?>
+				</th>
+				<th>
+					Role
+				</th>
+				<th>
+					<?php echo $this->Paginator->sort('created', 'Account Created');?>
+				</th>
+				<th class="actions">
+					<?php echo __('Actions');?>
+				</th>
 			</tr>
 			<?php foreach ($users as $user): ?>
 				<tr>
@@ -32,7 +40,13 @@
 						</p>
 					</td>
 					<td>
-						<?php echo ucwords($user['User']['role']); ?>
+						<?php
+							$roles = array();
+							foreach ($user['Role'] as $role) {
+								$roles[] = ucwords($role['name']);
+							}
+							echo implode('<br />', $roles);
+						?>
 					</td>
 					<td>
 						<?php echo date('M j, Y g:ia', strtotime($user['User']['created'])); ?>
