@@ -344,13 +344,19 @@ class UsersController extends AppController {
 
 		} else {
 			$this->request->data = $this->User->find('first', array(
-				'fields' => array('id', 'name', 'email', 'role', 'phone'),
-				'conditions' => array('id' => $id),
-				'contain' => false
+				'fields' => array(
+					'User.id',
+					'User.name',
+					'User.email',
+					'User.phone'
+				),
+				'conditions' => array(
+					'User.id' => $id
+				),
+				'contain' => array(
+					'Role'
+				)
 			));
-			if (empty($this->request->data['User']['role'])) {
-				$this->request->data['User']['role'] = 'student';
-			}
 		}
 		$this->set(array(
 			'roles' => $this->User->getRoleOptions(),
