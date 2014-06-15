@@ -54,7 +54,7 @@ class AppController extends Controller {
 
 	public function isAuthorized($user = null) {
 		// Admins can access everything
-        if ($user['role'] === 'admin') {
+        if ($this->User->hasRole($user['id'], 'admin')) {
         	return true;
         }
 
