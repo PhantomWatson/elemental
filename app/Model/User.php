@@ -407,4 +407,37 @@ class User extends AppModel {
 		}
 		return $retval;
 	}
+
+	public function hasRole($user_id, $role_name) {
+		$cache_key = "hasRole($user_id, $role_name)";
+		if ($cached = Cache::read($cache_key)) {
+			return $cached;
+		}
+		$result = $this->find(
+			'first',
+			array(
+				'conditions' => array(
+					'User.id' => $user_id
+				),
+				'contain' => array(
+					'Role' => array(
+						'fields' => array(
+							'Role.name'
+						)
+					)
+				),
+				'fields' => array(
+					'User.id'
+				)
+			)
+		);
+		foreach ($result['Role'] as $role) {
+			if ($role['name'] == $role_name) {
+				Cache::write($cache_key, true);
+				return true;
+			}
+		}
+		Cache::write($cache_key, false);
+		return false;
+	}
 }
