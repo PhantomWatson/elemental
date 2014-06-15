@@ -451,23 +451,30 @@ class CoursesController extends AppController {
 	}
 
 	public function manage() {
+		$user_id = $this->Auth->user('id');
+		$is_admin = $this->User->hasRole($user_id, 'admin');
+
 		// Admins can access all courses
-		if ($this->Auth->user('role') == 'admin') {
+		if ($is_admin) {
 			$conditions = null;
+
 		// Instructors can only access their own courses
 		} else {
 			$conditions = array(
-				'Course.user_id' => $this->Auth->user('id'),
+				'Course.user_id' => $user_id,
 			);
 		}
+
 		$this->paginate = array(
 			'conditions' => $conditions,
-			'order' => array('Course.created DESC')
+			'order' => array(
+				'Course.created DESC'
+			)
 		);
 		$this->set(array(
 			'title_for_layout' => 'Manage Courses',
 			'courses' => $this->paginate(),
-			'is_admin' => $this->Auth->user('role') == 'admin'
+			'is_admin' => $is_admin
 		));
 	}
 
