@@ -88,7 +88,10 @@ class AppController extends Controller {
 						'User.email' => $cookie['email'],
 						'User.password' => $cookie['password']
 					),
-					'fields' => array('id', 'role', 'name', 'certified'),
+					'fields' => array(
+						'User.id',
+						'User.name'
+					),
 					'contain' => array(
 						'Role'
 					)
@@ -100,7 +103,10 @@ class AppController extends Controller {
 
 				$login_successful = $this->Auth->login($login_data);
 				if ($user && ! $login_successful) {
-					$this->redirect(array('controller' => 'users', 'action' => 'logout'));
+					$this->redirect(array(
+						'controller' => 'users',
+						'action' => 'logout'
+					));
 				}
 			}
 		}
