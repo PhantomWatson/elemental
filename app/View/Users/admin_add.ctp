@@ -5,39 +5,44 @@
 </div>
 
 <div class="users form">
-	<?php 
+	<?php
 		echo $this->Form->create('User');
 		echo $this->Form->input(
-			'role', 
+			'Role',
 			array(
+				'class' => 'form-control',
+				'div' => array(
+					'id' => 'roles_checkboxes',
+					'class' => 'form-group'
+				),
+				'label' => 'Role(s)',
 				'options' => $roles,
-				'class' => 'form-control',
-				'div' => array('class' => 'form-group')
+				'multiple' => 'checkbox'
 			)
 		);
 		echo $this->Form->input(
-			'name', 
+			'name',
 			array(
 				'class' => 'form-control',
 				'div' => array('class' => 'form-group')
 			)
 		);
 		echo $this->Form->input(
-			'email', 
+			'email',
 			array(
 				'class' => 'form-control',
 				'div' => array('class' => 'form-group')
 			)
 		);
 		echo $this->Form->input(
-			'phone', 
+			'phone',
 			array(
 				'class' => 'form-control',
 				'div' => array('class' => 'form-group')
 			)
 		);
 		echo $this->Form->input(
-			'password', 
+			'password',
 			array(
 				'class' => 'form-control',
 				'div' => array('class' => 'form-group'),
