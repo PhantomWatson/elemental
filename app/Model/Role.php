@@ -8,7 +8,7 @@ class Role extends AppModel {
 		)
     );
 
-	public function getId($role_name) {
+	public function getIdWithName($role_name) {
 		$result = $this->find(
 			'list',
 			array(

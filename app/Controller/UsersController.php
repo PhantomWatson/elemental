@@ -140,7 +140,7 @@ class UsersController extends AppController {
 				App::uses('Security', 'Utility');
 				$this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
 				$this->loadModel('Role');
-				$this->request->data['Role']['id'] = $this->Role->getId('student');
+				$this->request->data['Role']['id'] = $this->Role->getIdWithName('student');
 				$this->request->data['User'] = Sanitize::clean($this->request->data['User']);
 
 				if ($this->User->save($this->request->data)) {
