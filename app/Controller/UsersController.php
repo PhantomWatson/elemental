@@ -99,7 +99,7 @@ class UsersController extends AppController {
 		}
 
 		$this->set(array(
-			'roles' => $this->User->getRoleOptions(),
+			'roles' => $this->User->Role->find('list'),
 			'title_for_layout' => 'Add User'
 		));
 	}
@@ -359,7 +359,7 @@ class UsersController extends AppController {
 			));
 		}
 		$this->set(array(
-			'roles' => $this->User->getRoleOptions(),
+			'roles' => $this->User->Role->find('list'),
 			'title_for_layout' => 'Edit User'
 		));
 	}
