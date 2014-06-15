@@ -44,11 +44,15 @@
 				)
 			);
 			echo $this->Form->input(
-				'role',
+				'Role',
 				array(
 					'class' => 'form-control',
-					'div' => array('class' => 'form-group'),
-					'options' => $roles
+					'div' => array(
+						'class' => 'form-group roles_checkboxes'
+					),
+					'label' => 'Role(s)',
+					'options' => $roles,
+					'multiple' => 'checkbox'
 				)
 			);
 		?>
