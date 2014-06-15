@@ -257,14 +257,7 @@ class User extends AppModel {
 	}
 
 	public function canAccessInstructorTraining($user_id) {
-		$this->id = $user_id;
-		$role = $this->field('role');
-		switch ($role) {
-			case 'admin':
-			case 'trainee':
-				return true;
-		}
-		return false;
+		return ($this->hasRole($user_id, 'admin') || $this->hasRole($user_id, 'trainee'));
 	}
 
 	public function sendPasswordResetEmail($user_id) {
