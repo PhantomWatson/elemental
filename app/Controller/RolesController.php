@@ -23,6 +23,8 @@ class RolesController extends AppController {
 				case 'student':
 					$role_id = 4;
 					break;
+				case '':
+					continue;
 				default:
 					echo "User {$user['User']['id']} has weirdo role {$user['User']['role']}<br />";
 			}
