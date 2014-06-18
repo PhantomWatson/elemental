@@ -17,6 +17,9 @@ class RolesController extends AppController {
 				case 'admin':
 					$role_id = 1;
 					break;
+				case 'instructor':
+					$role_id = 2;
+					break;
 				case 'trainee':
 					$role_id = 3;
 					break;
