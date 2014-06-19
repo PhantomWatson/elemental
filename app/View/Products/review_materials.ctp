@@ -47,7 +47,7 @@
 	<?php elseif (! $logged_in): ?>
 
 		<p class="alert alert-info">
-			Review materials are available for purchase after attending an Elemental course.
+			Review materials are available to students after attending an Elemental course.
 		</p>
 		<p>
 			<?php echo $this->Html->link(
@@ -76,7 +76,7 @@
 	<?php elseif (! $user_attended): ?>
 
 		<p class="alert alert-info">
-			Review materials are available for purchase after attending an Elemental course.
+			Review materials are available to students after attending an Elemental course.
 			Soon after a course concludes, the instructor will record your attendance and
 			you will be granted access. If 48 hours have passed after a course that you attended
 			and you still cannot access review materials, please contact your instructor.
