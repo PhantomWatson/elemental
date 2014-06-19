@@ -98,9 +98,8 @@
 
 		<p>
 			<?php
-				$action = $user_purchased ? 'Renew access' : 'Purchase';
 				echo $this->Html->link(
-					$action.' for $'.number_format($product['Product']['cost'], 2),
+					'Renew access for $'.number_format($product['Product']['cost'], 2),
 					array(
 						'controller' => 'store',
 						'action' => 'review_materials'
