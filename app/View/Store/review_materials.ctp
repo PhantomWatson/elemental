@@ -28,7 +28,7 @@
 		  "jwt": "eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJleHAiOiAxMzA5OTkxNzY0LCAiYXVkIjogImdvb2cucGF5bWVudHMuaW5hcHAuYnV5SXRlbSIsICJpc3MiOiAiMTA4NzM2NjAzNTQ2MjAwOTQ3MTYiLCAic2VsbGVyRGF0YSI6ICJfc2VsbGVyX2RhdGFfIiwgIml0ZW1EZXNjcmlwdGlvbiI6ICJUaGUgc2FmZXRpZXN0IHdheSB0byBkaXNwbGF5IHlvdXIgZmxhaXIiLCAiaXRlbVByaWNlIjogIjMuOTkiLCAiaXNvQ3VycmVuY3lDb2RlIjogIlVTRCIsICJpYXQiOiAxMzA5OTkxMTY0LCAiaXRlbU5hbWUiOiAiU2FmZXR5bW91c2UgUGF0Y2gifQ.E1VH0T9DvQn4GdCjyVavnlurpx0iklQXlqeI1_tAMa8"
 		}
 		*/
-	
+
 		/* example contents of purchaseActionError in failureHandler:
 		{
 		  "request": {
@@ -52,17 +52,17 @@
 		var successHandler = function(purchaseAction) {
 			if (window.console != undefined) {
 				console.log('Purchase completed successfully.');
-			}	
+			}
 		};
-	
+
 		var failureHandler = function(purchaseActionError){
 			if (window.console != undefined) {
 				console.log('Purchase did not complete.');
 			}
 		};
-		
+
 		var generatedJwt = '$jwt';
-	
+
 		$('#buy_button').click(function(event) {
 			event.preventDefault();
 			google.payments.inapp.buy({
@@ -74,10 +74,6 @@
 	");
 ?>
 
-<script>
-	
-</script>
-
-<a href="#" id="buy_button">
+<a href="#" id="buy_button" class="btn btn-primary">
 	Buy
 </a>
