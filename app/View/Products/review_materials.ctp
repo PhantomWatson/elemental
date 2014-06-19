@@ -100,10 +100,7 @@
 			<?php
 				echo $this->Html->link(
 					'Renew access for $'.number_format($product['Product']['cost'], 2),
-					array(
-						'controller' => 'store',
-						'action' => 'review_materials'
-					),
+					'#',
 					array(
 						'class' => 'btn btn-primary btn-large',
 						'id' => 'purchase_review_materials'
