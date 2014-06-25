@@ -14,24 +14,6 @@ class StoreController extends AppController {
 		return parent::isAuthorized($user);
 	}
 
-	public function review_materials() {
-		$user_id = $this->Auth->user('id');
-		$this->loadModel('User');
-		$user_attended = $this->User->hasAttendedCourse($user_id);
-
-		$this->set(array(
-			'title_for_layout' => 'Purchase Review Materials',
-			'product' => $this->Product->find('first', array(
-				'conditions' => array(
-					'Product.name LIKE' => '%Review%'
-				),
-				'contain' => false
-			)),
-			'user_attended' => $user_attended
-		));
-
-	}
-
 	/**
 	 * Postback method for confirming payments
 	 */

@@ -17,12 +17,17 @@ class RolesController extends AppController {
 				case 'admin':
 					$role_id = 1;
 					break;
+				case 'instructor':
+					$role_id = 2;
+					break;
 				case 'trainee':
 					$role_id = 3;
 					break;
 				case 'student':
 					$role_id = 4;
 					break;
+				case '':
+					continue;
 				default:
 					echo "User {$user['User']['id']} has weirdo role {$user['User']['role']}<br />";
 			}

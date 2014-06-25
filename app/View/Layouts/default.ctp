@@ -80,7 +80,7 @@
 					)
 				); ?>
 				<br />
-				Elemental is not affiliated with, endorsed by, or sponsored by SKH Quest Centers
+				Elemental is not affiliated with, endorsed by, or sponsored by SKH Quest Centers or To-Shin Do
 			</p>
 		</footer>
 
