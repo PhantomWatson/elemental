@@ -72,9 +72,7 @@ class AppController extends Controller {
 		// Using "rijndael" encryption because the default "cipher" type of encryption fails to decrypt when PHP has the Suhosin patch installed.
         // See: http://cakephp.lighthouseapp.com/projects/42648/tickets/471-securitycipher-function-cannot-decrypt
 		$this->Cookie->type('rijndael');
-
-		// When using "rijndael" encryption the "key" value must be longer than 32 bytes.
-		$this->Cookie->key = 'kjashdf98hf978hb98fn398fn2398r239f78n2389hf2398fn289yfsdfn38';
+		$this->Cookie->key = Configure::read('cookie_key');
 
 		// Prevents cookies from being accessible in Javascript
 		$this->Cookie->httpOnly = true;
