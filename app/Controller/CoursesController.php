@@ -150,13 +150,21 @@ class CoursesController extends AppController {
 			if ($this->request->data['Course']['free']) {
 				$this->request->data['Course']['cost_dollars'] = '0';
 				$this->request->data['Course']['cost_cents'] = '00';
+			} else {
+
+				// Set 'free' back to true if the user (for some dumb reason) selects "registration fee" and sets the cost to zero
+				$dollars = intval($this->request->data['Course']['cost_dollars']);
+				$cents = intval($this->request->data['Course']['cost_cents']);
+				if ($dollars == 0 && $cents == 0 && $available_psrm) {
+					$this->request->data['Course']['free'] = true;
+				}
 			}
 
 			if ($this->Course->saveAssociated($this->request->data)) {
 				$this->Flash->success('The course has been added');
 				$this->redirect(array('action' => 'manage'));
 			} else {
-				$this->Flash->error('The course could not be added. Please try again.');
+				$this->Flash->error('The course could not be added. Please correct any errors and try again.');
 			}
 		} else {
 			$this->request->data['Course']['free'] = false;
@@ -224,7 +232,7 @@ class CoursesController extends AppController {
 					}
 					$this->redirect(array('action' => 'manage'));
 				} else {
-					$this->Flash->error('The course could not be updated. Please try again.');
+					$this->Flash->error('The course could not be updated. Please correct any errors and try again.');
 				}
 			} else {
 				$this->Flash->error('Please correct the indicated errors before proceeding.');

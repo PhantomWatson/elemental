@@ -196,8 +196,13 @@
 					'label' => false,
 					'maxlength' => 2
 				));
+				if (isset($this->validationErrors['Course']['cost'][0])) {
+					$footnote = '<div class="error-message">'.$this->validationErrors['Course']['cost'][0].'</div>';
+				} else {
+					$footnote = '<div class="footnote">Minimum: $20</div>';
+				}
 				echo $this->Form->input('cost_dollars', array(
-					'after' => '<span class="currency_symbol">.</span>'.$cents,
+					'after' => '<span class="currency_symbol">.</span>'.$cents.$footnote,
 					'between' => $warning.'<span class="currency_symbol">$</span></a>',
 					'class' => 'form-control',
 					'div' => array(

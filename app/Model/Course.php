@@ -64,6 +64,9 @@ class Course extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+			'minimumCost' => array(
+				'rule' => array('validateCost')
+			)
 		),
 		'user_id' => array(
 			'numeric' => array(
@@ -228,6 +231,14 @@ class Course extends AppModel {
 		$class_size = count($this->getClassList($course_id));
 		if ($new_size < $class_size) {
 			return "You cannot reduce the size of this course below $class_size, since $class_size students have already registered.";
+		}
+		return true;
+	}
+
+	public function validateCost($check) {
+		$cost = $check['cost'];
+		if ($cost > 0 && $cost < 2000) {
+			return 'If a registration fee is charged for this course, it must be at least $20.';
 		}
 		return true;
 	}
