@@ -197,7 +197,7 @@
 					'maxlength' => 2
 				));
 				echo $this->Form->input('cost_dollars', array(
-					'after' => '<span class="currency_symbol">.</span>'.$cents,
+					'after' => '<span class="currency_symbol">.</span>'.$cents.'<div class="footnote">Minimum: $20</div>',
 					'between' => $warning.'<span class="currency_symbol">$</span></a>',
 					'class' => 'form-control',
 					'div' => array(
