@@ -46,6 +46,7 @@
 			echo $this->Form->input(
 				'Role',
 				array(
+					'between' => '<p class="footnote">Note: If a user\'s role is changed, they may need to log out and back in before the change takes effect.</p>',
 					'class' => 'form-control',
 					'div' => array(
 						'class' => 'form-group roles_checkboxes'
