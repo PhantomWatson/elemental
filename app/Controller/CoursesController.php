@@ -156,7 +156,7 @@ class CoursesController extends AppController {
 				$this->Flash->success('The course has been added');
 				$this->redirect(array('action' => 'manage'));
 			} else {
-				$this->Flash->error('The course could not be added. Please try again.');
+				$this->Flash->error('The course could not be added. Please correct any errors and try again.');
 			}
 		} else {
 			$this->request->data['Course']['free'] = false;
@@ -224,7 +224,7 @@ class CoursesController extends AppController {
 					}
 					$this->redirect(array('action' => 'manage'));
 				} else {
-					$this->Flash->error('The course could not be updated. Please try again.');
+					$this->Flash->error('The course could not be updated. Please correct any errors and try again.');
 				}
 			} else {
 				$this->Flash->error('Please correct the indicated errors before proceeding.');
