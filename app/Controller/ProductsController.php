@@ -9,6 +9,12 @@ class ProductsController extends AppController {
 	}
 
 	public function isAuthorized($user) {
+		$user_id = $this->Auth->user('id');
+		$this->loadModel('User');
+		if ($this->action == 'classroom_module' && $this->User->hasRole($user_id, 'instructor')) {
+			return true;
+		}
+
         // Admins can access everything
 		return parent::isAuthorized($user);
 	}
