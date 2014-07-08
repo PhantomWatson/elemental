@@ -124,4 +124,58 @@ class Product extends AppModel {
 		Cache::write($cache_key, $retval);
 		return $retval;
 	}
+
+	public function getClassroomModuleId() {
+		$cache_key = "getClassroomModuleId()";
+		if ($cached = Cache::read($cache_key)) {
+			return $cached;
+		}
+
+		$product = $this->find('first', array(
+			'conditions' => array(
+				'Product.name' => 'Classroom Module'
+			),
+			'contain' => false,
+			'fields' => array(
+				'Product.id'
+			)
+		));
+
+		if (empty($product)) {
+			throw new NotFoundException('Classroom Module not found');
+		}
+
+		$retval = $product['Product']['id'];
+		Cache::write($cache_key, $retval);
+		return $retval;
+	}
+
+	public function getClassroomModuleAccessExpiration($user_id) {
+		$cache_key = "getClassroomModuleAccessExpiration($user_id)";
+		if ($cached = Cache::read($cache_key)) {
+			return $cached;
+		}
+
+		$retval = false;
+
+		// Users who have purchased the module in the past year get access
+		$product_id = $this->getClassroomModuleId();
+		$purchase = $this->Purchase->find('first', array(
+			'conditions' => array(
+				'Purchase.user_id' => $user_id,
+				'Purchase.product_id' => $product_id
+			),
+			'contain' => false,
+			'fields' => array(
+				'Purchase.created'
+			),
+			'order' => 'Purchase.created DESC'
+		));
+		if (! empty($purchase)) {
+			$retval = strtotime($purchase['Purchase']['created'].' + 1 year + 2 days');
+		}
+
+		Cache::write($cache_key, $retval);
+		return $retval;
+	}
 }
