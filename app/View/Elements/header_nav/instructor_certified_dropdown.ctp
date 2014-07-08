@@ -9,6 +9,16 @@
 		</li>
 		<li>
 			<?php echo $this->Html->link(
+				'Classroom Module',
+				array(
+					'controller' => 'products',
+					'action' => 'classroom_module',
+					$this->params['prefix'] => false
+				)
+			); ?>
+		</li>
+		<li>
+			<?php echo $this->Html->link(
 				'Schedule a Course',
 				array(
 					'controller' => 'courses',
