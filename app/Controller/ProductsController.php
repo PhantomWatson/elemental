@@ -129,4 +129,16 @@ class ProductsController extends AppController {
 			'report' => $this->PrepaidReviewModule->getReport($user_id)
 		));
 	}
+
+	public function classroom_module() {
+		$user_id = $this->Auth->user('id');
+		$expiration = $this->Product->getClassroomModuleAccessExpiration($user_id);
+
+		$this->set(array(
+			'title_for_layout' => 'Classroom Module',
+			'can_access' => $expiration > time(),
+			'expiration' => $expiration,
+			'warn' => $expiration < strtotime('+30 days')
+		));
+	}
 }
