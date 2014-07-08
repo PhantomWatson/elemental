@@ -56,6 +56,9 @@ class StoreController extends AppController {
 			case 'prepaid_module':
 				$this->Purchase->purchasePrepaidStudentReviewModule($seller_data, $order_id, $jwt_decoded);
 				break;
+			case 'classroom_module':
+				$this->Purchase->purchaseClassroomModule($seller_data, $order_id, $jwt_decoded);
+				break;
 			default:
 				throw new BadRequestException('Unrecognized purchase type: '.$seller_data['type']);
 		}
