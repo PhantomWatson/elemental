@@ -85,6 +85,9 @@ class ProductsController extends AppController {
 				case 'review_materials':
 					$can_access = $this->User->hasPurchased($user_id, $product_id);
 					break;
+				case 'teaching_version':
+					$can_access = $this->User->canAccessClassroomModule($user_id);
+					break;
 				default:
 					throw new NotFoundException('Error: Unrecognized product');
 			}
