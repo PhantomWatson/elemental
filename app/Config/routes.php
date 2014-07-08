@@ -109,5 +109,7 @@
 	Router::connect("/instructor_training/*", array('controller' => 'products', 'action' => 'route'));
 	Router::connect("/vizi/instructor_training/*", array('controller' => 'products', 'action' => 'route'));
 
+	Router::connect("/classroom", array('controller' => 'products', 'action' => 'classroom_module'));
+
 	CakePlugin::routes();
 	require CAKE . 'Config' . DS . 'routes.php';
