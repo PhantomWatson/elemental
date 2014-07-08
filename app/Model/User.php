@@ -463,7 +463,9 @@ class User extends AppModel {
 	}
 
 	public function canAccessClassroomModule($user_id) {
-		$expiration = $this->getReviewMaterialsAccessExpiration($user_id);
+		App::import('Model','Product');
+		$Product = new Product();
+		$expiration = $Product->getClassroomModuleAccessExpiration($user_id);
 		return $expiration && $expiration > time();
 	}
 }
