@@ -105,7 +105,7 @@ class Product extends AppModel {
 
 		$retval = $this->find('first', array(
 			'conditions' => array(
-				'Product.name' => 'Student Review Module'
+				'Product.name' => 'Student Review Module access renewal'
 			),
 			'contain' => false
 		));
