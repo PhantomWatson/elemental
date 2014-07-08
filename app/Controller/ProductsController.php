@@ -85,7 +85,7 @@ class ProductsController extends AppController {
 				case 'review_materials':
 					$can_access = $this->User->hasPurchased($user_id, $product_id);
 					break;
-				case 'teaching_version':
+				case 'classroom_module':
 					$can_access = $this->User->canAccessClassroomModule($user_id);
 					break;
 				default:
@@ -134,6 +134,13 @@ class ProductsController extends AppController {
 	}
 
 	public function classroom_module() {
+		/* A trailing slash is required for /app/webroot/.htaccess to
+		 * correctly route the Vizi Player's (/app/webroot/vizi/classroom_module/vizi.swf)
+		 * requests for files stored in /app/webroot/vizi/classroom_module */
+		if ($this->request->url == 'classroom_module') {
+			$this->redirect('/classroom_module/');
+		}
+
 		$user_id = $this->Auth->user('id');
 		$expiration = $this->Product->getClassroomModuleAccessExpiration($user_id);
 
