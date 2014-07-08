@@ -461,4 +461,11 @@ class User extends AppModel {
 		$cache_key = "hasRole($user_id, student)";
 		Cache::delete($cache_key);
 	}
+
+	public function canAccessClassroomModule($user_id) {
+		App::import('Model','Product');
+		$Product = new Product();
+		$expiration = $Product->getClassroomModuleAccessExpiration($user_id);
+		return $expiration && $expiration > time();
+	}
 }

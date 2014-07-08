@@ -65,7 +65,8 @@ class Product extends AppModel {
 	 * @throws NotFoundException
 	 * @return string
 	 */
-	public function getJWT($product_id, $user_id) {
+	public function getReviewModuleJWT($user_id) {
+		$product_id = $this->getReviewMaterialsId();
 		$product = $this->find('first', array(
 			'conditions' => array('Product.id' => $product_id),
 			'contain' => false
@@ -91,7 +92,47 @@ class Product extends AppModel {
 				"description" => $product['Product']['description'],
 				"price" => $product['Product']['cost'],
 				"currencyCode" => "USD",
-				"sellerData" => "type:module,user_id:$user_id,product_id:$product_id"
+				"sellerData" => "type:review_module,user_id:$user_id,product_id:$product_id,quantity:1"
+			)
+		);
+		return JWT::encode($payload, $seller_secret);
+	}
+
+	/**
+	 * Generates the JSON Web Token for a Google Wallet purchase button
+	 * @param int $product_id
+	 * @param int $user_id
+	 * @throws NotFoundException
+	 * @return string
+	 */
+	public function getClassroomModuleJWT($user_id) {
+		$product_id = $this->getClassroomModuleId();
+		$product = $this->find('first', array(
+			'conditions' => array('Product.id' => $product_id),
+			'contain' => false
+		));
+		if (empty($product)) {
+			throw new NotFoundException('Product with ID '.$product_id.' not found.');
+		}
+
+		$seller_identifier = Configure::read('google_waller_seller_id');
+		$seller_secret = Configure::read('google_wallet_seller_secret');
+
+		// Generate a JWT (JSON Web Token) for this item
+		// $payload parameters reference: https://developers.google.com/commerce/wallet/digital/docs/jsreference#jwt
+		App::import('Vendor', 'JWT');
+		$payload = array(
+			"iss" => $seller_identifier,
+			"aud" => "Google",
+			"typ" => "google/payments/inapp/item/v1",
+			"exp" => time() + 3600,
+			"iat" => time(),
+			"request" => array(
+				"name" => $product['Product']['name'],
+				"description" => $product['Product']['description'],
+				"price" => $product['Product']['cost'],
+				"currencyCode" => "USD",
+				"sellerData" => "type:classroom_module,user_id:$user_id,product_id:$product_id,quantity:1"
 			)
 		);
 		return JWT::encode($payload, $seller_secret);
@@ -105,7 +146,7 @@ class Product extends AppModel {
 
 		$retval = $this->find('first', array(
 			'conditions' => array(
-				'Product.name' => 'Student Review Module'
+				'Product.name' => 'Student Review Module access renewal'
 			),
 			'contain' => false
 		));
@@ -121,6 +162,60 @@ class Product extends AppModel {
 
 		$product = $this->getReviewMaterials();
 		$retval = $product['Product']['id'];
+		Cache::write($cache_key, $retval);
+		return $retval;
+	}
+
+	public function getClassroomModuleId() {
+		$cache_key = "getClassroomModuleId()";
+		if ($cached = Cache::read($cache_key)) {
+			return $cached;
+		}
+
+		$product = $this->find('first', array(
+			'conditions' => array(
+				'Product.name' => 'Classroom Module'
+			),
+			'contain' => false,
+			'fields' => array(
+				'Product.id'
+			)
+		));
+
+		if (empty($product)) {
+			throw new NotFoundException('Classroom Module not found');
+		}
+
+		$retval = $product['Product']['id'];
+		Cache::write($cache_key, $retval);
+		return $retval;
+	}
+
+	public function getClassroomModuleAccessExpiration($user_id) {
+		$cache_key = "getClassroomModuleAccessExpiration($user_id)";
+		if ($cached = Cache::read($cache_key)) {
+			return $cached;
+		}
+
+		$retval = false;
+
+		// Users who have purchased the module in the past year get access
+		$product_id = $this->getClassroomModuleId();
+		$purchase = $this->Purchase->find('first', array(
+			'conditions' => array(
+				'Purchase.user_id' => $user_id,
+				'Purchase.product_id' => $product_id
+			),
+			'contain' => false,
+			'fields' => array(
+				'Purchase.created'
+			),
+			'order' => 'Purchase.created DESC'
+		));
+		if (! empty($purchase)) {
+			$retval = strtotime($purchase['Purchase']['created'].' + 1 year + 2 days');
+		}
+
 		Cache::write($cache_key, $retval);
 		return $retval;
 	}

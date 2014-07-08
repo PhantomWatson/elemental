@@ -6,9 +6,30 @@ class ProductsController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
+		$this->Auth->deny(array(
+			'classroom_module',
+			'prepaid_review_modules',
+			'route'
+		));
 	}
 
 	public function isAuthorized($user) {
+		$user_id = $this->Auth->user('id');
+		$this->loadModel('User');
+		$is_instructor = $this->User->hasRole($user_id, 'instructor');
+
+		switch ($this->action) {
+			case 'classroom_module':
+				if ($is_instructor) return true;
+				break;
+			case 'prepaid_review_modules':
+				if ($is_instructor) return true;
+				break;
+			default:
+				return true;
+				break;
+		}
+
         // Admins can access everything
 		return parent::isAuthorized($user);
 	}
@@ -37,7 +58,7 @@ class ProductsController extends AppController {
 			$expiration = $this->User->getReviewMaterialsAccessExpiration($user_id);
 
 			if ($user_attended && ! $can_access) {
-				$this->set('jwt', $this->Product->getJWT($product['Product']['id'], $user_id));
+				$this->set('jwt', $this->Product->getReviewModuleJWT($user_id));
 			}
 
 			$this->set(compact(
@@ -85,6 +106,9 @@ class ProductsController extends AppController {
 				case 'review_materials':
 					$can_access = $this->User->hasPurchased($user_id, $product_id);
 					break;
+				case 'classroom_module':
+					$can_access = $this->User->canAccessClassroomModule($user_id);
+					break;
 				default:
 					throw new NotFoundException('Error: Unrecognized product');
 			}
@@ -128,5 +152,37 @@ class ProductsController extends AppController {
 			'cost' => $this->PrepaidReviewModule->getCost(),
 			'report' => $this->PrepaidReviewModule->getReport($user_id)
 		));
+	}
+
+	public function classroom_module() {
+		/* A trailing slash is required for /app/webroot/.htaccess to
+		 * correctly route the Vizi Player's (/app/webroot/vizi/classroom_module/vizi.swf)
+		 * requests for files stored in /app/webroot/vizi/classroom_module */
+		if ($this->request->url == 'classroom_module') {
+			$this->redirect('/classroom_module/');
+		}
+
+		$user_id = $this->Auth->user('id');
+		$expiration = $this->Product->getClassroomModuleAccessExpiration($user_id);
+		$can_access = $expiration > time();
+
+		$this->set(array(
+			'title_for_layout' => 'Classroom Module',
+			'can_access' => $can_access,
+			'expiration' => $expiration
+		));
+
+		if ($can_access) {
+			$this->set(array(
+				'warn' => $expiration < strtotime('+30 days')
+			));
+		} else {
+			$product_id = $this->Product->getClassroomModuleId();
+			$this->Product->id = $product_id;
+			$this->set(array(
+				'cost' => $this->Product->field('cost'),
+				'jwt' => $this->Product->getClassroomModuleJWT($user_id)
+			));
+		}
 	}
 }
