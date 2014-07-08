@@ -143,12 +143,25 @@ class ProductsController extends AppController {
 
 		$user_id = $this->Auth->user('id');
 		$expiration = $this->Product->getClassroomModuleAccessExpiration($user_id);
+		$can_access = $expiration > time();
 
 		$this->set(array(
 			'title_for_layout' => 'Classroom Module',
-			'can_access' => $expiration > time(),
-			'expiration' => $expiration,
-			'warn' => $expiration < strtotime('+30 days')
+			'can_access' => $can_access,
+			'expiration' => $expiration
 		));
+
+		if ($can_access) {
+			$this->set(array(
+				'warn' => $expiration < strtotime('+30 days')
+			));
+		} else {
+			$product_id = $this->Product->getClassroomModuleId();
+			$this->Product->id = $product_id;
+			$this->set(array(
+				'cost' => $this->Product->field('cost'),
+				'jwt' => $this->Product->getJWT($product_id, $user_id)
+			));
+		}
 	}
 }

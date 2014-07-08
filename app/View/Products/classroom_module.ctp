@@ -49,4 +49,32 @@
 		</div>
 	<?php endif; ?>
 
+	<p>
+		<?php
+			echo $this->Html->link(
+				($expiration ? 'Renew' : 'Purchase').' access for $'.number_format($cost, 2),
+				'#',
+				array(
+					'class' => 'btn btn-primary btn-large',
+					'id' => 'purchase_classroom_module'
+				)
+			);
+			$this->Html->script(Configure::read('google_wallet_lib'), array('inline' => false));
+			$this->Js->buffer("
+				$('#purchase_classroom_module').click(function(event) {
+					event.preventDefault();
+					google.payments.inapp.buy({
+						'jwt': '$jwt',
+						'success' : function(purchaseAction) {
+							location.reload(true);
+						},
+						'failure' : function(purchaseActionError){
+							alert('There was an error processing your payment: '+purchaseActionError.response.errorType);
+						}
+					});
+				});
+			");
+		?>
+	</p>
+
 <?php endif; ?>
