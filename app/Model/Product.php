@@ -92,7 +92,7 @@ class Product extends AppModel {
 				"description" => $product['Product']['description'],
 				"price" => $product['Product']['cost'],
 				"currencyCode" => "USD",
-				"sellerData" => "type:review_module,user_id:$user_id,product_id:$product_id"
+				"sellerData" => "type:review_module,user_id:$user_id,product_id:$product_id,quantity:1"
 			)
 		);
 		return JWT::encode($payload, $seller_secret);
@@ -132,7 +132,7 @@ class Product extends AppModel {
 				"description" => $product['Product']['description'],
 				"price" => $product['Product']['cost'],
 				"currencyCode" => "USD",
-				"sellerData" => "type:classroom_module,user_id:$user_id,product_id:$product_id"
+				"sellerData" => "type:classroom_module,user_id:$user_id,product_id:$product_id,quantity:1"
 			)
 		);
 		return JWT::encode($payload, $seller_secret);
