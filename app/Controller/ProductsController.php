@@ -6,13 +6,28 @@ class ProductsController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
+		$this->Auth->deny(array(
+			'classroom_module',
+			'prepaid_review_modules',
+			'route'
+		));
 	}
 
 	public function isAuthorized($user) {
 		$user_id = $this->Auth->user('id');
 		$this->loadModel('User');
-		if ($this->action == 'classroom_module' && $this->User->hasRole($user_id, 'instructor')) {
-			return true;
+		$is_instructor = $this->User->hasRole($user_id, 'instructor');
+
+		switch ($this->action) {
+			case 'classroom_module':
+				if ($is_instructor) return true;
+				break;
+			case 'prepaid_review_modules':
+				if ($is_instructor) return true;
+				break;
+			default:
+				return true;
+				break;
 		}
 
         // Admins can access everything
