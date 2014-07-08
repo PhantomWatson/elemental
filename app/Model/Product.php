@@ -65,7 +65,8 @@ class Product extends AppModel {
 	 * @throws NotFoundException
 	 * @return string
 	 */
-	public function getJWT($product_id, $user_id) {
+	public function getReviewModuleJWT($user_id) {
+		$product_id = $this->getReviewMaterialsId();
 		$product = $this->find('first', array(
 			'conditions' => array('Product.id' => $product_id),
 			'contain' => false
@@ -91,7 +92,7 @@ class Product extends AppModel {
 				"description" => $product['Product']['description'],
 				"price" => $product['Product']['cost'],
 				"currencyCode" => "USD",
-				"sellerData" => "type:module,user_id:$user_id,product_id:$product_id"
+				"sellerData" => "type:review_module,user_id:$user_id,product_id:$product_id"
 			)
 		);
 		return JWT::encode($payload, $seller_secret);
