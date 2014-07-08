@@ -160,7 +160,7 @@ class ProductsController extends AppController {
 			$this->Product->id = $product_id;
 			$this->set(array(
 				'cost' => $this->Product->field('cost'),
-				'jwt' => $this->Product->getJWT($product_id, $user_id)
+				'jwt' => $this->Product->getClassroomModuleJWT($user_id)
 			));
 		}
 	}
