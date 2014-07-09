@@ -31,12 +31,16 @@ class ReleasesController extends AppController {
 		}
 
 		if ($this->Release->save()) {
-			$this->Flash->success('Your liability release has been submitted');
-			$this->redirect(array(
-				'controller' => 'courses',
-				'action' => 'register',
-				$course_id
-			));
+			if ($course_id) {
+				$this->Flash->success('Your liability release has been submitted');
+				$this->redirect(array(
+					'controller' => 'courses',
+					'action' => 'register',
+					$course_id
+				));
+			} else {
+				$this->render('success');
+			}
 		} else {
 			$this->Flash->error('There was an error submitting your liability release. Please check for details below.');
 		}
@@ -46,17 +50,14 @@ class ReleasesController extends AppController {
 		if ($this->request->course_id) {
 			$course_id = $this->request->course_id;
 			$this->loadModel('Course');
-			if ($this->Course->exists($course_id)) {
-				$user_id = $this->Auth->user('id');
-				$this->loadModel('User');
-				$this->User->id = $user_id;
-				$this->set('title_for_layout', 'Release of Liability');
-			} else {
+			if (! $this->Course->exists($course_id)) {
 				throw new NotFoundException('Invalid course specified');
 			}
-		} else {
-			throw new NotFoundException('Course not specified');
 		}
+		$user_id = $this->Auth->user('id');
+		$this->loadModel('User');
+		$this->User->id = $user_id;
+		$this->set('title_for_layout', 'Release of Liability');
 	}
 
 	public function add() {
