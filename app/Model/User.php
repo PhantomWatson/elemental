@@ -124,7 +124,9 @@ class User extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-
+	public $hasOne = array(
+		'Release'
+	);
 	public $hasAndBelongsToMany = array(
 		'Role' => array(
 			'className' => 'Role'
@@ -256,7 +258,22 @@ class User extends AppModel {
 		return $retval;
 	}
 
-	public function canAccessInstructorTraining($user_id) {
+	public function hasSubmittedRelease($user_id) {
+		$count = $this->Release->find(
+			'count',
+			array(
+				'conditions' => array(
+					'Release.user_id' => $user_id
+				)
+			)
+		);
+		return $count > 0;
+	}
+
+	public function canAccessInstructorTraining($user_id = null) {
+		if (! $user_id || ! $this->hasSubmittedRelease($user_id)) {
+			return false;
+		}
 		return ($this->hasRole($user_id, 'admin') || $this->hasRole($user_id, 'trainee'));
 	}
 
