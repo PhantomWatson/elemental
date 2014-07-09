@@ -258,7 +258,22 @@ class User extends AppModel {
 		return $retval;
 	}
 
+	public function hasSubmittedRelease($user_id) {
+		$count = $this->Release->find(
+			'count',
+			array(
+				'conditions' => array(
+					'Release.user_id' => $user_id
+				)
+			)
+		);
+		return $count > 0;
+	}
+
 	public function canAccessInstructorTraining($user_id) {
+		if (! $this->hasSubmittedRelease($user_id)) {
+			return false;
+		}
 		return ($this->hasRole($user_id, 'admin') || $this->hasRole($user_id, 'trainee'));
 	}
 
