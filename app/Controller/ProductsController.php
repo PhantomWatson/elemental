@@ -139,8 +139,9 @@ class ProductsController extends AppController {
 		$this->loadModel('User');
 		$this->set(array(
 			'title_for_layout' => 'Instructor Training',
+			'can_access' => $this->User->canAccessInstructorTraining($user_id),
 			'logged_in' => $this->Auth->loggedIn(),
-			'can_access' => $this->User->canAccessInstructorTraining($user_id)
+			'release_submitted' => $this->User->hasSubmittedRelease($user_id)
 		));
 	}
 

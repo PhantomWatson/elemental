@@ -7,19 +7,19 @@
 			<p>
 				To begin, select a lesson:
 			</p>
-			
+
 			<?php
 				$lessons = array(
-					1 => 1, 
-					2 => 2, 
-					3 => 3, 
-					4 => 4, 
-					'5a' => 5, 
-					'5b' => '5b', 
-					6 => 6, 
-					'7a' => 7, 
-					'7b' => '7b', 
-					8 => 8, 
+					1 => 1,
+					2 => 2,
+					3 => 3,
+					4 => 4,
+					'5a' => 5,
+					'5b' => '5b',
+					6 => 6,
+					'7a' => 7,
+					'7b' => '7b',
+					8 => 8,
 					9 => 9
 				);
 			?>
@@ -51,7 +51,7 @@
 		<?php endif; ?>
 	<?php else: ?>
 		<p class="alert alert-info">
-			For information about becoming certified as an Elemental instructor, 
+			For information about becoming certified as an Elemental instructor,
 			<?php echo $this->Html->link(
 				'contact us',
 				array(
@@ -76,15 +76,28 @@
 </div>
 
 <?php if ($logged_in && ! $can_access): ?>
-	<p class="alert alert-info">
-		You are not currently authorized to access the instructor training module. 
-		For assistance or for more information about becoming certified as an Elemental instructor, 
-		<?php echo $this->Html->link(
-			'contact us',
-			array(
-				'controller' => 'pages',
-				'action' => 'contact'
-			)
-		); ?>.
-	</p>
+	<?php if ($release_submitted): ?>
+		<p class="alert alert-info">
+			You are not currently authorized to access the instructor training module.
+			For assistance or for more information about becoming certified as an Elemental instructor,
+			<?php echo $this->Html->link(
+				'contact us',
+				array(
+					'controller' => 'pages',
+					'action' => 'contact'
+				)
+			); ?>.
+		</p>
+	<?php else: ?>
+		<p class="alert alert-info">
+			Before accessing the instructor training module, you must first
+			<?php echo $this->Html->link(
+				'submit a Release of Liability',
+				array(
+					'controller' => 'releases',
+					'action' => 'add'
+				)
+			); ?>.
+		</p>
+	<?php endif; ?>
 <?php endif; ?>
