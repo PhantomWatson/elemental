@@ -22,13 +22,28 @@
 		Release of All Claims
 	</h2>
 	<p>
-		In consideration of my participation in the sexual assault protection program, I hereby agree to release and, on behalf of myself, my heirs, representatives, executors, administrators, and assigns, hereby do release and hold harmless the program's instructors, Elemental Sexual Assault Protection LLC, Vizi Courseware, the School or University, its Board of Trustees, officers, employees, contractors, agents, and volunteers from any liability, actions, causes of action, claims, and demands of any nature whatsoever, which I may have against the program's instructors, Elemental Sexual Assault Protection LLC, Vizi Courseware, the School or University, its Board of Trustees, officers, employees, contractors, agents, and volunteers as a result of any personal injury, property damage, permanent disability, or death I may suffer in connection with my participation in the sexual assault protection program.
+		In consideration of my participation in the sexual assault protection program and any practice thereafter, I hereby agree to release and, on behalf of myself, my heirs, representatives, executors, administrators, and assigns, hereby do release and hold harmless the program’s instructors, Elemental Sexual Assault Protection LLC, Vizi Courseware, the School or University, its Board of Trustees, officers, employees, contractors, agents, and volunteers from any liability, actions, causes of action, claims, and demands of any nature whatsoever, which I may have against the program’s instructors, Elemental Sexual Assault Protection LLC, Vizi Courseware, the School or University, its Board of Trustees, officers, employees, contractors, agents, and volunteers as a result of any personal injury, property damage, permanent disability, or death I may suffer in connection with my participation in the sexual assault protection program.
 	</p>
+
 	<h2>
 		Medical Authorization
 	</h2>
 	<p>
-		In the event of a medical emergency in which I am not reasonably available to provide competent consent to medical treatment, the program's instructors, officers, employee or agents of Elemental Sexual Assault Protection LLC or the School or University are hereby authorized to consent to emergency medical treatment on my behalf. I further understand that the School or University does not maintain health or accident insurance to provide coverage for me and that I should consider obtaining the protection of such insurance on an individual basis. I understand and agree that all costs of any such emergency medical treatment are my responsibility and not that of the School or University. I, for myself, my heirs, representatives, executors, administrators, and assigns, hereby release and hold harmless the program's instructors, Elemental Sexual Assault Protection LLC, Vizi Courseware, the School or University, its Board of Trustees, officers, employees, contractors, agents, and volunteers from any liability, actions, causes of action, claims, or demands of any nature whatsoever, in connection with any decision of any of the program's instructors, Elemental Sexual Assault Protection LLC, the School or University's officers, employees, contractors, agents, and volunteers to obtain emergency medical treatment for me.
+		In the event of a medical emergency in which I am not reasonably available to provide competent consent to medical treatment, the program’s instructors, officers, employee or agents of Elemental Sexual Assault Protection LLC or the School or University are hereby authorized to consent to emergency medical treatment on my behalf. I further understand that the School or University does not maintain health or accident insurance to provide coverage for me and that I should consider obtaining the protection of such insurance on an individual basis. I understand and agree that all costs of any such emergency medical treatment are my responsibility and not that of the School or University. I, for myself, my heirs, representatives, executors, administrators, and assigns, hereby release and hold harmless the program’s instructors, Elemental Sexual Assault Protection LLC, Vizi Courseware, the School or University, its Board of Trustees, officers, employees, contractors, agents, and volunteers from any liability, actions, causes of action, claims, or demands of any nature whatsoever, in connection with any decision of any of the program’s instructors, Elemental Sexual Assault Protection LLC, the School or University’s officers, employees, contractors, agents, and volunteers to obtain emergency medical treatment for me.
+	</p>
+
+	<h2>
+		Disclaimer
+	</h2>
+	<p>
+		The teachings contained in the Elemental program are intended but not promised or guaranteed to be current and effective. Instruction and curricular materials are offered only for general educational and informational purposes. All assaults are different. No warranties, conditions, representations, or guarantees of effectiveness, either expressed, implied, statutory or otherwise, are provided. No oral or written information or advice given by an Elemental Sexual Assault Protection LLC authorized representative shall create a warranty. You are advised to not solely rely on the teaching of the Elemental program for any reason.
+	</p>
+
+	<h2>
+		Restrictions
+	</h2>
+	<p>
+		You agree not to instruct, teach, disclose, or otherwise convey, broadcast, or make available in any way the verbal or physical techniques taught in the seminar, whether in original or modified or derivative form. Your participation in the seminar shall not be construed in any manner as transferring any rights of ownership or license to the seminar’s content or any samples or features or information therein, except as specifically stated herein or in a separate licensing agreement for Certified Elemental Instructors. All rights not expressly granted are reserved to Elemental Sexual Assault Protection LLC.
 	</p>
 
 	<h2>
