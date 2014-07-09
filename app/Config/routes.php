@@ -85,6 +85,10 @@
 		array('id' => '[0-9]+', 'pass' => array('id'))
 	);
 	Router::connect(
+		"/releases/submit",
+		array('controller' => 'releases', 'action' => 'add')
+	);
+	Router::connect(
 		"/releases/submit/:course_id",
 		array('controller' => 'releases', 'action' => 'add'),
 		array('course_id' => '[0-9]+', 'pass' => array('course_id'))
