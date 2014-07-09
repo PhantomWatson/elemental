@@ -270,8 +270,8 @@ class User extends AppModel {
 		return $count > 0;
 	}
 
-	public function canAccessInstructorTraining($user_id) {
-		if (! $this->hasSubmittedRelease($user_id)) {
+	public function canAccessInstructorTraining($user_id = null) {
+		if (! $user_id || ! $this->hasSubmittedRelease($user_id)) {
 			return false;
 		}
 		return ($this->hasRole($user_id, 'admin') || $this->hasRole($user_id, 'trainee'));
