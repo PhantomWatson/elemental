@@ -124,7 +124,9 @@ class User extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-
+	public $hasOne = array(
+		'Release'
+	);
 	public $hasAndBelongsToMany = array(
 		'Role' => array(
 			'className' => 'Role'
