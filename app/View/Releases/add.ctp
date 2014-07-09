@@ -80,6 +80,8 @@
 					'class' => 'form-group'
 				),
 				'label' => 'Student\'s age',
+				'max' => 100,
+				'min' => 1,
 				'type' => 'number'
 			)
 		);
