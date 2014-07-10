@@ -8,11 +8,6 @@ class StoreController extends AppController {
 		parent::beforeFilter();
 	}
 
-	public function isAuthorized($user) {
-        // Admins can access everything
-		return parent::isAuthorized($user);
-	}
-
 	/**
 	 * Postback method for confirming payments
 	 */
