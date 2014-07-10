@@ -6,7 +6,6 @@ class StoreController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->deny('review_materials');
 	}
 
 	public function isAuthorized($user) {
