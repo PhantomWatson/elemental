@@ -8,8 +8,7 @@ class ProductsController extends AppController {
 		parent::beforeFilter();
 		$this->Auth->deny(array(
 			'classroom_module',
-			'prepaid_review_modules',
-			'route'
+			'prepaid_review_modules'
 		));
 	}
 
