@@ -35,11 +35,18 @@ class CoursesController extends AppController {
 			'students',
 			'report_attendance'
 		);
-		if (in_array($this->action, $instructor_owned_actions) && isset($this->params['named']['id'])) {
-			$this->Course->id = $this->params['named']['id'];
-			$instructor_id = $this->Course->field('user_id');
-			if ($instructor_id == $user['id']) {
-				return true;
+
+		// Instructors can access instructor actions
+		if (in_array($this->action, $instructor_owned_actions) && $this->User->hasRole($user['id'], 'instructor')) {
+
+			// But if a course is specified, then only one of their courses
+			if (isset($this->params['pass'][0])) {
+				$course_id = $this->params['pass'][0];
+				$this->Course->id = $course_id;
+				$instructor_id = $this->Course->field('user_id');
+				if ($instructor_id == $user['id']) {
+					return true;
+				}
 			}
 			return parent::isAuthorized($user);
 		}
