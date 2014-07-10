@@ -37,6 +37,7 @@ class CoursesController extends AppController {
 		);
 
 		// Instructors can access instructor actions
+		$this->loadModel('User');
 		if (in_array($this->action, $instructor_owned_actions) && $this->User->hasRole($user['id'], 'instructor')) {
 
 			// But if a course is specified, then only one of their courses
