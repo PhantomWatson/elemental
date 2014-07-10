@@ -11,6 +11,10 @@ class ReleasesController extends AppController {
 		$this->Auth->deny();
 	}
 
+	public function isAuthorized($user = null) {
+		return true;
+	}
+
 	private function __processForm() {
 		$course_id = $this->request->course_id;
 		$user_id = $this->Auth->user('id');
