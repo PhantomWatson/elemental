@@ -69,7 +69,7 @@
 				'div' => array(
 					'class' => 'form-group'
 				),
-				'label' => 'Student\'s name'
+				'label' => 'Your name'
 			)
 		);
 		echo $this->Form->input(
@@ -79,7 +79,7 @@
 				'div' => array(
 					'class' => 'form-group'
 				),
-				'label' => 'Student\'s age',
+				'label' => 'Your age',
 				'max' => 100,
 				'min' => 1,
 				'type' => 'number'
@@ -92,7 +92,7 @@
 			echo $this->Form->input(
 				'guardian_name',
 				array(
-					'after' => '<span class="footnote">Required if student is under 18 years old</span>',
+					'after' => '<span class="footnote">Required if you are under 18 years old</span>',
 					'class' => 'form-control',
 					'div' => array(
 						'class' => 'form-group'
