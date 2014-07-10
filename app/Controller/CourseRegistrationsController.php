@@ -74,7 +74,9 @@ class CourseRegistrationsController extends AppController {
 		$user_id = $this->Auth->user('id');
 		$user_is_instructor = $user_id == $instructor_id;
 		$registration_user_id = $this->CourseRegistration->field('user_id');
-		if ($user_id != $registration_user_id && ! $user_is_instructor) {
+		$this->loadModel('User');
+		$user_is_admin = $this->User->hasRole($user_id, 'admin');
+		if ($user_id != $registration_user_id && ! $user_is_instructor && ! $user_is_admin) {
 			throw new ForbiddenException('You are not authorized to cancel that student\'s class registration');
 		}
 		$is_on_waiting_list = $this->CourseRegistration->isOnWaitingList($user_id, $course_id);
