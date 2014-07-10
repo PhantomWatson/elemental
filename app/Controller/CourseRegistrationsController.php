@@ -11,8 +11,7 @@ class CourseRegistrationsController extends AppController {
 		parent::beforeFilter();
 
 		$this->Auth->deny(
-			'delete',
-			'take_off_waiting_list'
+			'delete'
 		);
 	}
 
@@ -34,18 +33,6 @@ class CourseRegistrationsController extends AppController {
 	}
 
 	public function isAuthorized($user) {
-		$instructor_owned_actions = array(
-			'take_off_waiting_list'
-		);
-		if (in_array($this->action, $instructor_owned_actions) && isset($this->params['pass'][0])) {
-			$reg_id = $this->params['pass'][0];
-			$instructor_id = $this->CourseRegistration->getInstructorId($reg_id);
-			if ($user['id'] == $instructor_id) {
-				return true;
-			}
-			return parent::isAuthorized($user);
-		}
-
 		// Instructors can remove students from a class list,
 		// or the students can remove themselves
 		if ($this->action == 'delete' && isset($this->params['pass'][0])) {

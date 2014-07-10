@@ -80,11 +80,6 @@
 		array('id' => '[0-9]+', 'pass' => array('id', 'hash'))
 	);
 	Router::connect(
-		"/course_registrations/take_off_waiting_list/:id",
-		array('controller' => 'course_registrations', 'action' => 'take_off_waiting_list'),
-		array('id' => '[0-9]+', 'pass' => array('id'))
-	);
-	Router::connect(
 		"/releases/submit",
 		array('controller' => 'releases', 'action' => 'add')
 	);
