@@ -723,6 +723,11 @@ class Course extends AppModel {
 		// Generate a JWT (JSON Web Token) for this item
 		// $payload parameters reference: https://developers.google.com/commerce/wallet/digital/docs/jsreference#jwt
 		App::import('Vendor', 'JWT');
+		App::import('Model','User');
+		$User = new User();
+		$User->id = $user_id;
+		$email = $User->field('email');
+		$user_name = $User->field('name');
 		$payload = array(
 			"iss" => $seller_identifier,
 			"aud" => "Google",
@@ -734,7 +739,7 @@ class Course extends AppModel {
 				"description" => 'Registration for an Elemental Sexual Assault Protection course taking place on '.$dates.' in '.$location,
 				"price" => $course['Course']['cost'],
 				"currencyCode" => "USD",
-				"sellerData" => "type:course,user_id:$user_id,course_id:$course_id"
+				"sellerData" => "type:course,user_id:$user_id,user_name:$user_name,email:$email,course_id:$course_id"
 			)
 		);
 		return JWT::encode($payload, $seller_secret);

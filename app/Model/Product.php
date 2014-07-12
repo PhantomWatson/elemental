@@ -81,6 +81,11 @@ class Product extends AppModel {
 		// Generate a JWT (JSON Web Token) for this item
 		// $payload parameters reference: https://developers.google.com/commerce/wallet/digital/docs/jsreference#jwt
 		App::import('Vendor', 'JWT');
+		App::import('Model', 'User');
+		$User = new User();
+		$User->id = $user_id;
+		$email = $User->field('email');
+		$user_name = $User->field('name');
 		$payload = array(
 			"iss" => $seller_identifier,
 			"aud" => "Google",
@@ -92,7 +97,7 @@ class Product extends AppModel {
 				"description" => $product['Product']['description'],
 				"price" => $product['Product']['cost'],
 				"currencyCode" => "USD",
-				"sellerData" => "type:review_module,user_id:$user_id,product_id:$product_id,quantity:1"
+				"sellerData" => "type:review_module,user_id:$user_id,user_name:$user_name,email:$email,product_id:$product_id,quantity:1"
 			)
 		);
 		return JWT::encode($payload, $seller_secret);
@@ -121,6 +126,11 @@ class Product extends AppModel {
 		// Generate a JWT (JSON Web Token) for this item
 		// $payload parameters reference: https://developers.google.com/commerce/wallet/digital/docs/jsreference#jwt
 		App::import('Vendor', 'JWT');
+		App::import('Model', 'User');
+		$User = new User();
+		$User->id = $user_id;
+		$email = $User->field('email');
+		$user_name = $User->field('name');
 		$payload = array(
 			"iss" => $seller_identifier,
 			"aud" => "Google",
@@ -132,7 +142,7 @@ class Product extends AppModel {
 				"description" => $product['Product']['description'],
 				"price" => $product['Product']['cost'],
 				"currencyCode" => "USD",
-				"sellerData" => "type:classroom_module,user_id:$user_id,product_id:$product_id,quantity:1"
+				"sellerData" => "type:classroom_module,user_id:$user_id,user_name:$user_name,email:$email,product_id:$product_id,quantity:1"
 			)
 		);
 		return JWT::encode($payload, $seller_secret);
