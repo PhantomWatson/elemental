@@ -774,6 +774,7 @@ class Course extends AppModel {
 			'id' => $course_id
 		), true);
 		$details = array(
+			'Order ID' => $payment['CoursePayment']['order_id'],
 			'Student Name' => $user['User']['name'],
 			'Student Email' => $user['User']['email'],
 			'Student Phone' => $user['User']['phone'],
