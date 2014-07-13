@@ -86,6 +86,14 @@ class Product extends AppModel {
 		$User->id = $user_id;
 		$email = $User->field('email');
 		$user_name = $User->field('name');
+		$seller_data = array(
+			'type:review_module',
+			"user_id:$user_id",
+			"user_name:$user_name",
+			"email:$email",
+			"product_id:$product_id",
+			'quantity:1'
+		);
 		$payload = array(
 			"iss" => $seller_identifier,
 			"aud" => "Google",
@@ -97,7 +105,7 @@ class Product extends AppModel {
 				"description" => $product['Product']['description'],
 				"price" => $product['Product']['cost'],
 				"currencyCode" => "USD",
-				"sellerData" => "type:review_module,user_id:$user_id,user_name:$user_name,email:$email,product_id:$product_id,quantity:1"
+				"sellerData" => implode(',', $seller_data)
 			)
 		);
 		return JWT::encode($payload, $seller_secret);
@@ -131,6 +139,14 @@ class Product extends AppModel {
 		$User->id = $user_id;
 		$email = $User->field('email');
 		$user_name = $User->field('name');
+		$seller_data = array(
+			'type:classroom_module',
+			"user_id:$user_id",
+			"user_name:$user_name",
+			"email:$email",
+			"product_id:$product_id",
+			'quantity:1'
+		);
 		$payload = array(
 			"iss" => $seller_identifier,
 			"aud" => "Google",
@@ -142,7 +158,7 @@ class Product extends AppModel {
 				"description" => $product['Product']['description'],
 				"price" => $product['Product']['cost'],
 				"currencyCode" => "USD",
-				"sellerData" => "type:classroom_module,user_id:$user_id,user_name:$user_name,email:$email,product_id:$product_id,quantity:1"
+				"sellerData" => implode(',', $seller_data)
 			)
 		);
 		return JWT::encode($payload, $seller_secret);
