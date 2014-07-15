@@ -89,7 +89,6 @@ class ReleasesController extends AppController {
 
 	public function edit() {
 		$this->__setupForm();
-		$course_id = $this->request->course_id;
 		$user_id = $this->Auth->user('id');
 		$release_id = $this->Release->getIdFromUserId($user_id);
 		if (! $release_id) {
