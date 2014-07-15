@@ -44,13 +44,13 @@ class ReleasesController extends AppController {
 		}
 
 		if ($this->Release->save()) {
-			if ($course_id) {
+			if (isset($this->request->course_id)) {
 				$action = $this->action == 'add' ? 'submitted' : 'updated';
 				$this->Flash->success('Your liability release has been '.$action);
 				$this->redirect(array(
 					'controller' => 'courses',
 					'action' => 'register',
-					$course_id
+					$this->request->course_id
 				));
 			} else {
 				$this->render('success');
