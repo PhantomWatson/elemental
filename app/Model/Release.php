@@ -4,7 +4,6 @@ App::uses('AppModel', 'Model');
  * Release Model
  *
  * @property User $User
- * @property Course $Course
  */
 class Release extends AppModel {
 
@@ -37,12 +36,6 @@ class Release extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
-		),
-		'course_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				'allowEmpty' => true
-			)
 		),
 		'age' => array(
 			'numeric' => array(
@@ -115,13 +108,6 @@ class Release extends AppModel {
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Course' => array(
-			'className' => 'Course',
-			'foreignKey' => 'course_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
