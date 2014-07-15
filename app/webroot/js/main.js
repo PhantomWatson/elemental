@@ -204,15 +204,17 @@ var releaseForm = {
 	
 	updateAge: function () {
 		var age = this.getAge();
+		
 		if (age < 1) {
 			this.age_blank.html('&nbsp;');
 		} else if (isNumber(age)) {
 			this.age_blank.html(age);
-			if (age < 18) {
-				this.activateGuardianFields();
-			} else {
-				this.deactivateGuardianFields();
-			}
+		}
+		
+		if (age < 18) {
+			this.activateGuardianFields();
+		} else {
+			this.deactivateGuardianFields();
 		}
 	},
 	
