@@ -204,7 +204,7 @@ var releaseForm = {
 	
 	updateAge: function () {
 		var age = this.getAge();
-		if (! age) {
+		if (age < 1) {
 			this.age_blank.html('&nbsp;');
 		} else if (isNumber(age)) {
 			this.age_blank.html(age);
