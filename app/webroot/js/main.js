@@ -166,25 +166,33 @@ function isNumber(n) {
 var releaseForm = {
 	name_field: null,
 	name_blank: null,
-	age_field: null,
 	age_blank: null,
 	guardian_fields: null,
+	birth_year_field: null,
+	birth_month_field: null,
+	birth_day_field: null,
 	
 	init: function () {
 		this.name_field = $('#ReleaseName');
 		this.name_blank = $('#name_blank');
-		this.age_field = $('#ReleaseAge');
 		this.age_blank = $('#age_blank');
 		this.guardian_fields = $('#guardian_fields');
+		this.birth_year_field = $('#ReleaseBirthdateYear');
+		this.birth_month_field = $('#ReleaseBirthdateMonth');
+		this.birth_day_field = $('#ReleaseBirthdateDay');
+		
 		this.updateName();
 		this.name_field.change(function () {
 			releaseForm.updateName();
 		});
+		
 		this.updateAge();
-		this.age_field.change(function () {
+		var birthdate_fields = $('#ReleaseBirthdateYear, #ReleaseBirthdateMonth, #ReleaseBirthdateDay');
+		birthdate_fields.change(function () {
 			releaseForm.updateAge();
 		});
 	},
+	
 	updateName: function () {
 		var name = this.name_field.val();
 		if (name == '') {
@@ -193,9 +201,10 @@ var releaseForm = {
 			this.name_blank.html(name);
 		}
 	},
+	
 	updateAge: function () {
-		var age = this.age_field.val();
-		if (age == '') {
+		var age = this.getAge();
+		if (! age) {
 			this.age_blank.html('&nbsp;');
 		} else if (isNumber(age)) {
 			this.age_blank.html(age);
@@ -204,18 +213,31 @@ var releaseForm = {
 			} else {
 				this.deactivateGuardianFields();
 			}
-		} else {
-			this.age_blank.html('&nbsp;');
-			this.age_field.val('');
-			alert('Your age must be numeric');
 		}
 	},
+	
+	// Function helpfully provided by http://stackoverflow.com/questions/10008050/get-age-from-birthdate
+	getAge: function () {
+	    var today = new Date();
+	    var birth_year = this.birth_year_field.val();
+		var birth_month = this.birth_month_field.val() - 1;
+		var birth_day = this.birth_day_field.val();
+		var birthDate = new Date(birth_year, birth_month, birth_day);
+	    var age = today.getFullYear() - birthDate.getFullYear();
+	    var m = today.getMonth() - birthDate.getMonth();
+	    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+	        age--;
+	    }
+	    return age;
+	},
+	
 	activateGuardianFields: function () {
 		if (! this.guardian_fields.is(':visible')) {
 			this.guardian_fields.slideDown();
 		}
 		this.guardian_fields.find('input').prop('required', true);
 	},
+	
 	deactivateGuardianFields: function () {
 		if (this.guardian_fields.is(':visible')) {
 			this.guardian_fields.slideUp();
