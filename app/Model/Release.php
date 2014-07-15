@@ -55,6 +55,11 @@ class Release extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
+		'birthdate' => array(
+			'rule'       => 'date',
+			'message'    => 'Please enter a valid date',
+			'allowEmpty' => false
+		),
 		'guardian_name' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
