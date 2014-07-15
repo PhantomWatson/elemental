@@ -15,6 +15,15 @@ class ReleasesController extends AppController {
 		return true;
 	}
 
+	// Function provided by http://stackoverflow.com/questions/3776682/php-calculate-age
+	private function __getAge($birthdate) {
+		$birthdate = array_values($birthdate);
+		$age = (date("md", date("U", mktime(0, 0, 0, $birthdate[0], $birthdate[1], $birthdate[2]))) > date("md")
+			? ((date("Y") - $birthdate[2]) - 1)
+			: (date("Y") - $birthdate[2]));
+		return $age;
+	}
+
 	private function __processForm() {
 		$course_id = $this->request->course_id;
 		$user_id = $this->Auth->user('id');
@@ -29,7 +38,8 @@ class ReleasesController extends AppController {
 		}
 
 		// Remove requirement for guardian info if user is 18+
-		if ($this->request->data['Release']['age'] >= 18) {
+		$age = $this->__getAge($this->request->data['Release']['birthdate']);
+		if ($age >= 18) {
 			unset($this->Release->validate['guardian_name']);
 			unset($this->Release->validate['guardian_phone']);
 		}
