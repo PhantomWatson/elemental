@@ -61,7 +61,7 @@ class ReleasesController extends AppController {
 	}
 
 	private function __setupForm() {
-		if ($this->request->course_id) {
+		if (isset($this->request->course_id)) {
 			$course_id = $this->request->course_id;
 			$this->loadModel('Course');
 			if (! $this->Course->exists($course_id)) {
