@@ -107,4 +107,37 @@ class ReleasesController extends AppController {
 		}
 		$this->render('add');
 	}
+
+	/**
+	 * For releases with an age but no birthdate (0000-00-00), determines the approximate birthyear and sets the birthdate to Jan 1 of that year.
+	 * This is (most likely) before the actual birthdate, so it might increase the user's recorded age. This can be corrected by the user editing
+	 * their own release, but is a non-issue, since the only time this discrepancy would make a difference (a 17yo being recorded as an 18yo),
+	 * the user would have already submitted a release with their parents' information included before this function was first run.
+	 *
+	 * This was created after Release.age was replaced by Release.birthdate so that existing releases would be populated with a very
+	 * approximately correct birthdate.
+	 */
+	public function set_birthdates() {
+		$releases = $this->Release->find('list');
+		foreach ($releases as $id => $user_id) {
+			$this->Release->id = $id;
+			$birthdate = $this->Release->field('birthdate');
+			if ($birthdate == '0000-00-00') {
+				$age = $this->Release->field('age');
+				if ($age) {
+					$submitted = strtotime($this->Release->field('modified'));
+					$age_seconds = $age * 60 * 60 * 24 * 365;
+					$birth_timestamp = $submitted - $age_seconds;
+					$birthdate = date('Y', $birth_timestamp).'-01-01';
+					$this->Release->saveField('birthdate', $birthdate);
+					$this->Flash->success("Set #$id's DOB to $birthdate.");
+				} else {
+					$this->Flash->set("Can't set DOB for #$id, age is not provided.");
+				}
+			} else {
+				$this->Flash->set("Skipping #$id, DOB is already set to $birthdate.");
+			}
+		}
+		$this->render('/Pages/home');
+	}
 }
