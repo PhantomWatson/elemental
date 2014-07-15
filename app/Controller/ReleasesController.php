@@ -72,6 +72,7 @@ class ReleasesController extends AppController {
 			$this->__processForm();
 		} else {
 			$this->request->data['Release']['name'] = $this->Auth->user('name');
+			$this->request->data['Release']['birthdate'] = date('Y-m-d');
 		}
 		$date = date('jS').' day of '.date('F, Y');
 		$this->set('date', $date);
