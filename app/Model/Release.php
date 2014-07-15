@@ -114,11 +114,10 @@ class Release extends AppModel {
 		)
 	);
 
-	public function isSubmitted($user_id, $course_id) {
+	public function isSubmitted($user_id) {
 		$count = $this->find('count', array(
 			'conditions' => array(
-				'Release.user_id' => $user_id,
-				'Release.course_id' => $course_id
+				'Release.user_id' => $user_id
 			)
 		));
 		return $count > 0;

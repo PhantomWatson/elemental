@@ -328,7 +328,7 @@ class CoursesController extends AppController {
 		$in_class = $registration_completed && ! $is_on_waiting_list;
 		$is_full = $this->Course->isFull($course_id);
 		$can_elevate = $is_on_waiting_list && ! $is_full;
-		$release_submitted = $this->Release->isSubmitted($user_id, $course_id);
+		$release_submitted = $this->Release->isSubmitted($user_id);
 		$is_free = $course['Course']['cost'] == 0;
 		$paid = $this->CoursePayment->isPaid($user_id, $course_id);
 		$actions_pending = ! ($release_submitted && ($is_free || $paid || $is_full));
@@ -384,7 +384,7 @@ class CoursesController extends AppController {
 
 		// Confirm receipt of release form
 		$this->loadModel('Release');
-		if (! $this->Release->isSubmitted($user_id, $course_id)) {
+		if (! $this->Release->isSubmitted($user_id)) {
 			$this->Flash->error('Before you complete your registration, you must first submit a liability release agreement.');
 			$this->redirect($this->referer());
 		}
