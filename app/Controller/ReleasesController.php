@@ -25,11 +25,10 @@ class ReleasesController extends AppController {
 	}
 
 	private function __processForm() {
-		$course_id = $this->request->course_id;
 		$user_id = $this->Auth->user('id');
 		$this->Release->create($this->request->data);
 		$ip_address = $this->request->clientIp();
-		$this->Release->set(compact('user_id', 'course_id', 'ip_address'));
+		$this->Release->set(compact('user_id', 'ip_address'));
 
 		// Check to see if this should overwrite an existing release
 		$existing_release_id = $this->Release->getIdFromUserId($user_id);
