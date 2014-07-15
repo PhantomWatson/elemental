@@ -73,16 +73,16 @@
 			)
 		);
 		echo $this->Form->input(
-			'age',
+			'birthdate',
 			array(
+				'between' => '<br />',
 				'class' => 'form-control',
 				'div' => array(
 					'class' => 'form-group'
 				),
-				'label' => 'Your age',
-				'max' => 100,
-				'min' => 1,
-				'type' => 'number'
+				'label' => 'Your birthdate',
+				'maxYear' => date('Y'),
+				'minYear' => date('Y') - 100
 			)
 		);
 	?>
