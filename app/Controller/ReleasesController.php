@@ -23,7 +23,7 @@ class ReleasesController extends AppController {
 		$this->Release->set(compact('user_id', 'course_id', 'ip_address'));
 
 		// Check to see if this should overwrite an existing release
-		$existing_release_id = $this->Release->getIdFromUidCid($user_id, $course_id);
+		$existing_release_id = $this->Release->getIdFromUserId($user_id);
 		if ($existing_release_id) {
 			$this->Release->set('id', $existing_release_id);
 		}
@@ -80,7 +80,7 @@ class ReleasesController extends AppController {
 		$this->__setupForm();
 		$course_id = $this->request->course_id;
 		$user_id = $this->Auth->user('id');
-		$release_id = $this->Release->getIdFromUidCid($user_id, $course_id);
+		$release_id = $this->Release->getIdFromUserId($user_id);
 		if (! $release_id) {
 			throw new NotFoundException('Cannot edit liability release. Liability release not found');
 		}
