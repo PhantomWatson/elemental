@@ -11,8 +11,7 @@ class CourseRegistrationsController extends AppController {
 		parent::beforeFilter();
 
 		$this->Auth->deny(
-			'delete',
-			'take_off_waiting_list'
+			'delete'
 		);
 	}
 
@@ -34,21 +33,10 @@ class CourseRegistrationsController extends AppController {
 	}
 
 	public function isAuthorized($user) {
-		$instructor_owned_actions = array(
-			'take_off_waiting_list'
-		);
-		if (in_array($this->action, $instructor_owned_actions) && isset($this->params['named']['id'])) {
-			$instructor_id = $this->CourseRegistration->getInstructorId($this->params['named']['id']);
-			if ($user['id'] == $instructor_id) {
-				return true;
-			}
-			return parent::isAuthorized($user);
-		}
-
 		// Instructors can remove students from a class list,
 		// or the students can remove themselves
-		if ($this->action == 'delete' && isset($this->params['named']['id'])) {
-			$reg_id = $this->params['named']['id'];
+		if ($this->action == 'delete' && isset($this->params['pass'][0])) {
+			$reg_id = $this->params['pass'][0];
 			$instructor_id = $this->CourseRegistration->getInstructorId($reg_id);
 			$this->CourseRegistration->id = $reg_id;
 			$student_id = $this->CourseRegistration->field('user_id');
@@ -86,7 +74,9 @@ class CourseRegistrationsController extends AppController {
 		$user_id = $this->Auth->user('id');
 		$user_is_instructor = $user_id == $instructor_id;
 		$registration_user_id = $this->CourseRegistration->field('user_id');
-		if ($user_id != $registration_user_id && ! $user_is_instructor) {
+		$this->loadModel('User');
+		$user_is_admin = $this->User->hasRole($user_id, 'admin');
+		if ($user_id != $registration_user_id && ! $user_is_instructor && ! $user_is_admin) {
 			throw new ForbiddenException('You are not authorized to cancel that student\'s class registration');
 		}
 		$is_on_waiting_list = $this->CourseRegistration->isOnWaitingList($user_id, $course_id);

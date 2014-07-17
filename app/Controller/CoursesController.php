@@ -35,11 +35,19 @@ class CoursesController extends AppController {
 			'students',
 			'report_attendance'
 		);
-		if (in_array($this->action, $instructor_owned_actions) && isset($this->params['named']['id'])) {
-			$this->Course->id = $this->params['named']['id'];
-			$instructor_id = $this->Course->field('user_id');
-			if ($instructor_id == $user['id']) {
-				return true;
+
+		// Instructors can access instructor actions
+		$this->loadModel('User');
+		if (in_array($this->action, $instructor_owned_actions) && $this->User->hasRole($user['id'], 'instructor')) {
+
+			// But if a course is specified, then only one of their courses
+			if (isset($this->params['pass'][0])) {
+				$course_id = $this->params['pass'][0];
+				$this->Course->id = $course_id;
+				$instructor_id = $this->Course->field('user_id');
+				if ($instructor_id == $user['id']) {
+					return true;
+				}
 			}
 			return parent::isAuthorized($user);
 		}
@@ -320,7 +328,7 @@ class CoursesController extends AppController {
 		$in_class = $registration_completed && ! $is_on_waiting_list;
 		$is_full = $this->Course->isFull($course_id);
 		$can_elevate = $is_on_waiting_list && ! $is_full;
-		$release_submitted = $this->Release->isSubmitted($user_id, $course_id);
+		$release_submitted = $this->Release->isSubmitted($user_id);
 		$is_free = $course['Course']['cost'] == 0;
 		$paid = $this->CoursePayment->isPaid($user_id, $course_id);
 		$actions_pending = ! ($release_submitted && ($is_free || $paid || $is_full));
@@ -376,7 +384,7 @@ class CoursesController extends AppController {
 
 		// Confirm receipt of release form
 		$this->loadModel('Release');
-		if (! $this->Release->isSubmitted($user_id, $course_id)) {
+		if (! $this->Release->isSubmitted($user_id)) {
 			$this->Flash->error('Before you complete your registration, you must first submit a liability release agreement.');
 			$this->redirect($this->referer());
 		}

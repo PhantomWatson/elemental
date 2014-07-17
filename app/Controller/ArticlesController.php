@@ -7,23 +7,24 @@ App::uses('AppController', 'Controller');
  */
 class ArticlesController extends AppController {
 	public $helpers = array('Tinymce');
-	
+
 	public $paginate = array(
 		'limit' => 25,
 		'order' => array(
 			'Article.created' => 'desc'
         )
     );
-	
+
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->deny(array('add', 'edit', 'delete', 'manage'));
 	}
 
 	public function isAuthorized($user) {
+		// Only admins
 		return parent::isAuthorized($user);
 	}
-	
+
 /**
  * index method
  *
@@ -67,7 +68,7 @@ class ArticlesController extends AppController {
 			if ($this->Article->save($this->request->data)) {
 				$this->Flash->success('The article has been saved');
 				$this->redirect(array(
-					'action' => 'view', 
+					'action' => 'view',
 					'id' => $this->Article->id
 				));
 			} else {

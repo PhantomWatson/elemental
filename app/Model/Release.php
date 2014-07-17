@@ -4,7 +4,6 @@ App::uses('AppModel', 'Model');
  * Release Model
  *
  * @property User $User
- * @property Course $Course
  */
 class Release extends AppModel {
 
@@ -38,12 +37,6 @@ class Release extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'course_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				'allowEmpty' => true
-			)
-		),
 		'age' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
@@ -61,6 +54,11 @@ class Release extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+		),
+		'birthdate' => array(
+			'rule'       => 'date',
+			'message'    => 'Please enter a valid date',
+			'allowEmpty' => false
 		),
 		'guardian_name' => array(
 			'notEmpty' => array(
@@ -118,31 +116,22 @@ class Release extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		),
-		'Course' => array(
-			'className' => 'Course',
-			'foreignKey' => 'course_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		)
 	);
 
-	public function isSubmitted($user_id, $course_id) {
+	public function isSubmitted($user_id) {
 		$count = $this->find('count', array(
 			'conditions' => array(
-				'Release.user_id' => $user_id,
-				'Release.course_id' => $course_id
+				'Release.user_id' => $user_id
 			)
 		));
 		return $count > 0;
 	}
 
-	public function getIdFromUidCid($user_id, $course_id) {
+	public function getIdFromUserId($user_id) {
 		$result = $this->find('list', array(
 			'conditions' => array(
-				'Release.user_id' => $user_id,
-				'Release.course_id' => $course_id
+				'Release.user_id' => $user_id
 			)
 		));
 		if (empty($result)) {

@@ -4,8 +4,9 @@ class PrepaidReviewModule extends AppModel {
 	public $displayField = 'course_id';
 	public $validate = array(
 		'purchase_id' => array(
-			'notempty' => array(
-				'rule' => array('notempty')
+			'naturalNumber' => array(
+				'rule' => array('naturalNumber'),
+				'allowEmpty' => true
 			)
 		),
 		'instructor_id' => array(
