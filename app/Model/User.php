@@ -125,7 +125,11 @@ class User extends AppModel {
 		)
 	);
 	public $hasOne = array(
-		'Release'
+		'Release',
+		'InstructorAgreement' => array(
+			'className' => 'InstructorAgreement',
+			'foreignKey' => 'instructor_id'
+		)
 	);
 	public $hasAndBelongsToMany = array(
 		'Role' => array(
