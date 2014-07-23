@@ -142,6 +142,16 @@ class CoursesController extends AppController {
  */
 	public function add() {
 		$instructor_id = $this->Auth->user('id');
+
+		$this->loadModel('InstructorAgreement');
+		if (! $this->InstructorAgreement->hasAgreed($instructor_id)) {
+			$this->Flash->error('Before scheduling a course, you must first agree to the Certified Elemental Instructor License Agreement.');
+			$this->redirect(array(
+				'controller' => 'instructor_agreements',
+				'action' => 'view'
+			));
+		}
+
 		$this->loadModel('PrepaidReviewModule');
 		$available_psrm = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
 
