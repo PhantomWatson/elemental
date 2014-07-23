@@ -55,10 +55,20 @@
 		</li>
 		<li>
 			<?php echo $this->Html->link(
-				'Add a testimonial',
+				'Add a Testimonial',
 				array(
 					'controller' => 'testimonials',
 					'action' => 'add',
+					$this->params['prefix'] => false
+				)
+			); ?>
+		</li>
+		<li>
+			<?php echo $this->Html->link(
+				'Instructor Agreement',
+				array(
+					'controller' => 'instructor_agreements',
+					'action' => 'view',
 					$this->params['prefix'] => false
 				)
 			); ?>

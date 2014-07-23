@@ -30,7 +30,7 @@
 		);
 	}
 	Router::connect("/reset_password/*",	array('controller' => 'users', 'action' => 'reset_password'));
-
+	Router::connect("/instructor_agreement/*", array('controller' => 'instructor_agreements', 'action' => 'view'));
 
 	$actions = array('edit', 'delete', 'approve');
 	$controllers = array('articles', 'testimonials', 'courses');
