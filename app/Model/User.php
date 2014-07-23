@@ -422,8 +422,18 @@ class User extends AppModel {
 		return $retval;
 	}
 
+	/**
+	 * Determines if user current has the specified role (or any of the specified roles if $role_name is an array)
+	 * @param int $user_id
+	 * @param string|array $role_name
+	 * @return boolean
+	 */
 	public function hasRole($user_id, $role_name) {
-		$cache_key = "hasRole($user_id, $role_name)";
+		if (is_array($role_name)) {
+			$cache_key = "hasRole($user_id, ".implode(', ', $role_name).")";
+		} else {
+			$cache_key = "hasRole($user_id, $role_name)";
+		}
 		if ($cached = Cache::read($cache_key)) {
 			return $cached;
 		}
@@ -446,7 +456,7 @@ class User extends AppModel {
 			)
 		);
 		foreach ($result['Role'] as $role) {
-			if ($role['name'] == $role_name) {
+			if ((is_array($role_name) && in_array($role['name'], $role_name)) || $role['name'] == $role_name) {
 				Cache::write($cache_key, true);
 				return true;
 			}
