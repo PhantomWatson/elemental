@@ -12,7 +12,7 @@ class InstructorAgreementsController extends AppController {
 	}
 
 	public function isAuthorized($user = null) {
-		if ($this->User->hasRole($user['id'], 'instructor')) {
+		if ($this->action == 'view' && $this->User->hasRole($user['id'], array('instructor', 'trainee'))) {
 			return true;
 		}
 
