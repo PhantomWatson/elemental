@@ -19,7 +19,37 @@ class InstructorAgreementsController extends AppController {
 		return parent::isAuthorized($user);
 	}
 
-	public function view() {
-		$this->set('title_for_layout', 'Certified Elemental Instructor License Agreement');
+	public function view($agree = false) {
+		$instructor_id = $this->Auth->user('id');
+
+		if ($this->request->is('post') && $agree) {
+			$already_agreed = $this->InstructorAgreement->find(
+				'count',
+				array(
+					'conditions' => array(
+						'InstructorAgreement.instructor_id' => $instructor_id
+					)
+				)
+			);
+			if (! $already_agreed) {
+				$this->InstructorAgreement->create(array(
+					'instructor_id' => $instructor_id
+				));
+				if (! $this->InstructorAgreement->save()) {
+					$this->Flash->error('Sorry, there was an error recording your agreement. Please try again or contact an administrator for assistance.');
+				}
+			}
+		}
+
+		$date_agreed = $this->InstructorAgreement->field(
+			'created',
+			array(
+				'InstructorAgreement.instructor_id' => $instructor_id
+			)
+		);
+		$this->set(array(
+			'title_for_layout' => 'Certified Elemental Instructor License Agreement',
+			'date_agreed' => $date_agreed
+		));
 	}
 }
