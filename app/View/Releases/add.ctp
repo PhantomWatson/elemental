@@ -82,7 +82,8 @@
 				),
 				'label' => 'Your birthdate',
 				'maxYear' => date('Y'),
-				'minYear' => date('Y') - 100
+				'minYear' => date('Y') - 100,
+				'type' => 'date'
 			)
 		);
 	?>
