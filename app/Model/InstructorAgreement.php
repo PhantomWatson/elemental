@@ -21,4 +21,16 @@ class InstructorAgreement extends AppModel {
 			'foreignKey' => 'instructor_id'
 		)
 	);
+
+	public function hasAgreed($instructor_id) {
+		$result = $this->find(
+			'count',
+			array(
+				'conditions' => array(
+					'InstructorAgreement.instructor_id' => $instructor_id
+				)
+			)
+		);
+		return $result > 0;
+	}
 }
