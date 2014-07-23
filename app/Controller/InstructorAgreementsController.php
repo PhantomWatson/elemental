@@ -39,6 +39,7 @@ class InstructorAgreementsController extends AppController {
 					$this->Flash->error('Sorry, there was an error recording your agreement. Please try again or contact an administrator for assistance.');
 				}
 			}
+			$this->Flash->success('Thank you. Your agreement has been recorded.');
 		}
 
 		$date_agreed = $this->InstructorAgreement->field(
