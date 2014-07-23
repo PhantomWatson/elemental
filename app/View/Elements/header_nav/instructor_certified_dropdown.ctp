@@ -63,5 +63,15 @@
 				)
 			); ?>
 		</li>
+		<li>
+			<?php echo $this->Html->link(
+				'Instructor agreement',
+				array(
+					'controller' => 'instructor_agreements',
+					'action' => 'view',
+					$this->params['prefix'] => false
+				)
+			); ?>
+		</li>
 	</ul>
 </li>
