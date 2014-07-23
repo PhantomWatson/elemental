@@ -16,7 +16,7 @@
 		</li>
 		<li>
 			<?php echo $this->Html->link(
-				'Instructor agreement',
+				'Instructor Agreement',
 				array(
 					'controller' => 'instructor_agreements',
 					'action' => 'view',

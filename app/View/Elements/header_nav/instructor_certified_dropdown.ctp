@@ -55,7 +55,7 @@
 		</li>
 		<li>
 			<?php echo $this->Html->link(
-				'Add a testimonial',
+				'Add a Testimonial',
 				array(
 					'controller' => 'testimonials',
 					'action' => 'add',
@@ -65,7 +65,7 @@
 		</li>
 		<li>
 			<?php echo $this->Html->link(
-				'Instructor agreement',
+				'Instructor Agreement',
 				array(
 					'controller' => 'instructor_agreements',
 					'action' => 'view',
