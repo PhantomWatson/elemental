@@ -13,20 +13,31 @@
 	If you have any questions about this course, you can email <?php echo $instructor['User']['name']; ?> at <a href="mailto:<?php echo $instructor['User']['email']; ?>"><?php echo $instructor['User']['email']; ?></a>.
 </p>
 
-<p>
-	<strong>
-		<?php echo __n('Date', 'Dates', count($course['CourseDate'])); ?>:
-	</strong>
-</p>
-<ul>
-	<?php foreach ($course['CourseDate'] as $course_date): ?>
-		<li>
-			<?php echo date('l, F j, Y', strtotime($course_date['date'])); ?>
+<?php if (count($course['CourseDate']) == 1): ?>
+	<p>
+		<strong>
+			Date:
+		</strong>
+		<?php echo date('l, F j, Y', strtotime($course['CourseDate'][0]['date'])); ?>
 			at
-			<?php echo date('g:ia', strtotime($course_date['start_time'])); ?>
-		</li>
-	<?php endforeach; ?>
-</ul>
+		<?php echo date('g:ia', strtotime($course['CourseDate'][0]['start_time'])); ?>
+	</p>
+<?php else: ?>
+	<p>
+		<strong>
+			Dates:
+		</strong>
+	</p>
+	<ul>
+		<?php foreach ($course['CourseDate'] as $course_date): ?>
+			<li>
+				<?php echo date('l, F j, Y', strtotime($course_date['date'])); ?>
+				at
+				<?php echo date('g:ia', strtotime($course_date['start_time'])); ?>
+			</li>
+		<?php endforeach; ?>
+	</ul>
+<?php endif; ?>
 
 <p>
 	<strong>

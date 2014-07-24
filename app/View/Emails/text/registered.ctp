@@ -16,13 +16,19 @@
 	echo "If you have any questions about this course, you can email $instructor_name at $instructor_email.";
 	echo "\n\n";
 
-	echo __n('Date', 'Dates', count($course['CourseDate'])).':';
-	foreach ($course['CourseDate'] as $course_date) {
-		echo "\n";
-		echo date('l, F j, Y', strtotime($course_date['date']));
+	if (count($course['CourseDate']) == 1) {
+		echo 'Date: ';
+		echo date('l, F j, Y', strtotime($course['CourseDate'][0]['date']));
 		echo ' at ';
-		echo date('g:ia', strtotime($course_date['start_time']));
-
+		echo date('g:ia', strtotime($course['CourseDate'][0]['start_time']));
+	} else {
+		echo 'Dates:';
+		foreach ($course['CourseDate'] as $course_date) {
+			echo "\n";
+			echo date('l, F j, Y', strtotime($course_date['date']));
+			echo ' at ';
+			echo date('g:ia', strtotime($course_date['start_time']));
+		}
 	}
 	echo "\n\n";
 
