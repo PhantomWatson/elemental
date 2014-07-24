@@ -81,9 +81,24 @@ class Purchase extends AppModel {
 			throw new ForbiddenException('Sorry, this course has no available spots left');
 		}
 
-		// Record purchase
+		// Prevent accidental double-payment
 		App::import('Model','CoursePayment');
 		$CoursePayment = new CoursePayment();
+		$already_purchased = $CoursePayment->find(
+			'count',
+			array(
+				'conditions' => array(
+					'CoursePayment.course_id' => $seller_data['course_id'],
+					'CoursePayment.user_id' => $seller_data['user_id'],
+					'CoursePayment.refunded' => null
+				)
+			)
+		);
+		if ($already_purchased) {
+			throw new ForbiddenException('You have already paid this course\'s registration fee');
+		}
+
+		// Record purchase
 		$CoursePayment->create(array(
 			'course_id' => $seller_data['course_id'],
 			'user_id' => $seller_data['user_id'],
