@@ -21,4 +21,27 @@ class Bio extends AppModel {
 			'foreignKey' => 'user_id'
 		)
 	);
+
+	public function getForUser($user_id) {
+		return $this->find(
+			'first',
+			array(
+				'conditions' => array(
+					'Bio.user_id' => $user_id
+				),
+				'contain' => array(
+					'User' => array(
+						'fields' => array(
+							'User.name'
+						)
+					)
+				),
+				'fields' => array(
+					'Bio.id',
+					'Bio.bio',
+					'Bio.picture'
+				)
+			)
+		);
+	}
 }
