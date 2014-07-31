@@ -112,5 +112,8 @@
 	Router::connect("/classroom_module/*", array('controller' => 'products', 'action' => 'route'));
 	Router::connect("/vizi/classroom_module/*", array('controller' => 'products', 'action' => 'route'));
 
+	// Bios
+	Router::connect("/bio/edit", array('controller' => 'bios', 'action' => 'edit'));
+
 	CakePlugin::routes();
 	require CAKE . 'Config' . DS . 'routes.php';
