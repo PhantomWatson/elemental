@@ -24,9 +24,6 @@ class ProductsController extends AppController {
 			case 'prepaid_review_modules':
 				if ($is_instructor) return true;
 				break;
-			default:
-				return true;
-				break;
 		}
 
         // Admins can access everything
