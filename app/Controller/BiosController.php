@@ -27,4 +27,31 @@ class BiosController extends AppController {
 		// Admins can access everything
 		return parent::isAuthorized($user);
 	}
+
+	public function edit() {
+		$user_id = $this->Auth->user('id');
+		$existing_record = $this->Bio->getForUser($user_id);
+
+		if ($this->request->is('post') || $this->request->is('put')) {
+			$this->Bio->create($this->request->data);
+			$this->Bio->set('user_id', $user_id);
+			if ($existing_record) {
+				$this->Bio->id = $existing_record['Bio']['id'];
+			}
+			if ($this->Bio->save()) {
+				$this->Flash->success('Bio updated');
+				$this->redirect(array(
+					'action' => 'view',
+					'user_id' => $user_id
+				));
+			} else {
+				$this->Flash->error('There was an error updating your bio. Please try again or contact an administrator for assistance.');
+			}
+		} else {
+			$this->request->data = $existing_record;
+		}
+		$this->set(array(
+			'title_for_layout' => 'Update Instructor Bio'
+		));
+	}
 }
