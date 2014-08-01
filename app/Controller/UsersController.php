@@ -355,9 +355,9 @@ class UsersController extends AppController {
 			} elseif ($this->User->validates()) {
 				if ($this->User->saveAssociated()) {
 					$this->Flash->success('Information updated.');
-					/* $this->redirect(array(
+					$this->redirect(array(
 						'action' => 'manage'
-					)); */
+					));
 				} else {
 					$this->Flash->error('Sorry, there was an error updating that user\'s information. Please try again.');
 				}
