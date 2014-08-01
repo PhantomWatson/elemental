@@ -32,7 +32,9 @@ class Bio extends AppModel {
 				'contain' => array(
 					'User' => array(
 						'fields' => array(
-							'User.name'
+							'User.id',
+							'User.name',
+							'User.email'
 						)
 					)
 				),
@@ -52,5 +54,40 @@ class Bio extends AppModel {
 				'Bio.user_id' => $user_id
 			)
 		);
+	}
+
+	public function getInstructorBios() {
+		$instructors = $this->User->getInstructorList();
+		$bios = $this->find(
+			'all',
+			array(
+				'conditions' => array(
+					'Bio.user_id' => array_keys($instructors)
+				),
+				'contain' => array(
+					'User' => array(
+						'fields' => array(
+							'User.id',
+							'User.name',
+							'User.email'
+						)
+					)
+				),
+				'fields' => array(
+					'Bio.id',
+					'Bio.bio',
+					'Bio.picture'
+				)
+			)
+		);
+		$retval = array();
+		foreach ($bios as $bio) {
+			$name_parts = explode(' ', $bio['User']['name']);
+			$reversed_name = array_pop($name_parts).' '.implode(' ', $name_parts);
+			$reversed_name .= $bio['User']['id'];	// Just in case two instructors have the same name
+			$retval[$reversed_name] = $bio;
+		}
+		ksort($retval);
+		return $retval;
 	}
 }
