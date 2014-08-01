@@ -54,4 +54,14 @@ class BiosController extends AppController {
 			'title_for_layout' => 'Update Instructor Bio'
 		));
 	}
+
+	/**
+	 * Instructors bio page
+	 */
+	public function index() {
+		$this->set(array(
+			'title_for_layout' => 'Certified Elemental Instructors',
+			'bios' => $this->Bio->getInstructorBios()
+		));
+	}
 }
