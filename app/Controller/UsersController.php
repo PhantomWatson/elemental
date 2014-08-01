@@ -329,6 +329,7 @@ class UsersController extends AppController {
 	}
 
 	public function edit($id) {
+		$this->helpers[] = 'Tinymce';
 		$this->User->id = $id;
 		if ($this->request->is('post') || $this->request->is('put')) {
 			$this->request->data['User']['email'] = strtolower(trim($this->request->data['User']['email']));
