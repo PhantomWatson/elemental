@@ -55,6 +55,16 @@
 		</li>
 		<li>
 			<?php echo $this->Html->link(
+				'Update Instructor Bio',
+				array(
+					'controller' => 'bios',
+					'action' => 'edit',
+					$this->params['prefix'] => false
+				)
+			); ?>
+		</li>
+		<li>
+			<?php echo $this->Html->link(
 				'Add a Testimonial',
 				array(
 					'controller' => 'testimonials',
