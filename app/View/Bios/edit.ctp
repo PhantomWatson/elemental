@@ -6,6 +6,7 @@
 
 <div id="bio_form">
 	<?php echo $this->Form->create('Bio'); ?>
+
 	<fieldset>
 		<div class="form-group">
 			<?php echo $this->Tinymce->input('Bio.bio',
@@ -18,6 +19,7 @@
 					'theme_advanced_buttons1' => 'bold,italic,underline,separator,link,unlink,separator,undo,redo,cleanup,code',
 					'theme_advanced_statusbar_location' => 'none',
 					'valid_elements' => 'p,br,a[href|target=_blank],strong/b,i/em,u,img[src|style|alt|title]',
+					'width' => 500,
 
 					/* These three prevent links to other pages on this same domain
 					 * from being converted to relative URLs. */
