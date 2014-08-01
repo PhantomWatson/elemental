@@ -56,6 +56,28 @@
 					'multiple' => 'checkbox'
 				)
 			);
+			echo $this->Tinymce->input('Bio.bio',
+				array(
+					'label' => 'Instructor Bio',
+					'div' => array(
+						'id' => 'bio_fields_container',
+						'class' => 'form-group'
+					),
+				),
+				array(
+					'language' => 'en',
+					'theme_advanced_buttons1' => 'bold,italic,underline,separator,link,unlink,separator,undo,redo,cleanup,code',
+					'theme_advanced_statusbar_location' => 'none',
+					'valid_elements' => 'p,br,a[href|target=_blank],strong/b,i/em,u,img[src|style|alt|title]',
+					'width' => 500,
+
+					/* These three prevent links to other pages on this same domain
+					 * from being converted to relative URLs. */
+					'relative_urls' => false,
+					'remove_script_host' => false,
+					'convert_urls' => false
+				)
+			);
 		?>
 	</fieldset>
 	<?php echo $this->Form->end(array(
@@ -63,3 +85,6 @@
 		'class' => 'btn btn-default'
 	)); ?>
 </div>
+<?php $this->Js->buffer("
+	adminUserEditForm.init();
+"); ?>
