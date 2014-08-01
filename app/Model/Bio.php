@@ -44,4 +44,13 @@ class Bio extends AppModel {
 			)
 		);
 	}
+
+	public function getIdForUser($user_id) {
+		return $this->field(
+			'id',
+			array(
+				'Bio.user_id' => $user_id
+			)
+		);
+	}
 }
