@@ -114,6 +114,7 @@
 
 	// Bios
 	Router::connect("/bio/edit", array('controller' => 'bios', 'action' => 'edit'));
+	Router::connect("/instructors", array('controller' => 'bios', 'action' => 'index'));
 
 	CakePlugin::routes();
 	require CAKE . 'Config' . DS . 'routes.php';
