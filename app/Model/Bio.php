@@ -62,7 +62,10 @@ class Bio extends AppModel {
 			'all',
 			array(
 				'conditions' => array(
-					'Bio.user_id' => array_keys($instructors)
+					'Bio.user_id' => array_keys($instructors),
+					'NOT' => array(
+						'Bio.bio' => ''
+					)
 				),
 				'contain' => array(
 					'User' => array(
