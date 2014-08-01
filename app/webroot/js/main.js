@@ -247,3 +247,27 @@ var releaseForm = {
 		this.guardian_fields.find('input').prop('required', false);
 	}
 };
+
+var adminUserEditForm = {
+	init: function () {
+		$('#RoleRole2').change(function () {
+			adminUserEditForm.toggleInstructor(true);
+		});
+		this.toggleInstructor(false);
+	},
+	toggleInstructor: function (animate) {
+		if ($('#RoleRole2').is(':checked')) {
+			if (animate) {
+				$('#bio_fields_container').slideDown();
+			} else {
+				$('#bio_fields_container').show();
+			}
+		} else {
+			if (animate) {
+				$('#bio_fields_container').slideUp();
+			} else {
+				$('#bio_fields_container').hide();
+			}
+		}
+	}
+};
