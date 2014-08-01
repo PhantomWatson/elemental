@@ -129,7 +129,8 @@ class User extends AppModel {
 		'InstructorAgreement' => array(
 			'className' => 'InstructorAgreement',
 			'foreignKey' => 'instructor_id'
-		)
+		),
+		'Bio'
 	);
 	public $hasAndBelongsToMany = array(
 		'Role' => array(
