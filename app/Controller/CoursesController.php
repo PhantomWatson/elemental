@@ -602,5 +602,6 @@ class CoursesController extends AppController {
 			$this->Flash->error('There was an error resending that registration email');
 		}
 		$this->set('title_for_layout', 'Resend Registration Email');
+		$this->render('/Pages/blank');
 	}
 }
