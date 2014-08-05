@@ -15,7 +15,8 @@ class CoursesController extends AppController {
 			'delete',
 			'manage',
 			'students',
-			'report_attendance'
+			'report_attendance',
+			'resend_reg_email'
 		);
 		/* The 'register' action is also restricted to
 		 * logged-in users, but the error message and redirect
@@ -592,5 +593,14 @@ class CoursesController extends AppController {
 			'course_has_begun' => $course_has_begun,
 			'attendance_already_reported' => $attendance_already_reported
 		));
+	}
+
+	public function resend_reg_email($course_id, $student_id) {
+		if ($this->Course->sendRegistrationEmail($course_id, $student_id)) {
+			$this->Flash->success('Registration email resent');
+		} else {
+			$this->Flash->error('There was an error resending that registration email');
+		}
+		$this->set('title_for_layout', 'Resend Registration Email');
 	}
 }
