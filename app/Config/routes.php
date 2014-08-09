@@ -100,9 +100,9 @@
 	);
 
 	// Products
-	Router::connect("/review_materials", array('controller' => 'products', 'action' => 'review_materials'));
-	Router::connect("/review_materials/*", array('controller' => 'products', 'action' => 'route'));
-	Router::connect("/vizi/review_materials/*", array('controller' => 'products', 'action' => 'route'));
+	Router::connect("/student_review", array('controller' => 'products', 'action' => 'student_review'));
+	Router::connect("/student_review/*", array('controller' => 'products', 'action' => 'route'));
+	Router::connect("/vizi/student_review/*", array('controller' => 'products', 'action' => 'route'));
 
 	Router::connect("/instructor_training", array('controller' => 'products', 'action' => 'instructor_training'));
 	Router::connect("/instructor_training/*", array('controller' => 'products', 'action' => 'route'));

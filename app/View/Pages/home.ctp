@@ -77,7 +77,7 @@
 						'<span class="glyphicon glyphicon-play"></span> Student Review Materials',
 						array(
 							'controller' => 'products',
-							'action' => 'review_materials'
+							'action' => 'student_review'
 						),
 						array(
 							'class' => 'btn btn-primary btn-large col-xs-12 col-sm-6 col-sm-offset-1',

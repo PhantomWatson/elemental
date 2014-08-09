@@ -30,12 +30,12 @@ class ProductsController extends AppController {
 		return parent::isAuthorized($user);
 	}
 
-	public function review_materials() {
+	public function student_review() {
 		/* A trailing slash is required for /app/webroot/.htaccess to
-		 * correctly route the Vizi Player's (/app/webroot/vizi/review_materials/vizi.swf)
-		 * requests for files stored in /app/webroot/vizi/review_materials */
-		if ($this->request->url == 'review_materials') {
-			$this->redirect('/review_materials/');
+		 * correctly route the Vizi Player's (/app/webroot/vizi/student_review/vizi.swf)
+		 * requests for files stored in /app/webroot/vizi/student_review */
+		if ($this->request->url == 'student_review') {
+			$this->redirect('/student_review/');
 		}
 
 		$logged_in = $this->Auth->loggedIn();
@@ -87,7 +87,7 @@ class ProductsController extends AppController {
 			$path_split = explode('/', $url);
 			$product = reset($path_split);
 			switch ($product) {
-				case 'review_materials':
+				case 'student_review':
 					$product_id = $this->Product->getReviewModuleRenewalId();
 					break;
 			}
@@ -99,7 +99,7 @@ class ProductsController extends AppController {
 				case 'instructor_training':
 					$can_access = $this->User->canAccessInstructorTraining($user_id);
 					break;
-				case 'review_materials':
+				case 'student_review':
 					$can_access = $this->User->hasPurchased($user_id, $product_id);
 					break;
 				case 'classroom_module':
