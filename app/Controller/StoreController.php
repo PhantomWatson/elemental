@@ -44,7 +44,7 @@ class StoreController extends AppController {
 			case 'course':
 				$this->Purchase->purchaseCourseRegistration($seller_data, $order_id, $jwt_decoded);
 				break;
-			case 'review_module':
+			case 'student_review_module_renewal':
 				$this->Purchase->purchaseStudentReviewModuleRenewal($seller_data, $order_id, $jwt_decoded);
 				break;
 			case 'student_review_module':

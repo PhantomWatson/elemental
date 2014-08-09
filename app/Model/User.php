@@ -279,12 +279,12 @@ class User extends AppModel {
 	}
 
 	public function canAccessReviewMaterials($user_id) {
-		$expiration = $this->getReviewMaterialsAccessExpiration($user_id);
+		$expiration = $this->getReviewModuleAccessExpiration($user_id);
 		return $expiration && $expiration > time();
 	}
 
-	public function getReviewMaterialsAccessExpiration($user_id) {
-		$cache_key = "getReviewMaterialsAccessExpiration($user_id)";
+	public function getReviewModuleAccessExpiration($user_id) {
+		$cache_key = "getReviewModuleAccessExpiration($user_id)";
 		if ($cached = Cache::read($cache_key)) {
 			return $cached;
 		}
@@ -317,7 +317,7 @@ class User extends AppModel {
 
 			// Students who have purchased the review material module in the past year get access
 			$Product = ClassRegistry::init('Product');
-			$product_id = $Product->getReviewMaterialsId();
+			$product_id = $Product->getReviewModuleRenewalId();
 			$purchase = $this->Purchase->find('first', array(
 				'conditions' => array(
 					'Purchase.user_id' => $user_id,

@@ -39,7 +39,7 @@ class ProductsController extends AppController {
 		}
 
 		$logged_in = $this->Auth->loggedIn();
-		$product = $this->Product->getReviewMaterials();
+		$product = $this->Product->getReviewModuleRenewal();
 		$this->set(array(
 			'title_for_layout' => 'Student Review Materials',
 			'logged_in' => $logged_in,
@@ -51,10 +51,10 @@ class ProductsController extends AppController {
 			$this->loadModel('User');
 			$user_attended = $this->User->hasAttendedCourse($user_id);
 			$can_access = $this->User->canAccessReviewMaterials($user_id);
-			$expiration = $this->User->getReviewMaterialsAccessExpiration($user_id);
+			$expiration = $this->User->getReviewModuleAccessExpiration($user_id);
 
 			if ($user_attended && ! $can_access) {
-				$this->set('jwt', $this->Product->getReviewModuleJWT($user_id));
+				$this->set('jwt', $this->Product->getReviewModuleRenewalJWT($user_id));
 			}
 
 			$this->set(compact(
@@ -88,7 +88,7 @@ class ProductsController extends AppController {
 			$product = reset($path_split);
 			switch ($product) {
 				case 'review_materials':
-					$product_id = $this->Product->getReviewMaterialsId();
+					$product_id = $this->Product->getReviewModuleRenewalId();
 					break;
 			}
 

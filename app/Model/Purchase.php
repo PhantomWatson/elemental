@@ -141,7 +141,7 @@ class Purchase extends AppModel {
 		}
 
 		// Clear relevant cache keys
-		$cache_key = 'getReviewMaterialsAccessExpiration('.$seller_data['user_id'].')';
+		$cache_key = 'getReviewModuleAccessExpiration('.$seller_data['user_id'].')';
 		Cache::delete($cache_key);
 
 		return true;

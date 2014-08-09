@@ -569,7 +569,7 @@ class CoursesController extends AppController {
 					$this->CourseRegistration->id = $reg_id;
 					$this->CourseRegistration->saveField('attended', 1);
 					$user_id = $this->CourseRegistration->field('user_id');
-					$cache_key = "getReviewMaterialsAccessExpiration($user_id)";
+					$cache_key = "getReviewModuleAccessExpiration($user_id)";
 					Cache::delete($cache_key);
 					// send email to student
 				}
