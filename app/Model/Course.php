@@ -47,7 +47,7 @@ class Course extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
-			'usingPrepaidReviewModules' => array(
+			'usingStudentReviewModules' => array(
 				'rule' => array('validateFreeClassSize')
 			),
 			'notLessThanExistingClass' => array(
@@ -127,8 +127,8 @@ class Course extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'PrepaidReviewModule' => array(
-			'className' => 'PrepaidReviewModule',
+		'StudentReviewModule' => array(
+			'className' => 'StudentReviewModule',
 			'foreignKey' => 'course_id',
 			'dependent' => false
 		)
@@ -152,7 +152,7 @@ class Course extends AppModel {
 
 		// If editing a free course, handle growing/shrinking of free classes
 		if (isset($this->data['Course']['max_participants']) && $this->data['Course']['cost'] == 0 && isset($this->data['Course']['id'])) {
-			$this->adjustReservedPrepaidReviewModules();
+			$this->adjustReservedStudentReviewModules();
 		}
 
 		return true;
@@ -164,13 +164,13 @@ class Course extends AppModel {
 			$instructor_id = $this->data['Course']['user_id'];
 			$quantity = $this->data['Course']['max_participants'];
 			$course_id = $this->id;
-			$this->PrepaidReviewModule->assignToCourse($instructor_id, $quantity, $course_id);
+			$this->StudentReviewModule->assignToCourse($instructor_id, $quantity, $course_id);
 		}
 	}
 
 	public function afterDelete() {
 		$course_id = $this->id;
-		$this->PrepaidReviewModule->releaseUnclaimedFromCourse($course_id);
+		$this->StudentReviewModule->releaseUnclaimedFromCourse($course_id);
 	}
 
 	/**
@@ -178,7 +178,7 @@ class Course extends AppModel {
 	 * PRMs need to be reserved for this course or reserved
 	 * PRMs need to be put back into the 'available' pool
 	 */
-	public function adjustReservedPrepaidReviewModules() {
+	public function adjustReservedStudentReviewModules() {
 		$this->id = $this->data['Course']['id'];
 		$new_size = $this->data['Course']['max_participants'];
 		$old_size = $this->field('max_participants');
@@ -187,12 +187,12 @@ class Course extends AppModel {
 		// If growing
 		if ($growth > 0) {
 			$instructor_id = $this->field('user_id');
-			$this->PrepaidReviewModule->assignToCourse($instructor_id, $growth, $this->id);
+			$this->StudentReviewModule->assignToCourse($instructor_id, $growth, $this->id);
 
 		// If shrinking
 		} elseif ($growth < 0) {
 			$shrinkage = -1 * $growth; // I WAS IN THE POOL
-			$this->PrepaidReviewModule->releaseUnclaimedFromCourse($this->id, $shrinkage);
+			$this->StudentReviewModule->releaseUnclaimedFromCourse($this->id, $shrinkage);
 		}
 	}
 
@@ -271,7 +271,7 @@ class Course extends AppModel {
 			$instructor_id = $logged_in_user_id;
 		}
 
-		$available_modules = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
+		$available_modules = $this->StudentReviewModule->getAvailableCount($instructor_id);
 		$old_size = $this->field('max_participants');
 
 		// If editing
@@ -293,13 +293,13 @@ class Course extends AppModel {
 			return true;
 		}
 
-		// Not enough prepaid modules
+		// Not enough modules
 		$is_instructor = $instructor_id == $logged_in_user_id;
 		if ($available_modules) {
 			$message = $is_instructor
 				? 'You only have '
 				: 'This instructor only has ';
-			$message .= ' enough available Prepaid Review Modules to ';
+			$message .= ' enough available Student Review Modules to ';
 			$limit = $old_size + $available_modules;
 			if ($course_id) {
 				$message .= 'increase this class size to '.$limit;
@@ -310,7 +310,7 @@ class Course extends AppModel {
 			$message = $is_instructor
 				? 'You have '
 				: 'This instructor has ';
-			$message .= 'no available Prepaid Review Modules';
+			$message .= 'no available Student Review Modules';
 		}
 		return $message;
 	}

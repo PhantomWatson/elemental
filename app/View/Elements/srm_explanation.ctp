@@ -1,5 +1,5 @@
 <p>
-	For instructors to be able to create courses with no student registration fees, they must first have prepaid Elemental Student Review Modules for every student.
+	For instructors to be able to create courses with no student registration fees, they must first have Elemental Student Review Modules for every student.
 </p>
 
 <ul>
@@ -9,7 +9,7 @@
 	</li>
 	<li>
 		<strong>Ownership:</strong>
-		Prepaid Elemental Student Review Modules are each owned by a specific instructor who can use them to create free courses. If you need to transfer ownership to a different instructor, please
+		Elemental Student Review Modules are each owned by a specific instructor who can use them to create free courses. If you need to transfer ownership to a different instructor, please
 		<?php echo $this->Html->link(
 			'contact us',
 			array(

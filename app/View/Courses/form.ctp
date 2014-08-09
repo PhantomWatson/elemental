@@ -1,6 +1,6 @@
 <?php
 	$this->Js->buffer("courseAddForm.setup({
-		available_psrm: $available_psrm,
+		available_srm: $available_srm,
 		action: '".$this->request->action."'
 	});");
 	function dateTimeInput($view, $key = 0, $course_date = null, $is_dummy_input = false) {
@@ -102,30 +102,30 @@
 	<?php
 		echo $this->Form->create('Course', array('id' => 'course_form'));
 
-		// Create note about available PSRMs (which will be used in multiple places in this file)
-		$available_psrm_note = '';
-		if ($available_psrm) {
-			$available_psrm_note .= '<span class="label label-success">'.$available_psrm.'</span>';
+		// Create note about available SRMs (which will be used in multiple places in this file)
+		$available_srm_note = '';
+		if ($available_srm) {
+			$available_srm_note .= '<span class="label label-success">'.$available_srm.'</span>';
 		} else {
-			$available_psrm_note .= '<span class="label label-danger">0</span>';
+			$available_srm_note .= '<span class="label label-danger">0</span>';
 		}
-		$available_psrm_note .= ' <span class="after_label">';
+		$available_srm_note .= ' <span class="after_label">';
 		if ($this->request->action == 'edit') {
-			$available_psrm_note .= 'more ';
+			$available_srm_note .= 'more ';
 		}
-		$available_psrm_note .= 'prepaid student review '.__n('module is', 'modules are', $available_psrm).' available. ';
-		$available_psrm_note .= $this->Html->link(
+		$available_srm_note .= 'student review '.__n('module is', 'modules are', $available_srm).' available. ';
+		$available_srm_note .= $this->Html->link(
 			'Get more <span class="glyphicon glyphicon-new-window"></span>',
 			array(
 				'controller' => 'store',
-				'action' => 'prepaid_student_review_module'
+				'action' => 'student_review_module'
 			),
 			array(
 				'escape' => false,
 				'target' => '_blank'
 			)
 		);
-		$available_psrm_note .= '</span>';
+		$available_srm_note .= '</span>';
 	?>
 
 	<fieldset>
@@ -142,7 +142,7 @@
 					<label for="CourseFree1">
 						<?php
 							$attributes = '';
-							if ($available_psrm) {
+							if ($available_srm) {
 								if ($this->data['Course']['free']) {
 									$attributes .= 'checked="checked" ';
 								}
@@ -153,7 +153,7 @@
 						<input name="data[Course][free]" id="CourseFree1" value="1" type="radio" <?php echo $attributes; ?> />
 						Free course
 						<div>
-							<?php echo $available_psrm_note; ?>
+							<?php echo $available_srm_note; ?>
 						</div>
 					</label>
 				</div>
@@ -226,7 +226,7 @@
 					$class_size_footnotes .= '<br /><span class="label label-info">Note</span> There '.__n('is 1 participant', "are $waiting_list_count participants", $waiting_list_count).' on the waiting list who will be automatically moved into the course if the participant limit is increased. ';
 				}
 				if ($this->data['Course']['free']) {
-					$class_size_footnotes .= '<br />'.$available_psrm_note;
+					$class_size_footnotes .= '<br />'.$available_srm_note;
 					$max_class_size = $max_free_class_size;
 				}
 			}

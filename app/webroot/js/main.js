@@ -41,11 +41,11 @@ function setupTestimonialExcerpt() {
 }
 
 var courseAddForm = {
-	available_psrm: 0,
+	available_srm: 0,
 	action: null,
 		
 	setup: function (params) {
-		this.available_psrm = params.available_psrm;
+		this.available_srm = params.available_srm;
 		this.action = params.action;
 		
 		$('#scheduling_help_toggler').click(function(event) {
@@ -126,9 +126,9 @@ var courseAddForm = {
 			}
 			
 			if (this.action == 'add') {
-				class_size.attr('max', this.available_psrm);
-				if (class_size.val() > this.available_psrm) {
-					class_size.val(this.available_psrm);
+				class_size.attr('max', this.available_srm);
+				if (class_size.val() > this.available_srm) {
+					class_size.val(this.available_srm);
 				}
 			}
 			

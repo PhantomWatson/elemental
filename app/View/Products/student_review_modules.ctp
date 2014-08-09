@@ -2,13 +2,13 @@
 	<?php echo $title_for_layout; ?>
 </h1>
 
-<?php echo $this->element('psrm_explanation'); ?>
+<?php echo $this->element('srm_explanation'); ?>
 
 <h2>
 	Your Modules:
 </h2>
 
-<table class="table" id="psrm_report">
+<table class="table" id="srm_report">
 	<thead>
 		<tr>
 			<th>
@@ -42,7 +42,7 @@
 						$label,
 						array(
 							'controller' => 'store',
-							'action' => 'prepaid_student_review_module'
+							'action' => 'student_review_module'
 						),
 						array(
 							'class' => 'btn btn-default'

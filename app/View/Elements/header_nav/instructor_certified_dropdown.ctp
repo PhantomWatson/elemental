@@ -39,10 +39,10 @@
 		</li>
 		<li>
 			<?php echo $this->Html->link(
-				'Prepaid Review Modules',
+				'Student Review Modules',
 				array(
 					'controller' => 'products',
-					'action' => 'prepaid_review_modules',
+					'action' => 'student_review_modules',
 					$this->params['prefix'] => false
 				)
 			); ?>

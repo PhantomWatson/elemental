@@ -8,7 +8,7 @@ class ProductsController extends AppController {
 		parent::beforeFilter();
 		$this->Auth->deny(array(
 			'classroom_module',
-			'prepaid_review_modules'
+			'student_review_modules'
 		));
 	}
 
@@ -21,7 +21,7 @@ class ProductsController extends AppController {
 			case 'classroom_module':
 				if ($is_instructor) return true;
 				break;
-			case 'prepaid_review_modules':
+			case 'student_review_modules':
 				if ($is_instructor) return true;
 				break;
 		}
@@ -151,13 +151,13 @@ class ProductsController extends AppController {
 		));
 	}
 
-	public function prepaid_review_modules() {
+	public function student_review_modules() {
 		$user_id = $this->Auth->user('id');
-		$this->loadModel('PrepaidReviewModule');
+		$this->loadModel('StudentReviewModule');
 		$this->set(array(
-			'title_for_layout' => 'Prepaid Student Review Modules',
-			'cost' => $this->PrepaidReviewModule->getCost(),
-			'report' => $this->PrepaidReviewModule->getReport($user_id)
+			'title_for_layout' => 'Student Review Modules',
+			'cost' => $this->StudentReviewModule->getCost(),
+			'report' => $this->StudentReviewModule->getReport($user_id)
 		));
 	}
 

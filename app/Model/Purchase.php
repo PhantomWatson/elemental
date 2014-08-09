@@ -112,7 +112,7 @@ class Purchase extends AppModel {
 		return true;
 	}
 
-	public function purchaseStudentReviewModule($seller_data, $order_id, $jwt_decoded) {
+	public function purchaseStudentReviewModuleRenewal($seller_data, $order_id, $jwt_decoded) {
 		// Check for required sellerData
 		if (! isset($seller_data['user_id'])) {
 			throw new BadRequestException('User ID missing');
@@ -147,7 +147,7 @@ class Purchase extends AppModel {
 		return true;
 	}
 
-	public function purchasePrepaidStudentReviewModule($seller_data, $order_id, $jwt_decoded) {
+	public function purchaseStudentReviewModule($seller_data, $order_id, $jwt_decoded) {
 		// Check for required sellerData
 		if (! isset($seller_data['instructor_id'])) {
 			throw new BadRequestException('Instructor ID missing');
@@ -176,15 +176,15 @@ class Purchase extends AppModel {
 		}
 		$purchase_id = $this->id;
 
-		// Create PrepaidReviewModule records
-		App::import('Model','PrepaidReviewModule');
-		$PrepaidReviewModule = new PrepaidReviewModule();
+		// Create StudentReviewModule records
+		App::import('Model','StudentReviewModule');
+		$StudentReviewModule = new StudentReviewModule();
 		for ($i = 1; $i <= $seller_data['quantity']; $i++) {
-			$PrepaidReviewModule->create(array(
+			$StudentReviewModule->create(array(
 				'purchase_id' => $purchase_id,
 				'instructor_id' => $seller_data['instructor_id']
 			));
-			$PrepaidReviewModule->save();
+			$StudentReviewModule->save();
 		}
 
 		return true;

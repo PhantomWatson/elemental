@@ -153,11 +153,11 @@ class CoursesController extends AppController {
 			));
 		}
 
-		$this->loadModel('PrepaidReviewModule');
-		$available_psrm = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
+		$this->loadModel('StudentReviewModule');
+		$available_srm = $this->StudentReviewModule->getAvailableCount($instructor_id);
 
 		// Force non-free class if free is not possible
-		if (! $available_psrm) {
+		if (! $available_srm) {
 			$this->request->data['Course']['free'] = false;
 		}
 
@@ -174,7 +174,7 @@ class CoursesController extends AppController {
 				// Set 'free' back to true if the user (for some dumb reason) selects "registration fee" and sets the cost to zero
 				$dollars = intval($this->request->data['Course']['cost_dollars']);
 				$cents = intval($this->request->data['Course']['cost_cents']);
-				if ($dollars == 0 && $cents == 0 && $available_psrm) {
+				if ($dollars == 0 && $cents == 0 && $available_srm) {
 					$this->request->data['Course']['free'] = true;
 				}
 			}
@@ -198,10 +198,9 @@ class CoursesController extends AppController {
 			$this->request->data['Course']['cost_cents'] = '00';
 		}
 
-		$this->loadModel('PrepaidReviewModule');
 		$this->set(array(
 			'title_for_layout' => 'Schedule a Course',
-			'available_psrm' => $available_psrm
+			'available_srm' => $available_srm
 		));
 		$this->render('form');
 	}
@@ -219,11 +218,11 @@ class CoursesController extends AppController {
 		}
 
 		$instructor_id = $this->Course->field('user_id');
-		$this->loadModel('PrepaidReviewModule');
-		$available_psrm = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
+		$this->loadModel('StudentReviewModule');
+		$available_srm = $this->StudentReviewModule->getAvailableCount($instructor_id);
 		$max_participants_footnote = '';
 		$class_list_count = count($this->Course->getClassList($id));
-		$max_free_class_size = $this->Course->field('max_participants') + $available_psrm;
+		$max_free_class_size = $this->Course->field('max_participants') + $available_srm;
 		$waiting_list_count = count($this->Course->getWaitingList($id));
 		$original_cost = $this->Course->field('cost');
 
@@ -267,7 +266,7 @@ class CoursesController extends AppController {
 			'payments_received' => $this->Course->paymentsReceived($id)
 		));
 		$this->set(compact(
-			'available_psrm',
+			'available_srm',
 			'class_list_count',
 			'max_free_class_size',
 			'waiting_list_count'
@@ -578,9 +577,9 @@ class CoursesController extends AppController {
 
 			$this->Course->saveField('attendance_reported', true);
 			if ($course['Course']['cost'] == 0) {
-				$this->loadModel('PrepaidReviewModule');
-				$this->PrepaidReviewModule->assignToAttendingStudents($course_id);
-				$this->PrepaidReviewModule->releaseUnclaimedFromCourse($course_id);
+				$this->loadModel('StudentReviewModule');
+				$this->StudentReviewModule->assignToAttendingStudents($course_id);
+				$this->StudentReviewModule->releaseUnclaimedFromCourse($course_id);
 			}
 			$this->Flash->success('Attendance reported.');
 			$this->request->data = array();

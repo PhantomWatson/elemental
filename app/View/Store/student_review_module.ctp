@@ -6,7 +6,7 @@
 
 <?php if ($step == 'prep'): ?>
 
-	<?php echo $this->element('psrm_explanation'); ?>
+	<?php echo $this->element('srm_explanation'); ?>
 
 	<?php echo $this->Form->create('Purchase'); ?>
 
@@ -16,7 +16,7 @@
 		</legend>
 
 		<p>
-			How many Prepaid Student Review Modules would you like to purchase?
+			How many Student Review Modules would you like to purchase?
 		</p>
 		<?php
 			echo $this->Form->input(
@@ -37,7 +37,7 @@
 				Instructor
 			</legend>
 			<p>
-				Which instructor will be teaching the free course(s) that these Prepaid Student Review Modules will be applied to?
+				Which instructor will be teaching the free course(s) that these Student Review Modules will be applied to?
 			</p>
 
 			<?php if (empty($instructors)): ?>
@@ -68,7 +68,7 @@
 
 <?php elseif ($step == 'purchase'): ?>
 	<p>
-		Purchase <?php echo $quantity; ?> prepaid Student Review <?php echo __n('Module', 'Modules', $quantity); ?>
+		Purchase <?php echo $quantity; ?> Student Review <?php echo __n('Module', 'Modules', $quantity); ?>
 		for instructor <?php echo $instructor_name; ?>
 		at $<?php echo $cost; ?> each
 		for a <strong>total of $<?php echo $total; ?></strong>?

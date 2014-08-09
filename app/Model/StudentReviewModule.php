@@ -1,6 +1,6 @@
 <?php
 App::uses('AppModel', 'Model');
-class PrepaidReviewModule extends AppModel {
+class StudentReviewModule extends AppModel {
 	public $displayField = 'course_id';
 	public $validate = array(
 		'purchase_id' => array(
@@ -38,14 +38,14 @@ class PrepaidReviewModule extends AppModel {
 		$seller_identifier = Configure::read('google_waller_seller_id');
 		$seller_secret = Configure::read('google_wallet_seller_secret');
 
-		$purchase_name = 'Prepaid Elemental Student Review '.__n('Module', 'Modules', $quantity).' ('.$quantity.')';
+		$purchase_name = 'Elemental Student Review '.__n('Module', 'Modules', $quantity).' ('.$quantity.')';
 		App::import('Model', 'Product');
 		$ProductObj = new Product();
 		$product = $ProductObj->find(
 			'first',
 			array(
 				'conditions' => array(
-					'Product.name' => 'Prepaid Student Review Module'
+					'Product.name' => 'Student Review Module'
 				),
 				'contain' => false,
 				'fields' => array(
@@ -62,7 +62,7 @@ class PrepaidReviewModule extends AppModel {
 		// $payload parameters reference: https://developers.google.com/commerce/wallet/digital/docs/jsreference#jwt
 		App::import('Vendor', 'JWT');
 		$seller_data = array(
-			"type:prepaid_module",
+			"type:student_review_module",
 			"user_id:$user_id",
 			"instructor_id:$instructor_id",
 			"product_id:$product_id",
@@ -92,7 +92,7 @@ class PrepaidReviewModule extends AppModel {
 			'first',
 			array(
 				'conditions' => array(
-					'Product.name' => 'Prepaid Student Review Module'
+					'Product.name' => 'Student Review Module'
 				),
 				'contain' => false,
 				'fields' => array(
@@ -108,8 +108,8 @@ class PrepaidReviewModule extends AppModel {
 			'count',
 			array(
 				'conditions' => array(
-					'PrepaidReviewModule.instructor_id' => $instructor_id,
-					'PrepaidReviewModule.course_id' => null
+					'StudentReviewModule.instructor_id' => $instructor_id,
+					'StudentReviewModule.course_id' => null
 				)
 			)
 		);
@@ -118,14 +118,14 @@ class PrepaidReviewModule extends AppModel {
 	public function assignToCourse($instructor_id, $quantity, $course_id) {
 		$available_modules = $this->find('list', array(
 			'conditions' => array(
-				'PrepaidReviewModule.instructor_id' => $instructor_id,
-				'PrepaidReviewModule.course_id' => null
+				'StudentReviewModule.instructor_id' => $instructor_id,
+				'StudentReviewModule.course_id' => null
 			),
 			'limit' => $quantity
 		));
 
 		if (count($available_modules) < $quantity) {
-			throw new BadRequestException("Cannot assign $quantity Prepaid Student Review Modules, only $available_count are available");
+			throw new BadRequestException("Cannot assign $quantity Student Review Modules, only $available_count are available");
 		}
 
 		foreach ($available_modules as $module_id => $null) {
@@ -142,8 +142,8 @@ class PrepaidReviewModule extends AppModel {
 	public function releaseUnclaimedFromCourse($course_id, $quantity = null) {
 		$reserved_modules = $this->find('list', array(
 			'conditions' => array(
-				'PrepaidReviewModule.course_id' => $course_id,
-				'PrepaidReviewModule.student_id' => null
+				'StudentReviewModule.course_id' => $course_id,
+				'StudentReviewModule.student_id' => null
 			),
 			'limit' => $quantity
 		));
@@ -182,8 +182,8 @@ class PrepaidReviewModule extends AppModel {
 				'count',
 				array(
 					'conditions' => array(
-						'PrepaidReviewModule.course_id' => $course_id,
-						'PrepaidReviewModule.student_id' => $student_id
+						'StudentReviewModule.course_id' => $course_id,
+						'StudentReviewModule.student_id' => $student_id
 					)
 				)
 			);
@@ -195,8 +195,8 @@ class PrepaidReviewModule extends AppModel {
 				'list',
 				array(
 					'conditions' => array(
-						'PrepaidReviewModule.course_id' => $course_id,
-						'PrepaidReviewModule.student_id' => null
+						'StudentReviewModule.course_id' => $course_id,
+						'StudentReviewModule.student_id' => null
 					),
 					'limit' => 1
 				)
@@ -222,10 +222,10 @@ class PrepaidReviewModule extends AppModel {
 			'all',
 			array(
 				'conditions' => array(
-					'PrepaidReviewModule.instructor_id' => $instructor_id
+					'StudentReviewModule.instructor_id' => $instructor_id
 				),
 				'contain' => false,
-				'order' => 'PrepaidReviewModule.course_id DESC'
+				'order' => 'StudentReviewModule.course_id DESC'
 			)
 		);
 		App::import('Model', 'Course');
@@ -236,12 +236,12 @@ class PrepaidReviewModule extends AppModel {
 			'used' => array()
 		);
 		foreach ($modules as $module) {
-			$course_id = $module['PrepaidReviewModule']['course_id'];
+			$course_id = $module['StudentReviewModule']['course_id'];
 			if ($course_id == null) {
 				$retval['available']++;
 				continue;
 			}
-			$type = $module['PrepaidReviewModule']['student_id'] == null ? 'pending' : 'used';
+			$type = $module['StudentReviewModule']['student_id'] == null ? 'pending' : 'used';
 			if (isset($retval[$type][$course_id])) {
 				$retval[$type][$course_id]['count']++;
 			} else {
