@@ -112,6 +112,8 @@
 	Router::connect("/classroom_module/*", array('controller' => 'products', 'action' => 'route'));
 	Router::connect("/vizi/classroom_module/*", array('controller' => 'products', 'action' => 'route'));
 
+	Router::connect("/instructor/student_review_modules", array('instructor' => true, 'controller' => 'products', 'action' => 'student_review_modules'));
+
 	// Bios
 	Router::connect("/bio/edit", array('controller' => 'bios', 'action' => 'edit'));
 	Router::connect("/instructors", array('controller' => 'bios', 'action' => 'index'));
