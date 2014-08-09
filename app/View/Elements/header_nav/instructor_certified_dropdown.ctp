@@ -41,9 +41,9 @@
 			<?php echo $this->Html->link(
 				'Student Review Modules',
 				array(
+					'instructor' => true,
 					'controller' => 'products',
-					'action' => 'student_review_modules',
-					$this->params['prefix'] => false
+					'action' => 'student_review_modules'
 				)
 			); ?>
 		</li>

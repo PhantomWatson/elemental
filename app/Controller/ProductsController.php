@@ -8,7 +8,7 @@ class ProductsController extends AppController {
 		parent::beforeFilter();
 		$this->Auth->deny(array(
 			'classroom_module',
-			'student_review_modules'
+			'instructor_student_review_modules'
 		));
 	}
 
@@ -21,7 +21,7 @@ class ProductsController extends AppController {
 			case 'classroom_module':
 				if ($is_instructor) return true;
 				break;
-			case 'student_review_modules':
+			case 'instructor_student_review_modules':
 				if ($is_instructor) return true;
 				break;
 		}
@@ -151,7 +151,7 @@ class ProductsController extends AppController {
 		));
 	}
 
-	public function student_review_modules() {
+	public function instructor_student_review_modules() {
 		$user_id = $this->Auth->user('id');
 		$this->loadModel('StudentReviewModule');
 		$this->set(array(
