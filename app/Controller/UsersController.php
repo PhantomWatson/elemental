@@ -315,16 +315,23 @@ class UsersController extends AppController {
 
 	public function manage() {
 		$this->User->recursive = 0;
-		/* $this->Paginator->settings = array(
-			'User' => array(
-				'contain' => array(
-					'Role'
-				)
-			)
-		); */
+		if (isset($this->request->named['role'])) {
+			$role_id = $this->User->Role->getIdWithName($this->request->named['role']);
+			$this->User->bindModel(
+				array(
+					'hasOne' => array('RolesUser')
+				),
+				false
+			);
+			$this->paginate['conditions']['RolesUser.role_id'] = $role_id;
+			$this->paginate['contain'][] = 'RolesUser';
+			$users = $this->paginate();
+		} else {
+			$users = $this->paginate();
+		}
 		$this->set(array(
 			'title_for_layout' => 'Manage Users',
-			'users' => $this->paginate()
+			'users' => $users
 		));
 	}
 

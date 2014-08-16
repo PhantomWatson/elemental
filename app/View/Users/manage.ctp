@@ -4,6 +4,38 @@
 	</h1>
 </div>
 
+<?php
+	echo $this->Html->link(
+		'All Users',
+		array(
+			'controller' => 'users',
+			'action' => 'manage'
+		),
+		array(
+			'class' => 'btn btn-default'
+		)
+	);
+	$buttons = array(
+		'Students' => 'student',
+		'Instructors' => 'instructor',
+		'Trainees' => 'trainee',
+		'Administrators' => 'admin'
+	);
+	foreach ($buttons as $label => $role) {
+		echo $this->Html->link(
+			$label,
+			array(
+				'controller' => 'users',
+				'action' => 'manage',
+				'role' => $role
+			),
+			array(
+				'class' => 'btn btn-default'
+			)
+		);
+	}
+?>
+
 <?php if (empty($users)): ?>
 	<div class="alert alert-info">
 		No users were found.
