@@ -5,6 +5,7 @@
 </div>
 
 <?php
+	$selected_role = isset($this->request->named['role']) ? $this->request->named['role'] : null;
 	echo $this->Html->link(
 		'All Users',
 		array(
@@ -12,7 +13,7 @@
 			'action' => 'manage'
 		),
 		array(
-			'class' => 'btn btn-default'
+			'class' => 'btn btn-'.(! $selected_role ? 'primary' : 'default')
 		)
 	);
 	$buttons = array(
@@ -30,7 +31,7 @@
 				'role' => $role
 			),
 			array(
-				'class' => 'btn btn-default'
+				'class' => 'btn btn-'.($selected_role == $role ? 'primary' : 'default')
 			)
 		);
 	}
