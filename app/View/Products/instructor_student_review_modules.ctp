@@ -25,17 +25,18 @@
 	<tbody>
 		<tr>
 			<td>
-				<?php echo $report['available']; ?>
+				<?php echo $report['prepaid_available']; ?>
 			</td>
 			<td>
 				<strong>
-					Available
+					Prepaid
 				</strong>
+				and not assigned to students
 			</td>
 			<td>
 				<?php
 					$label = 'Purchase';
-					if ($report['available']) {
+					if ($report['prepaid_available']) {
 						$label .= ' more';
 					}
 					echo $this->Html->link(
@@ -51,75 +52,6 @@
 				?>
 			</td>
 		</tr>
-
-		<tr>
-			<td>
-				<?php
-					$total = 0;
-					foreach ($report['pending'] as $course_id => $course) {
-						$total += $course['count'];
-					}
-					echo $total;
-				?>
-			</td>
-			<td>
-				<strong>
-					Reserved
-				</strong>
-				for upcoming courses
-			</td>
-			<td>
-				<?php if ($report['available']): ?>
-					<?php echo $this->Html->link(
-						'Schedule a free course',
-						array(
-							'controller' => 'courses',
-							'action' => 'add'
-						),
-						array(
-							'class' => 'btn btn-default'
-						)
-					); ?>
-				<?php endif; ?>
-			</td>
-		</tr>
-
-		<?php foreach ($report['pending'] as $course_id => $course): ?>
-			<tr class="detail">
-				<td>
-				</td>
-				<td>
-					<?php echo $course['count']; ?>
-					reserved for course on
-					<?php echo $this->Html->link(
-						$course['start'],
-						array(
-							'controller' => 'courses',
-							'action' => 'view',
-							'id' => $course_id
-						)
-					); ?>
-					<?php if (strtotime($course['end']) < time() && ! $course['attendance_reported']): ?>
-						<span class="label label-danger">Attendance not reported</span>
-					<?php endif; ?>
-				</td>
-				<td>
-					<?php if (strtotime($course['end']) < time() && ! $course['attendance_reported']): ?>
-						<?php echo $this->Html->link(
-							'Report attendance',
-							array(
-								'controller' => 'courses',
-								'action' => 'report_attendance',
-								'id' => $course_id
-							),
-							array(
-								'class' => 'btn btn-default'
-							)
-						); ?>
-					<?php endif; ?>
-				</td>
-			</tr>
-		<?php endforeach; ?>
 
 		<tr>
 			<td>
@@ -161,5 +93,18 @@
 				</td>
 			</tr>
 		<?php endforeach; ?>
+
+		<tr>
+			<td>
+				<?php echo $report['unpaid']; ?>
+			</td>
+			<td>
+				<strong>
+					Awaiting Payment
+				</strong>
+			</td>
+			<td>
+			</td>
+		</tr>
 	</tbody>
 </table>

@@ -206,19 +206,27 @@ class StudentReviewModule extends AppModel {
 		App::import('Model', 'Course');
 		$Course = new Course();
 		$retval = array(
-			'available' => 0,
-			'pending' => array(),
+			'prepaid_available' => 0,
+			'unpaid' => 0,
 			'used' => array()
 		);
 		foreach ($modules as $module) {
-			$course_id = $module['StudentReviewModule']['course_id'];
-			if ($course_id == null) {
-				$retval['available']++;
+			// Unpaid
+			$paid = $module['StudentReviewModule']['purchase_id'] !== null;
+			if (! $paid) {
+				$retval['unpaid']++;
+			}
+
+			// Prepaid and available
+			if ($paid && ! $module['StudentReviewModule']['student_id']) {
+				$retval['prepaid_available']++;
 				continue;
 			}
-			$type = $module['StudentReviewModule']['student_id'] == null ? 'pending' : 'used';
-			if (isset($retval[$type][$course_id])) {
-				$retval[$type][$course_id]['count']++;
+
+			// Used
+			$course_id = $module['StudentReviewModule']['course_id'];
+			if (isset($retval['used'][$course_id])) {
+				$retval['used'][$course_id]['count']++;
 			} else {
 				$dates = $this->Course->CourseDate->find(
 					'list',
@@ -233,11 +241,10 @@ class StudentReviewModule extends AppModel {
 				$start = strtotime($start);
 				$end = end($dates);
 				$end = strtotime($end);
-				$retval[$type][$course_id] = array(
+				$retval['used'][$course_id] = array(
 					'count' => 1,
 					'start' => date('F j, Y', $start),
-					'end' => date('F j, Y', $end),
-					'attendance_reported' => $Course->attendanceIsReported($course_id)
+					'end' => date('F j, Y', $end)
 				);
 			}
 		}
