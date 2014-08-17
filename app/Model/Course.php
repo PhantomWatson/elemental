@@ -47,9 +47,6 @@ class Course extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
-			'usingStudentReviewModules' => array(
-				'rule' => array('validateFreeClassSize')
-			),
 			'notLessThanExistingClass' => array(
 				'rule' => array('validateEditedClassSize'),
 				'on' => 'update'
@@ -198,78 +195,6 @@ class Course extends AppModel {
 			return 'If a registration fee is charged for this course, it must be at least $20.';
 		}
 		return true;
-	}
-
-	public function validateFreeClassSize($check) {
-		$new_size = $check['max_participants'];
-		$free = $this->data['Course']['cost'] == 0;
-
-		// If course has a registration fee, any class size is allowed
-		if (! $free) {
-			return true;
-		}
-
-		App::uses('CakeSession', 'Model/Datasource');
-		$Session = new CakeSession();
-		$logged_in_user_id = $Session->read('Auth.User.id');
-
-		// If editing
-		if (isset($this->data['Course']['id'])) {
-			$course_id = $this->data['Course']['id'];
-
-			// In case an administrator is editing another instructor's course,
-			// pull original instructor ID from DB
-			$this->id = $course_id;
-			$instructor_id = $this->field('user_id');
-
-		// If adding
-		} else {
-			$course_id = null;
-			$instructor_id = $logged_in_user_id;
-		}
-
-		$available_modules = $this->StudentReviewModule->getAvailableCount($instructor_id);
-		$old_size = $this->field('max_participants');
-
-		// If editing
-		if ($course_id) {
-
-			// No validation needed if not increasing class size
-			if ($new_size <= $old_size) {
-				return true;
-			}
-
-			// Growth limited by available modules
-			$growth = $new_size - $old_size;
-			if ($growth <= $available_modules) {
-				return true;
-			}
-
-		// If adding
-		} elseif ($new_size <= $available_modules) {
-			return true;
-		}
-
-		// Not enough modules
-		$is_instructor = $instructor_id == $logged_in_user_id;
-		if ($available_modules) {
-			$message = $is_instructor
-				? 'You only have '
-				: 'This instructor only has ';
-			$message .= ' enough available Student Review Modules to ';
-			$limit = $old_size + $available_modules;
-			if ($course_id) {
-				$message .= 'increase this class size to '.$limit;
-			} else {
-				$message .= 'create a free course for '.$limit.' '.__n('student', 'students', $limit);
-			}
-		} else {
-			$message = $is_instructor
-				? 'You have '
-				: 'This instructor has ';
-			$message .= 'no available Student Review Modules';
-		}
-		return $message;
 	}
 
 	public function afterFind($results, $primary = false) {
