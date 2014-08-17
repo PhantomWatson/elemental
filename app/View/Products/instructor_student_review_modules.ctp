@@ -68,35 +68,34 @@
 					Assigned
 				</strong>
 				to students
+
+				<?php if (! empty($report['used'])): ?>
+					<a href="#" class="details_toggler btn btn-default btn-xs">
+						Details
+					</a>
+					<ul class="details">
+						<?php
+							foreach ($report['used'] as $course_id => $course) {
+								echo '<li>'.$course['count'].' assigned to ';
+								echo __n('a student', 'students', $course['count']);
+								echo ' of the course on ';
+								echo $this->Html->link(
+									$course['start'],
+									array(
+										'controller' => 'courses',
+										'action' => 'view',
+										'id' => $course_id
+									)
+								);
+								echo '</li>';
+							}
+						?>
+					</ul>
+				<?php endif; ?>
 			</td>
 			<td>
 			</td>
 		</tr>
-
-		<?php foreach ($report['used'] as $course_id => $course): ?>
-			<tr class="detail">
-				<td>
-				</td>
-				<td>
-					<?php
-						echo $course['count'];
-						echo ' assigned to ';
-						echo __n('a student', 'students', $course['count']);
-						echo ' of the course on ';
-						echo $this->Html->link(
-							$course['start'],
-							array(
-								'controller' => 'courses',
-								'action' => 'view',
-								'id' => $course_id
-							)
-						);
-					?>
-				</td>
-				<td>
-				</td>
-			</tr>
-		<?php endforeach; ?>
 
 		<?php
 			$unpaid_total = 0;
@@ -110,42 +109,41 @@
 			<tr>
 		<?php endif; ?>
 			<td>
-				<?php
-
-					echo $unpaid_total;
-				?>
+				<?php echo $unpaid_total; ?>
 			</td>
 			<td>
 				<strong>
 					Awaiting Payment
 				</strong>
+
+				<?php if (! empty($report['used'])): ?>
+					<a href="#" class="details_toggler btn btn-default btn-xs">
+						Details
+					</a>
+					<ul class="details">
+						<?php
+							foreach ($report['unpaid'] as $course_id => $course) {
+								echo '<li>'.$course['count'];
+								echo __n(' module', ' modules', $course['count']);
+								echo ' for the course on ';
+								echo $this->Html->link(
+									$course['start'],
+									array(
+										'controller' => 'courses',
+										'action' => 'view',
+										'id' => $course_id
+									)
+								);
+								echo '</li>';
+							}
+						?>
+					</ul>
+				<?php endif; ?>
 			</td>
 			<td>
 			</td>
 		</tr>
-
-		<?php foreach ($report['unpaid'] as $course_id => $course): ?>
-			<tr class="detail">
-				<td>
-				</td>
-				<td>
-					<?php
-						echo $course['count'];
-						echo __n(' module', ' modules', $course['count']);
-						echo ' for the course on ';
-						echo $this->Html->link(
-							$course['start'],
-							array(
-								'controller' => 'courses',
-								'action' => 'view',
-								'id' => $course_id
-							)
-						);
-					?>
-				</td>
-				<td>
-				</td>
-			</tr>
-		<?php endforeach; ?>
 	</tbody>
 </table>
+
+<?php $this->Js->buffer("srm_overview.init();"); ?>

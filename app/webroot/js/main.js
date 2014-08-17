@@ -260,3 +260,12 @@ var adminUserEditForm = {
 		}
 	}
 };
+
+var srm_overview = {
+	init: function () {
+		$('a.details_toggler').click(function (event) {
+			event.preventDefault();
+			$(this).next('.details').slideToggle();
+		});
+	}
+};
