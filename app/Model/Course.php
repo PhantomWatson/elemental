@@ -158,31 +158,13 @@ class Course extends AppModel {
 		return true;
 	}
 
-	public function afterDelete() {
-		$course_id = $this->id;
-		$this->StudentReviewModule->releaseUnclaimedFromCourse($course_id);
-	}
-
 	/**
 	 * Handles when a free class size changes and either more
 	 * PRMs need to be reserved for this course or reserved
 	 * PRMs need to be put back into the 'available' pool
 	 */
 	public function adjustReservedStudentReviewModules() {
-		$this->id = $this->data['Course']['id'];
-		$new_size = $this->data['Course']['max_participants'];
-		$old_size = $this->field('max_participants');
-		$growth = $new_size - $old_size;
 
-		// If growing
-		if ($growth > 0) {
-
-
-		// If shrinking
-		} elseif ($growth < 0) {
-			$shrinkage = -1 * $growth; // I WAS IN THE POOL
-			$this->StudentReviewModule->releaseUnclaimedFromCourse($this->id, $shrinkage);
-		}
 	}
 
 	public function beforeValidate($options = array()) {

@@ -115,26 +115,6 @@ class StudentReviewModule extends AppModel {
 		);
 	}
 
-	/**
-	 * Moves modules reserved for this course but not claimed by a student into the 'available' pool
-	 * @param int $course_id
-	 * @param int $quantity If unspecified, applies to all such modules
-	 */
-	public function releaseUnclaimedFromCourse($course_id, $quantity = null) {
-		$reserved_modules = $this->find('list', array(
-			'conditions' => array(
-				'StudentReviewModule.course_id' => $course_id,
-				'StudentReviewModule.student_id' => null
-			),
-			'limit' => $quantity
-		));
-
-		foreach ($reserved_modules as $module_id => $course_id) {
-			$this->id = $module_id;
-			$this->saveField('course_id', null);
-		}
-	}
-
 	public function assignToAttendingStudents($course_id) {
 		// Abort if this is not a free course
 		$this->Course->id = $course_id;
