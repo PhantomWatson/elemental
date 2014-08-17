@@ -153,14 +153,6 @@ class CoursesController extends AppController {
 			));
 		}
 
-		$this->loadModel('StudentReviewModule');
-		$available_srm = $this->StudentReviewModule->getAvailableCount($instructor_id);
-
-		// Force non-free class if free is not possible
-		if (! $available_srm) {
-			$this->request->data['Course']['free'] = false;
-		}
-
 		if ($this->request->is('post')) {
 			$this->Course->create();
 			$this->request->data['Course']['user_id'] = $instructor_id;
@@ -199,8 +191,7 @@ class CoursesController extends AppController {
 		}
 
 		$this->set(array(
-			'title_for_layout' => 'Schedule a Course',
-			'available_srm' => $available_srm
+			'title_for_layout' => 'Schedule a Course'
 		));
 		$this->render('form');
 	}

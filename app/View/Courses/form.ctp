@@ -1,6 +1,5 @@
 <?php
 	$this->Js->buffer("courseAddForm.setup({
-		available_srm: $available_srm,
 		action: '".$this->request->action."'
 	});");
 	function dateTimeInput($view, $key = 0, $course_date = null, $is_dummy_input = false) {
@@ -99,34 +98,7 @@
 </div>
 
 <div class="courses form">
-	<?php
-		echo $this->Form->create('Course', array('id' => 'course_form'));
-
-		// Create note about available SRMs (which will be used in multiple places in this file)
-		$available_srm_note = '';
-		if ($available_srm) {
-			$available_srm_note .= '<span class="label label-success">'.$available_srm.'</span>';
-		} else {
-			$available_srm_note .= '<span class="label label-danger">0</span>';
-		}
-		$available_srm_note .= ' <span class="after_label">';
-		if ($this->request->action == 'edit') {
-			$available_srm_note .= 'more ';
-		}
-		$available_srm_note .= 'student review '.__n('module is', 'modules are', $available_srm).' available. ';
-		$available_srm_note .= $this->Html->link(
-			'Get more <span class="glyphicon glyphicon-new-window"></span>',
-			array(
-				'controller' => 'store',
-				'action' => 'student_review_module'
-			),
-			array(
-				'escape' => false,
-				'target' => '_blank'
-			)
-		);
-		$available_srm_note .= '</span>';
-	?>
+	<?php echo $this->Form->create('Course', array('id' => 'course_form')); ?>
 
 	<fieldset>
 		<legend>
@@ -140,21 +112,8 @@
 				<input name="data[Course][free]" id="CourseFree_" value="" type="hidden">
 				<div class="radio">
 					<label for="CourseFree1">
-						<?php
-							$attributes = '';
-							if ($available_srm) {
-								if ($this->data['Course']['free']) {
-									$attributes .= 'checked="checked" ';
-								}
-							} else {
-								$attributes .= 'disabled="disabled" ';
-							}
-						?>
-						<input name="data[Course][free]" id="CourseFree1" value="1" type="radio" <?php echo $attributes; ?> />
+						<input name="data[Course][free]" id="CourseFree1" value="1" type="radio" <?php echo $this->data['Course']['free'] ? 'checked="checked" ' : ''; ?> />
 						Free course
-						<div>
-							<?php echo $available_srm_note; ?>
-						</div>
 					</label>
 				</div>
 				<div class="radio">
@@ -226,7 +185,6 @@
 					$class_size_footnotes .= '<br /><span class="label label-info">Note</span> There '.__n('is 1 participant', "are $waiting_list_count participants", $waiting_list_count).' on the waiting list who will be automatically moved into the course if the participant limit is increased. ';
 				}
 				if ($this->data['Course']['free']) {
-					$class_size_footnotes .= '<br />'.$available_srm_note;
 					$max_class_size = $max_free_class_size;
 				}
 			}
