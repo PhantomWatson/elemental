@@ -138,7 +138,26 @@ class StudentReviewModule extends AppModel {
 				)
 			)
 		);
+
+		App::uses('CakeSession', 'Model/Datasource');
+		$instructor_id = CakeSession::read("Auth.User.id");
+		if (! $instructor_id) {
+			throw new InternalErrorException('Error: Instructor ID could not be retrieved.');
+		}
+
+		$available_paid_modules = $this->find(
+			'list',
+			array(
+				'conditions' => array(
+					'StudentReviewModule.instructor_id' => $instructor_id,
+					'StudentReviewModule.student_id' => null,
+					'StudentReviewModule.purchase_id NOT' => null,
+				)
+			)
+		);
+
 		foreach ($attending_students as $reg_id => $student_id) {
+			// Skip if this student has already been assigned a SRM
 			$already_assigned = $this->find(
 				'count',
 				array(
@@ -152,29 +171,24 @@ class StudentReviewModule extends AppModel {
 				continue;
 			}
 
-			$available_module = $this->find(
-				'list',
-				array(
-					'conditions' => array(
-						'StudentReviewModule.course_id' => $course_id,
-						'StudentReviewModule.student_id' => null
-					),
-					'limit' => 1
-				)
-			);
-			if (empty($available_module)) {
-				/* Ruh roh. The instructor somehow managed to have more students
-				 * registered and attended than was allowed in this free class.
-				 * Students will have access to the review module regardless,
-				 * since their access is determined by whether or not they attended
-				 * a class or personally purchased the module in the past year.
-				 * An automatic email to an administrator right here might be the only
-				 * practical course of action. */
-				continue;
+			// Create a unpaid module if no paid modules are available
+			if (empty($available_paid_modules)) {
+				$this->create(compact(
+					'instructor_id',
+					'course_id',
+					'student_id'
+				));
+				if (! $this->save()) {
+					throw new InternalErrorException('Error assigning student review module to student');
+				}
+			} else {
+				$module_ids = array_keys($available_paid_modules);
+				$module_id = end($module_ids);
+				$this->id = $module_id;
+				$this->saveField('student_id', $student_id);
+				$this->saveField('course_id', $course_id);
+				array_pop($available_paid_modules);
 			}
-			$module_ids = array_keys($available_module);
-			$this->id = $module_ids[0];
-			$this->saveField('student_id', $student_id);
 		}
 	}
 
