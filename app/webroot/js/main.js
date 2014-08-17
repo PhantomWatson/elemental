@@ -41,11 +41,9 @@ function setupTestimonialExcerpt() {
 }
 
 var courseAddForm = {
-	available_srm: 0,
 	action: null,
 		
 	setup: function (params) {
-		this.available_srm = params.available_srm;
 		this.action = params.action;
 		
 		$('#scheduling_help_toggler').click(function(event) {
@@ -125,13 +123,6 @@ var courseAddForm = {
 				}
 			}
 			
-			if (this.action == 'add') {
-				class_size.attr('max', this.available_srm);
-				if (class_size.val() > this.available_srm) {
-					class_size.val(this.available_srm);
-				}
-			}
-			
 		// Fee
 		} else {
 			cost_fields.prop('required', true);
@@ -142,8 +133,6 @@ var courseAddForm = {
 					cost_fields_container.show();
 				}
 			}
-			
-			class_size.attr('max', '');
 		}
 	}
 };
