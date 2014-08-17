@@ -1,5 +1,5 @@
 <p>
-	For instructors to be able to create courses with no student registration fees, they must first have Elemental Student Review Modules for every student.
+	When instructors create courses with no student registration fees, they must cover the cost of Elemental Student Review Modules for every attending student.
 </p>
 
 <ul>
@@ -8,8 +8,23 @@
 		$<?php echo $cost; ?> each
 	</li>
 	<li>
-		<strong>Ownership:</strong>
-		Elemental Student Review Modules are each owned by a specific instructor who can use them to create free courses. If you need to transfer ownership to a different instructor, please
+		<strong>Access:</strong>
+		Just like with paid courses, each student will be granted one year of access to their Student Review Module upon completing an Elemental
+		course and having their attendance reported by an instructor. Afterward, they can choose to purchase another year of access.
+	</li>
+	<li>
+		<strong>Pre-paying:</strong>
+		Elemental Student Review Modules can be purchased in advance. When attendance is reported for a free course, modules owned by the course's
+		instructor are automatically assigned to students.
+	</li>
+	<li>
+		<strong>Post-paying:</strong>
+		If attendance is reported for a free course and there are not enough pre-paid Student Review Modules to assign to all attending students,
+		unpaid modules will be created as necessary, which will need to be paid for by the course's instructor.
+	</li>
+	<li>
+		<strong>Transferring:</strong>
+		If you need pre-paid Student Review Modules to be transferred from one instructor to another, please
 		<?php echo $this->Html->link(
 			'contact us',
 			array(
@@ -17,13 +32,5 @@
 				'action' => 'contact'
 			)
 		); ?>.
-	</li>
-	<li>
-		<strong>Access:</strong>
-		Just like with paid courses, each student will be granted one year of access to the Student Review Module upon completing an Elemental course and having their attendance reported by an instructor.
-	</li>
-	<li>
-		<strong>Recycling:</strong>
-		If any Student Review Modules are designated for a course and then not assigned to any students (because a class didn't reach full capacity or students failed to attend), they will then be available to use in other free courses once attendance is reported.
 	</li>
 </ul>
