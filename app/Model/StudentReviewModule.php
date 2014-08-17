@@ -115,25 +115,6 @@ class StudentReviewModule extends AppModel {
 		);
 	}
 
-	public function assignToCourse($instructor_id, $quantity, $course_id) {
-		$available_modules = $this->find('list', array(
-			'conditions' => array(
-				'StudentReviewModule.instructor_id' => $instructor_id,
-				'StudentReviewModule.course_id' => null
-			),
-			'limit' => $quantity
-		));
-
-		if (count($available_modules) < $quantity) {
-			throw new BadRequestException("Cannot assign $quantity Student Review Modules, only $available_count are available");
-		}
-
-		foreach ($available_modules as $module_id => $null) {
-			$this->id = $module_id;
-			$this->saveField('course_id', $course_id);
-		}
-	}
-
 	/**
 	 * Moves modules reserved for this course but not claimed by a student into the 'available' pool
 	 * @param int $course_id

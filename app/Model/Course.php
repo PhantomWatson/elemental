@@ -158,16 +158,6 @@ class Course extends AppModel {
 		return true;
 	}
 
-	public function afterSave($created, $options = array()) {
-		// If adding a free course, reserve PRMs
-		if ($created && $this->data['Course']['cost'] == 0) {
-			$instructor_id = $this->data['Course']['user_id'];
-			$quantity = $this->data['Course']['max_participants'];
-			$course_id = $this->id;
-			$this->StudentReviewModule->assignToCourse($instructor_id, $quantity, $course_id);
-		}
-	}
-
 	public function afterDelete() {
 		$course_id = $this->id;
 		$this->StudentReviewModule->releaseUnclaimedFromCourse($course_id);
@@ -186,8 +176,7 @@ class Course extends AppModel {
 
 		// If growing
 		if ($growth > 0) {
-			$instructor_id = $this->field('user_id');
-			$this->StudentReviewModule->assignToCourse($instructor_id, $growth, $this->id);
+
 
 		// If shrinking
 		} elseif ($growth < 0) {
