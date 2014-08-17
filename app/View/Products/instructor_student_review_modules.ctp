@@ -98,14 +98,21 @@
 			</tr>
 		<?php endforeach; ?>
 
-		<tr>
+		<?php
+			$unpaid_total = 0;
+			foreach ($report['unpaid'] as $course_id => $course) {
+				$unpaid_total += $course['count'];
+			}
+		?>
+		<?php if ($unpaid_total): ?>
+			<tr class="unpaid">
+		<?php else: ?>
+			<tr>
+		<?php endif; ?>
 			<td>
 				<?php
-					$total = 0;
-					foreach ($report['unpaid'] as $course_id => $course) {
-						$total += $course['count'];
-					}
-					echo $total;
+
+					echo $unpaid_total;
 				?>
 			</td>
 			<td>
