@@ -150,21 +150,7 @@ class Course extends AppModel {
 			$this->data['Course']['begins'] = $start_date;
 		}
 
-		// If editing a free course, handle growing/shrinking of free classes
-		if (isset($this->data['Course']['max_participants']) && $this->data['Course']['cost'] == 0 && isset($this->data['Course']['id'])) {
-			$this->adjustReservedStudentReviewModules();
-		}
-
 		return true;
-	}
-
-	/**
-	 * Handles when a free class size changes and either more
-	 * PRMs need to be reserved for this course or reserved
-	 * PRMs need to be put back into the 'available' pool
-	 */
-	public function adjustReservedStudentReviewModules() {
-
 	}
 
 	public function beforeValidate($options = array()) {
