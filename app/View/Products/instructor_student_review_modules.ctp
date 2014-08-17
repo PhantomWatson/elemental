@@ -78,16 +78,20 @@
 				<td>
 				</td>
 				<td>
-					<?php echo $course['count']; ?>
-					assigned to students of the course on
-					<?php echo $this->Html->link(
-						$course['start'],
-						array(
-							'controller' => 'courses',
-							'action' => 'view',
-							'id' => $course_id
-						)
-					); ?>
+					<?php
+						echo $course['count'];
+						echo ' assigned to ';
+						echo __n('a student', 'students', $course['count']);
+						echo ' of the course on ';
+						echo $this->Html->link(
+							$course['start'],
+							array(
+								'controller' => 'courses',
+								'action' => 'view',
+								'id' => $course_id
+							)
+						);
+					?>
 				</td>
 				<td>
 				</td>
@@ -96,7 +100,13 @@
 
 		<tr>
 			<td>
-				<?php echo $report['unpaid']; ?>
+				<?php
+					$total = 0;
+					foreach ($report['unpaid'] as $course_id => $course) {
+						$total += $course['count'];
+					}
+					echo $total;
+				?>
 			</td>
 			<td>
 				<strong>
@@ -106,5 +116,29 @@
 			<td>
 			</td>
 		</tr>
+
+		<?php foreach ($report['unpaid'] as $course_id => $course): ?>
+			<tr class="detail">
+				<td>
+				</td>
+				<td>
+					<?php
+						echo $course['count'];
+						echo __n(' module', ' modules', $course['count']);
+						echo ' for the course on ';
+						echo $this->Html->link(
+							$course['start'],
+							array(
+								'controller' => 'courses',
+								'action' => 'view',
+								'id' => $course_id
+							)
+						);
+					?>
+				</td>
+				<td>
+				</td>
+			</tr>
+		<?php endforeach; ?>
 	</tbody>
 </table>

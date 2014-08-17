@@ -207,45 +207,51 @@ class StudentReviewModule extends AppModel {
 		$Course = new Course();
 		$retval = array(
 			'prepaid_available' => 0,
-			'unpaid' => 0,
+			'unpaid' => array(),
 			'used' => array()
 		);
 		foreach ($modules as $module) {
-			// Unpaid
-			$paid = $module['StudentReviewModule']['purchase_id'] !== null;
-			if (! $paid) {
-				$retval['unpaid']++;
-			}
+			$paid = $module['StudentReviewModule']['purchase_id'] != null;
+			$assigned = $module['StudentReviewModule']['student_id'] != null;
 
 			// Prepaid and available
-			if ($paid && ! $module['StudentReviewModule']['student_id']) {
+			if ($paid && ! $assigned) {
 				$retval['prepaid_available']++;
 				continue;
 			}
 
 			// Used
 			$course_id = $module['StudentReviewModule']['course_id'];
-			if (isset($retval['used'][$course_id])) {
-				$retval['used'][$course_id]['count']++;
-			} else {
-				$dates = $this->Course->CourseDate->find(
-					'list',
-					array(
-						'conditions' => array(
-							'CourseDate.course_id' => $course_id
-						),
-						'order' => 'CourseDate.date ASC'
-					)
-				);
-				$start = reset($dates);
-				$start = strtotime($start);
-				$end = end($dates);
-				$end = strtotime($end);
-				$retval['used'][$course_id] = array(
-					'count' => 1,
-					'start' => date('F j, Y', $start),
-					'end' => date('F j, Y', $end)
-				);
+			foreach (array('unpaid', 'used') as $type) {
+				if ($type == 'unpaid' && $paid) {
+					continue;
+				}
+				if ($type == 'used' && ! $assigned) {
+					continue;
+				}
+
+				if (isset($retval[$type][$course_id])) {
+					$retval[$type][$course_id]['count']++;
+				} else {
+					$dates = $this->Course->CourseDate->find(
+						'list',
+						array(
+							'conditions' => array(
+								'CourseDate.course_id' => $course_id
+							),
+							'order' => 'CourseDate.date ASC'
+						)
+					);
+					$start = reset($dates);
+					$start = strtotime($start);
+					$end = end($dates);
+					$end = strtotime($end);
+					$retval[$type][$course_id] = array(
+						'count' => 1,
+						'start' => date('F j, Y', $start),
+						'end' => date('F j, Y', $end)
+					);
+				}
 			}
 		}
 		return $retval;
