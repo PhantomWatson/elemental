@@ -8,7 +8,7 @@ class ProductsController extends AppController {
 		parent::beforeFilter();
 		$this->Auth->deny(array(
 			'classroom_module',
-			'prepaid_review_modules'
+			'instructor_student_review_modules'
 		));
 	}
 
@@ -21,11 +21,8 @@ class ProductsController extends AppController {
 			case 'classroom_module':
 				if ($is_instructor) return true;
 				break;
-			case 'prepaid_review_modules':
+			case 'instructor_student_review_modules':
 				if ($is_instructor) return true;
-				break;
-			default:
-				return true;
 				break;
 		}
 
@@ -33,16 +30,16 @@ class ProductsController extends AppController {
 		return parent::isAuthorized($user);
 	}
 
-	public function review_materials() {
+	public function student_review() {
 		/* A trailing slash is required for /app/webroot/.htaccess to
-		 * correctly route the Vizi Player's (/app/webroot/vizi/review_materials/vizi.swf)
-		 * requests for files stored in /app/webroot/vizi/review_materials */
-		if ($this->request->url == 'review_materials') {
-			$this->redirect('/review_materials/');
+		 * correctly route the Vizi Player's (/app/webroot/vizi/student_review/vizi.swf)
+		 * requests for files stored in /app/webroot/vizi/student_review */
+		if ($this->request->url == 'student_review') {
+			$this->redirect('/student_review/');
 		}
 
 		$logged_in = $this->Auth->loggedIn();
-		$product = $this->Product->getReviewMaterials();
+		$product = $this->Product->getReviewModuleRenewal();
 		$this->set(array(
 			'title_for_layout' => 'Student Review Materials',
 			'logged_in' => $logged_in,
@@ -54,10 +51,10 @@ class ProductsController extends AppController {
 			$this->loadModel('User');
 			$user_attended = $this->User->hasAttendedCourse($user_id);
 			$can_access = $this->User->canAccessReviewMaterials($user_id);
-			$expiration = $this->User->getReviewMaterialsAccessExpiration($user_id);
+			$expiration = $this->User->getReviewModuleAccessExpiration($user_id);
 
 			if ($user_attended && ! $can_access) {
-				$this->set('jwt', $this->Product->getReviewModuleJWT($user_id));
+				$this->set('jwt', $this->Product->getReviewModuleRenewalJWT($user_id));
 			}
 
 			$this->set(compact(
@@ -90,8 +87,8 @@ class ProductsController extends AppController {
 			$path_split = explode('/', $url);
 			$product = reset($path_split);
 			switch ($product) {
-				case 'review_materials':
-					$product_id = $this->Product->getReviewMaterialsId();
+				case 'student_review':
+					$product_id = $this->Product->getReviewModuleRenewalId();
 					break;
 			}
 
@@ -102,7 +99,7 @@ class ProductsController extends AppController {
 				case 'instructor_training':
 					$can_access = $this->User->canAccessInstructorTraining($user_id);
 					break;
-				case 'review_materials':
+				case 'student_review':
 					$can_access = $this->User->hasPurchased($user_id, $product_id);
 					break;
 				case 'classroom_module':
@@ -154,13 +151,13 @@ class ProductsController extends AppController {
 		));
 	}
 
-	public function prepaid_review_modules() {
+	public function instructor_student_review_modules() {
 		$user_id = $this->Auth->user('id');
-		$this->loadModel('PrepaidReviewModule');
+		$this->loadModel('StudentReviewModule');
 		$this->set(array(
-			'title_for_layout' => 'Prepaid Student Review Modules',
-			'cost' => $this->PrepaidReviewModule->getCost(),
-			'report' => $this->PrepaidReviewModule->getReport($user_id)
+			'title_for_layout' => 'Student Review Modules',
+			'cost' => $this->StudentReviewModule->getCost(),
+			'report' => $this->StudentReviewModule->getReport($user_id)
 		));
 	}
 

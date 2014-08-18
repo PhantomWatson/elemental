@@ -47,9 +47,6 @@ class Course extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
-			'usingPrepaidReviewModules' => array(
-				'rule' => array('validateFreeClassSize')
-			),
 			'notLessThanExistingClass' => array(
 				'rule' => array('validateEditedClassSize'),
 				'on' => 'update'
@@ -127,8 +124,8 @@ class Course extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'PrepaidReviewModule' => array(
-			'className' => 'PrepaidReviewModule',
+		'StudentReviewModule' => array(
+			'className' => 'StudentReviewModule',
 			'foreignKey' => 'course_id',
 			'dependent' => false
 		)
@@ -150,50 +147,7 @@ class Course extends AppModel {
 			$this->data['Course']['begins'] = $start_date;
 		}
 
-		// If editing a free course, handle growing/shrinking of free classes
-		if (isset($this->data['Course']['max_participants']) && $this->data['Course']['cost'] == 0 && isset($this->data['Course']['id'])) {
-			$this->adjustReservedPrepaidReviewModules();
-		}
-
 		return true;
-	}
-
-	public function afterSave($created, $options = array()) {
-		// If adding a free course, reserve PRMs
-		if ($created && $this->data['Course']['cost'] == 0) {
-			$instructor_id = $this->data['Course']['user_id'];
-			$quantity = $this->data['Course']['max_participants'];
-			$course_id = $this->id;
-			$this->PrepaidReviewModule->assignToCourse($instructor_id, $quantity, $course_id);
-		}
-	}
-
-	public function afterDelete() {
-		$course_id = $this->id;
-		$this->PrepaidReviewModule->releaseUnclaimedFromCourse($course_id);
-	}
-
-	/**
-	 * Handles when a free class size changes and either more
-	 * PRMs need to be reserved for this course or reserved
-	 * PRMs need to be put back into the 'available' pool
-	 */
-	public function adjustReservedPrepaidReviewModules() {
-		$this->id = $this->data['Course']['id'];
-		$new_size = $this->data['Course']['max_participants'];
-		$old_size = $this->field('max_participants');
-		$growth = $new_size - $old_size;
-
-		// If growing
-		if ($growth > 0) {
-			$instructor_id = $this->field('user_id');
-			$this->PrepaidReviewModule->assignToCourse($instructor_id, $growth, $this->id);
-
-		// If shrinking
-		} elseif ($growth < 0) {
-			$shrinkage = -1 * $growth; // I WAS IN THE POOL
-			$this->PrepaidReviewModule->releaseUnclaimedFromCourse($this->id, $shrinkage);
-		}
 	}
 
 	public function beforeValidate($options = array()) {
@@ -241,78 +195,6 @@ class Course extends AppModel {
 			return 'If a registration fee is charged for this course, it must be at least $20.';
 		}
 		return true;
-	}
-
-	public function validateFreeClassSize($check) {
-		$new_size = $check['max_participants'];
-		$free = $this->data['Course']['cost'] == 0;
-
-		// If course has a registration fee, any class size is allowed
-		if (! $free) {
-			return true;
-		}
-
-		App::uses('CakeSession', 'Model/Datasource');
-		$Session = new CakeSession();
-		$logged_in_user_id = $Session->read('Auth.User.id');
-
-		// If editing
-		if (isset($this->data['Course']['id'])) {
-			$course_id = $this->data['Course']['id'];
-
-			// In case an administrator is editing another instructor's course,
-			// pull original instructor ID from DB
-			$this->id = $course_id;
-			$instructor_id = $this->field('user_id');
-
-		// If adding
-		} else {
-			$course_id = null;
-			$instructor_id = $logged_in_user_id;
-		}
-
-		$available_modules = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
-		$old_size = $this->field('max_participants');
-
-		// If editing
-		if ($course_id) {
-
-			// No validation needed if not increasing class size
-			if ($new_size <= $old_size) {
-				return true;
-			}
-
-			// Growth limited by available modules
-			$growth = $new_size - $old_size;
-			if ($growth <= $available_modules) {
-				return true;
-			}
-
-		// If adding
-		} elseif ($new_size <= $available_modules) {
-			return true;
-		}
-
-		// Not enough prepaid modules
-		$is_instructor = $instructor_id == $logged_in_user_id;
-		if ($available_modules) {
-			$message = $is_instructor
-				? 'You only have '
-				: 'This instructor only has ';
-			$message .= ' enough available Prepaid Review Modules to ';
-			$limit = $old_size + $available_modules;
-			if ($course_id) {
-				$message .= 'increase this class size to '.$limit;
-			} else {
-				$message .= 'create a free course for '.$limit.' '.__n('student', 'students', $limit);
-			}
-		} else {
-			$message = $is_instructor
-				? 'You have '
-				: 'This instructor has ';
-			$message .= 'no available Prepaid Review Modules';
-		}
-		return $message;
 	}
 
 	public function afterFind($results, $primary = false) {

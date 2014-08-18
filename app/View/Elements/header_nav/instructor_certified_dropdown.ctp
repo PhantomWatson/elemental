@@ -39,11 +39,11 @@
 		</li>
 		<li>
 			<?php echo $this->Html->link(
-				'Prepaid Review Modules',
+				'Student Review Modules',
 				array(
+					'instructor' => true,
 					'controller' => 'products',
-					'action' => 'prepaid_review_modules',
-					$this->params['prefix'] => false
+					'action' => 'student_review_modules'
 				)
 			); ?>
 		</li>
@@ -52,6 +52,16 @@
 
 		<li class="dropdown-header">
 			Other
+		</li>
+		<li>
+			<?php echo $this->Html->link(
+				'Update Instructor Bio',
+				array(
+					'controller' => 'bios',
+					'action' => 'edit',
+					$this->params['prefix'] => false
+				)
+			); ?>
 		</li>
 		<li>
 			<?php echo $this->Html->link(

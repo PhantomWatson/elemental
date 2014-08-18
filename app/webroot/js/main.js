@@ -41,11 +41,9 @@ function setupTestimonialExcerpt() {
 }
 
 var courseAddForm = {
-	available_psrm: 0,
 	action: null,
 		
 	setup: function (params) {
-		this.available_psrm = params.available_psrm;
 		this.action = params.action;
 		
 		$('#scheduling_help_toggler').click(function(event) {
@@ -125,13 +123,6 @@ var courseAddForm = {
 				}
 			}
 			
-			if (this.action == 'add') {
-				class_size.attr('max', this.available_psrm);
-				if (class_size.val() > this.available_psrm) {
-					class_size.val(this.available_psrm);
-				}
-			}
-			
 		// Fee
 		} else {
 			cost_fields.prop('required', true);
@@ -142,8 +133,6 @@ var courseAddForm = {
 					cost_fields_container.show();
 				}
 			}
-			
-			class_size.attr('max', '');
 		}
 	}
 };
@@ -245,5 +234,38 @@ var releaseForm = {
 			this.guardian_fields.slideUp();
 		}
 		this.guardian_fields.find('input').prop('required', false);
+	}
+};
+
+var adminUserEditForm = {
+	init: function () {
+		$('#RoleRole2').change(function () {
+			adminUserEditForm.toggleInstructor(true);
+		});
+		this.toggleInstructor(false);
+	},
+	toggleInstructor: function (animate) {
+		if ($('#RoleRole2').is(':checked')) {
+			if (animate) {
+				$('#bio_fields_container').slideDown();
+			} else {
+				$('#bio_fields_container').show();
+			}
+		} else {
+			if (animate) {
+				$('#bio_fields_container').slideUp();
+			} else {
+				$('#bio_fields_container').hide();
+			}
+		}
+	}
+};
+
+var srm_overview = {
+	init: function () {
+		$('a.details_toggler').click(function (event) {
+			event.preventDefault();
+			$(this).next('.details').slideToggle();
+		});
 	}
 };

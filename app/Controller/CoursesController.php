@@ -15,7 +15,8 @@ class CoursesController extends AppController {
 			'delete',
 			'manage',
 			'students',
-			'report_attendance'
+			'report_attendance',
+			'resend_reg_email'
 		);
 		/* The 'register' action is also restricted to
 		 * logged-in users, but the error message and redirect
@@ -152,14 +153,6 @@ class CoursesController extends AppController {
 			));
 		}
 
-		$this->loadModel('PrepaidReviewModule');
-		$available_psrm = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
-
-		// Force non-free class if free is not possible
-		if (! $available_psrm) {
-			$this->request->data['Course']['free'] = false;
-		}
-
 		if ($this->request->is('post')) {
 			$this->Course->create();
 			$this->request->data['Course']['user_id'] = $instructor_id;
@@ -173,7 +166,7 @@ class CoursesController extends AppController {
 				// Set 'free' back to true if the user (for some dumb reason) selects "registration fee" and sets the cost to zero
 				$dollars = intval($this->request->data['Course']['cost_dollars']);
 				$cents = intval($this->request->data['Course']['cost_cents']);
-				if ($dollars == 0 && $cents == 0 && $available_psrm) {
+				if ($dollars == 0 && $cents == 0 && $available_srm) {
 					$this->request->data['Course']['free'] = true;
 				}
 			}
@@ -197,10 +190,8 @@ class CoursesController extends AppController {
 			$this->request->data['Course']['cost_cents'] = '00';
 		}
 
-		$this->loadModel('PrepaidReviewModule');
 		$this->set(array(
-			'title_for_layout' => 'Schedule a Course',
-			'available_psrm' => $available_psrm
+			'title_for_layout' => 'Schedule a Course'
 		));
 		$this->render('form');
 	}
@@ -218,11 +209,11 @@ class CoursesController extends AppController {
 		}
 
 		$instructor_id = $this->Course->field('user_id');
-		$this->loadModel('PrepaidReviewModule');
-		$available_psrm = $this->PrepaidReviewModule->getAvailableCount($instructor_id);
+		$this->loadModel('StudentReviewModule');
+		$available_srm = $this->StudentReviewModule->getAvailableCount($instructor_id);
 		$max_participants_footnote = '';
 		$class_list_count = count($this->Course->getClassList($id));
-		$max_free_class_size = $this->Course->field('max_participants') + $available_psrm;
+		$max_free_class_size = $this->Course->field('max_participants') + $available_srm;
 		$waiting_list_count = count($this->Course->getWaitingList($id));
 		$original_cost = $this->Course->field('cost');
 
@@ -266,7 +257,7 @@ class CoursesController extends AppController {
 			'payments_received' => $this->Course->paymentsReceived($id)
 		));
 		$this->set(compact(
-			'available_psrm',
+			'available_srm',
 			'class_list_count',
 			'max_free_class_size',
 			'waiting_list_count'
@@ -569,7 +560,7 @@ class CoursesController extends AppController {
 					$this->CourseRegistration->id = $reg_id;
 					$this->CourseRegistration->saveField('attended', 1);
 					$user_id = $this->CourseRegistration->field('user_id');
-					$cache_key = "getReviewMaterialsAccessExpiration($user_id)";
+					$cache_key = "getReviewModuleAccessExpiration($user_id)";
 					Cache::delete($cache_key);
 					// send email to student
 				}
@@ -577,9 +568,8 @@ class CoursesController extends AppController {
 
 			$this->Course->saveField('attendance_reported', true);
 			if ($course['Course']['cost'] == 0) {
-				$this->loadModel('PrepaidReviewModule');
-				$this->PrepaidReviewModule->assignToAttendingStudents($course_id);
-				$this->PrepaidReviewModule->releaseUnclaimedFromCourse($course_id);
+				$this->loadModel('StudentReviewModule');
+				$this->StudentReviewModule->assignToAttendingStudents($course_id);
 			}
 			$this->Flash->success('Attendance reported.');
 			$this->request->data = array();
@@ -592,5 +582,15 @@ class CoursesController extends AppController {
 			'course_has_begun' => $course_has_begun,
 			'attendance_already_reported' => $attendance_already_reported
 		));
+	}
+
+	public function resend_reg_email($course_id, $student_id) {
+		if ($this->Course->sendRegistrationEmail($course_id, $student_id)) {
+			$this->Flash->success('Registration email resent');
+		} else {
+			$this->Flash->error('There was an error resending that registration email');
+		}
+		$this->set('title_for_layout', 'Resend Registration Email');
+		$this->render('/Pages/blank');
 	}
 }

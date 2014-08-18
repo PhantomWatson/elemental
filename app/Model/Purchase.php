@@ -81,9 +81,24 @@ class Purchase extends AppModel {
 			throw new ForbiddenException('Sorry, this course has no available spots left');
 		}
 
-		// Record purchase
+		// Prevent accidental double-payment
 		App::import('Model','CoursePayment');
 		$CoursePayment = new CoursePayment();
+		$already_purchased = $CoursePayment->find(
+			'count',
+			array(
+				'conditions' => array(
+					'CoursePayment.course_id' => $seller_data['course_id'],
+					'CoursePayment.user_id' => $seller_data['user_id'],
+					'CoursePayment.refunded' => null
+				)
+			)
+		);
+		if ($already_purchased) {
+			throw new ForbiddenException('You have already paid this course\'s registration fee');
+		}
+
+		// Record purchase
 		$CoursePayment->create(array(
 			'course_id' => $seller_data['course_id'],
 			'user_id' => $seller_data['user_id'],
@@ -97,7 +112,7 @@ class Purchase extends AppModel {
 		return true;
 	}
 
-	public function purchaseStudentReviewModule($seller_data, $order_id, $jwt_decoded) {
+	public function purchaseStudentReviewModuleRenewal($seller_data, $order_id, $jwt_decoded) {
 		// Check for required sellerData
 		if (! isset($seller_data['user_id'])) {
 			throw new BadRequestException('User ID missing');
@@ -126,13 +141,13 @@ class Purchase extends AppModel {
 		}
 
 		// Clear relevant cache keys
-		$cache_key = 'getReviewMaterialsAccessExpiration('.$seller_data['user_id'].')';
+		$cache_key = 'getReviewModuleAccessExpiration('.$seller_data['user_id'].')';
 		Cache::delete($cache_key);
 
 		return true;
 	}
 
-	public function purchasePrepaidStudentReviewModule($seller_data, $order_id, $jwt_decoded) {
+	public function purchaseStudentReviewModule($seller_data, $order_id, $jwt_decoded) {
 		// Check for required sellerData
 		if (! isset($seller_data['instructor_id'])) {
 			throw new BadRequestException('Instructor ID missing');
@@ -161,15 +176,15 @@ class Purchase extends AppModel {
 		}
 		$purchase_id = $this->id;
 
-		// Create PrepaidReviewModule records
-		App::import('Model','PrepaidReviewModule');
-		$PrepaidReviewModule = new PrepaidReviewModule();
+		// Create StudentReviewModule records
+		App::import('Model','StudentReviewModule');
+		$StudentReviewModule = new StudentReviewModule();
 		for ($i = 1; $i <= $seller_data['quantity']; $i++) {
-			$PrepaidReviewModule->create(array(
+			$StudentReviewModule->create(array(
 				'purchase_id' => $purchase_id,
 				'instructor_id' => $seller_data['instructor_id']
 			));
-			$PrepaidReviewModule->save();
+			$StudentReviewModule->save();
 		}
 
 		return true;

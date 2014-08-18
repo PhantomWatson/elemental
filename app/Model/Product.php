@@ -65,8 +65,8 @@ class Product extends AppModel {
 	 * @throws NotFoundException
 	 * @return string
 	 */
-	public function getReviewModuleJWT($user_id) {
-		$product_id = $this->getReviewMaterialsId();
+	public function getReviewModuleRenewalJWT($user_id) {
+		$product_id = $this->getReviewModuleRenewalId();
 		$product = $this->find('first', array(
 			'conditions' => array('Product.id' => $product_id),
 			'contain' => false
@@ -87,7 +87,7 @@ class Product extends AppModel {
 		$email = $User->field('email');
 		$user_name = $User->field('name');
 		$seller_data = array(
-			'type:review_module',
+			'type:review_module_renewal',
 			"user_id:$user_id",
 			"user_name:$user_name",
 			"email:$email",
@@ -164,8 +164,8 @@ class Product extends AppModel {
 		return JWT::encode($payload, $seller_secret);
 	}
 
-	public function getReviewMaterials() {
-		$cache_key = "getReviewMaterials()";
+	public function getReviewModuleRenewal() {
+		$cache_key = "getReviewModuleRenewal()";
 		if ($cached = Cache::read($cache_key)) {
 			return $cached;
 		}
@@ -180,13 +180,13 @@ class Product extends AppModel {
 		return $retval;
 	}
 
-	public function getReviewMaterialsId() {
-		$cache_key = "getReviewMaterialsId()";
+	public function getReviewModuleRenewalId() {
+		$cache_key = "getReviewModuleRenewalId()";
 		if ($cached = Cache::read($cache_key)) {
 			return $cached;
 		}
 
-		$product = $this->getReviewMaterials();
+		$product = $this->getReviewModuleRenewal();
 		$retval = $product['Product']['id'];
 		Cache::write($cache_key, $retval);
 		return $retval;

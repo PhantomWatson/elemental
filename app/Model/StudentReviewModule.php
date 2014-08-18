@@ -1,6 +1,6 @@
 <?php
 App::uses('AppModel', 'Model');
-class PrepaidReviewModule extends AppModel {
+class StudentReviewModule extends AppModel {
 	public $displayField = 'course_id';
 	public $validate = array(
 		'purchase_id' => array(
@@ -38,14 +38,14 @@ class PrepaidReviewModule extends AppModel {
 		$seller_identifier = Configure::read('google_waller_seller_id');
 		$seller_secret = Configure::read('google_wallet_seller_secret');
 
-		$purchase_name = 'Prepaid Elemental Student Review '.__n('Module', 'Modules', $quantity).' ('.$quantity.')';
+		$purchase_name = 'Elemental Student Review '.__n('Module', 'Modules', $quantity).' ('.$quantity.')';
 		App::import('Model', 'Product');
 		$ProductObj = new Product();
 		$product = $ProductObj->find(
 			'first',
 			array(
 				'conditions' => array(
-					'Product.name' => 'Prepaid Student Review Module'
+					'Product.name' => 'Student Review Module'
 				),
 				'contain' => false,
 				'fields' => array(
@@ -62,7 +62,7 @@ class PrepaidReviewModule extends AppModel {
 		// $payload parameters reference: https://developers.google.com/commerce/wallet/digital/docs/jsreference#jwt
 		App::import('Vendor', 'JWT');
 		$seller_data = array(
-			"type:prepaid_module",
+			"type:student_review_module",
 			"user_id:$user_id",
 			"instructor_id:$instructor_id",
 			"product_id:$product_id",
@@ -92,7 +92,7 @@ class PrepaidReviewModule extends AppModel {
 			'first',
 			array(
 				'conditions' => array(
-					'Product.name' => 'Prepaid Student Review Module'
+					'Product.name' => 'Student Review Module'
 				),
 				'contain' => false,
 				'fields' => array(
@@ -108,50 +108,11 @@ class PrepaidReviewModule extends AppModel {
 			'count',
 			array(
 				'conditions' => array(
-					'PrepaidReviewModule.instructor_id' => $instructor_id,
-					'PrepaidReviewModule.course_id' => null
+					'StudentReviewModule.instructor_id' => $instructor_id,
+					'StudentReviewModule.course_id' => null
 				)
 			)
 		);
-	}
-
-	public function assignToCourse($instructor_id, $quantity, $course_id) {
-		$available_modules = $this->find('list', array(
-			'conditions' => array(
-				'PrepaidReviewModule.instructor_id' => $instructor_id,
-				'PrepaidReviewModule.course_id' => null
-			),
-			'limit' => $quantity
-		));
-
-		if (count($available_modules) < $quantity) {
-			throw new BadRequestException("Cannot assign $quantity Prepaid Student Review Modules, only $available_count are available");
-		}
-
-		foreach ($available_modules as $module_id => $null) {
-			$this->id = $module_id;
-			$this->saveField('course_id', $course_id);
-		}
-	}
-
-	/**
-	 * Moves modules reserved for this course but not claimed by a student into the 'available' pool
-	 * @param int $course_id
-	 * @param int $quantity If unspecified, applies to all such modules
-	 */
-	public function releaseUnclaimedFromCourse($course_id, $quantity = null) {
-		$reserved_modules = $this->find('list', array(
-			'conditions' => array(
-				'PrepaidReviewModule.course_id' => $course_id,
-				'PrepaidReviewModule.student_id' => null
-			),
-			'limit' => $quantity
-		));
-
-		foreach ($reserved_modules as $module_id => $course_id) {
-			$this->id = $module_id;
-			$this->saveField('course_id', null);
-		}
 	}
 
 	public function assignToAttendingStudents($course_id) {
@@ -177,13 +138,32 @@ class PrepaidReviewModule extends AppModel {
 				)
 			)
 		);
+
+		App::uses('CakeSession', 'Model/Datasource');
+		$instructor_id = CakeSession::read("Auth.User.id");
+		if (! $instructor_id) {
+			throw new InternalErrorException('Error: Instructor ID could not be retrieved.');
+		}
+
+		$available_paid_modules = $this->find(
+			'list',
+			array(
+				'conditions' => array(
+					'StudentReviewModule.instructor_id' => $instructor_id,
+					'StudentReviewModule.student_id' => null,
+					'StudentReviewModule.purchase_id NOT' => null,
+				)
+			)
+		);
+
 		foreach ($attending_students as $reg_id => $student_id) {
+			// Skip if this student has already been assigned a SRM
 			$already_assigned = $this->find(
 				'count',
 				array(
 					'conditions' => array(
-						'PrepaidReviewModule.course_id' => $course_id,
-						'PrepaidReviewModule.student_id' => $student_id
+						'StudentReviewModule.course_id' => $course_id,
+						'StudentReviewModule.student_id' => $student_id
 					)
 				)
 			);
@@ -191,29 +171,24 @@ class PrepaidReviewModule extends AppModel {
 				continue;
 			}
 
-			$available_module = $this->find(
-				'list',
-				array(
-					'conditions' => array(
-						'PrepaidReviewModule.course_id' => $course_id,
-						'PrepaidReviewModule.student_id' => null
-					),
-					'limit' => 1
-				)
-			);
-			if (empty($available_module)) {
-				/* Ruh roh. The instructor somehow managed to have more students
-				 * registered and attended than was allowed in this free class.
-				 * Students will have access to the review module regardless,
-				 * since their access is determined by whether or not they attended
-				 * a class or personally purchased the module in the past year.
-				 * An automatic email to an administrator right here might be the only
-				 * practical course of action. */
-				continue;
+			// Create a unpaid module if no paid modules are available
+			if (empty($available_paid_modules)) {
+				$this->create(compact(
+					'instructor_id',
+					'course_id',
+					'student_id'
+				));
+				if (! $this->save()) {
+					throw new InternalErrorException('Error assigning student review module to student');
+				}
+			} else {
+				$module_ids = array_keys($available_paid_modules);
+				$module_id = end($module_ids);
+				$this->id = $module_id;
+				$this->saveField('student_id', $student_id);
+				$this->saveField('course_id', $course_id);
+				array_pop($available_paid_modules);
 			}
-			$module_ids = array_keys($available_module);
-			$this->id = $module_ids[0];
-			$this->saveField('student_id', $student_id);
 		}
 	}
 
@@ -222,48 +197,61 @@ class PrepaidReviewModule extends AppModel {
 			'all',
 			array(
 				'conditions' => array(
-					'PrepaidReviewModule.instructor_id' => $instructor_id
+					'StudentReviewModule.instructor_id' => $instructor_id
 				),
 				'contain' => false,
-				'order' => 'PrepaidReviewModule.course_id DESC'
+				'order' => 'StudentReviewModule.course_id DESC'
 			)
 		);
 		App::import('Model', 'Course');
 		$Course = new Course();
 		$retval = array(
-			'available' => 0,
-			'pending' => array(),
+			'prepaid_available' => 0,
+			'unpaid' => array(),
 			'used' => array()
 		);
 		foreach ($modules as $module) {
-			$course_id = $module['PrepaidReviewModule']['course_id'];
-			if ($course_id == null) {
-				$retval['available']++;
+			$paid = $module['StudentReviewModule']['purchase_id'] != null;
+			$assigned = $module['StudentReviewModule']['student_id'] != null;
+
+			// Prepaid and available
+			if ($paid && ! $assigned) {
+				$retval['prepaid_available']++;
 				continue;
 			}
-			$type = $module['PrepaidReviewModule']['student_id'] == null ? 'pending' : 'used';
-			if (isset($retval[$type][$course_id])) {
-				$retval[$type][$course_id]['count']++;
-			} else {
-				$dates = $this->Course->CourseDate->find(
-					'list',
-					array(
-						'conditions' => array(
-							'CourseDate.course_id' => $course_id
-						),
-						'order' => 'CourseDate.date ASC'
-					)
-				);
-				$start = reset($dates);
-				$start = strtotime($start);
-				$end = end($dates);
-				$end = strtotime($end);
-				$retval[$type][$course_id] = array(
-					'count' => 1,
-					'start' => date('F j, Y', $start),
-					'end' => date('F j, Y', $end),
-					'attendance_reported' => $Course->attendanceIsReported($course_id)
-				);
+
+			// Used
+			$course_id = $module['StudentReviewModule']['course_id'];
+			foreach (array('unpaid', 'used') as $type) {
+				if ($type == 'unpaid' && $paid) {
+					continue;
+				}
+				if ($type == 'used' && ! $assigned) {
+					continue;
+				}
+
+				if (isset($retval[$type][$course_id])) {
+					$retval[$type][$course_id]['count']++;
+				} else {
+					$dates = $this->Course->CourseDate->find(
+						'list',
+						array(
+							'conditions' => array(
+								'CourseDate.course_id' => $course_id
+							),
+							'order' => 'CourseDate.date ASC'
+						)
+					);
+					$start = reset($dates);
+					$start = strtotime($start);
+					$end = end($dates);
+					$end = strtotime($end);
+					$retval[$type][$course_id] = array(
+						'count' => 1,
+						'start' => date('F j, Y', $start),
+						'end' => date('F j, Y', $end)
+					);
+				}
 			}
 		}
 		return $retval;

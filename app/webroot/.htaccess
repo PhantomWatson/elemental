@@ -1,9 +1,9 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
-    # Route every request for a file in /app/webroot/vizi/review_materials/
-    # to /review_materials/*, which gets routed to /products/route 
-    RewriteRule ^vizi/review_materials/(.+)$ /review_materials/$1 [QSA,L]
+    # Route every request for a file in /app/webroot/vizi/student_review/
+    # to /student_review/*, which gets routed to /products/route 
+    RewriteRule ^vizi/student_review/(.+)$ /student_review/$1 [QSA,L]
     
     # Route every request for a file in /app/webroot/vizi/instructor_training/
     # to /instructor_training/*, which gets routed to /products/route 

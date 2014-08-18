@@ -44,11 +44,11 @@ class StoreController extends AppController {
 			case 'course':
 				$this->Purchase->purchaseCourseRegistration($seller_data, $order_id, $jwt_decoded);
 				break;
-			case 'review_module':
-				$this->Purchase->purchaseStudentReviewModule($seller_data, $order_id, $jwt_decoded);
+			case 'student_review_module_renewal':
+				$this->Purchase->purchaseStudentReviewModuleRenewal($seller_data, $order_id, $jwt_decoded);
 				break;
-			case 'prepaid_module':
-				$this->Purchase->purchasePrepaidStudentReviewModule($seller_data, $order_id, $jwt_decoded);
+			case 'student_review_module':
+				$this->Purchase->purchaseStudentReviewModule($seller_data, $order_id, $jwt_decoded);
 				break;
 			case 'classroom_module':
 				$this->Purchase->purchaseClassroomModule($seller_data, $order_id, $jwt_decoded);
@@ -63,13 +63,13 @@ class StoreController extends AppController {
 		));
 	}
 
-	public function prepaid_student_review_module() {
+	public function student_review_module() {
 		$step = 'prep';
 		$user_id = $this->Auth->user('id');
 		$this->loadModel('User');
 		$is_instructor = $this->User->hasRole($user_id, 'instructor');
-		$this->loadModel('PrepaidReviewModule');
-		$cost = $this->PrepaidReviewModule->getCost();
+		$this->loadModel('StudentReviewModule');
+		$cost = $this->StudentReviewModule->getCost();
 
 		if ($this->request->is('post')) {
 			// Create temporary validation rule
@@ -98,12 +98,12 @@ class StoreController extends AppController {
 				$user_id = $this->Auth->user('id');
 				$this->set(array(
 					'instructor_name' => $this->User->field('name'),
-					'jwt' => $this->PrepaidReviewModule->getJWT($quantity, $user_id, $instructor_id),
+					'jwt' => $this->StudentReviewModule->getJWT($quantity, $user_id, $instructor_id),
 					'quantity' => $quantity,
 					'redirect_url' => Router::url(
 						array(
 							'controller' => 'products',
-							'action' => 'prepaid_review_modules'
+							'action' => 'student_review_modules'
 						),
 						true
 					),
@@ -127,7 +127,7 @@ class StoreController extends AppController {
 		$this->set(array(
 			'cost' => $cost,
 			'step' => $step,
-			'title_for_layout' => 'Purchase Prepaid Student Review Modules'
+			'title_for_layout' => 'Purchase Student Review Modules'
 		));
 	}
 }

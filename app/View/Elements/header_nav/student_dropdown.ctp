@@ -19,7 +19,7 @@
 				'Review Materials',
 				array(
 					'controller' => 'products',
-					'action' => 'review_materials',
+					'action' => 'student_review',
 					$this->params['prefix'] => false
 				)
 			); ?>

@@ -315,24 +315,42 @@ class UsersController extends AppController {
 
 	public function manage() {
 		$this->User->recursive = 0;
-		/* $this->Paginator->settings = array(
-			'User' => array(
-				'contain' => array(
-					'Role'
-				)
-			)
-		); */
+		if (isset($this->request->named['role'])) {
+			$role_id = $this->User->Role->getIdWithName($this->request->named['role']);
+			$this->User->bindModel(
+				array(
+					'hasOne' => array('RolesUser')
+				),
+				false
+			);
+			$this->paginate['conditions']['RolesUser.role_id'] = $role_id;
+			$this->paginate['contain'][] = 'RolesUser';
+			$users = $this->paginate();
+		} else {
+			$users = $this->paginate();
+		}
 		$this->set(array(
 			'title_for_layout' => 'Manage Users',
-			'users' => $this->paginate()
+			'users' => $users
 		));
 	}
 
 	public function edit($id) {
+		$this->helpers[] = 'Tinymce';
 		$this->User->id = $id;
 		if ($this->request->is('post') || $this->request->is('put')) {
 			$this->request->data['User']['email'] = strtolower(trim($this->request->data['User']['email']));
-			$this->User->set($this->request->data);
+			$this->request->data['Bio']['id'] = $this->User->Bio->getIdForUser($id);
+			$user_data = $this->request->data;
+
+			// Ignore bio section if user is not an instructor
+			$instructor_role_id = $this->User->Role->getIdWithName('instructor');
+			$is_instructor = array_search($instructor_role_id, $this->request->data['Role']['Role']);
+			if ($is_instructor === false) {
+				unset($user_data['Bio']);
+			}
+
+			$this->User->set($user_data);
 			$email_result = $this->User->find('first', array(
 				'conditions' => array('email' => $this->request->data['User']['email']),
 				'fields' => array('id'),
@@ -342,7 +360,7 @@ class UsersController extends AppController {
 				$this->Flash->error('Please correct the indicated errors.');
 				$this->User->validationErrors['email'] = 'Sorry, a different user account has been created with that email address.';
 			} elseif ($this->User->validates()) {
-				if ($this->User->save()) {
+				if ($this->User->saveAssociated()) {
 					$this->Flash->success('Information updated.');
 					$this->redirect(array(
 						'action' => 'manage'
@@ -366,7 +384,12 @@ class UsersController extends AppController {
 					'User.id' => $id
 				),
 				'contain' => array(
-					'Role'
+					'Role',
+					'Bio' => array(
+						'fields' => array(
+							'Bio.bio'
+						)
+					)
 				)
 			));
 		}

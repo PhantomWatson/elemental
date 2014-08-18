@@ -4,6 +4,39 @@
 	</h1>
 </div>
 
+<?php
+	$selected_role = isset($this->request->named['role']) ? $this->request->named['role'] : null;
+	echo $this->Html->link(
+		'All Users',
+		array(
+			'controller' => 'users',
+			'action' => 'manage'
+		),
+		array(
+			'class' => 'btn btn-'.(! $selected_role ? 'primary' : 'default')
+		)
+	);
+	$buttons = array(
+		'Students' => 'student',
+		'Instructors' => 'instructor',
+		'Trainees' => 'trainee',
+		'Administrators' => 'admin'
+	);
+	foreach ($buttons as $label => $role) {
+		echo $this->Html->link(
+			$label,
+			array(
+				'controller' => 'users',
+				'action' => 'manage',
+				'role' => $role
+			),
+			array(
+				'class' => 'btn btn-'.($selected_role == $role ? 'primary' : 'default')
+			)
+		);
+	}
+?>
+
 <?php if (empty($users)): ?>
 	<div class="alert alert-info">
 		No users were found.

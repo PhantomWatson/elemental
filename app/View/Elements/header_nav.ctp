@@ -19,6 +19,14 @@
 			)
 		),
 		array(
+			'label' => 'Instructors',
+			'url' => array(
+				'controller' => 'bios',
+				'action' => 'index',
+				$this->params['prefix'] => false
+			)
+		),
+		array(
 			'label' => 'Contact',
 			'url' => array(
 				'controller' => 'pages',

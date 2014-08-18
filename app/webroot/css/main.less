@@ -362,13 +362,13 @@ section.about {
 
 
 
-/* Prepaid Student Review Modules */
-#PurchasePrepaidStudentReviewModuleForm {
+/* Student Review Modules */
+#PurchaseStudentReviewModuleForm {
 	fieldset {
 		margin: 30px 0;
 	}
 }
-#psrm_report {
+#srm_report {
 	tbody {
 		td {
 			&:first-child {
@@ -376,8 +376,16 @@ section.about {
 			}
 		}
 	}
-	.detail {
+	ul.details {
+		display: none;
 		font-size: 90%;
+		padding-left: 20px;
+	}
+	tr.unpaid {
+		td:first-child,
+		strong {
+			color: #d00;
+		}
 	}
 }
 
@@ -387,5 +395,25 @@ section.about {
 #instructor_agreement {
 	.button_container {
 		text-align: center;
+	}
+}
+
+
+
+/* BIOS */
+#bios {
+	margin-top: 30px;
+
+	section {
+		h2.panel-title {
+			display: inline-block;
+			font-weight: bold;
+		}
+		> div:first-child {
+			a {
+				display: inline-block;
+				margin-left: 15px;
+			}
+		}
 	}
 }

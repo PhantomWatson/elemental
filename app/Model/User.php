@@ -20,32 +20,17 @@ class User extends AppModel {
 	public $validate = array(
 		'name' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+				'rule' => array('notempty')
 			),
 		),
 		'email' => array(
 			'email' => array(
-				'rule' => array('email'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+				'rule' => array('email')
 			),
 		),
 		'password' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+				'rule' => array('notempty')
 			),
 		),
 	);
@@ -61,67 +46,27 @@ class User extends AppModel {
 		'Article' => array(
 			'className' => 'Article',
 			'foreignKey' => 'user_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
+			'dependent' => false
 		),
 		'Testimonial' => array(
 			'className' => 'Testimonial',
 			'foreignKey' => 'user_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
+			'dependent' => false
 		),
 		'CourseRegistration' => array(
 			'className' => 'CourseRegistration',
 			'foreignKey' => 'user_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
+			'dependent' => false
 		),
 		'Course' => array(
 			'className' => 'Course',
 			'foreignKey' => 'user_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
+			'dependent' => false
 		),
 		'Purchase' => array(
 			'className' => 'Purchase',
 			'foreignKey' => 'user_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
+			'dependent' => false
 		)
 	);
 	public $hasOne = array(
@@ -129,7 +74,8 @@ class User extends AppModel {
 		'InstructorAgreement' => array(
 			'className' => 'InstructorAgreement',
 			'foreignKey' => 'instructor_id'
-		)
+		),
+		'Bio'
 	);
 	public $hasAndBelongsToMany = array(
 		'Role' => array(
@@ -333,12 +279,12 @@ class User extends AppModel {
 	}
 
 	public function canAccessReviewMaterials($user_id) {
-		$expiration = $this->getReviewMaterialsAccessExpiration($user_id);
+		$expiration = $this->getReviewModuleAccessExpiration($user_id);
 		return $expiration && $expiration > time();
 	}
 
-	public function getReviewMaterialsAccessExpiration($user_id) {
-		$cache_key = "getReviewMaterialsAccessExpiration($user_id)";
+	public function getReviewModuleAccessExpiration($user_id) {
+		$cache_key = "getReviewModuleAccessExpiration($user_id)";
 		if ($cached = Cache::read($cache_key)) {
 			return $cached;
 		}
@@ -371,7 +317,7 @@ class User extends AppModel {
 
 			// Students who have purchased the review material module in the past year get access
 			$Product = ClassRegistry::init('Product');
-			$product_id = $Product->getReviewMaterialsId();
+			$product_id = $Product->getReviewModuleRenewalId();
 			$purchase = $this->Purchase->find('first', array(
 				'conditions' => array(
 					'Purchase.user_id' => $user_id,
