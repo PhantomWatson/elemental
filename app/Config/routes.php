@@ -104,7 +104,7 @@
 	Router::connect("/student_review/*", array('controller' => 'products', 'action' => 'route'));
 	Router::connect("/vizi/student_review/*", array('controller' => 'products', 'action' => 'route'));
 
-	Router::connect("/instructor_training", array('controller' => 'products', 'action' => 'instructor_training'));
+	Router::connect("/instructor_training", array('instructor' => true, 'controller' => 'products', 'action' => 'training'));
 	Router::connect("/instructor_training/*", array('controller' => 'products', 'action' => 'route'));
 	Router::connect("/vizi/instructor_training/*", array('controller' => 'products', 'action' => 'route'));
 
