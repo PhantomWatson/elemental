@@ -9,8 +9,9 @@
 	<?php echo $this->Html->link(
 		'Learn more about becoming a Certified Elemental Instructor',
 		array(
+			'instructor' => true,
 			'controller' => 'products',
-			'action' => 'instructor_certification'
+			'action' => 'certification'
 		),
 		array(
 			'class' => '',
