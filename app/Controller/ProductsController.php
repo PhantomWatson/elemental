@@ -137,6 +137,7 @@ class ProductsController extends AppController {
 		if (! $this->InstructorAgreement->hasAgreed($user_id)) {
 			$this->Flash->error('Before accessing the training module, you must first agree to the Certified Elemental Instructor License Agreement.');
 			$this->redirect(array(
+				$this->params['prefix'] => false,
 				'controller' => 'instructor_agreements',
 				'action' => 'view'
 			));
