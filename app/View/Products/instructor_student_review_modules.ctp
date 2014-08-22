@@ -42,6 +42,7 @@
 					echo $this->Html->link(
 						$label,
 						array(
+							'instructor' => false,
 							'controller' => 'store',
 							'action' => 'student_review_module'
 						),
@@ -82,6 +83,7 @@
 								echo $this->Html->link(
 									$course['start'],
 									array(
+										'instructor' => false,
 										'controller' => 'courses',
 										'action' => 'view',
 										'id' => $course_id
@@ -129,6 +131,7 @@
 								echo $this->Html->link(
 									$course['start'],
 									array(
+										'instructor' => false,
 										'controller' => 'courses',
 										'action' => 'view',
 										'id' => $course_id
