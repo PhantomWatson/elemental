@@ -567,11 +567,29 @@ class CoursesController extends AppController {
 			}
 
 			$this->Course->saveField('attendance_reported', true);
+			$this->Flash->success('Attendance reported.');
+
 			if ($course['Course']['cost'] == 0) {
 				$this->loadModel('StudentReviewModule');
 				$this->StudentReviewModule->assignToAttendingStudents($course_id);
+				$instructor_id = $this->Course->field('instructor_id');
+				$unpaid = $this->StudentReviewModule->getUnpaidList($instructor_id);
+				if (! empty($unpaid)) {
+					$count = count($unpaid);
+					if ($count == 1) {
+						$message = 'You may now pay for the Student Review Module that has been assigned to an attending student.';
+					} else {
+						$message = 'You may now pay for the Student Review Modules that have been assigned to attending students.';
+					}
+					$this->Flash->notification($message);
+					$this->redirect(array(
+						'instructor' => true,
+						'controller' => 'products',
+						'action' => 'student_review_modules'
+					));
+				}
 			}
-			$this->Flash->success('Attendance reported.');
+
 			$this->request->data = array();
 		}
 
