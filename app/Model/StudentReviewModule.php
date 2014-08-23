@@ -106,6 +106,19 @@ class StudentReviewModule extends AppModel {
 		return null;
 	}
 
+	public function getUnpaidList($instructor_id) {
+		return $this->find(
+			'list',
+			array(
+				'conditions' => array(
+					'StudentReviewModule.instructor_id' => $instructor_id,
+					'StudentReviewModule.purchase_id' => null
+				),
+				'order' => 'StudentReviewModule.created ASC'
+			)
+		);
+	}
+
 	public function getCost() {
 		App::import('Model', 'Product');
 		$ProductObj = new Product();
