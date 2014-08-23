@@ -85,6 +85,27 @@ class StudentReviewModule extends AppModel {
 		return JWT::encode($payload, $seller_secret);
 	}
 
+	/**
+	 * Generates the JWT for a user to pay off however many SRMs are currently in use and unpaid, or null if no payment is needed
+	 * @param int $instructor_id
+	 * @return string|null
+	 */
+	public function getUnpaidJWT($instructor_id) {
+		$count = $this->find(
+			'count',
+			array(
+				'conditions' => array(
+					'StudentReviewModule.instructor_id' => $instructor_id,
+					'StudentReviewModule.purchase_id' => null
+				)
+			)
+		);
+		if ($count) {
+			return $this->getJWT($count, $instructor_id, $instructor_id);
+		}
+		return null;
+	}
+
 	public function getCost() {
 		App::import('Model', 'Product');
 		$ProductObj = new Product();
