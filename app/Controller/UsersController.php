@@ -202,7 +202,7 @@ class UsersController extends AppController {
 			$email_result = $this->User->find('first', array(
 				'conditions' => array('email' => $this->request->data['User']['email']),
 				'fields' => array('id'),
-				'contains' => false
+				'contain' => false
 			));
 			if (! empty($email_result) && $email_result['User']['id'] != $id) {
 				$this->User->validationErrors['email'] = 'Sorry, a different user account has been created with that email address.';
@@ -354,7 +354,7 @@ class UsersController extends AppController {
 			$email_result = $this->User->find('first', array(
 				'conditions' => array('email' => $this->request->data['User']['email']),
 				'fields' => array('id'),
-				'contains' => false
+				'contain' => false
 			));
 			if (! empty($email_result) && $email_result['User']['id'] != $id) {
 				$this->Flash->error('Please correct the indicated errors.');
