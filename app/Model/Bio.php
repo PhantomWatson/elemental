@@ -19,6 +19,10 @@ class Bio extends AppModel {
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id'
+		),
+		'Image' => array(
+			'className' => 'Image',
+			'foreignKey' => 'image_id'
 		)
 	);
 
