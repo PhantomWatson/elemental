@@ -5,11 +5,19 @@
 
 /* GENERAL */
 .recaptcha {
-	.footnote {color: @TextColorFootnote; font-size: 80%;}
+	.footnote {
+		color: @TextColorFootnote;
+		font-size: 80%;
+	}
 }
 #flash_messages {
-	ul {margin: 0; padding: 0;}
-	li {list-style-type: none;}
+	ul {
+		margin: 0;
+		padding: 0;
+	}
+	li {
+		list-style-type: none;
+	}
 	.fade {
 	  -webkit-transition: opacity 0.5s linear 0.5s;
 	          transition: opacity 0.5s linear 0.5s;
@@ -18,17 +26,35 @@
 .index {
 	table {
 		width: 100%;
-		th {border-bottom: 1px solid #999; text-align: left;}
+
+		th {
+			border-bottom: 1px solid #999;
+			text-align: left;
+		}
 	}
 }
-.footnote {color: @TextColorFootnote; font-size: 80%;}
-.glyphicon-white {color: #fff;}
+.footnote {
+	color: @TextColorFootnote;
+	font-size: 80%;
+}
+.glyphicon-white {
+	color: #fff;
+}
 .navbar-brand {
-	img {height: 44px; margin-bottom: -10px; margin-top: -10px; vertical-align: middle;}
+	img {
+		height: 44px;
+		margin-bottom: -10px;
+		margin-top: -10px;
+		vertical-align: middle;
+	}
 }
 footer {
-	color: @TextColorFootnote; font-size: 80%;
-	a {margin-left: 15px;}
+	color: @TextColorFootnote;
+	font-size: 80%;
+
+	a {
+		margin-left: 15px;
+	}
 }
 
 
@@ -36,39 +62,73 @@ footer {
 /* FRONT PAGE */
 #welcome {
 	.billboard {
-		background-repeat: no-repeat; min-height: 407px; min-width: 790px; background-image: url('/img/elemental.gif');
+		background-image: url('/img/elemental.gif');
+		background-repeat: no-repeat;
+		min-height: 407px;
+		min-width: 790px;
 	}
-	.btn {margin-top: 15px;}
+	.btn {
+		margin-top: 15px;
+	}
 }
 #welcome_message {
 	.btn {
-		.glyphicon {margin-right: 5px; vertical-align: text-top;}
+		.glyphicon {
+			margin-right: 5px;
+			vertical-align: text-top;
+		}
 	}
 }
-#welcome_message_mover {margin-top: -200px;}
-.element {font-weight: bold;}
-.earth {color: #F79825;}
-.water {color: #00B6B1;}
-.wind {color: #8EC94A;}
-.fire {color: #DE4E23;}
+#welcome_message_mover {
+	margin-top: -200px;
+}
+.element {
+	font-weight: bold;
+}
+.earth {
+	color: #F79825;
+}
+.water {
+	color: #00B6B1;
+}
+.wind {
+	color: #8EC94A;
+}
+.fire {
+	color: #DE4E23;
+}
 table.elements {
 	margin-bottom: 15px;
-	th, td {vertical-align: middle;}
-	img {width: 100px;}
+
+	th,
+	td {
+		vertical-align: middle;
+	}
+	img {
+		width: 100px;
+	}
 }
 
 
 
 /* FORMS */
-input[type="checkbox"] {width: auto;}
-.error-message {color: red;}
+input[type="checkbox"] {
+	width: auto;
+}
+.error-message {
+	color: red;
+}
 
 
 
 /* USERS */
-#UserAutoLogin {margin-right: 15px;}
+#UserAutoLogin {
+	margin-right: 15px;
+}
 .manage_users {
-	.contact_info {font-size: 80%;}
+	.contact_info {
+		font-size: 80%;
+	}
 }
 .roles_checkboxes {
 	.form-control {
@@ -85,80 +145,161 @@ input[type="checkbox"] {width: auto;}
 
 
 /* ARTICLES */
-#ArticleTitle {width: 500px;}
-#ArticleBody {width: 500px;}
-.article_posted_time {color: @TextColorFootnote; font-size: 80%;}
+#ArticleTitle {
+	width: 500px;
+}
+#ArticleBody {
+	width: 500px;
+}
+.article_posted_time {
+	color: @TextColorFootnote;
+	font-size: 80%;
+}
 .more_articles {
-	li {margin-bottom: 15px;}
-	.date {color: @TextColorFootnote; font-size: 90%;}
+	li {
+		margin-bottom: 15px;
+	}
+	.date {
+		color: @TextColorFootnote;
+		font-size: 90%;
+	}
 }
 .articles_index {
-	td.date {color: @TextColorFootnote; width: 150px;}
+	td.date {
+		color: @TextColorFootnote;
+		width: 150px;
+	}
 }
-.btn-float-right {float: right; margin-bottom: 15px; margin-left: 15px;}
+.btn-float-right {
+	float: right;
+	margin-bottom: 15px;
+	margin-left: 15px;
+}
 .manage_articles {
-	.actions {width: 150px;}
-	.posted {width: 200px;}
+	.actions {
+		width: 150px;
+	}
+	.posted {
+		width: 200px;
+	}
 }
 
 
 
 /* TESTIMONIALS */
 .manage_testimonials {
-	td {vertical-align: top;}
-	.approved_col {text-align: center;}
-	.icon {font-size: 125%;}
+	td {
+		vertical-align: top;
+	}
+	.approved_col {
+		text-align: center;
+	}
+	.icon {
+		font-size: 125%;
+	}
 	.actions {
-		.btn {width: 100px;}
+		.btn {
+			width: 100px;
+		}
 	}
 }
-.testimonial_body {width: 500px;}
+.testimonial_body {
+	width: 500px;
+}
 #random_testimonial {
 	.author {
-		color: @TextColorFootnote; display: block; text-align: right;
+		color: @TextColorFootnote;
+		display: block;
+		text-align: right;
 	}
-	.testimonial_full {display: none;}
-	.cycle-slideshow {height: 200px; overflow: hidden;}
+	.testimonial_full {
+		display: none;
+	}
+	.cycle-slideshow {
+		height: 200px;
+		overflow: hidden;
+	}
 	.testimonial {
-		max-height: 200px; overflow: auto; padding-right: 15px;
+		max-height: 200px;
+		overflow: auto;
+		padding-right: 15px;
 	}
-	.cycle-slide {display: block;}
-	.btn {float: right;}
+	.cycle-slide {
+		display: block;
+	}
+	.btn {
+		float: right;
+	}
 }
 #testimonial-pager {
-	display: inline; font-size: 100%;
-	span {cursor: pointer;}
-	.cycle-pager-active {color: #357EBD;}
+	display: inline;
+	font-size: 100%;
+
+	span {
+		cursor: pointer;
+	}
+	.cycle-pager-active {
+		color: #357EBD;
+	}
 	&.paused {
 		color: #ccc;
 	}
 }
-.author_anonymous {color: @TextColorFootnote; font-style: italic;}
+.author_anonymous {
+	color: @TextColorFootnote;
+	font-style: italic;
+}
 .testimonial_index {
 	li {
-		border-top: 1px solid #DDDDDD; padding: 30px 0;
-		&:first-child {border-top: none;}
-		&:nth-child(even) {background-color: #F9F9F9;}
+		border-top: 1px solid #DDDDDD;
+		padding: 30px 0;
+
+		&:first-child {
+			border-top: none;
+		}
+		&:nth-child(even) {
+			background-color: #F9F9F9;
+		}
 	}
-	.author {color: @TextColorFootnote; display: block; text-align: right;}
-	p {margin: 0;}
+	.author {
+		color: @TextColorFootnote;
+		display: block;
+		text-align: right;
+	}
+	p {
+		margin: 0;
+	}
 }
 
 
 
 /* COURSES */
-#CourseMaxParticipants {width: 100px;}
+#CourseMaxParticipants {
+	width: 100px;
+}
 #course_form {
-	select {width: auto;}
-	fieldset {padding: 15px 0;}
-	div.input {margin-bottom: 30px;}
-	label {font-weight: bold;}
-	.remove_date {margin-left: 15px;}
+	select {
+		width: auto;
+	}
+	fieldset {
+		padding: 15px 0;
+	}
+	div.input {
+		margin-bottom: 30px;
+	}
+	label {
+		font-weight: bold;
+	}
+	.remove_date {
+		margin-left: 15px;
+	}
 	.time_group {
 		margin-left: 30px;
 	}
 	.deadline_inputs {
-		select {display: inline;}
+		select {
+			display: inline;
+		}
 	}
 	.cost {
 		input {
@@ -208,87 +349,176 @@ form:not([action="/courses/add"]) {
 #CourseCostCents {
 	width: 50px;
 }
-#scheduling_help {display: none;}
+#scheduling_help {
+	display: none;
+}
 #scheduling_help_toggler {
 	cursor: help;
 	display: inline-block;
 	margin-bottom: 20px;
 }
-#date_dummy_input {display: none;}
+#date_dummy_input {
+	display: none;
+}
 #input_dates {
-	.remove_date {margin-bottom: 10px; padding: 0 5px;}
-	div:first-child {
-		.remove_date {display: none;}
+	.remove_date {
+		margin-bottom: 10px;
+		padding: 0 5px;
 	}
-	select {display: inline;}
+	div:first-child {
+		.remove_date {
+			display: none;
+		}
+	}
+	select {
+		display: inline;
+	}
 }
 .manage_courses {
-	tr.past {background-color: #eee}
-	tr.today {
-		td.begins {color: red; font-weight: bold;}
+	tr.past {
+		background-color: #eee
 	}
-	.actions {width: 200px;}
-	.contact_info {font-size: 80%;}
+	tr.today {
+		td.begins {
+			color: red;
+			font-weight: bold;
+		}
+	}
+	.actions {
+		width: 200px;
+	}
+	.contact_info {
+		font-size: 80%;
+	}
 }
 .upcoming_courses {
 	text-align: center;
-	.label {font-size: 110%;}
-	table {border-collapse: separate; display: inline-block; text-align: left; width: auto;}
+
+	.label {
+		font-size: 110%;
+	}
+	table {
+		border-collapse: separate;
+		display: inline-block;
+		text-align: left;
+		width: auto;
+	}
 	td {
-		border-bottom: 1px solid #ddd; padding: 30px; vertical-align: middle;
+		border-bottom: 1px solid #ddd;
+		padding: 30px;
+		vertical-align: middle;
 	}
 	tr:last-child {
-		td {border-bottom: none;}
-	}
-	.dates {
-		display: block; font-weight: bold; margin: 0;
-		li {
-			display: none;
-			&:first-child {display: list-item;}
+		td {
+			border-bottom: none;
 		}
 	}
-	.location {display: block;}
-	.spots_left, .class_full {display: block;}
-	.class_full {}
-	.availability {}
-	.actions {text-align: center;} /*width: 150px;*/
-	.deadline {color: #666; display: block; font-size: 80%;}
-	.progress {margin-bottom: 0; width: 100px;}
-	.deadline_passed {background-color: #eee;}
+	.dates {
+		display: block;
+		font-weight: bold;
+		margin: 0;
+
+		li {
+			display: none;
+
+			&:first-child {
+				display: list-item;
+			}
+		}
+	}
+	.location {
+		display: block;
+	}
+	.spots_left,
+	.class_full {
+		display: block;
+	}
+	.actions {
+		text-align: center;
+	}
+	.deadline {
+		color: #666;
+		display: block;
+		font-size: 80%;
+	}
+	.progress {
+		margin-bottom: 0;
+		width: 100px;
+	}
+	.deadline_passed {
+		background-color: #eee;
+	}
 }
 .course_registration {
 	.alert-success {
-		.course_info {font-weight: bold;}
-		p:last-child {margin-bottom: 0;}
+		.course_info {
+			font-weight: bold;
+		}
+		p:last-child {
+			margin-bottom: 0;
+		}
 	}
 }
 .view_course {
 	.jumbotron {
 		padding: 30px;
-		p {margin-top: 15px; margin-bottom: 0;}
+
+		p {
+			margin-bottom: 0;
+			margin-top: 15px;
+		}
 	}
-	th, td {padding: 0 15px 15px 0; text-align: left; vertical-align: top;}
-	.deadline {}
-	.class_full {vertical-align: middle;}
-	.progress {display: inline-block; margin-bottom: 0; vertical-align: middle; width: 200px;}
-	p:last-child {margin-bottom: 0;}
+	th,
+	td {
+		padding: 0 15px 15px 0;
+		text-align: left;
+		vertical-align: top;
+	}
+	.class_full {
+		vertical-align: middle;
+	}
+	.progress {
+		display: inline-block;
+		margin-bottom: 0;
+		vertical-align: middle;
+		width: 200px;
+	}
+	p:last-child {
+		margin-bottom: 0;
+	}
 	.when {
-		.time {color: #666; font-size: 80%; margin-left: 5px;}
+		.time {
+			color: #666;
+			font-size: 80%;
+			margin-left: 5px;
+		}
 	}
 }
 #front_page_course_list {
-	.btn {float: right;}
+	.btn {
+		float: right;
+	}
 }
 table.attendance {
 	tbody {
-		td:first-child {width: 30px;}
-		td:last-child {text-align: center; width: 30px;}
+		td {
+			&:first-child {
+				width: 30px;
+			}
+			&:last-child {
+				text-align: center;
+				width: 30px;
+			}
+		}
 	}
-	#select_all {margin-right: 15px;}
-	.glyphicon-remove {color: red;}
-	.glyphicon-ok {color: green;}
-	tr.attended {
-
+	#select_all {
+		margin-right: 15px;
+	}
+	.glyphicon-remove {
+		color: red;
+	}
+	.glyphicon-ok {
+		color: green;
 	}
 }
 
@@ -370,10 +600,8 @@ section.about {
 }
 #srm_report {
 	tbody {
-		td {
-			&:first-child {
-				font-weight: bold;
-			}
+		td:first-child {
+			font-weight: bold;
 		}
 	}
 	ul.details {
