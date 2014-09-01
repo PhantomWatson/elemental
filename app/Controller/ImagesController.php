@@ -30,11 +30,11 @@ class ImagesController extends AppController {
 		return parent::isAuthorized($user);
 	}
 
-	public function upload_for_bio($bio_id) {
-		$this->upload('bios', $bio_id);
+	public function upload_for_bio() {
+		$this->upload('bios', $_POST['bio_id']);
 	}
 
-	private function upload($dir, $id) {
+	private function upload($dir) {
 		$uploadDir = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.'img'.DS.$dir.DS;
 		$fileTypes = array('jpg', 'jpeg', 'gif', 'png');
 		$verifyToken = md5(Configure::read('image_upload_token').$_POST['timestamp']);
@@ -53,7 +53,7 @@ class ImagesController extends AppController {
 							'filename' => $filename
 						));
 						if ($save_result) {
-							echo $this->Image->id;
+							echo '{id: '.$this->Image->id.', filename: "'.$filename.'"}';
 						} else {
 							$this->response->statusCode(500);
 							echo 'Error saving image';
