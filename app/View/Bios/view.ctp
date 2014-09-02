@@ -4,6 +4,19 @@
 	</h1>
 </div>
 
+<p>
+	<?php echo $this->Html->link(
+		'<span class="glyphicon glyphicon-arrow-left"></span> Back to All Instructors',
+		array(
+			'action' => 'index'
+		),
+		array(
+			'escape' => false,
+			'class' => 'btn btn-default'
+		)
+	); ?>
+</p>
+
 <div class="bio row">
 	<?php if (empty($bio['Image'])): ?>
 		<?php echo $bio['Bio']['bio']; ?>
