@@ -280,7 +280,6 @@ var bioForm = {
 			'buttonText': 'Click to select an image to upload',
 			'width': 300,
 			'multi': false,
-			'queueSizeLimit': 1,
 			'uploadLimit': 1,
 			'formData': {
 				'timestamp': params.timestamp,
