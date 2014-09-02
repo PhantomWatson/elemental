@@ -78,4 +78,59 @@ class BioImage extends Image {
 			}
 		}
 	}
+
+	/**
+	 * Attempts to upload an image for this user's bio and returns array(success / failure, array / error msg)
+	 */
+	public function upload($user_id) {
+		$bio_id = $this->Bio->field('id', array(
+			'user_id' => $user_id
+		));
+		if (! $bio_id) {
+			return array(false, 'No bio found for user '.$user_id);
+		}
+
+		$verifyToken = md5(Configure::read('image_upload_token').$_POST['timestamp']);
+		if ($_POST['token'] != $verifyToken) {
+			return array(false, 'Security code incorrect');
+		}
+
+		$uploadDir = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.'img'.DS.'bios'.DS.$bio_id;
+		$fileParts = pathinfo($_FILES['Filedata']['name']);
+		$filename = $bio_id.'.'.strtolower($fileParts['extension']);
+		$targetFile = $uploadDir.DS.$filename;
+		$fileTypes = array('jpg', 'jpeg', 'gif', 'png');
+		if (! in_array(strtolower($fileParts['extension']), $fileTypes)) {
+			return array(false, 'Invalid file type.');
+		}
+
+		$tempFile = $_FILES['Filedata']['tmp_name'];
+		if (! $this->autoResize($tempFile)) {
+			$msg = 'Error resizing image';
+			if (! empty($this->errors)) {
+				$msg .= ': '.implode('; ', $this->errors);
+			}
+			return array(false, $msg);
+		}
+
+		if (! move_uploaded_file($tempFile, $targetFile)) {
+			return array(false, 'Could not save file.');
+		}
+
+		$this->create();
+		$save_result = $this->save(array(
+			'filename' => $filename,
+			'user_id' => $user_id
+		));
+		if (! $save_result) {
+			return array(false, 'Error saving image');
+		}
+
+		$image = array(
+			'id' => $this->id,
+			'bio_id' => $bio_id,
+			'filename' => $filename
+		);
+		return array(true, $image);
+	}
 }
