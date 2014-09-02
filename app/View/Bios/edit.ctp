@@ -1,10 +1,6 @@
 <?php
 	$upload_max = ini_get('upload_max_filesize');
 	$post_max = ini_get('post_max_size');
-
-	/*
-	 * Instructor picture cannot exceed <?php echo $post_max; ?>B
-	 */
 ?>
 <div class="page-header">
 	<h1>
@@ -41,6 +37,12 @@
 
 	<div class="form-group">
 		<a href="#" id="image_upload_button">Select image</a>
+		<span class="text-info">
+			Images must be of type JPG, GIF, or PNG
+			<?php if ($post_max): ?>
+				and cannot exceed <?php echo $post_max; ?>B
+			<?php endif; ?>
+		</span>
 	</div>
 
 	<div class="form-group" id="bio_image_container">
