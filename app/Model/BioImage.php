@@ -66,11 +66,14 @@ class BioImage extends Image {
 		$new_filename = $this->data['BioImage']['filename'];
 		$bio_id = $this->data['BioImage']['id'];
 
+		if (! $bio_id) {
+			return;
+		}
 		App::uses('Folder', 'Utility');
 		App::uses('File', 'Utility');
-		$path = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.'img'.DS.'bios'.DS.$bio_id;
+		$path = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.'img'.DS.'bios';
 		$dir = new Folder($path);
-		$files = $dir->find();
+		$files = $dir->find("$bio_id\.*");
 		foreach ($files as $uploaded_filename) {
 			if ($uploaded_filename != $new_filename) {
 				$file = new File($path.DS.$uploaded_filename);
@@ -95,7 +98,7 @@ class BioImage extends Image {
 			return array(false, 'Security code incorrect');
 		}
 
-		$uploadDir = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.'img'.DS.'bios'.DS.$bio_id;
+		$uploadDir = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.'img'.DS.'bios';
 		$fileParts = pathinfo($_FILES['Filedata']['name']);
 		$filename = $bio_id.'.'.strtolower($fileParts['extension']);
 		$targetFile = $uploadDir.DS.$filename;
