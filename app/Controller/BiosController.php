@@ -72,9 +72,7 @@ class BiosController extends AppController {
 			$this->request->data = $bio;
 		}
 		$this->set(array(
-			'title_for_layout' => 'Update Instructor Bio',
-			'bio_id' => $bio['Bio']['id'],
-			'user_id' => $user_id
+			'title_for_layout' => 'Update Instructor Bio'
 		));
 	}
 
