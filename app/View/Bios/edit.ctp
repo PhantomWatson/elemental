@@ -43,6 +43,10 @@
 		<a href="#" id="image_upload_button">Select image</a>
 	</div>
 
+	<div class="form-group" id="bio_image_container">
+
+	</div>
+
 	<?php echo $this->Form->end(array(
 		'label' => 'Update',
 		'class' => 'btn btn-default'
