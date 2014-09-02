@@ -65,7 +65,8 @@ class BioImage extends Image {
 	 */
 	public function afterSave($created, $options = array()) {
 		$new_filename = $this->data['BioImage']['filename'];
-		$bio_id = $this->data['BioImage']['id'];
+		$filename_parts = explode('.', $new_filename);
+		$bio_id = $filename_parts[0];
 
 		if (! $bio_id) {
 			return;
@@ -74,7 +75,7 @@ class BioImage extends Image {
 		App::uses('File', 'Utility');
 		$path = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.'img'.DS.'bios';
 		$dir = new Folder($path);
-		$files = $dir->find("$bio_id\.*");
+		$files = $dir->find($bio_id.'\.([A-Za-z]+)');
 		foreach ($files as $uploaded_filename) {
 			if ($uploaded_filename != $new_filename) {
 				$file = new File($path.DS.$uploaded_filename);
