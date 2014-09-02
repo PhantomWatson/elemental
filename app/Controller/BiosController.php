@@ -46,13 +46,18 @@ class BiosController extends AppController {
 
 	public function edit() {
 		$user_id = $this->Auth->user('id');
-		$existing_record = $this->Bio->getForUser($user_id);
+		$bio = $this->Bio->getForUser($user_id);
+		if (! $bio) {
+			$this->redirect(array(
+				'action' => 'add'
+			));
+		}
 
 		if ($this->request->is('post') || $this->request->is('put')) {
 			$this->Bio->create($this->request->data);
 			$this->Bio->set('user_id', $user_id);
-			if ($existing_record) {
-				$this->Bio->id = $existing_record['Bio']['id'];
+			if ($bio) {
+				$this->Bio->id = $bio['Bio']['id'];
 			}
 			if ($this->Bio->save()) {
 				$this->Flash->success('Bio updated');
@@ -64,7 +69,7 @@ class BiosController extends AppController {
 				$this->Flash->error('There was an error updating your bio. Please try again or contact an administrator for assistance.');
 			}
 		} else {
-			$this->request->data = $existing_record;
+			$this->request->data = $bio;
 		}
 		$this->set(array(
 			'title_for_layout' => 'Update Instructor Bio'
