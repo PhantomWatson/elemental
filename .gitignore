@@ -7,7 +7,7 @@ app/[Cc]onfig/core.php
 app/[Cc]onfig/database.php
 !empty
 app/webroot/vizi/*
-app/webroot/img/bio/*
+app/webroot/img/bios/*
 
 # Eclipse
 *.pydevproject
