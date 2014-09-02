@@ -286,7 +286,8 @@ var bioForm = {
 			},
 			'onUploadComplete': function(file, data) {
 				var image = jQuery.parseJSON(data);
-				var img_path = '/img/bios/'+image.filename;
+				var date = new Date();
+				var img_path = '/img/bios/'+image.filename+'?'+date.getTime(); // added to force a reload even if filename doesn't change
 				var img = $('<img src="'+img_path+'" alt="Your uploaded image" />');
 				var hidden_field = $('<input type="hidden" name="data[Bio][image_id]" value="'+image.id+'" />');
 				var container = $('#bio_image_container');
