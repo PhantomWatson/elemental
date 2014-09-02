@@ -13,6 +13,11 @@ class TestimonialsController extends AppController {
 	}
 
 	public function isAuthorized($user) {
+		// Admins can access everything
+		if (parent::isAuthorized($user)) {
+			return true;
+		}
+
 		// Students and instructors can only add
 		$this->loadModel('User');
 		$user_id = $this->Auth->user('id');
@@ -20,8 +25,7 @@ class TestimonialsController extends AppController {
 			return $this->action == 'add';
 		}
 
-        // Admins can access everything
-		return parent::isAuthorized($user);
+		return false;
 	}
 
 /**

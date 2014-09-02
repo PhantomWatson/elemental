@@ -137,6 +137,7 @@ class ProductsController extends AppController {
 		if (! $this->InstructorAgreement->hasAgreed($user_id)) {
 			$this->Flash->error('Before accessing the training module, you must first agree to the Certified Elemental Instructor License Agreement.');
 			$this->redirect(array(
+				$this->params['prefix'] => false,
 				'controller' => 'instructor_agreements',
 				'action' => 'view'
 			));
@@ -157,7 +158,8 @@ class ProductsController extends AppController {
 		$this->set(array(
 			'title_for_layout' => 'Student Review Modules',
 			'cost' => $this->StudentReviewModule->getCost(),
-			'report' => $this->StudentReviewModule->getReport($user_id)
+			'report' => $this->StudentReviewModule->getReport($user_id),
+			'unpaid_jwt' => $this->StudentReviewModule->getUnpaidJWT($user_id)
 		));
 	}
 

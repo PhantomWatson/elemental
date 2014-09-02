@@ -55,6 +55,7 @@
 			<?php echo $this->Html->link(
 				'contact us',
 				array(
+					'instructor' => false,
 					'controller' => 'pages',
 					'action' => 'contact'
 				)
@@ -64,6 +65,7 @@
 			<?php echo $this->Html->link(
 				'Log in',
 				array(
+					'instructor' => false,
 					'controller' => 'users',
 					'action' => 'login'
 				),
@@ -83,6 +85,7 @@
 			<?php echo $this->Html->link(
 				'contact us',
 				array(
+					'instructor' => false,
 					'controller' => 'pages',
 					'action' => 'contact'
 				)
@@ -94,6 +97,7 @@
 			<?php echo $this->Html->link(
 				'submit a Release of Liability',
 				array(
+					'instructor' => false,
 					'controller' => 'releases',
 					'action' => 'add'
 				)

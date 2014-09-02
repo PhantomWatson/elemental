@@ -269,3 +269,57 @@ var srm_overview = {
 		});
 	}
 };
+
+var bioForm = {
+	setupUpload: function(params) {
+		$('#image_upload_button').uploadifive({
+			'uploadScript': '/images/upload_for_bio',
+			'checkScript': '/images/file_exists',
+			'onCheck': false,
+			'fileSizeLimit': params.post_max,
+			'buttonText': 'Click to select an image to upload',
+			'width': 300,
+			'multi': false,
+			'formData': {
+				'timestamp': params.timestamp,
+				'token': params.token
+			},
+			'onUploadComplete': function(file, data) {
+				var image = jQuery.parseJSON(data);
+				var date = new Date();
+				var img_path = '/img/bios/'+image.filename+'?'+date.getTime(); // added to force a reload even if filename doesn't change
+				var img = $('<img src="'+img_path+'" alt="Your uploaded image" />');
+				var hidden_field = $('<input type="hidden" name="data[Bio][image_id]" value="'+image.id+'" />');
+				var container = $('#bio_image_container');
+				if (container.is(':empty')) {
+					container.hide();
+					container.append(img);
+					container.append(hidden_field);
+					container.slideDown(300);
+				} else {
+					container.slideUp(300, function () {
+						container.empty();
+						container.append(img);
+						container.append(hidden_field);
+						container.slideDown(300);
+					});
+				}
+			},
+			'onFallback': function() {
+				// Warn user that their browser is old
+			},
+			'onError': function(errorType, files) {
+				alert('There was an error uploading that file: '+errorType);
+			},
+			'onInit': function() {
+			},
+			'onQueueComplete': function() {
+				this.uploadifive('clearQueue');
+			}
+		});
+		$('#image_upload_rules_toggler').click(function(event) {
+			event.preventDefault();
+			$('#image_upload_rules').slideToggle(300);
+		});
+	}
+};

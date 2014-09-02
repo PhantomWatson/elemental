@@ -8,9 +8,9 @@
 			<?php echo $this->Html->link(
 				'Training Lessons',
 				array(
+					'instructor' => true,
 					'controller' => 'products',
-					'action' => 'instructor_training',
-					$this->params['prefix'] => false
+					'action' => 'training'
 				)
 			); ?>
 		</li>

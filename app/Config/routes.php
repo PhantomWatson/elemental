@@ -104,9 +104,10 @@
 	Router::connect("/student_review/*", array('controller' => 'products', 'action' => 'route'));
 	Router::connect("/vizi/student_review/*", array('controller' => 'products', 'action' => 'route'));
 
-	Router::connect("/instructor_training", array('controller' => 'products', 'action' => 'instructor_training'));
+	Router::connect("/instructor_training", array('instructor' => true, 'controller' => 'products', 'action' => 'training'));
 	Router::connect("/instructor_training/*", array('controller' => 'products', 'action' => 'route'));
 	Router::connect("/vizi/instructor_training/*", array('controller' => 'products', 'action' => 'route'));
+	Router::connect('/instructor/certification', array('instructor' => true, 'controller' => 'products', 'action' => 'certification'));
 
 	Router::connect("/classroom_module", array('controller' => 'products', 'action' => 'classroom_module'));
 	Router::connect("/classroom_module/*", array('controller' => 'products', 'action' => 'route'));
@@ -117,6 +118,11 @@
 	// Bios
 	Router::connect("/bio/edit", array('controller' => 'bios', 'action' => 'edit'));
 	Router::connect("/instructors", array('controller' => 'bios', 'action' => 'index'));
+	Router::connect(
+		'/bio/:user_id',
+		array('controller' => 'bios', 'action' => 'view'),
+		array('user_id' => '[0-9]+', 'pass' => array('user_id'))
+	);
 
 	CakePlugin::routes();
 	require CAKE . 'Config' . DS . 'routes.php';

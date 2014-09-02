@@ -70,16 +70,22 @@ class User extends AppModel {
 		)
 	);
 	public $hasOne = array(
-		'Release',
+		'Release' => array(
+			'dependent' => true
+		),
 		'InstructorAgreement' => array(
 			'className' => 'InstructorAgreement',
-			'foreignKey' => 'instructor_id'
+			'foreignKey' => 'instructor_id',
+			'dependent' => true
 		),
-		'Bio'
+		'Bio' => array(
+			'dependent' => true
+		)
 	);
 	public $hasAndBelongsToMany = array(
 		'Role' => array(
-			'className' => 'Role'
+			'className' => 'Role',
+			'dependent' => true
 		)
     );
 

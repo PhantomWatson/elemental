@@ -19,6 +19,10 @@ class Bio extends AppModel {
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id'
+		),
+		'Image' => array(
+			'className' => 'Image',
+			'foreignKey' => 'image_id'
 		)
 	);
 
@@ -36,12 +40,17 @@ class Bio extends AppModel {
 							'User.name',
 							'User.email'
 						)
+					),
+					'Image' => array(
+						'fields' => array(
+							'Image.id',
+							'Image.filename'
+						)
 					)
 				),
 				'fields' => array(
 					'Bio.id',
-					'Bio.bio',
-					'Bio.picture'
+					'Bio.bio'
 				)
 			)
 		);
@@ -74,12 +83,17 @@ class Bio extends AppModel {
 							'User.name',
 							'User.email'
 						)
+					),
+					'Image' => array(
+						'fields' => array(
+							'Image.id',
+							'Image.filename'
+						)
 					)
 				),
 				'fields' => array(
 					'Bio.id',
-					'Bio.bio',
-					'Bio.picture'
+					'Bio.bio'
 				)
 			)
 		);

@@ -42,6 +42,7 @@
 					echo $this->Html->link(
 						$label,
 						array(
+							'instructor' => false,
 							'controller' => 'store',
 							'action' => 'student_review_module'
 						),
@@ -82,6 +83,7 @@
 								echo $this->Html->link(
 									$course['start'],
 									array(
+										'instructor' => false,
 										'controller' => 'courses',
 										'action' => 'view',
 										'id' => $course_id
@@ -129,6 +131,7 @@
 								echo $this->Html->link(
 									$course['start'],
 									array(
+										'instructor' => false,
 										'controller' => 'courses',
 										'action' => 'view',
 										'id' => $course_id
@@ -141,6 +144,33 @@
 				<?php endif; ?>
 			</td>
 			<td>
+				<?php
+					if ($unpaid_jwt) {
+						echo $this->Html->link(
+							'Pay ($'.($cost*$unpaid_total).')',
+							'#',
+							array(
+								'class' => 'btn btn-default',
+								'id' => 'pay_outstanding'
+							)
+						);
+						$this->Html->script(Configure::read('google_wallet_lib'), array('inline' => false));
+						$this->Js->buffer("
+							$('#pay_outstanding').click(function(event) {
+								event.preventDefault();
+								google.payments.inapp.buy({
+									'jwt': '$unpaid_jwt',
+									'success' : function(purchaseAction) {
+										location.reload(true);
+									},
+									'failure' : function(purchaseActionError){
+										alert('There was an error processing your payment: '+purchaseActionError.response.errorType);
+									}
+								});
+							});
+						");
+					}
+				?>
 			</td>
 		</tr>
 	</tbody>

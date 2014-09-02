@@ -9,8 +9,9 @@
 	<?php echo $this->Html->link(
 		'Learn more about becoming a Certified Elemental Instructor',
 		array(
+			'instructor' => true,
 			'controller' => 'products',
-			'action' => 'instructor_certification'
+			'action' => 'certification'
 		),
 		array(
 			'class' => '',
@@ -43,6 +44,9 @@
 						<?php endif; ?>
 					</div>
 					<div class="panel-body">
+						<?php if (isset($bio['Image']['filename'])): ?>
+							<img src="/img/bios/<?php echo $bio['Image']['filename']; ?>" class="bio_img" />
+						<?php endif; ?>
 						<?php echo $bio['Bio']['bio']; ?>
 					</div>
 				</div>

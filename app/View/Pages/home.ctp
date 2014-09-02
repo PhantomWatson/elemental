@@ -89,8 +89,9 @@
 					<?php echo $this->Html->link(
 						'<span class="glyphicon glyphicon-user"></span> Become an Instructor',
 						array(
+							'instructor' => true,
 							'controller' => 'products',
-							'action' => 'instructor_certification'
+							'action' => 'certification'
 						),
 						array(
 							'class' => 'btn btn-primary btn-large col-xs-12 col-sm-5',
