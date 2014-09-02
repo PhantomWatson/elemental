@@ -62,9 +62,6 @@ class BioImage extends Image {
 	public $maxHeight = 300;
 	public $maxWidth = 200;
 
-	/**
-	 * After a new bio image is uploaded, delete any other images this user previously uploaded
-	 */
 	public function afterSave($created, $options = array()) {
 		$new_filename = $this->data['BioImage']['filename'];
 		$filename_parts = explode('.', $new_filename);
@@ -73,6 +70,12 @@ class BioImage extends Image {
 		if (! $bio_id) {
 			return;
 		}
+
+		// Update Bio record
+		$this->Bio->id = $bio_id;
+		$this->Bio->saveField('image_id', $this->data['BioImage']['id']);
+
+		// Delete any other images this user previously uploaded
 		App::uses('Folder', 'Utility');
 		App::uses('File', 'Utility');
 		$path = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.'img'.DS.'bios';
