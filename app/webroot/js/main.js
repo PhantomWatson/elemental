@@ -309,7 +309,7 @@ var bioForm = {
 				// Warn user that their browser is old
 			},
 			'onError': function(errorType, files) {
-				alert('There was an error uploading that file: '+file.xhr.responseText);
+				alert('There was an error uploading that file: '+errorType);
 			},
 			'onInit': function() {
 			},
