@@ -64,11 +64,6 @@ class Image extends AppModel {
 	public $errors = array();
 	public $maxHeight = 2000;
 	public $maxWidth = 2000;
-	public $tinyHeight = 50;
-	public $tinyWidth = 50;
-	public $tinyQuality = 90;
-	public $smallWidth = 200;
-	public $smallQuality = 90;
 	public $fullQuality = 90;
 
 	/**
