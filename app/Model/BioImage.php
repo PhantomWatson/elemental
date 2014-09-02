@@ -63,7 +63,7 @@ class BioImage extends Image {
 	/**
 	 * After a new bio image is uploaded, delete any other images this user previously uploaded
 	 */
-	public function afterSave(boolean $created, array $options = array()) {
+	public function afterSave($created, $options = array()) {
 		$new_filename = $this->data['BioImage']['filename'];
 		$bio_id = $this->data['BioImage']['id'];
 
