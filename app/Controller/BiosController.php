@@ -28,6 +28,22 @@ class BiosController extends AppController {
 		return parent::isAuthorized($user);
 	}
 
+	public function add() {
+		$user_id = $this->Auth->user('id');
+		$bio_id = $this->Bio->field('id', array(
+			'Bio.user_id' => $user_id
+		));
+		if (! $bio_id) {
+			$this->Bio->create(array(
+				'user_id' => $user_id
+			));
+			$this->Bio->save();
+		}
+		$this->redirect(array(
+			'action' => 'edit'
+		));
+	}
+
 	public function edit() {
 		$user_id = $this->Auth->user('id');
 		$existing_record = $this->Bio->getForUser($user_id);
