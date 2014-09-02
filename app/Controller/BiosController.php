@@ -76,6 +76,24 @@ class BiosController extends AppController {
 		));
 	}
 
+	public function view($user_id) {
+		$bio = $this->Bio->find(
+			'first',
+			array(
+				'conditions' => array(
+					'Bio.user_id' => $user_id
+				)
+			)
+		);
+		if (! $bio) {
+			throw new NotFoundException('Sorry, we couldn\'t find that bio.');
+		}
+		$this->set(array(
+			'title_for_layout' => $bio['User']['name'],
+			'bio' => $bio
+		));
+	}
+
 	/**
 	 * Instructors bio page
 	 */
