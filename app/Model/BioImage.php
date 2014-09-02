@@ -3,6 +3,7 @@ App::uses('Image', 'Model');
 class BioImage extends Image {
 	public $name = 'BioImage';
 	public $displayField = 'filename';
+	public $useTable = 'images';
 	public $hasOne = array(
 		'Bio' => array(
 			'foreignKey' => 'image_id'
