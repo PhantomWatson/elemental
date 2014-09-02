@@ -1,3 +1,11 @@
+<?php
+	$upload_max = ini_get('upload_max_filesize');
+	$post_max = ini_get('post_max_size');
+
+	/*
+	 * Instructor picture cannot exceed <?php echo $post_max; ?>B
+	 */
+?>
 <div class="page-header">
 	<h1>
 		<?php echo $title_for_layout; ?>
@@ -31,8 +39,24 @@
 		</div>
 	</fieldset>
 
+	<div class="form-group">
+		<a href="#" id="image_upload_button">Select image</a>
+	</div>
+
 	<?php echo $this->Form->end(array(
 		'label' => 'Update',
 		'class' => 'btn btn-default'
 	)); ?>
 </div>
+<?php
+	echo $this->Html->script('/uploadifive/jquery.uploadifive.min.js', array('inline' => false));
+	echo $this->Html->css('/uploadifive/uploadifive.css', null, array('inline' => false));
+	$this->Js->buffer("
+		bioForm.setupUpload({
+			token: '".md5(Configure::read('image_upload_token').time())."',
+			user_id: $user_id,
+			bio_id: $bio_id,
+			post_max: '{$post_max}B',
+			timestamp: ".time()."
+		});
+	");
