@@ -32,16 +32,14 @@ class ImagesController extends AppController {
 
 	public function upload_for_bio() {
 		$user_id = $this->Auth->user('id');
-		$this->loadModel('Bio');
-		$bio_id = $this->Bio->field('id', array(
-			'user_id' => $user_id
-		));
-		if ($bio_id) {
-			$this->upload('bios'.DS.$bio_id);
-		} else {
+		$this->loadModel('BioImage');
+
+		list($success, $retval) = $this->BioImage->upload($user_id);
+		if (! $success) {
 			$this->response->statusCode(500);
-			echo 'No bio found for user '.$user_id;
 		}
+		$this->layout = 'blank';
+		$this->set('retval', $retval);
 	}
 
 	private function upload($dir) {
