@@ -44,7 +44,9 @@
 	</div>
 
 	<div class="form-group" id="bio_image_container">
-
+		<?php if (isset($this->request->data['Image']['filename'])): ?>
+			<img src="/img/bios/<?php echo $this->request->data['Image']['filename']; ?>" alt="Your uploaded image" />
+		<?php endif; ?>
 	</div>
 
 	<?php echo $this->Form->end(array(
