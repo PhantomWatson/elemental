@@ -44,7 +44,7 @@
 						<?php endif; ?>
 					</div>
 					<div class="panel-body">
-						<?php if (! empty($bio['Image'])): ?>
+						<?php if (isset($bio['Image']['filename'])): ?>
 							<img src="/img/bios/<?php echo $bio['Image']['filename']; ?>" class="bio_img" />
 						<?php endif; ?>
 						<?php echo $bio['Bio']['bio']; ?>
