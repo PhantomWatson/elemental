@@ -59,6 +59,8 @@ class BioImage extends Image {
 			)
 		)
 	);
+	public $maxHeight = 300;
+	public $maxWidth = 200;
 
 	/**
 	 * After a new bio image is uploaded, delete any other images this user previously uploaded
