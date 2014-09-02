@@ -8,10 +8,6 @@ App::uses('AppController', 'Controller');
 class ImagesController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
-	}
-
-	public function beforeFilter() {
-		parent::beforeFilter();
 		$this->Auth->deny(array('edit'));
 	}
 
