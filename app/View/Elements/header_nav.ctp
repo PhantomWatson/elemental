@@ -128,47 +128,7 @@
 					</ul>
 				</li>
 
-				<?php if ($logged_in): ?>
-					<?php if (in_array('admin', $user_roles)): ?>
-						<?php echo $this->element('header_nav/admin_dropdown'); ?>
-					<?php endif; ?>
-
-					<?php if (in_array('instructor', $user_roles) && $certified): ?>
-						<?php echo $this->element('header_nav/instructor_certified_dropdown'); ?>
-					<?php elseif (in_array('instructor', $user_roles) && ! $certified): ?>
-						<?php echo $this->element('header_nav/instructor_uncertified_dropdown'); ?>
-					<?php endif; ?>
-
-					<?php if (in_array('trainee', $user_roles)): ?>
-						<?php echo $this->element('header_nav/instructor_in_training_dropdown'); ?>
-					<?php endif; ?>
-
-					<?php if (in_array('student', $user_roles)): ?>
-						<?php echo $this->element('header_nav/student_dropdown'); ?>
-					<?php endif; ?>
-
-					<li class="<?php echo ($current_page == 'users/account') ? 'active' : ''; ?>">
-						<?php echo $this->Html->link(
-							'Account',
-							array(
-								'controller' => 'users',
-								'action' => 'account',
-								$this->params['prefix'] => false
-							)
-						); ?>
-					</li>
-
-					<li class="<?php echo ($current_page == 'users/logout') ? 'active' : ''; ?>">
-						<?php echo $this->Html->link(
-							'Logout',
-							array(
-								'controller' => 'users',
-								'action' => 'logout',
-								$this->params['prefix'] => false
-							)
-						); ?>
-					</li>
-				<?php else: ?>
+				<?php if (! $logged_in): ?>
 					<li class="<?php echo ($current_page == 'users/login') ? 'active' : ''; ?>">
 						<?php echo $this->Html->link(
 							'Login',
@@ -219,3 +179,55 @@
 		</div>
 	</div>
 </nav>
+
+<?php if ($logged_in): ?>
+	<nav class="navbar navbar-default navbar-lower navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<?php
+						if (in_array('admin', $user_roles)) {
+							echo $this->element('header_nav/admin_dropdown');
+						}
+
+						if (in_array('instructor', $user_roles) && $certified) {
+							echo $this->element('header_nav/instructor_certified_dropdown');
+						} elseif (in_array('instructor', $user_roles) && ! $certified) {
+							echo $this->element('header_nav/instructor_uncertified_dropdown');
+						}
+
+						if (in_array('trainee', $user_roles)) {
+							echo $this->element('header_nav/instructor_in_training_dropdown');
+						}
+
+						if (in_array('student', $user_roles)) {
+							echo $this->element('header_nav/student_dropdown');
+						}
+					?>
+
+					<li class="<?php echo ($current_page == 'users/account') ? 'active' : ''; ?>">
+						<?php echo $this->Html->link(
+							'Account',
+							array(
+								'controller' => 'users',
+								'action' => 'account',
+								$this->params['prefix'] => false
+							)
+						); ?>
+					</li>
+
+					<li class="<?php echo ($current_page == 'users/logout') ? 'active' : ''; ?>">
+						<?php echo $this->Html->link(
+							'Logout',
+							array(
+								'controller' => 'users',
+								'action' => 'logout',
+								$this->params['prefix'] => false
+							)
+						); ?>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+<?php endif; ?>
