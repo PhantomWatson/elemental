@@ -20,7 +20,6 @@
 	<meta name="viewport" content="width=device-width">
 	<link rel="shortcut icon" href="/favicon.ico" />
 	<link rel="icon" type="image/png" href="/favicon.png" />
-	<link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
 
 	<style>
 		body {
@@ -96,7 +95,7 @@
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script>window.jQuery || document.write('<script src="/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-	<script src="/js/vendor/bootstrap.min.js"></script>
+	<script src="/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/js/main.js"></script>
 	<?php echo $this->fetch('script'); ?>
 	<?php echo $this->Js->writeBuffer(); ?>
