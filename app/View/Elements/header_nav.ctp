@@ -38,7 +38,7 @@
 ?>
 
 
-<nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-upper navbar-default navbar-inverse navbar-fixed-top" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
@@ -205,7 +205,7 @@
 						}
 					?>
 
-					<li class="<?php echo ($current_page == 'users/account') ? 'active' : ''; ?>">
+					<li class="<?php echo ($current_page == 'users/account') ? 'active' : ''; ?> user_menu">
 						<?php echo $this->Html->link(
 							'Account',
 							array(
@@ -216,7 +216,7 @@
 						); ?>
 					</li>
 
-					<li class="<?php echo ($current_page == 'users/logout') ? 'active' : ''; ?>">
+					<li class="<?php echo ($current_page == 'users/logout') ? 'active' : ''; ?> user_menu">
 						<?php echo $this->Html->link(
 							'Logout',
 							array(

@@ -1,4 +1,4 @@
-<li class="dropdown">
+<li class="dropdown user_menu">
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 		Instructor
 		<b class="caret"></b>
