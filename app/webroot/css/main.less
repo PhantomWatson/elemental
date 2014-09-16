@@ -1,9 +1,36 @@
+@import "bootstrap.custom.less";
+
 /* VARIABLES */
 @TextColorFootnote: #666;
 
 
 
 /* GENERAL */
+body {
+	padding-top: 60px;
+}
+.navbar-lower {
+	display: none;
+	margin-top: 50px;
+}
+.navbar-upper {
+	li.user_menu {
+		display: block;
+	}
+}
+@media (min-width: @grid-float-breakpoint) {
+	body.logged_in {
+		padding-top: 110px;
+	}
+	.navbar-lower {
+		display: block;
+	}
+	.navbar-upper {
+		li.user_menu {
+			display: none;
+		}
+	}
+}
 .recaptcha {
 	.footnote {
 		color: @TextColorFootnote;

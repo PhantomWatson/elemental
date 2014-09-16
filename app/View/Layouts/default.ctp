@@ -20,7 +20,6 @@
 	<meta name="viewport" content="width=device-width">
 	<link rel="shortcut icon" href="/favicon.ico" />
 	<link rel="icon" type="image/png" href="/favicon.png" />
-	<link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
 
 	<style>
 		body {
@@ -44,7 +43,14 @@
 	  ga('send', 'pageview');
 	</script>
 </head>
-<body>
+<?php
+	$logged_in = (boolean) $this->Session->read('Auth.User.id');
+	if ($logged_in):
+?>
+	<body class="logged_in">
+<?php else: ?>
+	<body>
+<?php endif; ?>
 	<!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
@@ -89,7 +95,7 @@
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script>window.jQuery || document.write('<script src="/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-	<script src="/js/vendor/bootstrap.min.js"></script>
+	<script src="/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/js/main.js"></script>
 	<?php echo $this->fetch('script'); ?>
 	<?php echo $this->Js->writeBuffer(); ?>

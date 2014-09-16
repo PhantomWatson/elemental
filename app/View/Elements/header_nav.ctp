@@ -38,7 +38,7 @@
 ?>
 
 
-<nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-upper navbar-default navbar-inverse navbar-fixed-top" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
@@ -129,45 +129,51 @@
 				</li>
 
 				<?php if ($logged_in): ?>
-					<?php if (in_array('admin', $user_roles)): ?>
-						<?php echo $this->element('header_nav/admin_dropdown'); ?>
-					<?php endif; ?>
+					<?php
+						$user_menu_links = '';
 
-					<?php if (in_array('instructor', $user_roles) && $certified): ?>
-						<?php echo $this->element('header_nav/instructor_certified_dropdown'); ?>
-					<?php elseif (in_array('instructor', $user_roles) && ! $certified): ?>
-						<?php echo $this->element('header_nav/instructor_uncertified_dropdown'); ?>
-					<?php endif; ?>
+						if (in_array('admin', $user_roles)) {
+							$user_menu_links .= $this->element('header_nav/admin_dropdown');
+						}
 
-					<?php if (in_array('trainee', $user_roles)): ?>
-						<?php echo $this->element('header_nav/instructor_in_training_dropdown'); ?>
-					<?php endif; ?>
+						if (in_array('instructor', $user_roles) && $certified) {
+							$user_menu_links .= $this->element('header_nav/instructor_certified_dropdown');
+						} elseif (in_array('instructor', $user_roles) && ! $certified) {
+							$user_menu_links .= $this->element('header_nav/instructor_uncertified_dropdown');
+						}
 
-					<?php if (in_array('student', $user_roles)): ?>
-						<?php echo $this->element('header_nav/student_dropdown'); ?>
-					<?php endif; ?>
+						if (in_array('trainee', $user_roles)) {
+							$user_menu_links .= $this->element('header_nav/instructor_in_training_dropdown');
+						}
 
-					<li class="<?php echo ($current_page == 'users/account') ? 'active' : ''; ?>">
-						<?php echo $this->Html->link(
+						if (in_array('student', $user_roles)) {
+							$user_menu_links .= $this->element('header_nav/student_dropdown');
+						}
+
+						$active = ($current_page == 'users/account') ? 'active' : '';
+						$link = $this->Html->link(
 							'Account',
 							array(
 								'controller' => 'users',
 								'action' => 'account',
 								$this->params['prefix'] => false
 							)
-						); ?>
-					</li>
+						);
+						$user_menu_links .= '<li class="user_menu '.$active.'">'.$link.'</li>';
 
-					<li class="<?php echo ($current_page == 'users/logout') ? 'active' : ''; ?>">
-						<?php echo $this->Html->link(
+						$active = ($current_page == 'users/logout') ? 'active' : '';
+						$link = $this->Html->link(
 							'Logout',
 							array(
 								'controller' => 'users',
 								'action' => 'logout',
 								$this->params['prefix'] => false
 							)
-						); ?>
-					</li>
+						);
+						$user_menu_links .= '<li class="user_menu '.$active.'">'.$link.'</li>';
+
+						echo $user_menu_links;
+					?>
 				<?php else: ?>
 					<li class="<?php echo ($current_page == 'users/login') ? 'active' : ''; ?>">
 						<?php echo $this->Html->link(
@@ -190,32 +196,19 @@
 						); ?>
 					</li>
 				<?php endif; ?>
-
-				<?php /* DROPDOWN MENU TEMPLATE
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							Dropdown
-							<b class="caret"></b>
-						</a>
-						<ul class="dropdown-menu">
-							<li>
-								<a href="#">
-									Action
-								</a>
-							</li>
-							<li class="divider"></li>
-							<li class="nav-header">
-								Nav header
-							</li>
-							<li>
-								<a href="#">
-									Separated link
-								</a>
-							</li>
-						</ul>
-					</li>
-				*/ ?>
 			</ul>
 		</div>
 	</div>
 </nav>
+
+<?php if ($logged_in): ?>
+	<nav class="navbar navbar-default navbar-lower navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<?php echo $user_menu_links; ?>
+				</ul>
+			</div>
+		</div>
+	</nav>
+<?php endif; ?>

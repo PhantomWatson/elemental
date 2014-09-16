@@ -8,6 +8,7 @@ app/[Cc]onfig/database.php
 !empty
 app/webroot/vizi/*
 app/webroot/img/bios/*
+Thumbs.db
 
 # Eclipse
 *.pydevproject
