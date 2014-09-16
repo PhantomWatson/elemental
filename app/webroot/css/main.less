@@ -8,9 +8,17 @@
 /* GENERAL */
 body {
 	padding-top: 60px;
-
-	&.logged_in {
+}
+.navbar-lower {
+	display: none;
+	margin-top: 50px;
+}
+@media (min-width: @grid-float-breakpoint) {
+	body.logged_in {
 		padding-top: 110px;
+	}
+	.navbar-lower {
+		display: block;
 	}
 }
 .recaptcha {
@@ -56,9 +64,6 @@ body {
 		margin-top: -10px;
 		vertical-align: middle;
 	}
-}
-.navbar-lower {
-	margin-top: 50px;
 }
 footer {
 	color: @TextColorFootnote;
