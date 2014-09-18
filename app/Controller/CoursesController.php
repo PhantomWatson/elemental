@@ -31,8 +31,10 @@ class CoursesController extends AppController {
 
 	public function isAuthorized($user) {
 		$instructor_owned_actions = array(
+			'add',
 			'edit',
 			'delete',
+			'manage',
 			'students',
 			'report_attendance'
 		);
