@@ -50,9 +50,12 @@ class CoursesController extends AppController {
 				$instructor_id = $this->Course->field('user_id');
 				if ($instructor_id == $user['id']) {
 					return true;
+				} else {
+					return parent::isAuthorized($user);
 				}
 			}
-			return parent::isAuthorized($user);
+
+			return true;
 		}
 		return parent::isAuthorized($user);
 	}
