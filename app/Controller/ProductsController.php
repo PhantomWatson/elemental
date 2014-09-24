@@ -204,15 +204,27 @@ class ProductsController extends AppController {
 	}
 
 	public function instructor_transfer_srm() {
-		if ($this->request->is('post')) {
-
-		}
-
-		$instructor_id = $this->Auth->user('id');
 		$this->loadModel('StudentReviewModule');
-		$available_count = $this->StudentReviewModule->getAvailableCount($instructor_id);
+		$instructor_id = $this->Auth->user('id');
 		$this->loadModel('User');
 		$instructors = $this->User->getInstructorList();
+
+		if ($this->request->is('post')) {
+			$quantity = $this->request->data['quantity'];
+			$recipient_instructor_id = $this->request->data['instructor_id'];
+			$success = $this->StudentReviewModule->transfer($instructor_id, $recipient_instructor_id, $quantity);
+			if ($success) {
+				$message = "$quantity Student Review ".__n('Module', 'Modules', $quantity).' transferred to '.$instructors[$recipient_instructor_id];
+				$this->Flash->success($message);
+				$this->redirect(array(
+					'instructor' => true,
+					'controller' => 'products',
+					'action' => 'student_review_modules'
+				));
+			}
+		}
+
+		$available_count = $this->StudentReviewModule->getAvailableCount($instructor_id);
 
 		// Exclude the logged-in instructor
 		unset($instructors[$instructor_id]);
