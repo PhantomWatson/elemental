@@ -19,11 +19,9 @@ class ProductsController extends AppController {
 
 		switch ($this->action) {
 			case 'classroom_module':
-				if ($is_instructor) return true;
-				break;
 			case 'instructor_student_review_modules':
+			case 'instructor_transfer_srm':
 				if ($is_instructor) return true;
-				break;
 		}
 
         // Admins can access everything
@@ -203,5 +201,38 @@ class ProductsController extends AppController {
 				'jwt' => $this->Product->getClassroomModuleJWT($user_id)
 			));
 		}
+	}
+
+	public function instructor_transfer_srm() {
+		$this->loadModel('StudentReviewModule');
+		$instructor_id = $this->Auth->user('id');
+		$this->loadModel('User');
+		$instructors = $this->User->getInstructorList();
+
+		if ($this->request->is('post')) {
+			$quantity = $this->request->data['quantity'];
+			$recipient_instructor_id = $this->request->data['instructor_id'];
+			$success = $this->StudentReviewModule->transfer($instructor_id, $recipient_instructor_id, $quantity);
+			if ($success) {
+				$message = "$quantity Student Review ".__n('Module', 'Modules', $quantity).' transferred to '.$instructors[$recipient_instructor_id];
+				$this->Flash->success($message);
+				$this->redirect(array(
+					'instructor' => true,
+					'controller' => 'products',
+					'action' => 'student_review_modules'
+				));
+			}
+		}
+
+		$available_count = $this->StudentReviewModule->getAvailableCount($instructor_id);
+
+		// Exclude the logged-in instructor
+		unset($instructors[$instructor_id]);
+
+		$this->set(array(
+			'title_for_layout' => 'Transfer Pre-paid Student Review Modules',
+			'instructors' => $instructors,
+			'available_count' => $available_count
+		));
 	}
 }

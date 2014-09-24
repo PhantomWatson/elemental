@@ -290,4 +290,39 @@ class StudentReviewModule extends AppModel {
 		}
 		return $retval;
 	}
+
+	public function transfer($sender_id, $recipient_id, $quantity) {
+		$available = $this->getAvailableCount($sender_id);
+		if ($quantity > $available) {
+			throw new ForbiddenException("Cannot transfer $quantity Student Review Modules. Instructor only has $available available.");
+		}
+
+		App::import('Model','User');
+		$User = new User();
+		if (! $User->hasRole($recipient_id, 'instructor')) {
+			throw new ForbiddenException("Cannot transfer Student Review Modules to that user. User is not a certified instructor.");
+		}
+
+		$available_paid_modules = $this->find(
+			'list',
+			array(
+				'conditions' => array(
+					'StudentReviewModule.instructor_id' => $sender_id,
+					'StudentReviewModule.student_id' => null,
+					'StudentReviewModule.purchase_id NOT' => null,
+				)
+			)
+		);
+		$module_ids = array_keys($available_paid_modules);
+
+		for ($i = 1; $i <= $quantity; $i++) {
+			$module_id = array_pop($module_ids);
+			$this->id = $module_id;
+			if (! $this->saveField('instructor_id', $recipient_id)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 }

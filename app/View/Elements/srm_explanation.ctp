@@ -24,13 +24,6 @@
 	</li>
 	<li>
 		<strong>Transferring:</strong>
-		If you need pre-paid Student Review Modules to be transferred from one instructor to another, please
-		<?php echo $this->Html->link(
-			'contact us',
-			array(
-				'controller' => 'pages',
-				'action' => 'contact'
-			)
-		); ?>.
+		Pre-paid Student Review Modules that have not yet been assigned to students can be transferred to the account of any other certified Elemental instructor.
 	</li>
 </ul>

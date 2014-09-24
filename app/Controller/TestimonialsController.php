@@ -47,13 +47,13 @@ class TestimonialsController extends AppController {
  * @return void
  */
 	public function add() {
+		$user_id = $this->Auth->user('id');
+		$this->loadModel('User');
 		if ($this->request->is('post')) {
 			$this->Testimonial->create();
-			$user_id = $this->Auth->user('id');
 			$this->request->data['Testimonial']['user_id'] = $user_id;
 
 			// Auto-approved if posted by an admin
-			$this->loadModel('User');
 			$this->request->data['Testimonial']['approved'] = $this->User->hasRole($user_id, 'admin');
 
 			if ($this->Testimonial->save($this->request->data)) {

@@ -35,12 +35,8 @@
 			</td>
 			<td>
 				<?php
-					$label = 'Purchase';
-					if ($report['prepaid_available']) {
-						$label .= ' more';
-					}
 					echo $this->Html->link(
-						$label,
+						'Purchase More',
 						array(
 							'instructor' => false,
 							'controller' => 'store',
@@ -50,6 +46,19 @@
 							'class' => 'btn btn-default'
 						)
 					);
+					if ($report['prepaid_available'] > 0) {
+						echo $this->Html->link(
+							'Transfer',
+							array(
+								'instructor' => true,
+								'controller' => 'products',
+								'action' => 'transfer_srm'
+							),
+							array(
+								'class' => 'btn btn-default'
+							)
+						);
+					}
 				?>
 			</td>
 		</tr>
