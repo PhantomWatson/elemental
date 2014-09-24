@@ -316,7 +316,11 @@ class StudentReviewModule extends AppModel {
 		for ($i = 1; $i <= $quantity; $i++) {
 			$module_id = array_pop($module_ids);
 			$this->id = $module_id;
-			$this->saveField('instructor_id', $recipient_id);
+			if (! $this->saveField('instructor_id', $recipient_id)) {
+				return false;
+			}
 		}
+
+		return true;
 	}
 }
