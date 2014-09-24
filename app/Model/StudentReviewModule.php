@@ -297,7 +297,9 @@ class StudentReviewModule extends AppModel {
 			throw new ForbiddenException("Cannot transfer $quantity Student Review Modules. Instructor only has $available available.");
 		}
 
-		if (! $this->Instructor->hasRole($recipient_id, 'instructor')) {
+		App::import('Model','User');
+		$User = new User();
+		if (! $User->hasRole($recipient_id, 'instructor')) {
 			throw new ForbiddenException("Cannot transfer Student Review Modules to that user. User is not a certified instructor.");
 		}
 
