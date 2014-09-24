@@ -38,15 +38,19 @@
 
 		<p>
 			Transfer
-			<?php echo $this->Form->input(
-				'quantity',
-				array(
-					'type' => 'select',
-					'options' => range(1, $available_count),
-					'label' => false,
-					'div' => false
-				)
-			); ?>
+			<?php
+				$range = range(1, $available_count);
+				$options = array_combine($range, $range);
+				echo $this->Form->input(
+					'quantity',
+					array(
+						'type' => 'select',
+						'options' => $options,
+						'label' => false,
+						'div' => false
+					)
+				);
+			?>
 
 			Student Review Modules to
 
