@@ -388,6 +388,12 @@ class UsersController extends AppController {
 					'Bio' => array(
 						'fields' => array(
 							'Bio.bio'
+						),
+						'Image' => array(
+							'fields' => array(
+								'Image.id',
+								'Image.filename'
+							)
 						)
 					)
 				)
