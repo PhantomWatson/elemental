@@ -401,7 +401,8 @@ class UsersController extends AppController {
 		}
 		$this->set(array(
 			'roles' => $this->User->Role->find('list'),
-			'title_for_layout' => 'Edit User'
+			'title_for_layout' => 'Edit User',
+			'instructor_id' => $id
 		));
 	}
 
