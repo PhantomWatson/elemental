@@ -48,9 +48,19 @@
 				'type' => 'text'
 			)
 		);
+	?>
+
+	<div id="bio_fields_container">
+		<?php echo $this->element('bios/form'); ?>
+	</div>
+
+	<?php
 		echo $this->Form->end(array(
 			'label' => 'Add User',
 			'class' => 'btn btn-default'
 		));
 	?>
 </div>
+<?php $this->Js->buffer("
+	adminUserEditForm.init();
+"); ?>
