@@ -92,7 +92,9 @@ class BioImage extends Image {
 	/**
 	 * Attempts to upload an image for this user's bio and returns array(success / failure, array / error msg)
 	 */
-	public function upload($user_id) {
+	public function upload() {
+		$user_id = $_POST['instructor_id'];
+
 		$bio_id = $this->Bio->field('id', array(
 			'user_id' => $user_id
 		));

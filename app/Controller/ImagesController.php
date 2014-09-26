@@ -27,10 +27,8 @@ class ImagesController extends AppController {
 	}
 
 	public function upload_for_bio() {
-		$user_id = $this->Auth->user('id');
 		$this->loadModel('BioImage');
-
-		list($success, $retval) = $this->BioImage->upload($user_id);
+		list($success, $retval) = $this->BioImage->upload();
 		if (! $success) {
 			$this->response->statusCode(500);
 		}
