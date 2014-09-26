@@ -282,7 +282,8 @@ var bioForm = {
 			'multi': false,
 			'formData': {
 				'timestamp': params.timestamp,
-				'token': params.token
+				'token': params.token,
+				'instructor_id': params.instructor_id
 			},
 			'onUploadComplete': function(file, data) {
 				var image = jQuery.parseJSON(data);
