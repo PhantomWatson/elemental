@@ -64,6 +64,7 @@
 		bioForm.setupUpload({
 			token: '".md5(Configure::read('image_upload_token').time())."',
 			post_max: '{$post_max}B',
-			timestamp: ".time()."
+			timestamp: ".time().",
+			instructor_id: $instructor_id
 		});
 	");
