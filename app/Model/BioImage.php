@@ -63,18 +63,6 @@ class BioImage extends Image {
 	public $maxWidth = 200;
 
 	public function afterSave($created, $options = array()) {
-		$new_filename = $this->data['BioImage']['filename'];
-		$filename_parts = explode('.', $new_filename);
-		$bio_id = $filename_parts[0];
-
-		if (! $bio_id) {
-			return;
-		}
-
-		// Update Bio record
-		$this->Bio->id = $bio_id;
-		$this->Bio->saveField('image_id', $this->data['BioImage']['id']);
-
 		// Delete any other images this user previously uploaded
 		App::uses('Folder', 'Utility');
 		App::uses('File', 'Utility');
@@ -133,6 +121,7 @@ class BioImage extends Image {
 
 		$image = array(
 			'id' => $this->id,
+			'bio_id' => 999,
 			'filename' => $filename
 		);
 		return array(true, $image);
