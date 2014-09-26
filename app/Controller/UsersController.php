@@ -388,6 +388,12 @@ class UsersController extends AppController {
 					'Bio' => array(
 						'fields' => array(
 							'Bio.bio'
+						),
+						'Image' => array(
+							'fields' => array(
+								'Image.id',
+								'Image.filename'
+							)
 						)
 					)
 				)
@@ -395,7 +401,8 @@ class UsersController extends AppController {
 		}
 		$this->set(array(
 			'roles' => $this->User->Role->find('list'),
-			'title_for_layout' => 'Edit User'
+			'title_for_layout' => 'Edit User',
+			'instructor_id' => $id
 		));
 	}
 

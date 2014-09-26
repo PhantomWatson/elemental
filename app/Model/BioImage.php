@@ -65,40 +65,55 @@ class BioImage extends Image {
 	public function afterSave($created, $options = array()) {
 		$new_filename = $this->data['BioImage']['filename'];
 		$filename_parts = explode('.', $new_filename);
-		$bio_id = $filename_parts[0];
+		$user_id = $filename_parts[0];
 
-		if (! $bio_id) {
+		if (! $user_id) {
 			return;
 		}
 
 		// Update Bio record
-		$this->Bio->id = $bio_id;
-		$this->Bio->saveField('image_id', $this->data['BioImage']['id']);
+		$bio_id = $this->Bio->field('id', array(
+			'user_id' => $user_id
+		));
+		if ($bio_id) {
+			$this->Bio->id = $bio_id;
+			$this->Bio->saveField('image_id', $this->data['BioImage']['id']);
+		}
 
 		// Delete any other images this user previously uploaded
 		App::uses('Folder', 'Utility');
 		App::uses('File', 'Utility');
 		$path = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.'img'.DS.'bios';
 		$dir = new Folder($path);
-		$files = $dir->find($bio_id.'\.([A-Za-z]+)');
+		$files = $dir->find($user_id.'\.([A-Za-z]+)');
 		foreach ($files as $uploaded_filename) {
 			if ($uploaded_filename != $new_filename) {
 				$file = new File($path.DS.$uploaded_filename);
 				$file->delete();
 			}
 		}
+
+		// Delete any records for images this user previously uploaded
+		$image_id = $this->id;
+		$old_images = $this->find(
+			'list',
+			array(
+				'conditions' => array(
+					'BioImage.filename LIKE' => $user_id.'.%',
+					'BioImage.id NOT' => $image_id
+				)
+			)
+		);
+		foreach ($old_images as $old_image_id => $filename) {
+			$this->delete($old_image_id);
+		}
 	}
 
 	/**
 	 * Attempts to upload an image for this user's bio and returns array(success / failure, array / error msg)
 	 */
-	public function upload($user_id) {
-		$bio_id = $this->Bio->field('id', array(
-			'user_id' => $user_id
-		));
-		if (! $bio_id) {
-			return array(false, 'No bio found for user '.$user_id);
-		}
+	public function upload() {
+		$user_id = $_POST['instructor_id'];
 
 		$verifyToken = md5(Configure::read('image_upload_token').$_POST['timestamp']);
 		if ($_POST['token'] != $verifyToken) {
@@ -107,7 +122,7 @@ class BioImage extends Image {
 
 		$uploadDir = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.'img'.DS.'bios';
 		$fileParts = pathinfo($_FILES['Filedata']['name']);
-		$filename = $bio_id.'.'.strtolower($fileParts['extension']);
+		$filename = $user_id.'.'.strtolower($fileParts['extension']);
 		$targetFile = $uploadDir.DS.$filename;
 		$fileTypes = array('jpg', 'jpeg', 'gif', 'png');
 		if (! in_array(strtolower($fileParts['extension']), $fileTypes)) {
@@ -138,7 +153,7 @@ class BioImage extends Image {
 
 		$image = array(
 			'id' => $this->id,
-			'bio_id' => $bio_id,
+			'bio_id' => 999,
 			'filename' => $filename
 		);
 		return array(true, $image);
