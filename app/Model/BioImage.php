@@ -92,6 +92,21 @@ class BioImage extends Image {
 				$file->delete();
 			}
 		}
+
+		// Delete any records for images this user previously uploaded
+		$image_id = $this->id;
+		$old_images = $this->find(
+			'list',
+			array(
+				'conditions' => array(
+					'BioImage.filename LIKE' => $user_id.'.%',
+					'BioImage.id NOT' => $image_id
+				)
+			)
+		);
+		foreach ($old_images as $old_image_id => $filename) {
+			$this->delete($old_image_id);
+		}
 	}
 
 	/**
