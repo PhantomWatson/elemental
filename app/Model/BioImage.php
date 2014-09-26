@@ -95,13 +95,6 @@ class BioImage extends Image {
 	public function upload() {
 		$user_id = $_POST['instructor_id'];
 
-		$bio_id = $this->Bio->field('id', array(
-			'user_id' => $user_id
-		));
-		if (! $bio_id) {
-			return array(false, 'No bio found for user '.$user_id);
-		}
-
 		$verifyToken = md5(Configure::read('image_upload_token').$_POST['timestamp']);
 		if ($_POST['token'] != $verifyToken) {
 			return array(false, 'Security code incorrect');
@@ -109,7 +102,7 @@ class BioImage extends Image {
 
 		$uploadDir = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.'img'.DS.'bios';
 		$fileParts = pathinfo($_FILES['Filedata']['name']);
-		$filename = $bio_id.'.'.strtolower($fileParts['extension']);
+		$filename = $user_id.'.'.strtolower($fileParts['extension']);
 		$targetFile = $uploadDir.DS.$filename;
 		$fileTypes = array('jpg', 'jpeg', 'gif', 'png');
 		if (! in_array(strtolower($fileParts['extension']), $fileTypes)) {
@@ -140,7 +133,6 @@ class BioImage extends Image {
 
 		$image = array(
 			'id' => $this->id,
-			'bio_id' => $bio_id,
 			'filename' => $filename
 		);
 		return array(true, $image);
