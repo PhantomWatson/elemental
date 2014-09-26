@@ -91,6 +91,13 @@ class UsersController extends AppController {
 			$hash = Security::hash($password, null, true);
 			$this->request->data['User']['password'] = $hash;
 
+			// Ignore bio section if user is not an instructor
+			$instructor_role_id = $this->User->Role->getIdWithName('instructor');
+			$is_instructor = array_search($instructor_role_id, $this->request->data['Role']['Role']);
+			if ($is_instructor === false) {
+				unset($user_data['Bio']);
+			}
+
 			$this->User->create();
 			if ($this->User->saveAssociated($this->request->data)) {
 				$this->Flash->success('The user has been added.');
