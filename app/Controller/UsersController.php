@@ -98,6 +98,12 @@ class UsersController extends AppController {
 				unset($user_data['Bio']);
 			}
 
+			if (isset($this->request->data['Bio']['image_id'])) {
+				$this->loadModel('Image');
+				$this->Image->id = $this->request->data['Bio']['image_id'];
+				$this->request->data['Image']['filename'] = $this->Image->field('filename');
+			}
+
 			$this->User->create();
 			if ($this->User->saveAssociated($this->request->data)) {
 				$this->Flash->success('The user has been added.');
