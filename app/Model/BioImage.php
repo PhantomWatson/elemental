@@ -63,12 +63,29 @@ class BioImage extends Image {
 	public $maxWidth = 200;
 
 	public function afterSave($created, $options = array()) {
+		$new_filename = $this->data['BioImage']['filename'];
+		$filename_parts = explode('.', $new_filename);
+		$user_id = $filename_parts[0];
+
+		if (! $user_id) {
+			return;
+		}
+
+		// Update Bio record
+		$bio_id = $this->Bio->field('id', array(
+			'user_id' => $user_id
+		));
+		if ($bio_id) {
+			$this->Bio->id = $bio_id;
+			$this->Bio->saveField('image_id', $this->data['BioImage']['id']);
+		}
+
 		// Delete any other images this user previously uploaded
 		App::uses('Folder', 'Utility');
 		App::uses('File', 'Utility');
 		$path = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.'img'.DS.'bios';
 		$dir = new Folder($path);
-		$files = $dir->find($bio_id.'\.([A-Za-z]+)');
+		$files = $dir->find($user_id.'\.([A-Za-z]+)');
 		foreach ($files as $uploaded_filename) {
 			if ($uploaded_filename != $new_filename) {
 				$file = new File($path.DS.$uploaded_filename);
