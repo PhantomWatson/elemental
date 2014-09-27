@@ -13,7 +13,7 @@
 <div class="users form">
 	<?php
 		// Retain course_id (or anything else) from $_GET
-		$url = (isset($_GET) && ! empty($_GET) ? array('?' => $_GET) : null); 
+		$url = (isset($_GET) && ! empty($_GET) ? array('?' => $_GET) : null);
 		echo $this->Form->create('User', array(
 			'url' => $url
 		));
@@ -21,20 +21,40 @@
 	<fieldset>
 		<?php
 			echo $this->Form->input('name', array(
-				'class' => 'form-control', 
+				'class' => 'form-control',
 				'div' => array('class' => 'form-group')
 			));
 			echo $this->Form->input('phone', array(
-				'class' => 'form-control', 
-				'div' => array('class' => 'form-group')
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group'),
+				'label' => 'Phone number'
 			));
-			echo $this->Form->input('email', array(
-				'class' => 'form-control', 
-				'div' => array('class' => 'form-group')
+			echo $this->Form->input('new_email', array(
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group'),
+				'label' => 'Email address',
+				'required' => true,
+				'type' => 'email'
 			));
-			echo $this->Form->input('password', array(
-				'class' => 'form-control', 
-				'div' => array('class' => 'form-group')
+			echo $this->Form->input('confirm_email', array(
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group'),
+				'label' => 'Confirm email address',
+				'required' => true,
+				'type' => 'email'
+			));
+			echo $this->Form->input('new_password', array(
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group'),
+				'label' => 'Password',
+				'required' => true,
+			));
+			echo $this->Form->input('confirm_password', array(
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group'),
+				'label' => 'Confirm password',
+				'required' => true,
+				'type' => 'password'
 			));
 		?>
 		<div class="form-group">
