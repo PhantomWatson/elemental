@@ -33,6 +33,25 @@ class User extends AppModel {
 				'rule' => array('notempty')
 			),
 		),
+		'new_password' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+        		'message' => 'Please enter a password.'
+			),
+        	'validNewPassword' => array(
+        		'rule' => array('validNewPassword'),
+        		'message' => 'Sorry, those passwords did not match.'
+			)
+		),
+		'new_email' => array(
+			'email' => array(
+				'rule' => array('email')
+			),
+        	'validNewEmail' => array(
+        		'rule' => array('validNewEmail'),
+        		'message' => 'Sorry, those email addresses did not match.'
+			)
+		)
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -450,5 +469,13 @@ class User extends AppModel {
 		$Product = new Product();
 		$expiration = $Product->getClassroomModuleAccessExpiration($user_id);
 		return $expiration && $expiration > time();
+	}
+
+	public function validNewPassword($check) {
+		return $this->data[$this->name]['new_password'] == $this->data[$this->name]['confirm_password'];
+	}
+
+	public function validNewEmail($check) {
+		return $this->data[$this->name]['new_email'] == $this->data[$this->name]['confirm_email'];
 	}
 }
