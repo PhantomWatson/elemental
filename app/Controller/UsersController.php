@@ -211,7 +211,13 @@ class UsersController extends AppController {
 			if (! empty($email_result) && $email_result['User']['id'] != $id) {
 				$this->User->validationErrors['email'] = 'Sorry, a different user account has been created with that email address.';
 			} elseif ($this->User->validates()) {
-				if ($this->User->save()) {
+				$field_list = array(
+					'name',
+					'email',
+					'phone'
+				);
+				$save_result = $this->User->save(null, true, $field_list);
+				if ($save_result) {
 					$this->Flash->success('Information updated.');
 				} else {
 					$this->Flash->error('Sorry, there was an error updating your information. Please try again.');
