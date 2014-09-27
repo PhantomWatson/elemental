@@ -221,7 +221,8 @@ class UsersController extends AppController {
 			$this->request->data = $this->User->find('first', array(
 				'fields' => array(
 					'User.name',
-					'User.email'
+					'User.email',
+					'User.phone'
 				),
 				'conditions' => array(
 					'User.id' => $id
