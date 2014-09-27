@@ -115,7 +115,7 @@ class UsersController extends AppController {
 			// Format data
 			App::uses('Sanitize', 'Utility');
 			$this->request->data['User'] = Sanitize::clean($this->request->data['User']);
-			$clean_email = trim(strtolower($this->request->data['User']['email']));
+			$clean_email = trim(strtolower($this->request->data['User']['new_email']));
 
 			// Set login URL
 			if (isset($_GET['course'])) {
@@ -141,9 +141,9 @@ class UsersController extends AppController {
 			} else {
 				// Format data
 				$this->request->data['User']['email'] = $clean_email;
-				$password = $this->request->data['User']['password'];
+				$password = $this->request->data['User']['new_password'];
 				App::uses('Security', 'Utility');
-				$this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
+				$this->request->data['User']['password'] = Security::hash($password, null, true);
 				$this->loadModel('Role');
 				$this->request->data['Role']['id'] = $this->Role->getIdWithName('student');
 				$this->request->data['User'] = Sanitize::clean($this->request->data['User']);
@@ -179,13 +179,14 @@ class UsersController extends AppController {
 						$this->redirect($this->Auth->redirectUrl());
 					}
 				} else {
-					$this->Flash->error('Please correct the indicated error.');
+					$this->Flash->error('Please correct the indicated error(s).');
 				}
 			}
 
 			// So the password field isn't filled out automatically when the user
 			// is bounced back to the page by a validation error
-			$this->request->data['User']['password'] = '';
+			$this->request->data['User']['new_password'] = '';
+			$this->request->data['User']['confirm_password'] = '';
 		}
 
 		$this->set(array(
