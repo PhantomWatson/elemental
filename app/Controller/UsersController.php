@@ -200,8 +200,12 @@ class UsersController extends AppController {
 			$this->request->data['User']['email'] = strtolower(trim($this->request->data['User']['email']));
 			$this->User->set($this->request->data);
 			$email_result = $this->User->find('first', array(
-				'conditions' => array('email' => $this->request->data['User']['email']),
-				'fields' => array('id'),
+				'conditions' => array(
+					'User.email' => $this->request->data['User']['email']
+				),
+				'fields' => array(
+					'User.id'
+				),
 				'contain' => false
 			));
 			if (! empty($email_result) && $email_result['User']['id'] != $id) {
@@ -213,11 +217,15 @@ class UsersController extends AppController {
 					$this->Flash->error('Sorry, there was an error updating your information. Please try again.');
 				}
 			}
-
 		} else {
 			$this->request->data = $this->User->find('first', array(
-				'fields' => array('name', 'email'),
-				'conditions' => array('id' => $id),
+				'fields' => array(
+					'User.name',
+					'User.email'
+				),
+				'conditions' => array(
+					'User.id' => $id
+				),
 				'contain' => false
 			));
 		}
