@@ -140,7 +140,7 @@ class UsersController extends AppController {
 			// Attempt to register
 			} else {
 				// Format data
-				$this->request->data['User']['email'] = trim(strtolower($this->request->data['User']['email']));
+				$this->request->data['User']['email'] = $clean_email;
 				$password = $this->request->data['User']['password'];
 				App::uses('Security', 'Utility');
 				$this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
