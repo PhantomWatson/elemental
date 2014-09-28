@@ -159,9 +159,9 @@ class UsersController extends AppController {
 					);
 					$this->Auth->login($login_data);
 					if ($this->Auth->loggedIn()) {
-						$this->Flash->success('Your account has been created and you have been logged in.');
+						$this->Flash->success('Welcome to Elemental! Your account has been created and you have been logged in.');
 					} else {
-						$this->Flash->success('Your account has been created. Please log in to continue.');
+						$this->Flash->success('Welcome to Elemental! Your account has been created. Please log in to continue.');
 						$this->redirect($login_url);
 					}
 
