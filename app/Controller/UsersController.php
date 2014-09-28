@@ -149,16 +149,15 @@ class UsersController extends AppController {
 
 				if ($this->User->save($this->request->data)) {
 
+					// Format login data (so Session.Auth is populated and formatted correctly)
+					$user = $this->User->read();
+					$login_data = $user['User'];
+					unset($user['User']);
+					$login_data = array_merge($user, $login_data);
+					$login_data['password'] = $this->request->data['User']['new_password'];
+
 					// Attempt to log the new user in
-					$login_data = array_merge(
-						$this->request->data['User'],
-						array(
-							'password' => $password,
-							'id' => $this->User->id
-						)
-					);
-					$this->Auth->login($login_data);
-					if ($this->Auth->loggedIn()) {
+					if ($this->Auth->login($login_data)) {
 						$this->Flash->success('Welcome to Elemental! Your account has been created and you have been logged in.');
 					} else {
 						$this->Flash->success('Welcome to Elemental! Your account has been created. Please log in to continue.');
