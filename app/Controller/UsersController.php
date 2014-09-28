@@ -47,7 +47,8 @@ class UsersController extends AppController {
 
 					$this->Cookie->write('remember_me', $this->request->data['User'], true, '10 years');
 				}
-				$this->Flash->success('You are now logged in.');
+				$first_name = $this->User->getFirstName($this->Auth->user('id'));
+				$this->Flash->success("Welcome back to Elemental, $first_name.");
 				$this->redirect($this->Auth->redirectUrl());
 			} else {
 				$this->Flash->error('There was a problem logging you in.');
