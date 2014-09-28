@@ -48,6 +48,7 @@
 				'div' => array('class' => 'form-group'),
 				'label' => 'Password',
 				'required' => true,
+				'type' => 'password'
 			));
 			echo $this->Form->input('confirm_password', array(
 				'class' => 'form-control',
