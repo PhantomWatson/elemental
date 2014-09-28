@@ -480,4 +480,12 @@ class User extends AppModel {
 	public function validNewEmail($check) {
 		return $this->data[$this->name]['new_email'] == $this->data[$this->name]['confirm_email'];
 	}
+
+	public function getFirstName($user_id) {
+		$name = $this->field('name', array(
+			'User.id' => $user_id
+		));
+		$name_split = explode(' ', $name);
+		return $name_split[0];
+	}
 }
