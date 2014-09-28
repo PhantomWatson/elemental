@@ -146,7 +146,6 @@ class UsersController extends AppController {
 				$this->request->data['User']['password'] = Security::hash($password, null, true);
 				$this->loadModel('Role');
 				$this->request->data['Role']['id'] = $this->Role->getIdWithName('student');
-				$this->request->data['User'] = Sanitize::clean($this->request->data['User']);
 
 				if ($this->User->save($this->request->data)) {
 
