@@ -25,7 +25,8 @@ class User extends AppModel {
 		),
 		'email' => array(
 			'email' => array(
-				'rule' => array('email')
+				'rule' => array('email'),
+				'message' => 'That doesn\'t appear to be an email address'
 			),
 		),
 		'password' => array(
@@ -45,7 +46,8 @@ class User extends AppModel {
 		),
 		'new_email' => array(
 			'email' => array(
-				'rule' => array('email')
+				'rule' => array('email'),
+				'message' => 'That doesn\'t appear to be an email address'
 			),
         	'validNewEmail' => array(
         		'rule' => array('validNewEmail'),
