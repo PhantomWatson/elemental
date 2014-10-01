@@ -34,6 +34,7 @@
  			</ul>
 		</div>
 	</div>
+	<?php echo $this->element('elements'); ?>
 </div>
 
 <hr />
