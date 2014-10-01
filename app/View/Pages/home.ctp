@@ -34,7 +34,9 @@
  			</ul>
 		</div>
 	</div>
-	<?php echo $this->element('elements'); ?>
+	<?php if (isset($_GET['show_elements'])): ?>
+		<?php echo $this->element('elements'); ?>
+	<?php endif; ?>
 </div>
 
 <hr />
