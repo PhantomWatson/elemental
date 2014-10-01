@@ -30,6 +30,19 @@
 				</li>
 				<li>
 					Provides program participants with choices in the way they respond to an assault, each based on the four elements of <a href="http://skhquest.com">To-Shin Do</a>. Our name comes from this element-based problem-solving paradigm.
+					<?php if (isset($_GET['show_elements'])): ?>
+						<br />
+						<a href="#" id="elements_toggler">
+							What are the elements?
+						</a>
+						<?php $this->Js->buffer("
+							$('#elements_toggler').click(function (event) {
+								event.preventDefault();
+								$('#elements').slideToggle();
+							});
+							$('#elements').hide();
+						"); ?>
+					<?php endif; ?>
 				</li>
  			</ul>
 		</div>
