@@ -3,7 +3,10 @@
 		<img src="/img/elemental.gif" class="img-responsive" alt="Elemental: A sexual assault protection program" />
 	</div>
 	<div class="row">
-		<div class="col-lg-8 col-lg-offset-4 col-sm-12 col-xs-12">
+		<div class="col-lg-4 col-sm-12 col-xs-12" id="intro_buttons">
+			<?php echo $this->element('intro_buttons'); ?>
+		</div>
+		<div class="col-lg-8 col-sm-12 col-xs-12">
 			<div id="welcome_message_mover" class="visible-lg">
 			</div>
 			<?php echo $this->element('frontpage_carousel'); ?>
@@ -64,58 +67,6 @@
 					<br />
 					<em>Exploit weaknesses within the threat that enable you to leave entirely</em>
 				</div>
-			</div>
-			<div class="row">
-					<?php echo $this->Html->link(
-						'<span class="glyphicon glyphicon-info-sign"></span> Learn More',
-						array(
-							'controller' => 'pages',
-							'action' => 'about_intro'
-						),
-						array(
-							'class' => 'btn btn-primary btn-large col-xs-12 col-sm-5',
-							'escape' => false
-						)
-					); ?>
-
-					<?php echo $this->Html->link(
-						'<span class="glyphicon glyphicon-play"></span> Student Review Materials',
-						array(
-							'controller' => 'products',
-							'action' => 'student_review'
-						),
-						array(
-							'class' => 'btn btn-primary btn-large col-xs-12 col-sm-6 col-sm-offset-1',
-							'escape' => false
-						)
-					); ?>
-			</div>
-			<div class="row">
-					<?php echo $this->Html->link(
-						'<span class="glyphicon glyphicon-user"></span> Become an Instructor',
-						array(
-							'instructor' => true,
-							'controller' => 'products',
-							'action' => 'certification'
-						),
-						array(
-							'class' => 'btn btn-primary btn-large col-xs-12 col-sm-5',
-							'escape' => false
-						)
-					); ?>
-
-					<?php echo $this->Html->link(
-						'<span class="glyphicon glyphicon-road"></span> Bring Elemental to Your Campus',
-						array(
-							'controller' => 'pages',
-							'action' => 'booking'
-						),
-						array(
-							'class' => 'btn btn-primary btn-large col-xs-12 col-sm-6 col-sm-offset-1',
-							'escape' => false
-						)
-					); ?>
-
 			</div>
 		</div>
 	</div>
