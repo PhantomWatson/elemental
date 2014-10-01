@@ -181,9 +181,9 @@
 			</div>
 		<?php endif; ?>
 	</div>
-<?php endif; ?>
 
-<hr />
+	<hr />
+<?php endif; ?>
 
 <div class="row">
 	<div class="col-lg-6">
