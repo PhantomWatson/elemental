@@ -2,10 +2,15 @@
 	<div class="col-lg-12 hidden-xs">
 		<img src="/img/elemental.gif" class="img-responsive" alt="Elemental: A sexual assault protection program" />
 	</div>
-	<div id="welcome_message" class="row">
+	<div class="row">
 		<div class="col-lg-8 col-lg-offset-4 col-sm-12 col-xs-12">
 			<div id="welcome_message_mover" class="visible-lg">
 			</div>
+			<?php echo $this->element('frontpage_carousel'); ?>
+		</div>
+	</div>
+	<div id="welcome_message" class="row">
+		<div class="col-lg-8 col-lg-offset-4 col-sm-12 col-xs-12">
 			<p>
 				Elemental is a sexual assault protection program that offers
 				<strong>realistic training for realistic situations</strong>. This program:
