@@ -32,42 +32,6 @@
 					Provides program participants with choices in the way they respond to an assault, each based on the four elements of <a href="http://skhquest.com">To-Shin Do</a>. Our name comes from this element-based problem-solving paradigm:
 				</li>
  			</ul>
-			<div class="row">
-				<div class="col-sm-2 col-xs-4">
-					<img src="/img/logo_earth.png" class="img-responsive" />
-				</div>
-				<div class="col-sm-4 col-xs-12">
-					<span class="element earth">Earth</span> (Confident)
-					<br />
-					<em>Hold your ground</em>
-				</div>
-				<div class="col-sm-2 col-xs-2">
-					<img src="/img/logo_water.png" class="img-responsive" />
-				</div>
-				<div class="col-sm-4 col-xs-10">
-					<span class="element water">Water</span> (Surprised)
-					<br />
-					<em>Step back momentarily, assess, then react</em>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-2 col-xs-2">
-					<img src="/img/logo_fire.png" class="img-responsive" />
-				</div>
-				<div class="col-sm-4 col-xs-10">
-					<span class="element fire">Fire</span> (Connected)
-					<br />
-					<em>Anticipate the threat and stop it before it grows</em>
-				</div>
-				<div class="col-sm-2 col-xs-2">
-					<img src="/img/logo_wind.png" class="img-responsive" />
-				</div>
-				<div class="col-sm-4 col-xs-10">
-					<span class="element wind">Wind</span> (Withdrawn)
-					<br />
-					<em>Exploit weaknesses within the threat that enable you to leave entirely</em>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>
