@@ -36,6 +36,12 @@
 				'class' => 'form-control',
 				'div' => array('class' => 'form-group')
 			));
+			echo $this->Form->input('phone', array(
+				'label' => 'Phone Number',
+				'class' => 'form-control',
+				'div' => array('class' => 'form-group'),
+				'type' => 'tel'
+			));
 		?>
 	</fieldset>
 	<?php echo $this->Form->end(array(

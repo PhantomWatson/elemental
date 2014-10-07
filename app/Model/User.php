@@ -25,7 +25,8 @@ class User extends AppModel {
 		),
 		'email' => array(
 			'email' => array(
-				'rule' => array('email')
+				'rule' => array('email'),
+				'message' => 'That doesn\'t appear to be an email address'
 			),
 		),
 		'password' => array(
@@ -33,6 +34,26 @@ class User extends AppModel {
 				'rule' => array('notempty')
 			),
 		),
+		'new_password' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+        		'message' => 'Please enter a password.'
+			),
+        	'validNewPassword' => array(
+        		'rule' => array('validNewPassword'),
+        		'message' => 'Sorry, those passwords did not match.'
+			)
+		),
+		'new_email' => array(
+			'email' => array(
+				'rule' => array('email'),
+				'message' => 'That doesn\'t appear to be an email address'
+			),
+        	'validNewEmail' => array(
+        		'rule' => array('validNewEmail'),
+        		'message' => 'Sorry, those email addresses did not match.'
+			)
+		)
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -450,5 +471,21 @@ class User extends AppModel {
 		$Product = new Product();
 		$expiration = $Product->getClassroomModuleAccessExpiration($user_id);
 		return $expiration && $expiration > time();
+	}
+
+	public function validNewPassword($check) {
+		return $this->data[$this->name]['new_password'] == $this->data[$this->name]['confirm_password'];
+	}
+
+	public function validNewEmail($check) {
+		return $this->data[$this->name]['new_email'] == $this->data[$this->name]['confirm_email'];
+	}
+
+	public function getFirstName($user_id) {
+		$name = $this->field('name', array(
+			'User.id' => $user_id
+		));
+		$name_split = explode(' ', $name);
+		return $name_split[0];
 	}
 }

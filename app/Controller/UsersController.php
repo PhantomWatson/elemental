@@ -47,7 +47,8 @@ class UsersController extends AppController {
 
 					$this->Cookie->write('remember_me', $this->request->data['User'], true, '10 years');
 				}
-				$this->Flash->success('You are now logged in.');
+				$first_name = $this->User->getFirstName($this->Auth->user('id'));
+				$this->Flash->success("Welcome back to Elemental, $first_name.");
 				$this->redirect($this->Auth->redirectUrl());
 			} else {
 				$this->Flash->error('There was a problem logging you in.');
@@ -115,7 +116,7 @@ class UsersController extends AppController {
 			// Format data
 			App::uses('Sanitize', 'Utility');
 			$this->request->data['User'] = Sanitize::clean($this->request->data['User']);
-			$clean_email = trim(strtolower($this->request->data['User']['email']));
+			$clean_email = trim(strtolower($this->request->data['User']['new_email']));
 
 			// Set login URL
 			if (isset($_GET['course'])) {
@@ -140,29 +141,27 @@ class UsersController extends AppController {
 			// Attempt to register
 			} else {
 				// Format data
-				$this->request->data['User']['email'] = trim(strtolower($this->request->data['User']['email']));
-				$password = $this->request->data['User']['password'];
+				$this->request->data['User']['email'] = $clean_email;
+				$password = $this->request->data['User']['new_password'];
 				App::uses('Security', 'Utility');
-				$this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
+				$this->request->data['User']['password'] = Security::hash($password, null, true);
 				$this->loadModel('Role');
 				$this->request->data['Role']['id'] = $this->Role->getIdWithName('student');
-				$this->request->data['User'] = Sanitize::clean($this->request->data['User']);
 
 				if ($this->User->save($this->request->data)) {
 
+					// Format login data (so Session.Auth is populated and formatted correctly)
+					$user = $this->User->read();
+					$login_data = $user['User'];
+					unset($user['User']);
+					$login_data = array_merge($user, $login_data);
+					$login_data['password'] = $this->request->data['User']['new_password'];
+
 					// Attempt to log the new user in
-					$login_data = array_merge(
-						$this->request->data['User'],
-						array(
-							'password' => $password,
-							'id' => $this->User->id
-						)
-					);
-					$this->Auth->login($login_data);
-					if ($this->Auth->loggedIn()) {
-						$this->Flash->success('Your account has been created and you have been logged in.');
+					if ($this->Auth->login($login_data)) {
+						$this->Flash->success('Welcome to Elemental! Your account has been created and you have been logged in.');
 					} else {
-						$this->Flash->success('Your account has been created. Please log in to continue.');
+						$this->Flash->success('Welcome to Elemental! Your account has been created. Please log in to continue.');
 						$this->redirect($login_url);
 					}
 
@@ -179,13 +178,14 @@ class UsersController extends AppController {
 						$this->redirect($this->Auth->redirectUrl());
 					}
 				} else {
-					$this->Flash->error('Please correct the indicated error.');
+					$this->Flash->error('Please correct the indicated error(s).');
 				}
 			}
 
 			// So the password field isn't filled out automatically when the user
 			// is bounced back to the page by a validation error
-			$this->request->data['User']['password'] = '';
+			$this->request->data['User']['new_password'] = '';
+			$this->request->data['User']['confirm_password'] = '';
 		}
 
 		$this->set(array(
@@ -200,24 +200,39 @@ class UsersController extends AppController {
 			$this->request->data['User']['email'] = strtolower(trim($this->request->data['User']['email']));
 			$this->User->set($this->request->data);
 			$email_result = $this->User->find('first', array(
-				'conditions' => array('email' => $this->request->data['User']['email']),
-				'fields' => array('id'),
+				'conditions' => array(
+					'User.email' => $this->request->data['User']['email']
+				),
+				'fields' => array(
+					'User.id'
+				),
 				'contain' => false
 			));
 			if (! empty($email_result) && $email_result['User']['id'] != $id) {
 				$this->User->validationErrors['email'] = 'Sorry, a different user account has been created with that email address.';
 			} elseif ($this->User->validates()) {
-				if ($this->User->save()) {
+				$field_list = array(
+					'name',
+					'email',
+					'phone'
+				);
+				$save_result = $this->User->save(null, true, $field_list);
+				if ($save_result) {
 					$this->Flash->success('Information updated.');
 				} else {
 					$this->Flash->error('Sorry, there was an error updating your information. Please try again.');
 				}
 			}
-
 		} else {
 			$this->request->data = $this->User->find('first', array(
-				'fields' => array('name', 'email'),
-				'conditions' => array('id' => $id),
+				'fields' => array(
+					'User.name',
+					'User.email',
+					'User.phone'
+				),
+				'conditions' => array(
+					'User.id' => $id
+				),
 				'contain' => false
 			));
 		}

@@ -12,6 +12,13 @@ body {
 .navbar-lower {
 	display: none;
 	margin-top: 50px;
+	min-height: 0;
+
+	.navbar-nav > li > a {
+	    line-height: 20px;
+	    padding-bottom: 5px;
+	    padding-top: 5px;
+	}
 }
 .navbar-upper {
 	z-index: 1031;
@@ -20,9 +27,10 @@ body {
 		display: block;
 	}
 }
+
 @media (min-width: @grid-float-breakpoint) {
 	body.logged_in {
-		padding-top: 110px;
+		padding-top: 90px;
 	}
 	.navbar-lower {
 		display: block;
@@ -137,7 +145,46 @@ table.elements {
 		width: 100px;
 	}
 }
+#frontpage_carousel {
+	margin: 0 auto 30px auto;
+	max-width: 100%;
+	padding-top: 20px;
+	width: 640px;
 
+	img {
+		max-height: 386px; /* Smallest height of all provided images, prevents carousel height-morphing */
+		margin: 0 auto 50px auto; /* Centers and pushes images up so the indicators appear lower */
+	}
+	.carousel-indicators {
+		margin-bottom: 0;
+
+		li {
+			border: 1px solid #000;
+		}
+		.active {
+			background-color: #000;
+		}
+	}
+}
+#photo_credits_toggler {
+	float: right;
+}
+.framelink {
+	font-weight: bold;
+}
+#intro_buttons {
+	margin-bottom: 30px;
+
+	.glyphicon {
+		float: left;
+	}
+	.btn:last-child {
+		margin-bottom: 30px;
+	}
+}
+#elements {
+	margin-top: 30px;
+}
 
 
 /* FORMS */
