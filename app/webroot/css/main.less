@@ -148,12 +148,22 @@ table.elements {
 #frontpage_carousel {
 	margin: 0 auto 30px auto;
 	max-width: 100%;
-	padding-top: 30px;
+	padding-top: 20px;
 	width: 640px;
 
 	img {
 		max-height: 386px; /* Smallest height of all provided images, prevents carousel height-morphing */
-		margin: 0 auto 30px auto; /* Centers and pushes images up so the indicators appear lower */
+		margin: 0 auto 50px auto; /* Centers and pushes images up so the indicators appear lower */
+	}
+	.carousel-indicators {
+		margin-bottom: 0;
+
+		li {
+			border: 1px solid #000;
+		}
+		.active {
+			background-color: #000;
+		}
 	}
 }
 #intro_buttons {
