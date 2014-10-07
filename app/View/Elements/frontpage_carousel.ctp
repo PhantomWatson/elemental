@@ -103,16 +103,4 @@
 		Elemental/Text added to original
 	</li>
 </ul>
-<?php $this->Js->buffer("
-	var credits = $('#photo_credits');
-	credits.hide();
-	$('#photo_credits_toggler').click(function (event) {
-		event.preventDefault();
-		credits.slideToggle();
-	});
-	$('.framelink').click(function (event) {
-		event.preventDefault();
-		var frame = $(this).data('frame');
-		$('#frontpage_carousel').carousel(frame);
-	});
-"); ?>
+<?php $this->Js->buffer("frontPage.setupPhotos();"); ?>

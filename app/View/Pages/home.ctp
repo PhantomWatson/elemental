@@ -36,13 +36,7 @@
  				<a href="#" id="elements_toggler">
 					What are the four elements?
 				</a>
-				<?php $this->Js->buffer("
-					$('#elements_toggler').click(function (event) {
-						event.preventDefault();
-						$('#elements').slideToggle();
-					});
-					$('#elements').hide();
-				"); ?>
+				<?php $this->Js->buffer("frontPage.setupElements();"); ?>
  			</p>
 		</div>
 	</div>
