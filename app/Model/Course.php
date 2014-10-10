@@ -702,7 +702,7 @@ class Course extends AppModel {
 		return $this->field('attendance_reported');
 	}
 
-	public function sendSrmAvailableEmail($course_id) {
+	public function sendSrmAvailableEmails($course_id) {
 		$attending_students = $this->CourseRegistration->find(
 			'all',
 			array(
