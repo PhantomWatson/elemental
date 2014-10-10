@@ -567,10 +567,10 @@ class CoursesController extends AppController {
 					$user_id = $this->CourseRegistration->field('user_id');
 					$cache_key = "getReviewModuleAccessExpiration($user_id)";
 					Cache::delete($cache_key);
-					// send email to student
 				}
 			}
 
+			$this->Course->sendSrmAvailableEmails($course_id);
 			$this->Course->saveField('attendance_reported', true);
 			$this->Flash->success('Attendance reported.');
 
