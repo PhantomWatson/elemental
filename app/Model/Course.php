@@ -701,4 +701,72 @@ class Course extends AppModel {
 		$this->id = $course_id;
 		return $this->field('attendance_reported');
 	}
+
+	public function sendSrmAvailableEmail($course_id) {
+		$attending_students = $this->CourseRegistration->find(
+			'all',
+			array(
+				'conditions' => array(
+					'CourseRegistration.course_id' => $course_id,
+					'CourseRegistration.attended' => true
+				),
+				'fields' => array(
+					'CourseRegistration.id'
+				),
+				'contain' => array(
+					'User' => array(
+						'fields' => array(
+							'User.name',
+							'User.email'
+						)
+					)
+				)
+			)
+		);
+
+		if (empty($attending_students)) {
+			return;
+		}
+
+		$this->id = $course_id;
+		$this->User->id = $this->field('user_id');
+		$instructor_email = $this->User->field('email');
+		$review_module_link = Router::url(
+			array(
+				'controller' => 'products',
+				'action' => 'student_review'
+			),
+			true
+		);
+		$contact_url = Router::url(
+			array(
+				'controller' => 'pages',
+				'action' => 'contact'
+			),
+			true
+		);
+
+		foreach ($attending_students as $student) {
+			$student_name = $student['User']['name'];
+			$student_email = $student['User']['email'];
+
+			// Send email
+			App::uses('CakeEmail', 'Network/Email');
+			$Email = new CakeEmail('default');
+			$Email->to($student_email);
+			$Email->replyTo($instructor_email);
+			$Email->returnPath($instructor_email);
+			$Email->subject('Elemental: Student Review Module now available');
+			$Email->template('review_module_available', 'default');
+			$Email->viewVars(compact(
+				'student_name',
+				'review_module_link',
+				'contact_url',
+				'instructor_email'
+			));
+			if (! $Email->send()) {
+				throw new InternalErrorException('Error sending email to student ('.$student_email.')');
+			}
+		}
+	}
 }
