@@ -6,6 +6,9 @@
 	<body>
 		<?php echo $this->fetch('content'); ?>
 		<p>
+			&nbsp;
+		</p>
+		<p>
 			<strong>
 				Elemental - Sexual Assault Protection
 			</strong>
