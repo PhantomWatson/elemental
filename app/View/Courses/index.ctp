@@ -114,7 +114,7 @@
 												'id' => $course['Course']['id']
 											),
 											array(
-												'class' => $course['spots_left'] ? 'btn btn-primary' : 'btn btn-warning'
+												'class' => 'btn btn-primary'
 											)
 										);
 									?>
