@@ -567,17 +567,17 @@ class CoursesController extends AppController {
 					$user_id = $this->CourseRegistration->field('user_id');
 					$cache_key = "getReviewModuleAccessExpiration($user_id)";
 					Cache::delete($cache_key);
-					// send email to student
 				}
 			}
 
+			$this->Course->sendSrmAvailableEmails($course_id);
 			$this->Course->saveField('attendance_reported', true);
 			$this->Flash->success('Attendance reported.');
 
 			if ($course['Course']['cost'] == 0) {
 				$this->loadModel('StudentReviewModule');
 				$this->StudentReviewModule->assignToAttendingStudents($course_id);
-				$instructor_id = $this->Course->field('instructor_id');
+				$instructor_id = $this->Course->field('user_id');
 				$unpaid = $this->StudentReviewModule->getUnpaidList($instructor_id);
 				if (! empty($unpaid)) {
 					$count = count($unpaid);
