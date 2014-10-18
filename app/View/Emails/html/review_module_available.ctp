@@ -24,9 +24,9 @@
 	<a href="mailto:<?php echo $instructor_email; ?>"><?php
 		echo $instructor_email;
 	?></a>.
-	If you have any trouble using the website, please let us know through the contact form at
+	If you have any trouble using the website, please let us know through
 	<a href="<?php echo $contact_url; ?>">
-		<?php echo $contact_url; ?>
+		the Elemental contact form
 	</a>
 	or by emailing
 	<a href="mailto:<?php echo Configure::read('admin_email'); ?>"><?php
