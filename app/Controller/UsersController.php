@@ -346,7 +346,11 @@ class UsersController extends AppController {
 		}
 		$this->set(array(
 			'title_for_layout' => 'Users',
-			'users' => $users
+			'users' => $users,
+			'search_url' => Router::url(array(
+				'controller' => 'users',
+				'action' => 'search'
+			))
 		));
 	}
 
