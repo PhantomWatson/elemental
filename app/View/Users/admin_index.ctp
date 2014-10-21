@@ -59,7 +59,7 @@
 		Search for User
 	</a>
 	<form class="form-inline" role="form" action="<?php echo $search_url; ?>" style="display: none;">
-		<input type="name" class="form-control" placeholder="Enter user's name">
+		<input type="text" name="name" class="form-control" placeholder="Enter user's name">
 		<button type="submit" class="btn btn-default">Search</button>
 	</form>
 </div>
