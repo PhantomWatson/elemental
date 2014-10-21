@@ -42,16 +42,21 @@ class AppModel extends Model {
 		if ($field == 'email') {
 			$value == strtolower($value);
 		}
+
+		// If editing
 		if (isset($this->data[$this->name]['id'])) {
 			$results = $this->field('id', array(
 				$this->name.'.'.$field => $value,
 				$this->name.'.id <>' => $this->data[$this->name]['id']
 			));
+
+		// If adding
 		} else {
 			$results = $this->field('id', array(
 				"$this->name.$field" => $value
 			));
 		}
+
 		return empty($results);
 	}
 }
