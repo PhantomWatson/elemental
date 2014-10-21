@@ -4,6 +4,20 @@
 	</h1>
 </div>
 
+<p>
+	<?php echo $this->Html->link(
+		'Add a New User',
+		array(
+			'admin' => true,
+			'controller' => 'users',
+			'action' => 'add'
+		),
+		array(
+			'class' => 'btn btn-success'
+		)
+	); ?>
+</p>
+
 <?php
 	$selected_role = isset($this->request->named['role']) ? $this->request->named['role'] : null;
 	echo $this->Html->link(
