@@ -90,6 +90,7 @@
 						<?php echo $this->Html->link(
 							'Edit',
 							array(
+								'admin' => true,
 								'action' => 'edit',
 								'id' => $user['User']['id']
 							),

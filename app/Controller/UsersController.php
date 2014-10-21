@@ -17,7 +17,7 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->deny(array(
-			'admin_add', 'admin_index', 'edit', 'delete'
+			'admin_add', 'admin_index', 'admin_edit', 'delete'
 		));
 	}
 
@@ -350,7 +350,7 @@ class UsersController extends AppController {
 		));
 	}
 
-	public function edit($id) {
+	public function admin_edit($id) {
 		$this->helpers[] = 'Tinymce';
 		$this->User->id = $id;
 		if ($this->request->is('post') || $this->request->is('put')) {
