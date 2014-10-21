@@ -28,6 +28,10 @@ class User extends AppModel {
 				'rule' => array('email'),
 				'message' => 'That doesn\'t appear to be an email address'
 			),
+			'emailUnclaimed' => array(
+				'rule' => array('_isUnique'),
+				'message' => 'Sorry, another account has already been created with that email address'
+			)
 		),
 		'password' => array(
 			'notempty' => array(
