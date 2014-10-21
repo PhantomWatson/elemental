@@ -33,4 +33,25 @@ App::uses('Model', 'Model');
  */
 class AppModel extends Model {
 	public $actsAs = array('Containable');
+
+	public function _isUnique($check) {
+		$values = array_values($check);
+		$value = array_pop($values);
+		$fields = array_keys($check);
+		$field = array_pop($fields);
+		if ($field == 'email') {
+			$value == strtolower($value);
+		}
+		if (isset($this->data[$this->name]['id'])) {
+			$results = $this->field('id', array(
+				$this->name.'.'.$field => $value,
+				$this->name.'.id <>' => $this->data[$this->name]['id']
+			));
+		} else {
+			$results = $this->field('id', array(
+				"$this->name.$field" => $value
+			));
+		}
+		return empty($results);
+	}
 }
