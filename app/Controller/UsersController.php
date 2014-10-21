@@ -348,6 +348,7 @@ class UsersController extends AppController {
 			'title_for_layout' => 'Users',
 			'users' => $users,
 			'search_url' => Router::url(array(
+				'admin' => false,
 				'controller' => 'users',
 				'action' => 'search'
 			))
