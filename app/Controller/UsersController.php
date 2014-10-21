@@ -134,52 +134,45 @@ class UsersController extends AppController {
 				));
 			}
 
-			// Make sure this isn't a duplicate registration
-			if ($this->User->findIdByEmail($clean_email)) {
-				$this->Flash->error('Someone has already created an account with that email address. Did you mean to <a href="'.$login_url.'">log in</a>?');
+			// Format data
+			$this->request->data['User']['email'] = $clean_email;
+			$password = $this->request->data['User']['new_password'];
+			App::uses('Security', 'Utility');
+			$this->request->data['User']['password'] = Security::hash($password, null, true);
+			$this->loadModel('Role');
+			$this->request->data['Role']['id'] = $this->Role->getIdWithName('student');
 
-			// Attempt to register
-			} else {
-				// Format data
-				$this->request->data['User']['email'] = $clean_email;
-				$password = $this->request->data['User']['new_password'];
-				App::uses('Security', 'Utility');
-				$this->request->data['User']['password'] = Security::hash($password, null, true);
-				$this->loadModel('Role');
-				$this->request->data['Role']['id'] = $this->Role->getIdWithName('student');
+			if ($this->User->save($this->request->data)) {
 
-				if ($this->User->save($this->request->data)) {
+				// Format login data (so Session.Auth is populated and formatted correctly)
+				$user = $this->User->read();
+				$login_data = $user['User'];
+				unset($user['User']);
+				$login_data = array_merge($user, $login_data);
+				$login_data['password'] = $this->request->data['User']['new_password'];
 
-					// Format login data (so Session.Auth is populated and formatted correctly)
-					$user = $this->User->read();
-					$login_data = $user['User'];
-					unset($user['User']);
-					$login_data = array_merge($user, $login_data);
-					$login_data['password'] = $this->request->data['User']['new_password'];
-
-					// Attempt to log the new user in
-					if ($this->Auth->login($login_data)) {
-						$this->Flash->success('Welcome to Elemental! Your account has been created and you have been logged in.');
-					} else {
-						$this->Flash->success('Welcome to Elemental! Your account has been created. Please log in to continue.');
-						$this->redirect($login_url);
-					}
-
-					// Bounce back to course registration
-					if (isset($_GET['course'])) {
-						$this->redirect(array(
-							'controller' => 'courses',
-							'action' => 'register',
-							'id' => $_GET['course']
-						));
-
-					// Or otherwise redirect appropriately
-					} else {
-						$this->redirect($this->Auth->redirectUrl());
-					}
+				// Attempt to log the new user in
+				if ($this->Auth->login($login_data)) {
+					$this->Flash->success('Welcome to Elemental! Your account has been created and you have been logged in.');
 				} else {
-					$this->Flash->error('Please correct the indicated error(s).');
+					$this->Flash->success('Welcome to Elemental! Your account has been created. Please log in to continue.');
+					$this->redirect($login_url);
 				}
+
+				// Bounce back to course registration
+				if (isset($_GET['course'])) {
+					$this->redirect(array(
+						'controller' => 'courses',
+						'action' => 'register',
+						'id' => $_GET['course']
+					));
+
+				// Or otherwise redirect appropriately
+				} else {
+					$this->redirect($this->Auth->redirectUrl());
+				}
+			} else {
+				$this->Flash->error('Please correct the indicated error(s).');
 			}
 
 			// So the password field isn't filled out automatically when the user
