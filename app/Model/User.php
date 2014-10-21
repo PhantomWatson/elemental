@@ -56,6 +56,10 @@ class User extends AppModel {
         	'validNewEmail' => array(
         		'rule' => array('validNewEmail'),
         		'message' => 'Sorry, those email addresses did not match.'
+			),
+			'emailUnclaimed' => array(
+				'rule' => array('_isUnique'),
+				'message' => 'An account has already been created with that email address'
 			)
 		)
 	);
