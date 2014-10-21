@@ -19,6 +19,16 @@
 		</li>
 		<li>
 			<?php echo $this->Html->link(
+				'Users',
+				array(
+					'admin' => true,
+					'controller' => 'users',
+					'action' => 'index'
+				)
+			); ?>
+		</li>
+		<li>
+			<?php echo $this->Html->link(
 				'Articles',
 				array(
 					'controller' => 'articles',
@@ -34,31 +44,6 @@
 					'controller' => 'testimonials',
 					'action' => 'manage',
 					$this->params['prefix'] => false
-				)
-			); ?>
-		</li>
-
-		<li class="divider"></li>
-		<li class="dropdown-header">
-			Users
-		</li>
-		<li>
-			<?php echo $this->Html->link(
-				'Manage Users',
-				array(
-					'admin' => true,
-					'controller' => 'users',
-					'action' => 'index'
-				)
-			); ?>
-		</li>
-		<li>
-			<?php echo $this->Html->link(
-				'Add a User',
-				array(
-					'controller' => 'users',
-					'action' => 'add',
-					'admin' => true
 				)
 			); ?>
 		</li>
