@@ -17,7 +17,7 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->deny(array(
-			'admin_add', 'manage', 'edit', 'delete'
+			'admin_add', 'admin_index', 'edit', 'delete'
 		));
 	}
 
@@ -328,7 +328,7 @@ class UsersController extends AppController {
 		));
 	}
 
-	public function manage() {
+	public function admin_index() {
 		$this->User->recursive = 0;
 		if (isset($this->request->named['role'])) {
 			$role_id = $this->User->Role->getIdWithName($this->request->named['role']);
@@ -345,7 +345,7 @@ class UsersController extends AppController {
 			$users = $this->paginate();
 		}
 		$this->set(array(
-			'title_for_layout' => 'Manage Users',
+			'title_for_layout' => 'Users',
 			'users' => $users
 		));
 	}
@@ -378,7 +378,8 @@ class UsersController extends AppController {
 				if ($this->User->saveAssociated()) {
 					$this->Flash->success('Information updated.');
 					$this->redirect(array(
-						'action' => 'manage'
+						'admin' => true,
+						'action' => 'index'
 					));
 				} else {
 					$this->Flash->error('Sorry, there was an error updating that user\'s information. Please try again.');
@@ -431,9 +432,15 @@ class UsersController extends AppController {
 		}
 		if ($this->User->delete()) {
 			$this->Flash->success(__('User account removed'));
-			$this->redirect(array('action' => 'manage'));
+			$this->redirect(array(
+				'admin' => true,
+				'action' => 'index'
+			));
 		}
 		$this->Flash->error(__('User account was not deleted'));
-		$this->redirect(array('action' => 'manage'));
+		$this->redirect(array(
+			'admin' => true,
+			'action' => 'index'
+		));
 	}
 }

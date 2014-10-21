@@ -46,9 +46,9 @@
 			<?php echo $this->Html->link(
 				'Manage Users',
 				array(
+					'admin' => true,
 					'controller' => 'users',
-					'action' => 'manage',
-					$this->params['prefix'] => false
+					'action' => 'index'
 				)
 			); ?>
 		</li>
