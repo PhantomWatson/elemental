@@ -39,6 +39,12 @@ class AppModel extends Model {
 		$value = array_pop($values);
 		$fields = array_keys($check);
 		$field = array_pop($fields);
+
+		// Adapt to the use of pseudo-field User.new_email
+		if ($field == 'new_email') {
+			$field = 'email';
+		}
+
 		if ($field == 'email') {
 			$value == strtolower($value);
 		}
