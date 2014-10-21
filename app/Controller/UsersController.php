@@ -17,7 +17,7 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->deny(array(
-			'admin_add', 'admin_index', 'admin_edit', 'delete'
+			'admin_add', 'admin_index', 'admin_edit', 'admin_delete'
 		));
 	}
 
@@ -422,7 +422,7 @@ class UsersController extends AppController {
 		));
 	}
 
-	public function delete($id = null) {
+	public function admin_delete($id = null) {
 		if (!$this->request->is('post')) {
 			throw new MethodNotAllowedException();
 		}

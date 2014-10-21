@@ -99,6 +99,7 @@
 						<?php echo $this->Form->postLink(
 							'Remove',
 							array(
+								'admin' => true,
 								'action' => 'delete',
 								'id' => $user['User']['id']
 							),
