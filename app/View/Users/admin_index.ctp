@@ -58,8 +58,8 @@
 		<span class="glyphicon glyphicon-search"></span>
 		Search for User
 	</a>
-	<form class="form-inline" role="form" action="<?php echo $search_url; ?>" style="display: none;">
-		<input type="text" name="name" class="form-control" placeholder="Enter user's name">
+	<form class="form-inline" role="form" style="display: none;">
+		<input type="text" name="search" class="form-control" placeholder="Enter user's name">
 		<button type="submit" class="btn btn-default">Search</button>
 	</form>
 </div>

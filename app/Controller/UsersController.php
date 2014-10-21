@@ -330,7 +330,10 @@ class UsersController extends AppController {
 
 	public function admin_index() {
 		$this->User->recursive = 0;
-		if (isset($this->request->named['role'])) {
+		if (isset($_GET['search']) && ! empty($_GET['search'])) {
+			$this->paginate['conditions']['User.name LIKE'] = '%'.$_GET['search'].'%';
+			$title_for_layout = 'Users named "'.$_GET['search'].'"';
+		} elseif (isset($this->request->named['role'])) {
 			$role_id = $this->User->Role->getIdWithName($this->request->named['role']);
 			$this->User->bindModel(
 				array(
@@ -340,18 +343,13 @@ class UsersController extends AppController {
 			);
 			$this->paginate['conditions']['RolesUser.role_id'] = $role_id;
 			$this->paginate['contain'][] = 'RolesUser';
-			$users = $this->paginate();
+			$title_for_layout = ucwords($this->request->named['role']).'s';
 		} else {
-			$users = $this->paginate();
+			$title_for_layout = 'Users';
 		}
 		$this->set(array(
-			'title_for_layout' => 'Users',
-			'users' => $users,
-			'search_url' => Router::url(array(
-				'admin' => false,
-				'controller' => 'users',
-				'action' => 'search'
-			))
+			'title_for_layout' => $title_for_layout,
+			'users' => $this->paginate()
 		));
 	}
 
