@@ -112,25 +112,36 @@
 						<?php echo date('M j, Y g:ia', strtotime($user['User']['created'])); ?>
 					</td>
 					<td class="actions">
-						<?php echo $this->Html->link(
-							'Edit',
-							array(
-								'admin' => true,
-								'action' => 'edit',
-								'id' => $user['User']['id']
-							),
-							array('class' => 'btn btn-info')
-						); ?>
-						<?php echo $this->Form->postLink(
-							'Remove',
-							array(
-								'admin' => true,
-								'action' => 'delete',
-								'id' => $user['User']['id']
-							),
-							array('class' => 'btn btn-danger'),
-							'Are you sure you want to remove this user\'s account?'
-						); ?>
+						<div class="btn-group">
+							<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+						    	Actions
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+						    		<?php echo $this->Html->link(
+										'Edit',
+										array(
+											'admin' => true,
+											'action' => 'edit',
+											'id' => $user['User']['id']
+										)
+									); ?>
+								</li>
+								<li>
+									<?php echo $this->Form->postLink(
+										'Remove',
+										array(
+											'admin' => true,
+											'action' => 'delete',
+											'id' => $user['User']['id']
+										),
+										array(),
+										'Are you sure you want to remove this user\'s account?'
+									); ?>
+								</li>
+							</ul>
+						</div>
 					</td>
 				</tr>
 			<?php endforeach; ?>
