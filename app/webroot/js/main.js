@@ -354,6 +354,7 @@ var adminUserIndex = {
 			event.preventDefault();
 			$(this).animate({width: 'toggle'});
 			$('#user_search_form form').fadeIn();
+			$('#user_search_form input').focus();
 		});
 	}
 };
