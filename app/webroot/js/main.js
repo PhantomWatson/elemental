@@ -350,11 +350,13 @@ var frontPage = {
 
 var adminUserIndex = {
 	init: function () {
-		$('#user_search_form a').click(function (event) {
+		var container = $('#user_search_form');
+		container.children('a').click(function (event) {
 			event.preventDefault();
 			$(this).animate({width: 'toggle'});
-			$('#user_search_form form').fadeIn();
-			$('#user_search_form input').focus();
+			var form = container.children('form');
+			form.fadeIn();
+			form.children('input').focus();
 		});
 	}
 };
