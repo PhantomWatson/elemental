@@ -19,30 +19,22 @@
 
 	<?php if ($can_access): ?>
 
-		<script language="javascript">AC_FL_RunContent = 0;</script>
-		<script src="/student_review/AC_RunActiveContent.js" language="javascript"></script>
-		<p id="vizi_player">
-			<script language="javascript">
-				if (AC_FL_RunContent == 0) {
-					alert("This page requires AC_RunActiveContent.js.");
-				} else {
-					AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0','width','898','height','495','align','left','id','ViziRECOVERED10-27-09','src','/student_review/vizi','quality','high','bgcolor','#ffffff','name','ViziRECOVERED10-27-09','allowscriptaccess','sameDomain','allowfullscreen','false','pluginspage','http://www.macromedia.com/go/getflashplayer','movie','/student_review/vizi' ); //end AC code
-				}
-			</script>
-		</p>
-		<noscript>
-			<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="898" height="495" align="left" id="ViziRECOVERED10-27-09">
-				<param name="allowScriptAccess" value="sameDomain" />
-				<param name="allowFullScreen" value="false" />
-				<param name="movie" value="/student_review/vizi.swf" />
-				<param name="quality" value="high" />
-				<param name="bgcolor" value="#ffffff" />
-				<embed src="/student_review/vizi.swf" width="898" height="495" align="left" quality="high" bgcolor="#ffffff" name="ViziRECOVERED10-27-09" allowscriptaccess="sameDomain" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
-			</object>
-		</noscript>
-		<map name="Map">
-			<area shape="rect" coords="575,16,889,56" href="/">
-		</map>
+		<object type="application/x-shockwave-flash" data="/student_review/vizi.swf" width="898" height="495" id="vizi" style="float: none; vertical-align:middle">
+			<param name="movie" value="/student_review/vizi.swf" />
+			<param name="quality" value="high" />
+			<param name="bgcolor" value="#ffffff" />
+			<param name="play" value="true" />
+			<param name="loop" value="true" />
+			<param name="wmode" value="window" />
+			<param name="scale" value="showall" />
+			<param name="menu" value="true" />
+			<param name="devicefont" value="false" />
+			<param name="salign" value="" />
+			<param name="allowScriptAccess" value="sameDomain" />
+			<a href="http://www.adobe.com/go/getflash">
+				<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+			</a>
+		</object>
 
 	<?php elseif (! $logged_in): ?>
 
