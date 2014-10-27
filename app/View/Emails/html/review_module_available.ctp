@@ -3,7 +3,7 @@
 </p>
 
 <p>
-	Thank you for attending a recent Elemental course. You now have one year of free access to the Elemental Student Review Module.
+	Thank you for attending a recent Elemental course. You now have one year of access to the Elemental Student Review Module.
 </p>
 
 <p>

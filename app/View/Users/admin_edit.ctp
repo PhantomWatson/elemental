@@ -6,9 +6,11 @@
 
 <p>
 	<?php echo $this->Html->link(
-		'<span class="glyphicon glyphicon-arrow-left glyphicon-white"></span> Manage Users',
+		'<span class="glyphicon glyphicon-arrow-left glyphicon-white"></span> Back to Users',
 		array(
-			'action' => 'manage'
+			'admin' => true,
+			'controller' => 'users',
+			'action' => 'index'
 		),
 		array(
 			'escape' => false,

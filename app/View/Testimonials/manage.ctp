@@ -6,12 +6,12 @@
 
 <p>
 	<?php echo $this->Html->link(
-		'<span class="glyphicon glyphicon-plus glyphicon-white"></span> Post New Testimonial', 
+		'<span class="glyphicon glyphicon-plus glyphicon-white"></span> Post New Testimonial',
 		array(
 			'action' => 'add'
 		),
 		array(
-			'escape' => false, 
+			'escape' => false,
 			'class' => 'btn btn-success'
 		)
 	); ?>
@@ -45,7 +45,7 @@
 							<span class="author_anonymous">
 								Anonymous
 							</span>
-						<?php else: ?> 
+						<?php else: ?>
 							<?php echo h($testimonial['Testimonial']['author']); ?>
 						<?php endif; ?>
 					</td>
@@ -57,10 +57,10 @@
 					</td>
 					<td class="actions">
 						<?php if (! $testimonial['Testimonial']['approved']): ?>
-							<?php echo $this->Form->postLink(
-								'Approve', 
+				    		<?php echo $this->Form->postLink(
+								'Approve',
 								array(
-									'action' => 'approve', 
+									'action' => 'approve',
 									'id' => $testimonial['Testimonial']['id']
 								),
 								array(
@@ -68,31 +68,40 @@
 									'escape' => false
 								)
 							); ?>
-							<br />
 						<?php endif; ?>
-						<?php echo $this->Html->link(
-							'Edit', 
-							array(
-								'action' => 'edit', 
-								'id' => $testimonial['Testimonial']['id']
-							),
-							array('class' => 'btn btn-info')
-						); ?>
-						<br />
-						<?php echo $this->Form->postLink(
-							'Delete', 
-							array(
-								'action' => 'delete', 
-								'id' => $testimonial['Testimonial']['id']
-							), 
-							array('class' => 'btn btn-danger'), 
-							'Are you sure you want to delete this testimonial?'
-						); ?>
+						<div class="btn-group">
+							<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+						    	Actions
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+						    		<?php echo $this->Html->link(
+										'Edit',
+										array(
+											'action' => 'edit',
+											'id' => $testimonial['Testimonial']['id']
+										)
+									); ?>
+								</li>
+								<li>
+						    		<?php echo $this->Form->postLink(
+										'Delete',
+										array(
+											'action' => 'delete',
+											'id' => $testimonial['Testimonial']['id']
+										),
+										array(),
+										'Are you sure you want to delete this testimonial?'
+									); ?>
+								</li>
+							</ul>
+						</div>
 					</td>
 				</tr>
 			<?php endforeach; ?>
 		</table>
-	
+
 		<?php echo $this->element('pagination'); ?>
 	</div>
 <?php endif; ?>

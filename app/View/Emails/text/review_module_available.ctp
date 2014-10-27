@@ -1,6 +1,6 @@
 <?php echo $student_name; ?>,
 
-Thank you for attending a recent Elemental course. You now have one year of free access to the Elemental Student Review Module.
+Thank you for attending a recent Elemental course. You now have one year of access to the Elemental Student Review Module.
 
 This is an online multimedia summary of the physical and verbal techniques taught during the course you attended. It includes a video review of all of the techniques covered, summaries of the main points to remember for each defense, and a suggested review schedule.
 

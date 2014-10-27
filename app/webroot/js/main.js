@@ -347,3 +347,16 @@ var frontPage = {
 		});
 	}
 };
+
+var adminUserIndex = {
+	init: function () {
+		var container = $('#user_search_form');
+		container.children('a').click(function (event) {
+			event.preventDefault();
+			$(this).animate({width: 'toggle'});
+			var form = container.children('form');
+			form.fadeIn();
+			form.children('input').focus();
+		});
+	}
+};

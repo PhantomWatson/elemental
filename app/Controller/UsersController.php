@@ -17,7 +17,7 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->deny(array(
-			'admin_add', 'manage', 'edit', 'delete'
+			'admin_add', 'admin_index', 'admin_edit', 'admin_delete'
 		));
 	}
 
@@ -134,52 +134,45 @@ class UsersController extends AppController {
 				));
 			}
 
-			// Make sure this isn't a duplicate registration
-			if ($this->User->findIdByEmail($clean_email)) {
-				$this->Flash->error('Someone has already created an account with that email address. Did you mean to <a href="'.$login_url.'">log in</a>?');
+			// Format data
+			$this->request->data['User']['email'] = $clean_email;
+			$password = $this->request->data['User']['new_password'];
+			App::uses('Security', 'Utility');
+			$this->request->data['User']['password'] = Security::hash($password, null, true);
+			$this->loadModel('Role');
+			$this->request->data['Role']['id'] = $this->Role->getIdWithName('student');
 
-			// Attempt to register
-			} else {
-				// Format data
-				$this->request->data['User']['email'] = $clean_email;
-				$password = $this->request->data['User']['new_password'];
-				App::uses('Security', 'Utility');
-				$this->request->data['User']['password'] = Security::hash($password, null, true);
-				$this->loadModel('Role');
-				$this->request->data['Role']['id'] = $this->Role->getIdWithName('student');
+			if ($this->User->save($this->request->data)) {
 
-				if ($this->User->save($this->request->data)) {
+				// Format login data (so Session.Auth is populated and formatted correctly)
+				$user = $this->User->read();
+				$login_data = $user['User'];
+				unset($user['User']);
+				$login_data = array_merge($user, $login_data);
+				$login_data['password'] = $this->request->data['User']['new_password'];
 
-					// Format login data (so Session.Auth is populated and formatted correctly)
-					$user = $this->User->read();
-					$login_data = $user['User'];
-					unset($user['User']);
-					$login_data = array_merge($user, $login_data);
-					$login_data['password'] = $this->request->data['User']['new_password'];
-
-					// Attempt to log the new user in
-					if ($this->Auth->login($login_data)) {
-						$this->Flash->success('Welcome to Elemental! Your account has been created and you have been logged in.');
-					} else {
-						$this->Flash->success('Welcome to Elemental! Your account has been created. Please log in to continue.');
-						$this->redirect($login_url);
-					}
-
-					// Bounce back to course registration
-					if (isset($_GET['course'])) {
-						$this->redirect(array(
-							'controller' => 'courses',
-							'action' => 'register',
-							'id' => $_GET['course']
-						));
-
-					// Or otherwise redirect appropriately
-					} else {
-						$this->redirect($this->Auth->redirectUrl());
-					}
+				// Attempt to log the new user in
+				if ($this->Auth->login($login_data)) {
+					$this->Flash->success('Welcome to Elemental! Your account has been created and you have been logged in.');
 				} else {
-					$this->Flash->error('Please correct the indicated error(s).');
+					$this->Flash->success('Welcome to Elemental! Your account has been created. Please log in to continue.');
+					$this->redirect($login_url);
 				}
+
+				// Bounce back to course registration
+				if (isset($_GET['course'])) {
+					$this->redirect(array(
+						'controller' => 'courses',
+						'action' => 'register',
+						'id' => $_GET['course']
+					));
+
+				// Or otherwise redirect appropriately
+				} else {
+					$this->redirect($this->Auth->redirectUrl());
+				}
+			} else {
+				$this->Flash->error('Please correct the indicated error(s).');
 			}
 
 			// So the password field isn't filled out automatically when the user
@@ -328,9 +321,12 @@ class UsersController extends AppController {
 		));
 	}
 
-	public function manage() {
+	public function admin_index() {
 		$this->User->recursive = 0;
-		if (isset($this->request->named['role'])) {
+		if (isset($_GET['search']) && ! empty($_GET['search'])) {
+			$this->paginate['conditions']['User.name LIKE'] = '%'.$_GET['search'].'%';
+			$title_for_layout = 'Users named "'.$_GET['search'].'"';
+		} elseif (isset($this->request->named['role'])) {
 			$role_id = $this->User->Role->getIdWithName($this->request->named['role']);
 			$this->User->bindModel(
 				array(
@@ -340,17 +336,17 @@ class UsersController extends AppController {
 			);
 			$this->paginate['conditions']['RolesUser.role_id'] = $role_id;
 			$this->paginate['contain'][] = 'RolesUser';
-			$users = $this->paginate();
+			$title_for_layout = ucwords($this->request->named['role']).'s';
 		} else {
-			$users = $this->paginate();
+			$title_for_layout = 'Users';
 		}
 		$this->set(array(
-			'title_for_layout' => 'Manage Users',
-			'users' => $users
+			'title_for_layout' => $title_for_layout,
+			'users' => $this->paginate()
 		));
 	}
 
-	public function edit($id) {
+	public function admin_edit($id) {
 		$this->helpers[] = 'Tinymce';
 		$this->User->id = $id;
 		if ($this->request->is('post') || $this->request->is('put')) {
@@ -378,7 +374,8 @@ class UsersController extends AppController {
 				if ($this->User->saveAssociated()) {
 					$this->Flash->success('Information updated.');
 					$this->redirect(array(
-						'action' => 'manage'
+						'admin' => true,
+						'action' => 'index'
 					));
 				} else {
 					$this->Flash->error('Sorry, there was an error updating that user\'s information. Please try again.');
@@ -421,7 +418,7 @@ class UsersController extends AppController {
 		));
 	}
 
-	public function delete($id = null) {
+	public function admin_delete($id = null) {
 		if (!$this->request->is('post')) {
 			throw new MethodNotAllowedException();
 		}
@@ -431,9 +428,15 @@ class UsersController extends AppController {
 		}
 		if ($this->User->delete()) {
 			$this->Flash->success(__('User account removed'));
-			$this->redirect(array('action' => 'manage'));
+			$this->redirect(array(
+				'admin' => true,
+				'action' => 'index'
+			));
 		}
 		$this->Flash->error(__('User account was not deleted'));
-		$this->redirect(array('action' => 'manage'));
+		$this->redirect(array(
+			'admin' => true,
+			'action' => 'index'
+		));
 	}
 }

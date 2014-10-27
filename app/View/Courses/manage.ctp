@@ -40,7 +40,7 @@
 					Participants/Limit
 				</th>
 				<th class="actions">
-					<?php echo 'Actions';?>
+					Actions
 				</th>
 			</tr>
 			<?php foreach ($courses as $course): ?>

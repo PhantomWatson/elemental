@@ -24,8 +24,8 @@
 	$actions = array('edit', 'delete');
 	foreach ($actions as $action) {
 		Router::connect(
-			"/users/$action/:id",
-			array('controller' => 'users', 'action' => $action),
+			"/admin/users/$action/:id",
+			array('admin' => true, 'controller' => 'users', 'action' => $action),
 			array('id' => '[0-9]+', 'pass' => array('id'))
 		);
 	}
