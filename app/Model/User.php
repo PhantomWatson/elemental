@@ -109,6 +109,12 @@ class User extends AppModel {
 		),
 		'Bio' => array(
 			'dependent' => true
+		),
+		'Certification' => array(
+			'dependent' => true,
+			'order' => array(
+				'Certification.date_expires' => 'DESC'
+			)
 		)
 	);
 	public $hasAndBelongsToMany = array(
