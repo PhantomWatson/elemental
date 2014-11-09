@@ -53,4 +53,41 @@ class CertificationsController extends AppController {
 			'certifications' => $results
 		));
 	}
+
+	public function admin_add() {
+		if ($this->request->is('post')) {
+			$this->Certification->create($this->request->data);
+			$granted = $this->request->data['Certification']['date_granted'];
+			$granted = $granted['year'].'-'.$granted['month'].'-'.$granted['day'];
+			$expires = strtotime($granted.' + 1 year');
+			$this->Certification->set('date_expires', date('Y-m-d', $expires));
+			if ($this->Certification->save()) {
+				$this->Flash->success('Certification granted');
+				$this->redirect(array(
+					'admin' => true,
+					'action' => 'index'
+				));
+			} else {
+				$this->Flash->error('There was an error granting certification');
+			}
+		} else {
+			$this->request->data['Certification']['date_granted'] = date('Y-m-d');
+		}
+
+		$this->loadModel('User');
+		$instructors = $this->User->getInstructorList();
+		$certified_instructors = $this->User->getCertifiedInstructorList();
+
+		// Note currently-certified instructors
+		foreach ($instructors as $instructor_id => $instructor_name) {
+			if (isset($certified_instructors[$instructor_id])) {
+				$instructors[$instructor_id] .= ' (currently certified)';
+			}
+		}
+
+		$this->set(array(
+			'title_for_layout' => 'Certifications',
+			'instructors' => $instructors
+		));
+	}
 }
