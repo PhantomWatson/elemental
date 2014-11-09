@@ -44,7 +44,7 @@
 				foreach ($certifications as $cert):
 			?>
 				<?php $date_expires = $cert['Certification']['date_expires']; ?>
-				<?php echo ($date_expires < $current_date) ? '<tr class="expired>' : '<tr>'; ?>
+				<?php echo ($date_expires < $current_date) ? '<tr class="expired">' : '<tr>'; ?>
 					<td>
 						<?php echo $cert['User']['name']; ?>
 					</td>
