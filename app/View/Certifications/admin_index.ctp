@@ -19,6 +19,10 @@
 	); ?>
 </p>
 
+<p class="alert alert-info">
+	Instructors who have been certified will remain certified until one year after the most recent class that they've reported attendance for.
+</p>
+
 <?php if (empty($certifications)): ?>
 	<p class="alert alert-info">
 		No certifications found
