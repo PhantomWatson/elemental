@@ -9,7 +9,7 @@ class CertificationsController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->deny(array('instructor_index', 'admin_index'));
+		$this->Auth->deny(array('instructor_index', 'admin_index', 'admin_add'));
 	}
 
 	public function isAuthorized($user) {
