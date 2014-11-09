@@ -8,21 +8,17 @@ App::uses('AppModel', 'Model');
 class Certification extends AppModel {
 	public $displayField = 'date_expires';
 	public $validate = array(
-		'user_id' => array(
+		'instructor_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-				'message' => 'User not specified'
+				'message' => 'Instructor not specified'
 			)
 		)
 	);
 	public $belongsTo = array(
 		'User' => array(
 			'className' => 'User',
-			'foreignKey' => 'user_id'
-		),
-		'Image' => array(
-			'className' => 'Image',
-			'foreignKey' => 'image_id'
+			'foreignKey' => 'instructor_id'
 		)
 	);
 
