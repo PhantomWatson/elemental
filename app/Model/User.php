@@ -409,6 +409,36 @@ class User extends AppModel {
 		return $retval;
 	}
 
+	public function getCertifiedInstructorList() {
+		$results = $this->Certification->find(
+			'all',
+			array(
+				'conditions' => array(
+					'Certification.date_expires >' => date('Y-m-d')
+				),
+				'contain' => array(
+					'User' => array(
+						'fields' => array(
+							'User.id',
+							'User.name'
+						)
+					)
+				),
+				'fields' => array(
+					'Certification.id'
+				)
+			)
+		);
+		$retval = array();
+		foreach ($results as $result) {
+			$id = $result['User']['id'];
+			$name = $result['User']['name'];
+			$retval[$id] = $name;
+		}
+		asort($retval);
+		return $retval;
+	}
+
 	/**
 	 * Determines if user current has the specified role (or any of the specified roles if $role_name is an array)
 	 * @param int $user_id
