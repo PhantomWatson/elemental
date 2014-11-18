@@ -6,6 +6,19 @@ App::uses('AppController', 'Controller');
  * @property Certification $Certification
  */
 class CertificationsController extends AppController {
+	public $paginate = array(
+		'contain' => array(
+			'User' => array(
+				'fields' => array(
+					'User.id',
+					'User.name'
+				)
+			)
+		),
+		'order' => array(
+			'Certification.date_expires' => 'DESC'
+		)
+	);
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -32,25 +45,9 @@ class CertificationsController extends AppController {
 	}
 
 	public function admin_index() {
-		$results = $this->Certification->find(
-			'all',
-			array(
-				'contain' => array(
-					'User' => array(
-						'fields' => array(
-							'User.id',
-							'User.name'
-						)
-					)
-				),
-				'order' => array(
-					'Certification.date_expires' => 'DESC'
-				)
-			)
-		);
 		$this->set(array(
 			'title_for_layout' => 'Certifications',
-			'certifications' => $results
+			'certifications' => $this->paginate()
 		));
 	}
 
