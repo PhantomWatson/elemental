@@ -47,5 +47,15 @@
 				)
 			); ?>
 		</li>
+		<li>
+			<?php echo $this->Html->link(
+				'Instructor Certifications',
+				array(
+					'admin' => true,
+					'controller' => 'certifications',
+					'action' => 'index'
+				)
+			); ?>
+		</li>
 	</ul>
 </li>
