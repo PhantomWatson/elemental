@@ -35,10 +35,10 @@
 					Instructor
 				</th>
 				<th>
-					Certification Granted
+					<?php echo $this->Paginator->sort('date_granted', 'Certification Granted'); ?>
 				</th>
 				<th>
-					Certification Expires
+					<?php echo $this->Paginator->sort('date_expires', 'Certification Expires'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -65,4 +65,6 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
+
+	<?php echo $this->element('pagination'); ?>
 <?php endif; ?>
