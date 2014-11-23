@@ -332,15 +332,27 @@ class StudentReviewModule extends AppModel {
 	 * @param int $quantity
 	 * @return boolean
 	 */
-	public function grant($instructor_id, $quantity) {
+	public function grant($instructor_id, $admin_id, $quantity) {
 		App::import('Model','User');
 		$User = new User();
 		if (! $User->hasRole($instructor_id, 'instructor')) {
 			throw new ForbiddenException("Cannot grant Student Review Modules to that user. User is not a certified instructor.");
 		}
 
+		// Apply this to existing StudentReviewModule records awaiting payment
+		$unpaid_modules = $this->getUnpaidList($instructor_id);
+		foreach ($unpaid_modules as $module_id => $module_course_id) {
+			$this->id = $module_id;
+			if (! $this->saveField('override_admin_id', $admin_id)) {
+				return false;
+			}
+			$quantity--;
+		}
+
+		// Create StudentReviewModule records
 		$data = array(
 			'purchase_id' => null,
+			'override_admin_id' => $admin_id,
 			'instructor_id' => $instructor_id,
 			'course_id' => null,
 			'student_id' => null
@@ -351,6 +363,7 @@ class StudentReviewModule extends AppModel {
 				return false;
 			}
 		}
+
 		return true;
 	}
 }
