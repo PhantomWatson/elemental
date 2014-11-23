@@ -227,7 +227,7 @@ class ProductsController extends AppController {
 		$this->loadModel('StudentReviewModule');
 		$instructor_id = $this->Auth->user('id');
 		$this->loadModel('User');
-		$instructors = $this->User->getInstructorList();
+		$instructors = $this->User->getCertifiedInstructorList();
 
 		if ($this->request->is('post')) {
 			$quantity = $this->request->data['quantity'];
