@@ -314,14 +314,37 @@ class StudentReviewModule extends AppModel {
 				)
 			)
 		);
-		$module_ids = array_keys($available_paid_modules);
+		$sender_module_ids = array_keys($available_paid_modules);
+		$recipient_unpaid_modules = $this->getAwaitingPaymentList($recipient_id);
+		$recipient_unpaid_module_ids = array_keys($recipient_unpaid_modules);
 
-		for ($i = 1; $i <= $quantity; $i++) {
-			$module_id = array_pop($module_ids);
-			$this->id = $module_id;
+		foreach ($sender_module_ids as $sender_module_id) {
+			if ($quantity < 1) {
+				break;
+			}
+
+			$this->id = $sender_module_id;
+
+			// Apply this to existing StudentReviewModule records awaiting payment
+			if (! empty($recipient_unpaid_module_ids)) {
+
+				// Apply sender's purchase ID to recipient's existing module
+				$sender_purchase_id = $this->field('purchase_id');
+				$this->id = array_pop($recipient_unpaid_module_ids);
+				$this->field('purchase_id', $sender_purchase_id);
+
+				// Remove sender's module
+				$this->delete($sender_module_id);
+
+				$quantity--;
+				continue;
+			}
+
+			// Switch ownership of unused, purchased SRMs
 			if (! $this->saveField('instructor_id', $recipient_id)) {
 				return false;
 			}
+			$quantity--;
 		}
 
 		return true;
