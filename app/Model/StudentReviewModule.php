@@ -325,4 +325,25 @@ class StudentReviewModule extends AppModel {
 
 		return true;
 	}
+
+	/**
+	 * Grants SRMs to an instructor as if they had purchased it.
+	 * @param int $instructor_id
+	 * @param int $quantity
+	 * @return boolean
+	 */
+	public function grant($instructor_id, $quantity) {
+		$this->create(array(
+			'purchase_id' => null,
+			'instructor_id' => $instructor_id,
+			'course_id' => null,
+			'student_id' => null
+		));
+		for ($n = 1; $n <= $quantity; $n++) {
+			if (! $this->save()) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
