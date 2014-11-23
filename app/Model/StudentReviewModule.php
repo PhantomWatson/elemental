@@ -247,7 +247,11 @@ class StudentReviewModule extends AppModel {
 		);
 		foreach ($modules as $module) {
 			$paid = $module['StudentReviewModule']['purchase_id'] != null;
+			$admin_pay_override = $module['StudentReviewModule']['override_admin_id'] != null;
 			$assigned = $module['StudentReviewModule']['student_id'] != null;
+
+			// Treat SRMs with an admin payment override as paid
+			$paid = $paid || $admin_pay_override;
 
 			// Prepaid and available
 			if ($paid && ! $assigned) {
