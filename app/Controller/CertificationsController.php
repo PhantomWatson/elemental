@@ -46,7 +46,7 @@ class CertificationsController extends AppController {
 
 	public function admin_index() {
 		$this->set(array(
-			'title_for_layout' => 'Certifications',
+			'title_for_layout' => 'Instructor Certifications',
 			'certifications' => $this->paginate()
 		));
 	}
@@ -83,7 +83,7 @@ class CertificationsController extends AppController {
 		}
 
 		$this->set(array(
-			'title_for_layout' => 'Certifications',
+			'title_for_layout' => 'Add Instructor Certification',
 			'instructors' => $instructors
 		));
 	}
