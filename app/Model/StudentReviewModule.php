@@ -333,6 +333,12 @@ class StudentReviewModule extends AppModel {
 	 * @return boolean
 	 */
 	public function grant($instructor_id, $quantity) {
+		App::import('Model','User');
+		$User = new User();
+		if (! $User->hasRole($instructor_id, 'instructor')) {
+			throw new ForbiddenException("Cannot grant Student Review Modules to that user. User is not a certified instructor.");
+		}
+
 		$this->create(array(
 			'purchase_id' => null,
 			'instructor_id' => $instructor_id,
