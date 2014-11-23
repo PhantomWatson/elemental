@@ -578,7 +578,7 @@ class CoursesController extends AppController {
 				$this->loadModel('StudentReviewModule');
 				$this->StudentReviewModule->assignToAttendingStudents($course_id);
 				$instructor_id = $this->Course->field('user_id');
-				$unpaid = $this->StudentReviewModule->getUnpaidList($instructor_id);
+				$unpaid = $this->StudentReviewModule->getAwaitingPaymentList($instructor_id);
 				if (! empty($unpaid)) {
 					$count = count($unpaid);
 					if ($count == 1) {

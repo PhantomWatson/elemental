@@ -106,13 +106,14 @@ class StudentReviewModule extends AppModel {
 		return null;
 	}
 
-	public function getUnpaidList($instructor_id) {
+	public function getAwaitingPaymentList($instructor_id) {
 		return $this->find(
 			'list',
 			array(
 				'conditions' => array(
 					'StudentReviewModule.instructor_id' => $instructor_id,
-					'StudentReviewModule.purchase_id' => null
+					'StudentReviewModule.purchase_id' => null,
+					'StudentReviewModule.override_admin_id' => null
 				),
 				'order' => 'StudentReviewModule.created ASC'
 			)
@@ -340,7 +341,7 @@ class StudentReviewModule extends AppModel {
 		}
 
 		// Apply this to existing StudentReviewModule records awaiting payment
-		$unpaid_modules = $this->getUnpaidList($instructor_id);
+		$unpaid_modules = $this->getAwaitingPaymentList($instructor_id);
 		foreach ($unpaid_modules as $module_id => $module_course_id) {
 			$this->id = $module_id;
 			if (! $this->saveField('override_admin_id', $admin_id)) {
