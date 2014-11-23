@@ -100,13 +100,14 @@ class StudentReviewModule extends AppModel {
 	 * @param int $instructor_id
 	 * @return string|null
 	 */
-	public function getUnpaidJWT($instructor_id) {
+	public function getAwaitingPaymentJWT($instructor_id) {
 		$count = $this->find(
 			'count',
 			array(
 				'conditions' => array(
 					'StudentReviewModule.instructor_id' => $instructor_id,
-					'StudentReviewModule.purchase_id' => null
+					'StudentReviewModule.purchase_id' => null,
+					'StudentReviewModule.override_admin_id' => null
 				)
 			)
 		);
