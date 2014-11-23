@@ -328,7 +328,10 @@ class StudentReviewModule extends AppModel {
 				'conditions' => array(
 					'StudentReviewModule.instructor_id' => $sender_id,
 					'StudentReviewModule.student_id' => null,
-					'StudentReviewModule.purchase_id NOT' => null,
+					'OR' => array(
+						'StudentReviewModule.purchase_id NOT' => null,
+						'StudentReviewModule.override_admin_id NOT' => null
+					)
 				)
 			)
 		);
