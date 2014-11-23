@@ -13,7 +13,13 @@ class StudentReviewModule extends AppModel {
 			'notempty' => array(
 				'rule' => array('notempty')
 			)
-		)
+		),
+		'override_admin_id' => array(
+			'naturalNumber' => array(
+				'rule' => array('naturalNumber'),
+				'allowEmpty' => true
+			)
+		),
 	);
 	public $belongsTo = array(
 		'Purchase' => array(
