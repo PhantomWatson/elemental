@@ -339,13 +339,14 @@ class StudentReviewModule extends AppModel {
 			throw new ForbiddenException("Cannot grant Student Review Modules to that user. User is not a certified instructor.");
 		}
 
-		$this->create(array(
+		$data = array(
 			'purchase_id' => null,
 			'instructor_id' => $instructor_id,
 			'course_id' => null,
 			'student_id' => null
-		));
+		);
 		for ($n = 1; $n <= $quantity; $n++) {
+			$this->create($data);
 			if (! $this->save()) {
 				return false;
 			}
