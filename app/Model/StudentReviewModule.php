@@ -37,6 +37,10 @@ class StudentReviewModule extends AppModel {
 		'Student' => array(
 			'className' => 'User',
 			'foreignKey' => 'student_id'
+		),
+		'Admin' => array(
+			'className' => 'User',
+			'foreignKey' => 'override_admin_id'
 		)
 	);
 
