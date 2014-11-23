@@ -366,6 +366,9 @@ class StudentReviewModule extends AppModel {
 		// Apply this to existing StudentReviewModule records awaiting payment
 		$unpaid_modules = $this->getAwaitingPaymentList($instructor_id);
 		foreach ($unpaid_modules as $module_id => $module_course_id) {
+			if ($quantity < 1) {
+				break;
+			}
 			$this->id = $module_id;
 			if (! $this->saveField('override_admin_id', $admin_id)) {
 				return false;
