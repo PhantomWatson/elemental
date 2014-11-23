@@ -57,5 +57,15 @@
 				)
 			); ?>
 		</li>
+		<li>
+			<?php echo $this->Html->link(
+				'Grant SRMs',
+				array(
+					'admin' => true,
+					'controller' => 'products',
+					'action' => 'student_review_modules'
+				)
+			); ?>
+		</li>
 	</ul>
 </li>
