@@ -161,6 +161,26 @@ class ProductsController extends AppController {
 		));
 	}
 
+	public function admin_student_review_modules() {
+		$user_id = $this->Auth->user('id');
+		$instructors = $this->User->getCertifiedInstructorList();
+		if ($this->request->is('post')) {
+			$quantity = $this->request->data['quantity'];
+			$instructor_id = $this->request->data['instructor_id'];
+			$this->loadModel('StudentReviewModule');
+			$success = $this->StudentReviewModule->grant($instructor_id, $quantity);
+			if ($success) {
+				$message = "$quantity Student Review ".__n('Module', 'Modules', $quantity).' transferred to '.$instructors[$instructor_id];
+				$this->Flash->success($message);
+				$this->request->data = array();
+			}
+		}
+		$this->set(array(
+			'title_for_layout' => 'Grant Student Review Modules',
+			'instructors' => $instructors
+		));
+	}
+
 	public function classroom_module() {
 		/* A trailing slash is required for /app/webroot/.htaccess to
 		 * correctly route the Vizi Player's (/app/webroot/vizi/classroom_module/vizi.swf)
