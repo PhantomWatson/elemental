@@ -238,6 +238,30 @@ class Course extends AppModel {
 		return $first_date;
 	}
 
+	/**
+	 * Returns the last date of a course
+	 * @param int $course_id
+	 * @return string|null
+	 */
+	public function getEndDate($course_id) {
+		$result = $this->CourseDate->find(
+			'first',
+			array(
+				'conditions' => array(
+					'CourseDate.course_id' => $course_id
+				),
+				'contain' => false,
+				'fields' => array(
+					'CourseDate.date'
+				),
+				'order' => array(
+					'CourseDate.date' => 'DESC'
+				)
+			)
+		);
+		return $result ? $result['CourseDate']['date'] : null;
+	}
+
 	public function getClassList($course_id, $waiting_list = false) {
 		return $this->CourseRegistration->find('all', array(
 			'conditions' => array(
