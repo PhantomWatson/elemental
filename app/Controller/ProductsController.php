@@ -170,7 +170,7 @@ class ProductsController extends AppController {
 			$this->loadModel('StudentReviewModule');
 			$success = $this->StudentReviewModule->grant($instructor_id, $admin_id, $quantity);
 			if ($success) {
-				$message = "$quantity Student Review ".__n('Module', 'Modules', $quantity).' transferred to '.$instructors[$instructor_id];
+				$message = "$quantity Student Review ".__n('Module', 'Modules', $quantity).' granted to '.$instructors[$instructor_id];
 				$this->Flash->success($message);
 				$this->request->data = array();
 			}
