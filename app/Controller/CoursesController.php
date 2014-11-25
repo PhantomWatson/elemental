@@ -237,7 +237,14 @@ class CoursesController extends AppController {
 			$this->Course->set($this->request->data);
 
 			if ($this->Course->validates() && empty($this->Course->validationErrors)) {
-				if ($this->Course->save()) {
+
+				// Delete all associated CourseDates, because saveAssociated() will add whatever's in the form data
+				$this->loadModel('CourseDate');
+				$this->CourseDate->deleteAll(array(
+					'CourseDate.course_id' => $id
+				));
+
+				if ($this->Course->saveAssociated()) {
 					$this->Flash->success('The course has been updated');
 					if ($waiting_list_count && $this->request->data['Course']['max_participants'] > $class_list_count) {
 						if ($this->Course->elevateWaitingListMembers($id)) {
