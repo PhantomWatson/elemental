@@ -374,6 +374,7 @@ class StudentReviewModule extends AppModel {
 	/**
 	 * Grants SRMs to an instructor as if they had purchased it.
 	 * @param int $instructor_id
+	 * @param int $admin_id
 	 * @param int $quantity
 	 * @return boolean
 	 */
