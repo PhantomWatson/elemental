@@ -320,6 +320,9 @@ class User extends AppModel {
 	}
 
 	public function canAccessReviewMaterials($user_id) {
+		if ($this->hasRole($user_id, 'instructor') || $this->hasRole($user_id, 'admin')) {
+			return true;
+		}
 		$expiration = $this->getReviewModuleAccessExpiration($user_id);
 		return $expiration && $expiration > time();
 	}
