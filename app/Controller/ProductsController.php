@@ -49,7 +49,11 @@ class ProductsController extends AppController {
 			$this->loadModel('User');
 			$user_attended = $this->User->hasAttendedCourse($user_id);
 			$can_access = $this->User->canAccessReviewMaterials($user_id);
-			$expiration = $this->User->getReviewModuleAccessExpiration($user_id);
+			if ($this->User->hasRole($user_id, 'instructor') || $this->User->hasRole($user_id, 'admin')) {
+				$expiration = false;
+			} else {
+				$expiration = $this->User->getReviewModuleAccessExpiration($user_id);
+			}
 
 			if ($user_attended && ! $can_access) {
 				$this->set('jwt', $this->Product->getReviewModuleRenewalJWT($user_id));
