@@ -125,6 +125,9 @@ class AppController extends Controller {
 		if (in_array('instructor', $user_roles)) {
 			$this->__setInstructorAlerts();
 		}
+		if (in_array('admin', $user_roles)) {
+			$this->__setAdminAlerts();
+		}
 	}
 
 	protected function __setInstructorAlerts() {
@@ -153,6 +156,18 @@ class AppController extends Controller {
 		}
 	}
 
+	public function __setAdminAlerts() {
+		$this->loadModel('Testimonial');
+		if ($this->Testimonial->approvalNeeded()) {
+			$url = Router::url(array(
+				'controller' => 'testimonials',
+				'action' => 'manage',
+				$this->params['prefix'] => false
+			));
+			$this->Flash->set('Please <strong><a href="'.$url.'">approve or delete</a></strong> new testimonial(s).');
+		}
+	}
+
 	/**
 	 * Sets up everything that the Recaptcha plugin depends on
 	 */
@@ -172,5 +187,4 @@ class AppController extends Controller {
 		}
 		return $user_roles;
 	}
-
 }
