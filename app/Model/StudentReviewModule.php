@@ -415,4 +415,28 @@ class StudentReviewModule extends AppModel {
 
 		return true;
 	}
+
+	/**
+	 * Returns true or false, indicating if the instructor has reported attendance for a course with unpaid SRMs
+	 * @param int $instructor_id
+	 * @return boolean
+	 */
+	public function paymentNeeded($instructor_id) {
+		$course_ids = $this->Course->getCoursesWithReportedAttendance($instructor_id);
+
+		if (empty($course_ids)) {
+			return false;
+		}
+
+		$result = $this->field(
+			'id',
+			array(
+				'instructor_id' => $instructor_id,
+				'purchase_id' => null,
+				'override_admin_id' => null,
+				'course_id' => $course_ids
+			)
+		);
+		return $result ? true : false;
+	}
 }
