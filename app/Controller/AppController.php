@@ -109,12 +109,37 @@ class AppController extends Controller {
 				}
 			}
 		}
+
+		$this->__setAlerts();
 	}
 
 	public function beforeRender() {
 		if ($this->layout == 'default') {
 			$user_roles = $this->__getUserRoles();
 			$this->set('user_roles', $user_roles);
+		}
+	}
+
+	protected function __setAlerts() {
+		$user_roles = $this->__getUserRoles();
+		if (in_array('instructor', $user_roles)) {
+			$this->__setInstructorAlerts();
+		}
+	}
+
+	protected function __setInstructorAlerts() {
+		$instructor_id = $this->Auth->user('id');
+		$this->loadModel('Course');
+
+		$course_id = $this->Course->instructorCanReportAttendance($instructor_id);
+		if ($course_id) {
+			$url = Router::url(array(
+				'controller' => 'courses',
+				'action' => 'report_attendance',
+				'id' => $course_id,
+				$this->params['prefix'] => false
+			));
+			$this->Flash->set('Please <strong><a href="'.$url.'">report attendance</a></strong> for your recent course.');
 		}
 	}
 
