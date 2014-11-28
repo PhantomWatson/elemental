@@ -793,4 +793,20 @@ class Course extends AppModel {
 			}
 		}
 	}
+
+	/**
+	 * Returns FALSE or the course ID that the instructor must report attendance for
+	 * @param int $instructor_id
+	 * @return boolean|int
+	 */
+	public function instructorCanReportAttendance($instructor_id) {
+		return $this->field(
+			'id',
+			array(
+				'user_id' => $instructor_id,
+				'attendance_reported' => false,
+				'begins <=' => date('Y-m-d')
+			)
+		);
+	}
 }
