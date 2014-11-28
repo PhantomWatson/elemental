@@ -141,6 +141,16 @@ class AppController extends Controller {
 			));
 			$this->Flash->set('Please <strong><a href="'.$url.'">report attendance</a></strong> for your recent course.');
 		}
+
+		$this->loadModel('StudentReviewModule');
+		if ($this->StudentReviewModule->paymentNeeded($instructor_id)) {
+			$url = Router::url(array(
+				'instructor' => true,
+				'controller' => 'products',
+				'action' => 'student_review_modules'
+			));
+			$this->Flash->set('Please <strong><a href="'.$url.'">submit payment</a></strong> for the Student Review Modules used in your recent course.');
+		}
 	}
 
 	/**
