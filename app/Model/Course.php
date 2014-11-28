@@ -809,4 +809,22 @@ class Course extends AppModel {
 			)
 		);
 	}
+
+	/**
+	 * Returns array of course IDs that an instructor has reported attendance for
+	 * @param int $instructor_id
+	 * @return array
+	 */
+	public function getCoursesWithReportedAttendance($instructor_id) {
+		$results = $this->find(
+			'list',
+			array(
+				'conditions' => array(
+					'Course.user_id' => $instructor_id,
+					'Course.attendance_reported' => true
+				)
+			)
+		);
+		return empty($results) ? array() : array_keys($results);
+	}
 }
