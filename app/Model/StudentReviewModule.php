@@ -434,6 +434,7 @@ class StudentReviewModule extends AppModel {
 				'instructor_id' => $instructor_id,
 				'purchase_id' => null,
 				'override_admin_id' => null,
+				'student_id NOT' => null,
 				'course_id' => $course_ids
 			)
 		);
