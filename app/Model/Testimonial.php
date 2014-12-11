@@ -28,7 +28,7 @@ class Testimonial extends AppModel {
 			),
 		),
 	);
-	
+
 	public $belongsTo = array(
 		'User' => array(
 			'className' => 'User',
@@ -38,4 +38,18 @@ class Testimonial extends AppModel {
 			'order' => ''
 		)
 	);
+
+	/**
+	 * Returns true if any unapproved testimonials exist
+	 * @return boolean
+	 */
+	public function approvalNeeded() {
+		$result = $this->field(
+			'id',
+			array(
+				'approved' => false
+			)
+		);
+		return $result ? true : false;
+	}
 }

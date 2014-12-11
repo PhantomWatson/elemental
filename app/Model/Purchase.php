@@ -179,7 +179,7 @@ class Purchase extends AppModel {
 		// Apply this purchase to existing unpaid StudentReviewModule records
 		App::import('Model','StudentReviewModule');
 		$StudentReviewModule = new StudentReviewModule();
-		$unpaid_modules = $StudentReviewModule->getUnpaidList($seller_data['instructor_id']);
+		$unpaid_modules = $StudentReviewModule->getAwaitingPaymentList($seller_data['instructor_id']);
 		foreach ($unpaid_modules as $module_id => $module_course_id) {
 			$StudentReviewModule->id = $module_id;
 			$StudentReviewModule->saveField('purchase_id', $purchase_id);

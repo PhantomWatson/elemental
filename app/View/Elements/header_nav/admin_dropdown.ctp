@@ -47,5 +47,25 @@
 				)
 			); ?>
 		</li>
+		<li>
+			<?php echo $this->Html->link(
+				'Instructor Certifications',
+				array(
+					'admin' => true,
+					'controller' => 'certifications',
+					'action' => 'index'
+				)
+			); ?>
+		</li>
+		<li>
+			<?php echo $this->Html->link(
+				'Grant SRMs',
+				array(
+					'admin' => true,
+					'controller' => 'products',
+					'action' => 'student_review_modules'
+				)
+			); ?>
+		</li>
 	</ul>
 </li>

@@ -66,7 +66,7 @@ class Bio extends AppModel {
 	}
 
 	public function getInstructorBios() {
-		$instructors = $this->User->getInstructorList();
+		$instructors = $this->User->getCertifiedInstructorList();
 		$bios = $this->find(
 			'all',
 			array(

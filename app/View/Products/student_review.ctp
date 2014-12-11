@@ -7,14 +7,16 @@
 		<?php echo nl2br(h($product['Product']['description'])); ?>
 	</p>
 
-	<?php if ($can_access): ?>
-		<p class="alert alert-info">
-			Your access to the student review module will expire on <?php echo date('F jS, Y', $expiration); ?>.
-		</p>
-	<?php elseif (isset($expiration) && $expiration): ?>
-		<p class="alert alert-danger">
-			Your access to the student review module expired on <?php echo date('F jS, Y', $expiration); ?>.
-		</p>
+	<?php if (isset($expiration) && $expiration): ?>
+		<?php if ($can_access): ?>
+			<p class="alert alert-info">
+				Your access to the student review module will expire on <?php echo date('F jS, Y', $expiration); ?>.
+			</p>
+		<?php else: ?>
+			<p class="alert alert-danger">
+				Your access to the student review module expired on <?php echo date('F jS, Y', $expiration); ?>.
+			</p>
+		<?php endif; ?>
 	<?php endif; ?>
 
 	<?php if ($can_access): ?>

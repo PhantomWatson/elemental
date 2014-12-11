@@ -49,7 +49,11 @@ class ProductsController extends AppController {
 			$this->loadModel('User');
 			$user_attended = $this->User->hasAttendedCourse($user_id);
 			$can_access = $this->User->canAccessReviewMaterials($user_id);
-			$expiration = $this->User->getReviewModuleAccessExpiration($user_id);
+			if ($this->User->hasRole($user_id, 'instructor') || $this->User->hasRole($user_id, 'admin')) {
+				$expiration = false;
+			} else {
+				$expiration = $this->User->getReviewModuleAccessExpiration($user_id);
+			}
 
 			if ($user_attended && ! $can_access) {
 				$this->set('jwt', $this->Product->getReviewModuleRenewalJWT($user_id));
@@ -157,7 +161,27 @@ class ProductsController extends AppController {
 			'title_for_layout' => 'Student Review Modules',
 			'cost' => $this->StudentReviewModule->getCost(),
 			'report' => $this->StudentReviewModule->getReport($user_id),
-			'unpaid_jwt' => $this->StudentReviewModule->getUnpaidJWT($user_id)
+			'unpaid_jwt' => $this->StudentReviewModule->getAwaitingPaymentJWT($user_id)
+		));
+	}
+
+	public function admin_student_review_modules() {
+		$admin_id = $this->Auth->user('id');
+		$instructors = $this->User->getCertifiedInstructorList();
+		if ($this->request->is('post')) {
+			$quantity = $this->request->data['quantity'];
+			$instructor_id = $this->request->data['instructor_id'];
+			$this->loadModel('StudentReviewModule');
+			$success = $this->StudentReviewModule->grant($instructor_id, $admin_id, $quantity);
+			if ($success) {
+				$message = "$quantity Student Review ".__n('Module', 'Modules', $quantity).' granted to '.$instructors[$instructor_id];
+				$this->Flash->success($message);
+				$this->request->data = array();
+			}
+		}
+		$this->set(array(
+			'title_for_layout' => 'Grant Student Review Modules',
+			'instructors' => $instructors
 		));
 	}
 
@@ -207,7 +231,7 @@ class ProductsController extends AppController {
 		$this->loadModel('StudentReviewModule');
 		$instructor_id = $this->Auth->user('id');
 		$this->loadModel('User');
-		$instructors = $this->User->getInstructorList();
+		$instructors = $this->User->getCertifiedInstructorList();
 
 		if ($this->request->is('post')) {
 			$quantity = $this->request->data['quantity'];

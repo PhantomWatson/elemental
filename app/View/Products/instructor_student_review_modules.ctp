@@ -2,6 +2,20 @@
 	<?php echo $title_for_layout; ?>
 </h1>
 
+<p>
+	<?php echo $this->Html->link(
+		'View Student Review Module',
+		array(
+			'controller' => 'products',
+			'action' => 'student_review',
+			$this->params['prefix'] => false
+		),
+		array(
+			'class' => 'btn btn-default'
+		)
+	); ?>
+</p>
+
 <?php echo $this->element('srm_explanation'); ?>
 
 <h2>

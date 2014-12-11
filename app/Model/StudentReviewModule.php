@@ -13,7 +13,13 @@ class StudentReviewModule extends AppModel {
 			'notempty' => array(
 				'rule' => array('notempty')
 			)
-		)
+		),
+		'override_admin_id' => array(
+			'naturalNumber' => array(
+				'rule' => array('naturalNumber'),
+				'allowEmpty' => true
+			)
+		),
 	);
 	public $belongsTo = array(
 		'Purchase' => array(
@@ -31,6 +37,10 @@ class StudentReviewModule extends AppModel {
 		'Student' => array(
 			'className' => 'User',
 			'foreignKey' => 'student_id'
+		),
+		'Admin' => array(
+			'className' => 'User',
+			'foreignKey' => 'override_admin_id'
 		)
 	);
 
@@ -90,13 +100,14 @@ class StudentReviewModule extends AppModel {
 	 * @param int $instructor_id
 	 * @return string|null
 	 */
-	public function getUnpaidJWT($instructor_id) {
+	public function getAwaitingPaymentJWT($instructor_id) {
 		$count = $this->find(
 			'count',
 			array(
 				'conditions' => array(
 					'StudentReviewModule.instructor_id' => $instructor_id,
-					'StudentReviewModule.purchase_id' => null
+					'StudentReviewModule.purchase_id' => null,
+					'StudentReviewModule.override_admin_id' => null
 				)
 			)
 		);
@@ -106,13 +117,14 @@ class StudentReviewModule extends AppModel {
 		return null;
 	}
 
-	public function getUnpaidList($instructor_id) {
+	public function getAwaitingPaymentList($instructor_id) {
 		return $this->find(
 			'list',
 			array(
 				'conditions' => array(
 					'StudentReviewModule.instructor_id' => $instructor_id,
-					'StudentReviewModule.purchase_id' => null
+					'StudentReviewModule.purchase_id' => null,
+					'StudentReviewModule.override_admin_id' => null
 				),
 				'order' => 'StudentReviewModule.created ASC'
 			)
@@ -185,7 +197,10 @@ class StudentReviewModule extends AppModel {
 				'conditions' => array(
 					'StudentReviewModule.instructor_id' => $instructor_id,
 					'StudentReviewModule.student_id' => null,
-					'StudentReviewModule.purchase_id NOT' => null,
+					'OR' => array(
+						'StudentReviewModule.purchase_id NOT' => null,
+						'StudentReviewModule.override_admin_id NOT' => null
+					)
 				)
 			)
 		);
@@ -246,7 +261,11 @@ class StudentReviewModule extends AppModel {
 		);
 		foreach ($modules as $module) {
 			$paid = $module['StudentReviewModule']['purchase_id'] != null;
+			$admin_pay_override = $module['StudentReviewModule']['override_admin_id'] != null;
 			$assigned = $module['StudentReviewModule']['student_id'] != null;
+
+			// Treat SRMs with an admin payment override as paid
+			$paid = $paid || $admin_pay_override;
 
 			// Prepaid and available
 			if ($paid && ! $assigned) {
@@ -309,20 +328,116 @@ class StudentReviewModule extends AppModel {
 				'conditions' => array(
 					'StudentReviewModule.instructor_id' => $sender_id,
 					'StudentReviewModule.student_id' => null,
-					'StudentReviewModule.purchase_id NOT' => null,
+					'OR' => array(
+						'StudentReviewModule.purchase_id NOT' => null,
+						'StudentReviewModule.override_admin_id NOT' => null
+					)
 				)
 			)
 		);
-		$module_ids = array_keys($available_paid_modules);
+		$sender_module_ids = array_keys($available_paid_modules);
+		$recipient_unpaid_modules = $this->getAwaitingPaymentList($recipient_id);
+		$recipient_unpaid_module_ids = array_keys($recipient_unpaid_modules);
 
-		for ($i = 1; $i <= $quantity; $i++) {
-			$module_id = array_pop($module_ids);
-			$this->id = $module_id;
+		foreach ($sender_module_ids as $sender_module_id) {
+			if ($quantity < 1) {
+				break;
+			}
+
+			$this->id = $sender_module_id;
+
+			// Apply this to existing StudentReviewModule records awaiting payment
+			if (! empty($recipient_unpaid_module_ids)) {
+
+				// Apply sender's purchase ID to recipient's existing module
+				$sender_purchase_id = $this->field('purchase_id');
+				$this->id = array_pop($recipient_unpaid_module_ids);
+				$this->field('purchase_id', $sender_purchase_id);
+
+				// Remove sender's module
+				$this->delete($sender_module_id);
+
+				$quantity--;
+				continue;
+			}
+
+			// Switch ownership of unused, purchased SRMs
 			if (! $this->saveField('instructor_id', $recipient_id)) {
+				return false;
+			}
+			$quantity--;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Grants SRMs to an instructor as if they had purchased it.
+	 * @param int $instructor_id
+	 * @param int $admin_id
+	 * @param int $quantity
+	 * @return boolean
+	 */
+	public function grant($instructor_id, $admin_id, $quantity) {
+		App::import('Model','User');
+		$User = new User();
+		if (! $User->hasRole($instructor_id, 'instructor')) {
+			throw new ForbiddenException("Cannot grant Student Review Modules to that user. User is not a certified instructor.");
+		}
+
+		// Apply this to existing StudentReviewModule records awaiting payment
+		$unpaid_modules = $this->getAwaitingPaymentList($instructor_id);
+		foreach ($unpaid_modules as $module_id => $module_course_id) {
+			if ($quantity < 1) {
+				break;
+			}
+			$this->id = $module_id;
+			if (! $this->saveField('override_admin_id', $admin_id)) {
+				return false;
+			}
+			$quantity--;
+		}
+
+		// Create StudentReviewModule records
+		$data = array(
+			'purchase_id' => null,
+			'override_admin_id' => $admin_id,
+			'instructor_id' => $instructor_id,
+			'course_id' => null,
+			'student_id' => null
+		);
+		for ($n = 1; $n <= $quantity; $n++) {
+			$this->create($data);
+			if (! $this->save()) {
 				return false;
 			}
 		}
 
 		return true;
+	}
+
+	/**
+	 * Returns true or false, indicating if the instructor has reported attendance for a course with unpaid SRMs
+	 * @param int $instructor_id
+	 * @return boolean
+	 */
+	public function paymentNeeded($instructor_id) {
+		$course_ids = $this->Course->getCoursesWithReportedAttendance($instructor_id);
+
+		if (empty($course_ids)) {
+			return false;
+		}
+
+		$result = $this->field(
+			'id',
+			array(
+				'instructor_id' => $instructor_id,
+				'purchase_id' => null,
+				'override_admin_id' => null,
+				'student_id NOT' => null,
+				'course_id' => $course_ids
+			)
+		);
+		return $result ? true : false;
 	}
 }

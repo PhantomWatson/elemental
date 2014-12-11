@@ -109,6 +109,12 @@ class User extends AppModel {
 		),
 		'Bio' => array(
 			'dependent' => true
+		),
+		'Certification' => array(
+			'dependent' => true,
+			'order' => array(
+				'Certification.date_expires' => 'DESC'
+			)
 		)
 	);
 	public $hasAndBelongsToMany = array(
@@ -314,6 +320,9 @@ class User extends AppModel {
 	}
 
 	public function canAccessReviewMaterials($user_id) {
+		if ($this->hasRole($user_id, 'instructor') || $this->hasRole($user_id, 'admin')) {
+			return true;
+		}
 		$expiration = $this->getReviewModuleAccessExpiration($user_id);
 		return $expiration && $expiration > time();
 	}
@@ -400,6 +409,36 @@ class User extends AppModel {
 		foreach ($results['User'] as $user) {
 			$retval[$user['id']] = $user['name'];
 		}
+		return $retval;
+	}
+
+	public function getCertifiedInstructorList() {
+		$results = $this->Certification->find(
+			'all',
+			array(
+				'conditions' => array(
+					'Certification.date_expires >' => date('Y-m-d')
+				),
+				'contain' => array(
+					'User' => array(
+						'fields' => array(
+							'User.id',
+							'User.name'
+						)
+					)
+				),
+				'fields' => array(
+					'Certification.id'
+				)
+			)
+		);
+		$retval = array();
+		foreach ($results as $result) {
+			$id = $result['User']['id'];
+			$name = $result['User']['name'];
+			$retval[$id] = $name;
+		}
+		asort($retval);
 		return $retval;
 	}
 

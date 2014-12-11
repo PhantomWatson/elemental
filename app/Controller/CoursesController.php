@@ -237,7 +237,14 @@ class CoursesController extends AppController {
 			$this->Course->set($this->request->data);
 
 			if ($this->Course->validates() && empty($this->Course->validationErrors)) {
-				if ($this->Course->save()) {
+
+				// Delete all associated CourseDates, because saveAssociated() will add whatever's in the form data
+				$this->loadModel('CourseDate');
+				$this->CourseDate->deleteAll(array(
+					'CourseDate.course_id' => $id
+				));
+
+				if ($this->Course->saveAssociated()) {
 					$this->Flash->success('The course has been updated');
 					if ($waiting_list_count && $this->request->data['Course']['max_participants'] > $class_list_count) {
 						if ($this->Course->elevateWaitingListMembers($id)) {
@@ -574,11 +581,21 @@ class CoursesController extends AppController {
 			$this->Course->saveField('attendance_reported', true);
 			$this->Flash->success('Attendance reported.');
 
+			// Update instructor certification expiration date
+			$course_end_date = $this->Course->getEndDate($course_id);
+			$expiration_date = date('Y-m-d', strtotime("$course_end_date +1 year"));
+			$instructor_id = $this->Course->field('user_id');
+			$this->loadModel('Certification');
+			$this->Certification->id = $this->Certification->field(
+				'id',
+				compact('instructor_id')
+			);
+			$this->Certification->saveField('date_expires', $expiration_date);
+
 			if ($course['Course']['cost'] == 0) {
 				$this->loadModel('StudentReviewModule');
 				$this->StudentReviewModule->assignToAttendingStudents($course_id);
-				$instructor_id = $this->Course->field('user_id');
-				$unpaid = $this->StudentReviewModule->getUnpaidList($instructor_id);
+				$unpaid = $this->StudentReviewModule->getAwaitingPaymentList($instructor_id);
 				if (! empty($unpaid)) {
 					$count = count($unpaid);
 					if ($count == 1) {

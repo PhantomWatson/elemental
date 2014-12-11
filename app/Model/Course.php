@@ -238,6 +238,30 @@ class Course extends AppModel {
 		return $first_date;
 	}
 
+	/**
+	 * Returns the last date of a course
+	 * @param int $course_id
+	 * @return string|null
+	 */
+	public function getEndDate($course_id) {
+		$result = $this->CourseDate->find(
+			'first',
+			array(
+				'conditions' => array(
+					'CourseDate.course_id' => $course_id
+				),
+				'contain' => false,
+				'fields' => array(
+					'CourseDate.date'
+				),
+				'order' => array(
+					'CourseDate.date' => 'DESC'
+				)
+			)
+		);
+		return $result ? $result['CourseDate']['date'] : null;
+	}
+
 	public function getClassList($course_id, $waiting_list = false) {
 		return $this->CourseRegistration->find('all', array(
 			'conditions' => array(
@@ -768,5 +792,39 @@ class Course extends AppModel {
 				throw new InternalErrorException('Error sending email to student ('.$student_email.')');
 			}
 		}
+	}
+
+	/**
+	 * Returns FALSE or the course ID that the instructor must report attendance for
+	 * @param int $instructor_id
+	 * @return boolean|int
+	 */
+	public function instructorCanReportAttendance($instructor_id) {
+		return $this->field(
+			'id',
+			array(
+				'user_id' => $instructor_id,
+				'attendance_reported' => false,
+				'begins <=' => date('Y-m-d')
+			)
+		);
+	}
+
+	/**
+	 * Returns array of course IDs that an instructor has reported attendance for
+	 * @param int $instructor_id
+	 * @return array
+	 */
+	public function getCoursesWithReportedAttendance($instructor_id) {
+		$results = $this->find(
+			'list',
+			array(
+				'conditions' => array(
+					'Course.user_id' => $instructor_id,
+					'Course.attendance_reported' => true
+				)
+			)
+		);
+		return empty($results) ? array() : array_keys($results);
 	}
 }

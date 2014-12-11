@@ -121,7 +121,7 @@ class StoreController extends AppController {
 			}
 			$this->loadModel('User');
 			$this->set(array(
-				'instructors' => $this->User->getInstructorList()
+				'instructors' => $this->User->getCertifiedInstructorList()
 			));
 		}
 		$this->set(array(
