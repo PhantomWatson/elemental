@@ -116,7 +116,21 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 
+
+// DebugKit
 CakePlugin::load('DebugKit');
 App::uses('FireCake','DebugKit.Lib');
+
+// Recaptcha
 CakePlugin::load('Recaptcha');
 Configure::load('Recaptcha.key');
+
+// Stripe
+CakePlugin::load('Stripe');
+Configure::write('Stripe.mode', 'Test');
+CakeLog::config('stripe', array(
+    'engine' => 'FileLog',
+    'types' => array('info', 'error'),
+    'scopes' => array('stripe'),
+    'file' => 'stripe',
+));
