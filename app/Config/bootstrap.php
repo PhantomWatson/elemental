@@ -127,7 +127,6 @@ Configure::load('Recaptcha.key');
 
 // Stripe
 CakePlugin::load('Stripe');
-Configure::write('Stripe.mode', 'Test');
 CakeLog::config('stripe', array(
     'engine' => 'FileLog',
     'types' => array('info', 'error'),
