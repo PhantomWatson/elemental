@@ -156,7 +156,6 @@ class BioImage extends Image {
 
 		$image = array(
 			'id' => $image_id,
-			'bio_id' => 999,
 			'filename' => $filename
 		);
 		return array(true, $image);
