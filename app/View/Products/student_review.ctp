@@ -114,7 +114,9 @@
 						</h4>
 					</div>
 					<div class="modal-body">
-						Confirm payment of $<?php echo number_format($cost, 2); ?> for renewed Student Review Module access?
+						<p>
+							Confirm payment of $<?php echo number_format($cost, 2); ?> for renewed Student Review Module access?
+						</p>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -135,6 +137,10 @@
 						$('#confirmation_modal').modal();
 						$('#confirmation_modal .btn-primary').click(function (event) {
 							event.preventDefault();
+							$('#confirmation_modal .btn').addClass('disabled');
+							var hangon = $('<p class=\"hangon\" style=\"display: none;\">Please wait... <img src=\"/img/loading_small.gif\" /></p>');
+							$('#confirmation_modal .modal-body').append(hangon);
+							hangon.slideDown();
 							var data = {
 								student_id: ".$user_id.",
 								token: token.id
@@ -146,9 +152,12 @@
 								success: function (data, textStatus, jqXHR) {
 									if (data.success) {
 										$('#confirmation_modal').modal('hide');
-										console.log('Success! Done!');
+										location.reload(true);
 									} else {
-										alert(data.message);
+										$('#confirmation_modal .btn-primary').remove();
+										$('#confirmation_modal .btn').removeClass('disabled');
+										$('#confirmation_modal .modal-title').html('Error');
+										$('#confirmation_modal .modal-body').html(data.message);
 									}
 								},
 								dataType: 'json'
