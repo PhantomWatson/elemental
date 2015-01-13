@@ -7,9 +7,10 @@ class StudentReviewModulesController extends AppController {
 	public function complete_student_purchase() {
 		$data = $_POST;
 
-		$this->User->id = $data['student_id'];
+		$student_id = isset($data['student_id']) ? $data['student_id'] : null;
+		$this->User->id = $student_id;
 		if (! $this->User->exists()) {
-			throw new NotFoundException('User #'.$data['student_id'].' not found.');
+			throw new NotFoundException('User #'.$student_id.' not found.');
 		}
 
 		$this->loadModel('Product');
@@ -24,7 +25,7 @@ class StudentReviewModulesController extends AppController {
 		$student_email = $this->User->field('email');
 		$charge = array(
 			'amount' => $cost,
-			'stripeToken' => $data['token'],
+			'stripeToken' => isset($data['token']) ? $data['token'] : null,
 			'description' => 'Student Review Module access renewal for '.$student_email
 		);
 		$result = $this->Stripe->charge($charge);
@@ -34,7 +35,7 @@ class StudentReviewModulesController extends AppController {
 			$this->Purchase->create(array(
 				'product_id' => $product_id,
 				'quantity' => 1,
-				'user_id' => $data['student_id'],
+				'user_id' => $student_id,
 				'order_id' => $result['stripe_id']
 			));
 			if ($this->Purchase->save()) {
