@@ -134,16 +134,18 @@
 					image: 'http://elementalprotection.org/img/star-256px-whitebg.png',
 					panelLabel: 'Continue (Total: {{amount}})',
 					token: function(token) {
-						$('#confirmation_modal').on('shown.bs.modal', function() {
-							var initModalHeight = $('#confirmation_modal .modal-dialog').outerHeight();
-							$('#confirmation_modal .modal-dialog').css('margin-top', (window.screenY / 2) + initModalHeight);
+						var modal = $('#confirmation_modal');
+						modal.on('shown.bs.modal', function() {
+							var dialog = modal.find('.modal-dialog');
+							var initModalHeight = dialog.outerHeight();
+							dialog.css('margin-top', (window.screenY / 2) + initModalHeight);
 						});
-						$('#confirmation_modal').modal();
-						$('#confirmation_modal .btn-primary').click(function (event) {
+						modal.modal();
+						modal.find('.btn-primary').click(function (event) {
 							event.preventDefault();
-							$('#confirmation_modal .btn').addClass('disabled');
+							modal.find('.btn').addClass('disabled');
 							var hangon = $('<p class=\"hangon\" style=\"display: none;\">Please wait... <img src=\"/img/loading_small.gif\" /></p>');
-							$('#confirmation_modal .modal-body').append(hangon);
+							modal.find('.modal-body').append(hangon);
 							hangon.slideDown();
 							var data = {
 								student_id: ".$user_id.",
@@ -155,13 +157,13 @@
 								data: data,
 								success: function (data, textStatus, jqXHR) {
 									if (data.success) {
-										$('#confirmation_modal').modal('hide');
+										modal.modal('hide');
 										location.reload(true);
 									} else {
-										$('#confirmation_modal .btn-primary').remove();
-										$('#confirmation_modal .btn').removeClass('disabled');
-										$('#confirmation_modal .modal-title').html('Error');
-										$('#confirmation_modal .modal-body').html(data.message);
+										modal.find('.btn-primary').remove();
+										modal.find('.btn').removeClass('disabled');
+										modal.find('.modal-title').html('Error');
+										modal.find('.modal-body').html(data.message);
 									}
 								},
 								dataType: 'json'
