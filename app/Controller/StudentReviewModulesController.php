@@ -26,7 +26,7 @@ class StudentReviewModulesController extends AppController {
 		$charge = array(
 			'amount' => $cost,
 			'stripeToken' => isset($data['token']) ? $data['token'] : null,
-			'description' => 'Student Review Module access renewal for '.$student_email
+			'description' => "Student Review Module access renewal for $student_email (user #$student_id)"
 		);
 		$result = $this->Stripe->charge($charge);
 
