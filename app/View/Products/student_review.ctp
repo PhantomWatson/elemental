@@ -134,6 +134,10 @@
 					image: 'http://elementalprotection.org/img/star-256px-whitebg.png',
 					panelLabel: 'Continue (Total: {{amount}})',
 					token: function(token) {
+						$('#confirmation_modal').on('shown.bs.modal', function() {
+							var initModalHeight = $('#confirmation_modal .modal-dialog').outerHeight();
+							$('#confirmation_modal .modal-dialog').css('margin-top', (window.screenY / 2) + initModalHeight);
+						});
 						$('#confirmation_modal').modal();
 						$('#confirmation_modal .btn-primary').click(function (event) {
 							event.preventDefault();
