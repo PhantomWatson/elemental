@@ -64,6 +64,9 @@ class ProductsController extends AppController {
 				'can_access',
 				'expiration'
 			));
+			$this->set(array(
+				'user_id' => $this->Auth->user('id')
+			));
 		} else {
 			$this->set('can_access', false);
 		}
