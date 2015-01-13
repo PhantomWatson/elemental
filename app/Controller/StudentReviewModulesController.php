@@ -21,7 +21,7 @@ class StudentReviewModulesController extends AppController {
 			)
 		);
 		$this->Product->id = $product_id;
-		$cost = $this->Product->field('cost') / 100; // Convert from cents to dollars
+		$cost = $this->Product->field('cost');
 		$student_email = $this->User->field('email');
 		$charge = array(
 			'amount' => $cost,
