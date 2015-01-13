@@ -101,16 +101,40 @@
 						'id' => 'purchase_student_review'
 					)
 				);
-				$this->Html->script('https://checkout.stripe.com/checkout.js', array('inline' => false));
-				$this->Js->buffer("
-					var handler = StripeCheckout.configure({
-						key: '".Configure::read('Stripe.Public')."',
-						image: 'http://elementalprotection.org/img/star-256px-whitebg.png',
-						panelLabel: 'Continue (Total: {{amount}})',
-						token: function(token) {
-							console.log('callback called');
-							console.log(token);
+			?>
+		</p>
 
+		<div id="confirmation_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Almost done!" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">
+							Almost done!
+						</h4>
+					</div>
+					<div class="modal-body">
+						Confirm payment of $<?php echo number_format($cost, 2); ?> for renewed Student Review Module access?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary">Confirm</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<?php
+			$this->Html->script('https://checkout.stripe.com/checkout.js', array('inline' => false));
+			$this->Js->buffer("
+				var handler = StripeCheckout.configure({
+					key: '".Configure::read('Stripe.Public')."',
+					image: 'http://elementalprotection.org/img/star-256px-whitebg.png',
+					panelLabel: 'Continue (Total: {{amount}})',
+					token: function(token) {
+						$('#confirmation_modal').modal();
+						$('#confirmation_modal .btn-primary').click(function (event) {
+							event.preventDefault();
 							var data = {
 								student_id: ".$user_id.",
 								token: token.id
@@ -120,30 +144,33 @@
 								url: '/student_review_modules/complete_student_purchase',
 								data: data,
 								success: function (data, textStatus, jqXHR) {
-									console.log('Ajax function returned');
-									console.log(data);
+									if (data.success) {
+										$('#confirmation_modal').modal('hide');
+										console.log('Success! Done!');
+									} else {
+										alert(data.message);
+									}
 								},
 								dataType: 'json'
 							});
-						}
-					});
-
-					$('#purchase_student_review').on('click', function(e) {
-						handler.open({
-							name: 'Elemental',
-							description: 'Review Module access renewal ($".$cost.")',
-							amount: ".($cost * 100)."
 						});
-						e.preventDefault();
-					});
+					}
+				});
 
-					$(window).on('popstate', function() {
-						handler.close();
+				$('#purchase_student_review').on('click', function(e) {
+					handler.open({
+						name: 'Elemental',
+						description: 'Review Module access renewal ($".$cost.")',
+						amount: ".($cost * 100)."
 					});
-				");
-			?>
-		</p>
+					e.preventDefault();
+				});
 
+				$(window).on('popstate', function() {
+					handler.close();
+				});
+			");
+		?>
 	<?php endif; ?>
 
 </div>
