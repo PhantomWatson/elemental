@@ -92,27 +92,53 @@
 
 		<p>
 			<?php
+				$cost = $product['Product']['cost'];
 				echo $this->Html->link(
-					'Renew access for $'.number_format($product['Product']['cost'], 2),
+					'Renew access for $'.number_format($cost, 2),
 					'#',
 					array(
 						'class' => 'btn btn-primary btn-large',
 						'id' => 'purchase_student_review'
 					)
 				);
-				$this->Html->script(Configure::read('google_wallet_lib'), array('inline' => false));
+				$this->Html->script('https://checkout.stripe.com/checkout.js', array('inline' => false));
 				$this->Js->buffer("
-					$('#purchase_student_review').click(function(event) {
-						event.preventDefault();
-						google.payments.inapp.buy({
-							'jwt': '$jwt',
-							'success' : function(purchaseAction) {
-								location.reload(true);
-							},
-							'failure' : function(purchaseActionError){
-								alert('There was an error processing your payment: '+purchaseActionError.response.errorType);
-							}
+					var handler = StripeCheckout.configure({
+						key: '".Configure::read('Stripe.Public')."',
+						image: 'http://elementalprotection.org/img/star-256px-whitebg.png',
+						panelLabel: 'Continue (Total: {{amount}})',
+						token: function(token) {
+							console.log('callback called');
+							console.log(token);
+
+							var data = {
+								student_id: ".$user_id.",
+								token: token.id
+							};
+							$.ajax({
+								type: 'POST',
+								url: '/student_review_modules/complete_student_purchase',
+								data: data,
+								success: function (data, textStatus, jqXHR) {
+									console.log('Ajax function returned');
+									console.log(data);
+								},
+								dataType: 'json'
+							});
+						}
+					});
+
+					$('#purchase_student_review').on('click', function(e) {
+						handler.open({
+							name: 'Elemental',
+							description: 'Review Module access renewal ($".$cost.")',
+							amount: ".($cost * 100)."
 						});
+						e.preventDefault();
+					});
+
+					$(window).on('popstate', function() {
+						handler.close();
 					});
 				");
 			?>
