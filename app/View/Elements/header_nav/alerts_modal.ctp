@@ -7,14 +7,11 @@
 			</div>
 			<div class="modal-body">
 				<ul>
-					<?php foreach ($alerts as $role => $role_alerts): ?>
-						<?php if (is_array($role_alerts)): ?>
-							<?php foreach ($role_alerts as $alert): ?>
-								<li>
-									<?php echo $alert; ?>
-								</li>
-							<?php endforeach; ?>
-						<?php endif; ?>
+					<?php foreach ($alerts as $key => $alert): ?>
+						<?php if ($key == 'last_checked') continue; ?>
+						<li>
+							<?php echo $alert; ?>
+						</li>
 					<?php endforeach; ?>
 				</ul>
 			</div>

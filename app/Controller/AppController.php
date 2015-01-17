@@ -126,6 +126,7 @@ class AppController extends Controller {
 		// Remember these alerts for at most one hour
 		$recheck = ! $this->Cookie->check('alerts.last_checked') || $this->Cookie->read('alerts.last_checked') < strtotime('1 hour ago');
 		if ($recheck) {
+			$this->Cookie->delete('alerts');
 			$user_roles = $this->__getUserRoles();
 			if (in_array('instructor', $user_roles)) {
 				$this->__setInstructorAlerts();
@@ -140,8 +141,6 @@ class AppController extends Controller {
 	}
 
 	protected function __setInstructorAlerts() {
-		$this->Cookie->delete('alerts.instructor');
-
 		$instructor_id = $this->Auth->user('id');
 		$this->loadModel('Course');
 
@@ -153,7 +152,7 @@ class AppController extends Controller {
 				'id' => $course_id,
 				$this->params['prefix'] => false
 			));
-			$this->Cookie->write('alerts.instructor.attendance', 'Please <strong><a href="'.$url.'">report attendance</a></strong> for your recent course.');
+			$this->Cookie->write('alerts.instructor_attendance', 'Please <strong><a href="'.$url.'">report attendance</a></strong> for your recent course.');
 		}
 
 		$this->loadModel('StudentReviewModule');
@@ -163,7 +162,7 @@ class AppController extends Controller {
 				'controller' => 'products',
 				'action' => 'student_review_modules'
 			));
-			$this->Cookie->write('alerts.instructor.payment', 'Please <strong><a href="'.$url.'">submit payment</a></strong> for the Student Review Modules used in your recent course.');
+			$this->Cookie->write('alerts.instructor_payment', 'Please <strong><a href="'.$url.'">submit payment</a></strong> for the Student Review Modules used in your recent course.');
 		}
 	}
 
@@ -177,7 +176,7 @@ class AppController extends Controller {
 				'action' => 'manage',
 				$this->params['prefix'] => false
 			));
-			$this->Cookie->write('alerts.instructor.testimonials', 'Please <strong><a href="'.$url.'">approve or delete</a></strong> new testimonial(s).');
+			$this->Cookie->write('alerts.admin_testimonials', 'Please <strong><a href="'.$url.'">approve or delete</a></strong> new testimonial(s).');
 		}
 	}
 
