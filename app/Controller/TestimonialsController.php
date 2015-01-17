@@ -151,6 +151,9 @@ class TestimonialsController extends AppController {
 	}
 
 	public function manage() {
+		if ($this->Cookie->check('alerts.admin_testimonials')) {
+			$this->Cookie->delete('alerts.admin_testimonials');
+		}
 		$this->paginate = array(
 			'contain' => array('User'),
 			'order' => 'Testimonial.approved ASC'

@@ -162,7 +162,7 @@ class AppController extends Controller {
 				'controller' => 'products',
 				'action' => 'student_review_modules'
 			));
-			$this->Cookie->write('alerts.instructor_payment', 'Please <strong><a href="'.$url.'">submit payment</a></strong> for the Student Review Modules used in your recent course.');
+			$this->Cookie->write('alerts.instructor_srm_payment', 'Please <strong><a href="'.$url.'">submit payment</a></strong> for the Student Review Modules used in your recent course.');
 		}
 	}
 
