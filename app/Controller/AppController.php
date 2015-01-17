@@ -124,7 +124,7 @@ class AppController extends Controller {
 
 	protected function __setAlerts() {
 		// Remember these alerts for at most one hour
-		$recheck = $this->Cookie->check('alerts.last_checked') && $this->Cookie->read('alerts.last_checked') < strtotime('1 hour ago');
+		$recheck = ! $this->Cookie->check('alerts.last_checked') || $this->Cookie->read('alerts.last_checked') < strtotime('1 hour ago');
 		if ($recheck) {
 			$user_roles = $this->__getUserRoles();
 			if (in_array('instructor', $user_roles)) {
