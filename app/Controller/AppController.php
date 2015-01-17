@@ -109,16 +109,16 @@ class AppController extends Controller {
 				}
 			}
 		}
-
-		if ($this->Auth->loggedIn()) {
-			$this->__setAlerts();
-		}
 	}
 
 	public function beforeRender() {
 		if ($this->layout == 'default') {
 			$user_roles = $this->__getUserRoles();
 			$this->set('user_roles', $user_roles);
+
+			if ($this->Auth->loggedIn()) {
+				$this->__setAlerts();
+			}
 		}
 	}
 
