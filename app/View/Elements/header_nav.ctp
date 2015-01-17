@@ -132,7 +132,7 @@
 					<?php
 						$user_menu_links = '';
 
-						if (! empty($alerts)) {
+						if (isset($alerts) && ! empty($alerts)) {
 							$user_menu_links .= $this->element('header_nav/alerts');
 						}
 
@@ -217,7 +217,7 @@
 	</nav>
 
 	<?php
-		if (! empty($alerts)) {
+		if (isset($alerts) && ! empty($alerts)) {
 			echo $this->element('header_nav/alerts_modal');
 			$this->Js->buffer("header.setupAlerts();");
 		}

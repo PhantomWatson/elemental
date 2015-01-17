@@ -110,7 +110,9 @@ class AppController extends Controller {
 			}
 		}
 
-		$this->__setAlerts();
+		if ($this->Auth->loggedIn()) {
+			$this->__setAlerts();
+		}
 	}
 
 	public function beforeRender() {
