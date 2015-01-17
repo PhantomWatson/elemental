@@ -162,11 +162,11 @@ class TestimonialsController extends AppController {
 	}
 
 	public function approve($id = null) {
-		if (!$this->request->is('post')) {
+		if (! $this->request->is('post')) {
 			throw new MethodNotAllowedException();
 		}
 		$this->Testimonial->id = $id;
-		if (!$this->Testimonial->exists()) {
+		if (! $this->Testimonial->exists()) {
 			throw new NotFoundException(__('Invalid testimonial'));
 		}
 		if ($this->Testimonial->saveField('approved', 1)) {
