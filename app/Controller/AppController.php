@@ -128,9 +128,13 @@ class AppController extends Controller {
 		if (in_array('admin', $user_roles)) {
 			$this->__setAdminAlerts();
 		}
+
+		$this->set('alerts', $this->Cookie->read('alerts'));
 	}
 
 	protected function __setInstructorAlerts() {
+		$this->Cookie->delete('alerts.instructor');
+
 		$instructor_id = $this->Auth->user('id');
 		$this->loadModel('Course');
 
@@ -142,7 +146,7 @@ class AppController extends Controller {
 				'id' => $course_id,
 				$this->params['prefix'] => false
 			));
-			$this->Flash->set('Please <strong><a href="'.$url.'">report attendance</a></strong> for your recent course.');
+			$this->Cookie->write('alerts.instructor.attendance', 'Please <strong><a href="'.$url.'">report attendance</a></strong> for your recent course.');
 		}
 
 		$this->loadModel('StudentReviewModule');
@@ -152,11 +156,13 @@ class AppController extends Controller {
 				'controller' => 'products',
 				'action' => 'student_review_modules'
 			));
-			$this->Flash->set('Please <strong><a href="'.$url.'">submit payment</a></strong> for the Student Review Modules used in your recent course.');
+			$this->Cookie->write('alerts.instructor.payment', 'Please <strong><a href="'.$url.'">submit payment</a></strong> for the Student Review Modules used in your recent course.');
 		}
 	}
 
 	public function __setAdminAlerts() {
+		$this->Cookie->delete('alerts.admin');
+
 		$this->loadModel('Testimonial');
 		if ($this->Testimonial->approvalNeeded()) {
 			$url = Router::url(array(
@@ -164,7 +170,7 @@ class AppController extends Controller {
 				'action' => 'manage',
 				$this->params['prefix'] => false
 			));
-			$this->Flash->set('Please <strong><a href="'.$url.'">approve or delete</a></strong> new testimonial(s).');
+			$this->Cookie->write('alerts.instructor.testimonials', 'Please <strong><a href="'.$url.'">approve or delete</a></strong> new testimonial(s).');
 		}
 	}
 
