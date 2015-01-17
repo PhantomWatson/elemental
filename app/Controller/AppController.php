@@ -124,7 +124,7 @@ class AppController extends Controller {
 
 	protected function __setAlerts() {
 		// Remember these alerts for at most one hour
-		$recheck = ! $this->Cookie->check('alerts.last_checked') || $this->Cookie->read('alerts.last_checked') < strtotime('1 hour ago');
+		$recheck = ! $this->Cookie->check('alerts_last_checked') || $this->Cookie->read('alerts_last_checked') < strtotime('1 hour ago');
 		if ($recheck) {
 			$this->Cookie->delete('alerts');
 			$user_roles = $this->__getUserRoles();
@@ -134,7 +134,7 @@ class AppController extends Controller {
 			if (in_array('admin', $user_roles)) {
 				$this->__setAdminAlerts();
 			}
-			$this->Cookie->write('alerts.last_checked', time());
+			$this->Cookie->write('alerts_last_checked', time());
 		}
 
 		$this->set('alerts', $this->Cookie->read('alerts'));
