@@ -104,29 +104,10 @@
 			?>
 		</p>
 
-		<div id="confirmation_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Almost done!" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title">
-							Almost done!
-						</h4>
-					</div>
-					<div class="modal-body">
-						<p>
-							Confirm payment of $<?php echo number_format($cost, 2); ?> for renewed Student Review Module access?
-						</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-						<button type="button" class="btn btn-primary">Confirm and pay</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
 		<?php
+			echo $this->element('purchases/complete_purchase_modal', array(
+				'message' => 'Confirm payment of $'.number_format($cost, 2).' for renewed Student Review Module access?'
+			));
 			$this->Html->script('https://checkout.stripe.com/checkout.js', array('inline' => false));
 			$this->Html->script('purchase.js', array('inline' => false));
 			$this->Html->script('main.js', array('inline' => false));
