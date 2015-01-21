@@ -368,7 +368,8 @@ var studentReviewPurchase_student = {
 			post_data: {
 				student_id: params.user_id
 			},
-			post_url: '/student_review_modules/complete_student_purchase'
+			post_url: '/student_review_modules/complete_student_purchase',
+			confirmation_message: params.confirmation_message
 		});
 
 		$('#purchase_student_review').on('click', function(e) {
