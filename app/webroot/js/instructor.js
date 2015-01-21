@@ -12,7 +12,7 @@ var studentReviewPurchase_instructor = {
 		$('#pay_outstanding').on('click', function(e) {
 			handler.open({
 				name: 'Elemental',
-				description: 'Pay for '+params.quantity+' Student Review Module(s) ($'+params.cost_dollars+')',
+				description: params.description,
 				amount: params.cost_dollars * 100
 			});
 			e.preventDefault();
