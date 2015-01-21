@@ -105,9 +105,6 @@
 		</p>
 
 		<?php
-			echo $this->element('purchases/complete_purchase_modal', array(
-				'message' => 'Confirm payment of $'.number_format($cost, 2).' for renewed Student Review Module access?'
-			));
 			$this->Html->script('https://checkout.stripe.com/checkout.js', array('inline' => false));
 			$this->Html->script('purchase.js', array('inline' => false));
 			$this->Html->script('main.js', array('inline' => false));
@@ -115,7 +112,8 @@
 				studentReviewPurchase_student.init({
 					key: '".Configure::read('Stripe.Public')."',
 					user_id: '$user_id',
-					cost_dollars: $cost
+					cost_dollars: $cost,
+					confirmation_message: 'Confirm payment of $".number_format($cost, 2)." for renewed Student Review Module access?'
 				});
 			");
 		?>

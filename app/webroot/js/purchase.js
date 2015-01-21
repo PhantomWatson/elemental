@@ -6,7 +6,8 @@ var elementalPurchase = {
 			image: 'http://elementalprotection.org/img/star-256px-whitebg.png',
 			panelLabel: 'Continue (Total: {{amount}})',
 			token: function(token) {
-				var modal = $('#confirmation_modal');
+				var modal = elementalPurchase.getConfirmationModal(params.confirmation_message);
+				$('body').append(modal);
 				modal.on('shown.bs.modal', function() {
 					var dialog = modal.find('.modal-dialog');
 					var initModalHeight = dialog.outerHeight();
@@ -58,5 +59,27 @@ var elementalPurchase = {
 		$(window).on('popstate', function() {
 			handler.close();
 		});
+	},
+	
+	getConfirmationModal: function (confirmation_message) {
+		return $(
+			'<div class="modal fade" id="confirmation_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+				'<div class="modal-dialog">'+
+					'<div class="modal-content">'+
+						'<div class="modal-header">'+
+							'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+							'<h4 class="modal-title" id="myModalLabel">Almost done!</h4>'+
+						'</div>'+
+						'<div class="modal-body">'+
+							confirmation_message+
+						'</div>'+
+						'<div class="modal-footer">'+
+							'<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>'+
+							'<button type="button" class="btn btn-primary">Complete Purchase</button>'+
+						'</div>'+
+					'</div>'+
+				'</div>'+
+			'</div>'
+		);
 	}
 };
