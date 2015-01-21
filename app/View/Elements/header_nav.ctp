@@ -132,6 +132,10 @@
 					<?php
 						$user_menu_links = '';
 
+						if (isset($alerts) && ! empty($alerts)) {
+							$user_menu_links .= $this->element('header_nav/alerts');
+						}
+
 						if (in_array('admin', $user_roles)) {
 							$user_menu_links .= $this->element('header_nav/admin_dropdown');
 						}
@@ -211,4 +215,11 @@
 			</div>
 		</div>
 	</nav>
+
+	<?php
+		if (isset($alerts) && ! empty($alerts)) {
+			echo $this->element('header_nav/alerts_modal');
+			$this->Js->buffer("header.setupAlerts();");
+		}
+	?>
 <?php endif; ?>

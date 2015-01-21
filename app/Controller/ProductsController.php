@@ -158,6 +158,10 @@ class ProductsController extends AppController {
 	}
 
 	public function instructor_student_review_modules() {
+		if ($this->Cookie->check('alerts.instructor_srm_payment')) {
+			$this->Cookie->delete('alerts.instructor_srm_payment');
+		}
+
 		$user_id = $this->Auth->user('id');
 		$this->loadModel('StudentReviewModule');
 		$this->set(array(

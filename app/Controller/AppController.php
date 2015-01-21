@@ -109,25 +109,35 @@ class AppController extends Controller {
 				}
 			}
 		}
-
-		$this->__setAlerts();
 	}
 
 	public function beforeRender() {
 		if ($this->layout == 'default') {
 			$user_roles = $this->__getUserRoles();
 			$this->set('user_roles', $user_roles);
+
+			if ($this->Auth->loggedIn()) {
+				$this->__setAlerts();
+			}
 		}
 	}
 
 	protected function __setAlerts() {
-		$user_roles = $this->__getUserRoles();
-		if (in_array('instructor', $user_roles)) {
-			$this->__setInstructorAlerts();
+		// Remember these alerts for at most one hour
+		$recheck = ! $this->Cookie->check('alerts_last_checked') || $this->Cookie->read('alerts_last_checked') < strtotime('1 hour ago');
+		if ($recheck) {
+			$this->Cookie->delete('alerts');
+			$user_roles = $this->__getUserRoles();
+			if (in_array('instructor', $user_roles)) {
+				$this->__setInstructorAlerts();
+			}
+			if (in_array('admin', $user_roles)) {
+				$this->__setAdminAlerts();
+			}
+			$this->Cookie->write('alerts_last_checked', time());
 		}
-		if (in_array('admin', $user_roles)) {
-			$this->__setAdminAlerts();
-		}
+
+		$this->set('alerts', $this->Cookie->read('alerts'));
 	}
 
 	protected function __setInstructorAlerts() {
@@ -142,7 +152,7 @@ class AppController extends Controller {
 				'id' => $course_id,
 				$this->params['prefix'] => false
 			));
-			$this->Flash->set('Please <strong><a href="'.$url.'">report attendance</a></strong> for your recent course.');
+			$this->Cookie->write('alerts.instructor_attendance', 'Please <strong><a href="'.$url.'">report attendance</a></strong> for your recent course.');
 		}
 
 		$this->loadModel('StudentReviewModule');
@@ -152,11 +162,13 @@ class AppController extends Controller {
 				'controller' => 'products',
 				'action' => 'student_review_modules'
 			));
-			$this->Flash->set('Please <strong><a href="'.$url.'">submit payment</a></strong> for the Student Review Modules used in your recent course.');
+			$this->Cookie->write('alerts.instructor_srm_payment', 'Please <strong><a href="'.$url.'">submit payment</a></strong> for the Student Review Modules used in your recent course.');
 		}
 	}
 
 	public function __setAdminAlerts() {
+		$this->Cookie->delete('alerts.admin');
+
 		$this->loadModel('Testimonial');
 		if ($this->Testimonial->approvalNeeded()) {
 			$url = Router::url(array(
@@ -164,7 +176,7 @@ class AppController extends Controller {
 				'action' => 'manage',
 				$this->params['prefix'] => false
 			));
-			$this->Flash->set('Please <strong><a href="'.$url.'">approve or delete</a></strong> new testimonial(s).');
+			$this->Cookie->write('alerts.admin_testimonials', 'Please <strong><a href="'.$url.'">approve or delete</a></strong> new testimonial(s).');
 		}
 	}
 

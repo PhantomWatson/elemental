@@ -580,6 +580,9 @@ class CoursesController extends AppController {
 			$this->Course->sendSrmAvailableEmails($course_id);
 			$this->Course->saveField('attendance_reported', true);
 			$this->Flash->success('Attendance reported.');
+			if ($this->Cookie->check('alerts.instructor_attendance')) {
+				$this->Cookie->delete('alerts.instructor_attendance');
+			}
 
 			// Update instructor certification expiration date
 			$course_end_date = $this->Course->getEndDate($course_id);

@@ -420,3 +420,19 @@ var studentReviewPurchase_student = {
 		});
 	}
 };
+
+var header = {
+	setupAlerts: function () { 
+		function alert_blink() {
+			$('.header_alert_icon').fadeTo(50, 0.1).fadeTo(800, 1.0);
+		}
+		setInterval(alert_blink, 2000);
+		$('.header_alert_icon').each(function () {
+			var link = $(this).parent();
+			link.click(function (event) {
+				event.preventDefault();
+				$('#alert_modal').modal();
+			});
+		});
+	}
+};
