@@ -168,7 +168,8 @@ class ProductsController extends AppController {
 			'title_for_layout' => 'Student Review Modules',
 			'cost' => $this->StudentReviewModule->getCost(),
 			'report' => $this->StudentReviewModule->getReport($user_id),
-			'unpaid_jwt' => $this->StudentReviewModule->getAwaitingPaymentJWT($user_id)
+			'unpaid_jwt' => $this->StudentReviewModule->getAwaitingPaymentJWT($user_id),
+			'user_id' => $user_id
 		));
 	}
 
