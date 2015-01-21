@@ -448,7 +448,7 @@ class User extends AppModel {
 			array(
 				'conditions' => array(
 					'Certification.date_expires >' => date('Y-m-d'),
-					'Certification.user_id' => $user_id
+					'Certification.instructor_id' => $user_id
 				)
 			)
 		);
