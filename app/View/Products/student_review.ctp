@@ -128,6 +128,7 @@
 
 		<?php
 			$this->Html->script('https://checkout.stripe.com/checkout.js', array('inline' => false));
+			$this->Html->script('purchase.js', array('inline' => false));
 			$this->Html->script('main.js', array('inline' => false));
 			$this->Js->buffer("
 				studentReviewPurchase_student.init({
