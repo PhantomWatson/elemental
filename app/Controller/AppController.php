@@ -114,8 +114,11 @@ class AppController extends Controller {
 	public function beforeRender() {
 		if ($this->layout == 'default') {
 			$user_roles = $this->__getUserRoles();
-			$this->set('user_roles', $user_roles);
-
+			$user_id = $this->Auth->user('id');
+			$this->set(array(
+				'user_roles' => $user_roles,
+				'certified' => in_array('instructor', $user_roles) && $this->User->isCertified($user_id)
+			));
 			if ($this->Auth->loggedIn()) {
 				$this->__setAlerts();
 			}
