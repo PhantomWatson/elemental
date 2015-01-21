@@ -95,6 +95,25 @@ class StudentReviewModulesController extends AppController {
 				'order_id' => $result['stripe_id']
 			));
 			if ($this->Purchase->save()) {
+				$purchase_id = $this->Purchase->getLastInsertId();
+
+				// Apply this purchase to existing unpaid StudentReviewModule records
+				$unpaid_modules = $this->StudentReviewModule->getAwaitingPaymentList($instructor_id);
+				foreach ($unpaid_modules as $module_id => $module_course_id) {
+					$this->StudentReviewModule->id = $module_id;
+					$this->StudentReviewModule->saveField('purchase_id', $purchase_id);
+					$quantity--;
+				}
+
+				// Create StudentReviewModule records
+				for ($i = 1; $i <= $quantity; $i++) {
+					$this->StudentReviewModule->create(compact(
+						'purchase_id',
+						'instructor_id'
+					));
+					$this->StudentReviewModule->save();
+				}
+
 				$retval = array('success' => true);
 			} else {
 				$retval = array(
