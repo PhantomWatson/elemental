@@ -41,5 +41,22 @@ var elementalPurchase = {
 				});
 			}
 		});
+	},
+	
+	setupPurchaseButton: function (params) {
+		var handler = this.getStripeHandler(params);
+		
+		$(params.button_selector).on('click', function(e) {
+			handler.open({
+				name: 'Elemental',
+				description: params.description,
+				amount: params.cost_dollars * 100
+			});
+			e.preventDefault();
+		});
+
+		$(window).on('popstate', function() {
+			handler.close();
+		});
 	}
 };
