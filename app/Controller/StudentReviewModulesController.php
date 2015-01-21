@@ -56,6 +56,7 @@ class StudentReviewModulesController extends AppController {
 		}
 		$this->set('retval', $retval);
 		$this->layout = 'json';
+		$this->render('/Purchases/complete_purchase');
 	}
 
 	public function complete_instructor_purchase() {
@@ -111,5 +112,6 @@ class StudentReviewModulesController extends AppController {
 		}
 		$this->set('retval', $retval);
 		$this->layout = 'json';
+		$this->render('/Purchases/complete_purchase');
 	}
 }
