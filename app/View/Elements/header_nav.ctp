@@ -1,6 +1,5 @@
 <?php
 	$logged_in = (boolean) $this->Session->read('Auth.User.id');
-	$certified = $this->Session->read('Auth.User.certified');
 	$primary_links = array(
 		array(
 			'label' => 'Home',
