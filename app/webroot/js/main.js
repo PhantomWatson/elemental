@@ -363,27 +363,7 @@ var adminUserIndex = {
 
 var studentReviewPurchase_student = {
 	init: function (params) {
-		var handler = elementalPurchase.getStripeHandler({
-			key: params.key,
-			post_data: {
-				student_id: params.user_id
-			},
-			post_url: '/student_review_modules/complete_student_purchase',
-			confirmation_message: params.confirmation_message
-		});
-
-		$('#purchase_student_review').on('click', function(e) {
-			handler.open({
-				name: 'Elemental',
-				description: 'Review Module access renewal ($'+params.cost_dollars+')',
-				amount: params.cost_dollars * 100
-			});
-			e.preventDefault();
-		});
-
-		$(window).on('popstate', function() {
-			handler.close();
-		});
+		elementalPurchase.setupPurchaseButton(params);
 	}
 };
 

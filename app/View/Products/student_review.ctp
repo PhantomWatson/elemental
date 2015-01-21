@@ -110,10 +110,15 @@
 			$this->Html->script('main.js', array('inline' => false));
 			$this->Js->buffer("
 				studentReviewPurchase_student.init({
-					key: '".Configure::read('Stripe.Public')."',
-					user_id: '$user_id',
+					button_selector: '#purchase_student_review',
+					confirmation_message: 'Confirm payment of $".number_format($cost, 2)." for renewed Student Review Module access?',
 					cost_dollars: $cost,
-					confirmation_message: 'Confirm payment of $".number_format($cost, 2)." for renewed Student Review Module access?'
+					description: 'Review Module access renewal (\${$cost})',
+					key: '".Configure::read('Stripe.Public')."',
+					post_data: {
+						student_id: '$user_id'
+					},
+					post_url: '/student_review_modules/complete_student_purchase'
 				});
 			");
 		?>
