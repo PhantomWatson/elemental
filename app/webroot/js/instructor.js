@@ -6,7 +6,7 @@ var studentReviewPurchase_instructor = {
 				instructor_id: params.instructor_id,
 				quantity: params.quantity
 			},
-			post_url: '/student_review_modules/complete_instructor_purchase'
+			post_url: params.post_url
 		});
 
 		$('#pay_outstanding').on('click', function(e) {
