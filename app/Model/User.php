@@ -442,6 +442,19 @@ class User extends AppModel {
 		return $retval;
 	}
 
+	public function isCertified($user_id) {
+		$result = $this->Certification->find(
+			'count',
+			array(
+				'conditions' => array(
+					'Certification.date_expires >' => date('Y-m-d'),
+					'Certification.user_id' => $user_id
+				)
+			)
+		);
+		return $result > 0;
+	}
+
 	/**
 	 * Determines if user current has the specified role (or any of the specified roles if $role_name is an array)
 	 * @param int $user_id
