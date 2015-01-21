@@ -2,10 +2,7 @@ var studentReviewPurchase_instructor = {
 	init: function (params) {
 		var handler = elementalPurchase.getStripeHandler({
 			key: params.key,
-			post_data: {
-				instructor_id: params.instructor_id,
-				quantity: params.quantity
-			},
+			post_data: params.post_data,
 			post_url: params.post_url
 		});
 
