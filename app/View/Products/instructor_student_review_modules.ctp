@@ -177,19 +177,23 @@
 								'id' => 'pay_outstanding'
 							)
 						);
-						$this->Html->script(Configure::read('google_wallet_lib'), array('inline' => false));
+
+						$this->Html->script('https://checkout.stripe.com/checkout.js', array('inline' => false));
+						$this->Html->script('purchase.js', array('inline' => false));
+						$this->Html->script('instructor.js', array('inline' => false));
+						$purchase_noun = __n('SRM', 'SRMs', $unpaid_total);
 						$this->Js->buffer("
-							$('#pay_outstanding').click(function(event) {
-								event.preventDefault();
-								google.payments.inapp.buy({
-									'jwt': '$unpaid_jwt',
-									'success' : function(purchaseAction) {
-										location.reload(true);
-									},
-									'failure' : function(purchaseActionError){
-										alert('There was an error processing your payment: '+purchaseActionError.response.errorType);
-									}
-								});
+							studentReviewPurchase_instructor.init({
+								button_selector: '#pay_outstanding',
+								confirmation_message: 'Confirm payment of $".number_format($cost * $unpaid_total, 2)." for $purchase_noun?',
+								cost_dollars: ".($cost * $unpaid_total).",
+								description: 'Pay for $unpaid_total $purchase_noun',
+								key: '".Configure::read('Stripe.Public')."',
+								post_data: {
+									instructor_id: '$user_id',
+									quantity: '$unpaid_total'
+								},
+								post_url: '/student_review_modules/complete_instructor_purchase'
 							});
 						");
 					}
