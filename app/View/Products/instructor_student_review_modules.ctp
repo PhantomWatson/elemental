@@ -168,7 +168,7 @@
 			</td>
 			<td>
 				<?php
-					if ($unpaid_jwt) {
+					if ($unpaid_total > 0) {
 						echo $this->Html->link(
 							'Pay ($'.($cost*$unpaid_total).')',
 							'#',
