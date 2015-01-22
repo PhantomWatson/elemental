@@ -82,7 +82,7 @@ class StudentReviewModulesController extends AppController {
 		$charge = array(
 			'amount' => $total_cost,
 			'stripeToken' => isset($data['token']) ? $data['token'] : null,
-			'description' => "Paying off $quantity used Student Review ".__n('Module', 'Modules', $quantity)." for $instructor_email (user #$instructor_id)"
+			'description' => "Purchasing $quantity Student Review ".__n('Module', 'Modules', $quantity)." for $instructor_email (user #$instructor_id)"
 		);
 		$result = $this->Stripe->charge($charge);
 
