@@ -29,7 +29,13 @@ var elementalPurchase = {
 						success: function (data, textStatus, jqXHR) {
 							if (data.success) {
 								modal.modal('hide');
-								location.reload(true);
+								
+								// Redirect if redirect_url is provided, refresh otherwise
+								if (params.hasOwnProperty('redirect_url')) {
+									window.location.href = params.redirect_url;
+								} else {
+									location.reload(true);
+								}
 							} else {
 								modal.find('.btn-primary').remove();
 								modal.find('.btn').removeClass('disabled');
