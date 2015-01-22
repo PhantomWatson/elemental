@@ -28,8 +28,6 @@ var elementalPurchase = {
 						data: data,
 						success: function (data, textStatus, jqXHR) {
 							if (data.success) {
-								modal.modal('hide');
-								
 								// Redirect if redirect_url is provided, refresh otherwise
 								if (params.hasOwnProperty('redirect_url')) {
 									window.location.href = params.redirect_url;
