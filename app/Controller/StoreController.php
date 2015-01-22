@@ -95,18 +95,22 @@ class StoreController extends AppController {
 				$instructor_id = $this->request->data['Purchase']['instructor_id'];
 				$this->loadModel('User');
 				$this->User->id = $instructor_id;
-				$user_id = $this->Auth->user('id');
+				if ($is_instructor) {
+					$redirect_url = array(
+						'instructor' => true,
+						'controller' => 'products',
+						'action' => 'student_review_modules'
+					);
+				} else {
+					$redirect_url = array(
+						'controller' => 'store',
+						'action' => 'student_review_module'
+					);
+				}
 				$this->set(array(
 					'instructor_name' => $this->User->field('name'),
-					'jwt' => $this->StudentReviewModule->getJWT($quantity, $user_id, $instructor_id),
 					'quantity' => $quantity,
-					'redirect_url' => Router::url(
-						array(
-							'controller' => 'products',
-							'action' => 'student_review_modules'
-						),
-						true
-					),
+					'redirect_url' => Router::url($redirect_url, true),
 					'total' => number_format(($quantity * $cost), 2)
 				));
 			}
@@ -127,7 +131,8 @@ class StoreController extends AppController {
 		$this->set(array(
 			'cost' => $cost,
 			'step' => $step,
-			'title_for_layout' => 'Purchase Student Review Modules'
+			'title_for_layout' => 'Purchase Student Review Modules',
+			'user_id' => $user_id
 		));
 	}
 }
