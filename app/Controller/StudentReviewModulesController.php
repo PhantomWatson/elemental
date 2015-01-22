@@ -91,7 +91,7 @@ class StudentReviewModulesController extends AppController {
 			$this->Purchase->create(array(
 				'product_id' => $product_id,
 				'quantity' => $quantity,
-				'user_id' => $instructor_id,
+				'user_id' => $data['purchaser_id'],
 				'order_id' => $result['stripe_id']
 			));
 			if ($this->Purchase->save()) {

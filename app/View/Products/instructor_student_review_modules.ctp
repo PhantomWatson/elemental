@@ -190,6 +190,7 @@
 								description: 'Pay for $unpaid_total $purchase_noun',
 								key: '".Configure::read('Stripe.Public')."',
 								post_data: {
+									purchaser_id: '$user_id',
 									instructor_id: '$user_id',
 									quantity: '$unpaid_total'
 								},
