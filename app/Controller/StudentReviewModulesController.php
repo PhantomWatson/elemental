@@ -100,6 +100,9 @@ class StudentReviewModulesController extends AppController {
 				// Apply this purchase to existing unpaid StudentReviewModule records
 				$unpaid_modules = $this->StudentReviewModule->getAwaitingPaymentList($instructor_id);
 				foreach ($unpaid_modules as $module_id => $module_course_id) {
+					if ($quantity == 0) {
+						break;
+					}
 					$this->StudentReviewModule->id = $module_id;
 					$this->StudentReviewModule->saveField('purchase_id', $purchase_id);
 					$quantity--;
