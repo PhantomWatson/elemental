@@ -5,9 +5,13 @@ class PurchasesController extends AppController {
 	public $components = array('Stripe.Stripe');
 
 	public function complete_purchase($product) {
+		$this->loadModel('Product');
+		$this->loadModel('User');
+
 		switch ($product) {
 			case 'srm_student':
 			case 'srm_instructor':
+			case 'classroom_module':
 				$method = "__$product";
 				$retval = $this->$method();
 				break;
@@ -28,7 +32,6 @@ class PurchasesController extends AppController {
 			throw new NotFoundException('User #'.$student_id.' not found.');
 		}
 
-		$this->loadModel('Product');
 		$product_id = $this->Product->field(
 			'id',
 			array(
@@ -147,6 +150,69 @@ class PurchasesController extends AppController {
 			);
 			$this->response->statusCode('500');
 		}
+
+		return $retval;
+	}
+
+	private function __classroom_module() {
+		$data = $_POST;
+
+		$instructor_id = $data['instructor_id'];
+		$this->User->id = $instructor_id;
+		if (! $this->User->exists()) {
+			throw new NotFoundException('User #'.$instructor_id.' not found.');
+		}
+
+		$product_id = $this->Product->field(
+			'id',
+			array('name' => 'Classroom Module')
+		);
+		$this->Product->id = $product_id;
+		if (! $this->Product->exists()) {
+			throw new NotFoundException('Product "Classroom Module" not found.');
+		}
+
+		// Remove cached information
+		$cache_key = "hasPurchased($instructor_id, $product_id)";
+		Cache::delete($cache_key);
+
+		// Record purchase
+		$total_cost = $this->Product->field('cost');
+		$instructor_email = $this->User->field('email');
+		$charge = array(
+			'amount' => $total_cost,
+			'stripeToken' => isset($data['token']) ? $data['token'] : null,
+			'description' => "Purchasing Classroom Module for $instructor_email (user #$instructor_id)"
+		);
+		$result = $this->Stripe->charge($charge);
+
+		if (is_array($result)) {
+			$this->Purchase->create(array(
+				'product_id' => $product_id,
+				'quantity' => 1,
+				'user_id' => $instructor_id,
+				'order_id' => $result['stripe_id']
+			));
+			if ($this->Purchase->save()) {
+				$retval = array('success' => true);
+			} else {
+				$retval = array(
+					'success' => false,
+					'message' => 'Payment was accepted, but there was an error making a record of this purchase.'
+				);
+				$this->response->statusCode('500');
+			}
+		} else {
+			$retval = array(
+				'success' => false,
+				'message' => $result
+			);
+			$this->response->statusCode('500');
+		}
+
+		// Clear relevant cache keys
+		$cache_key = 'getClassroomModuleAccessExpiration('.$instructor_id.')';
+		Cache::delete($cache_key);
 
 		return $retval;
 	}

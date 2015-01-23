@@ -217,7 +217,8 @@ class ProductsController extends AppController {
 		$this->set(array(
 			'title_for_layout' => 'Classroom Module',
 			'can_access' => $can_access,
-			'expiration' => $expiration
+			'expiration' => $expiration,
+			'user_id' => $user_id
 		));
 
 		if ($can_access) {
@@ -228,8 +229,7 @@ class ProductsController extends AppController {
 			$product_id = $this->Product->getClassroomModuleId();
 			$this->Product->id = $product_id;
 			$this->set(array(
-				'cost' => $this->Product->field('cost'),
-				'jwt' => $this->Product->getClassroomModuleJWT($user_id)
+				'cost' => $this->Product->field('cost')
 			));
 		}
 	}

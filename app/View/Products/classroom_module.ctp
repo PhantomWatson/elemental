@@ -51,19 +51,19 @@
 					'id' => 'purchase_classroom_module'
 				)
 			);
-			$this->Html->script(Configure::read('google_wallet_lib'), array('inline' => false));
+			$this->Html->script('https://checkout.stripe.com/checkout.js', array('inline' => false));
+			$this->Html->script('purchase.js', array('inline' => false));
 			$this->Js->buffer("
-				$('#purchase_classroom_module').click(function(event) {
-					event.preventDefault();
-					google.payments.inapp.buy({
-						'jwt': '$jwt',
-						'success' : function(purchaseAction) {
-							location.reload(true);
-						},
-						'failure' : function(purchaseActionError){
-							alert('There was an error processing your payment: '+purchaseActionError.response.errorType);
-						}
-					});
+				elementalPurchase.setupPurchaseButton({
+					button_selector: '#purchase_classroom_module',
+					confirmation_message: 'Confirm payment of $".number_format($cost, 2)." for the Elemental Classroom Module?',
+					cost_dollars: $cost,
+					description: 'Classroom Module (\${$cost})',
+					key: '".Configure::read('Stripe.Public')."',
+					post_data: {
+						instructor_id: '$user_id'
+					},
+					post_url: '/purchases/complete_purchase/classroom_module'
 				});
 			");
 		?>
