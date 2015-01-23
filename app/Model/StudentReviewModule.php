@@ -44,28 +44,6 @@ class StudentReviewModule extends AppModel {
 		)
 	);
 
-	/**
-	 * Generates the JWT for a user to pay off however many SRMs are currently in use and unpaid, or null if no payment is needed
-	 * @param int $instructor_id
-	 * @return string|null
-	 */
-	public function getAwaitingPaymentJWT($instructor_id) {
-		$count = $this->find(
-			'count',
-			array(
-				'conditions' => array(
-					'StudentReviewModule.instructor_id' => $instructor_id,
-					'StudentReviewModule.purchase_id' => null,
-					'StudentReviewModule.override_admin_id' => null
-				)
-			)
-		);
-		if ($count) {
-			return $this->getJWT($count, $instructor_id, $instructor_id);
-		}
-		return null;
-	}
-
 	public function getAwaitingPaymentList($instructor_id) {
 		return $this->find(
 			'list',
