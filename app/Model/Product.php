@@ -74,18 +74,6 @@ class Product extends AppModel {
 		return $retval;
 	}
 
-	public function getReviewModuleRenewalId() {
-		$cache_key = "getReviewModuleRenewalId()";
-		if ($cached = Cache::read($cache_key)) {
-			return $cached;
-		}
-
-		$product = $this->getReviewModuleRenewal();
-		$retval = $product['Product']['id'];
-		Cache::write($cache_key, $retval);
-		return $retval;
-	}
-
 	public function getClassroomModuleAccessExpiration($user_id) {
 		$cache_key = "getClassroomModuleAccessExpiration($user_id)";
 		if ($cached = Cache::read($cache_key)) {
