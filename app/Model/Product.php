@@ -139,31 +139,6 @@ class Product extends AppModel {
 		return $retval;
 	}
 
-	public function getClassroomModuleId() {
-		$cache_key = "getClassroomModuleId()";
-		if ($cached = Cache::read($cache_key)) {
-			return $cached;
-		}
-
-		$product = $this->find('first', array(
-			'conditions' => array(
-				'Product.name' => 'Classroom Module'
-			),
-			'contain' => false,
-			'fields' => array(
-				'Product.id'
-			)
-		));
-
-		if (empty($product)) {
-			throw new NotFoundException('Classroom Module not found');
-		}
-
-		$retval = $product['Product']['id'];
-		Cache::write($cache_key, $retval);
-		return $retval;
-	}
-
 	public function getClassroomModuleAccessExpiration($user_id) {
 		$cache_key = "getClassroomModuleAccessExpiration($user_id)";
 		if ($cached = Cache::read($cache_key)) {
