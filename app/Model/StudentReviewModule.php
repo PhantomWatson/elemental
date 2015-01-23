@@ -44,57 +44,6 @@ class StudentReviewModule extends AppModel {
 		)
 	);
 
-	public function getJWT($quantity, $user_id, $instructor_id) {
-		$seller_identifier = Configure::read('google_waller_seller_id');
-		$seller_secret = Configure::read('google_wallet_seller_secret');
-
-		$purchase_name = 'Elemental Student Review '.__n('Module', 'Modules', $quantity).' ('.$quantity.')';
-		App::import('Model', 'Product');
-		$ProductObj = new Product();
-		$product = $ProductObj->find(
-			'first',
-			array(
-				'conditions' => array(
-					'Product.name' => 'Student Review Module'
-				),
-				'contain' => false,
-				'fields' => array(
-					'Product.id',
-					'Product.cost',
-					'Product.description'
-				)
-			)
-		);
-		$total = $quantity * $product['Product']['cost'];
-		$product_id = $product['Product']['id'];
-
-		// Generate a JWT (JSON Web Token) for this item
-		// $payload parameters reference: https://developers.google.com/commerce/wallet/digital/docs/jsreference#jwt
-		App::import('Vendor', 'JWT');
-		$seller_data = array(
-			"type:student_review_module",
-			"user_id:$user_id",
-			"instructor_id:$instructor_id",
-			"product_id:$product_id",
-			"quantity:$quantity"
-		);
-		$payload = array(
-			"iss" => $seller_identifier,
-			"aud" => "Google",
-			"typ" => "google/payments/inapp/item/v1",
-			"exp" => time() + 3600,
-			"iat" => time(),
-			"request" => array(
-				"name" => $purchase_name,
-				"description" => $product['Product']['description'],
-				"price" => $total,
-				"currencyCode" => "USD",
-				"sellerData" => implode(',', $seller_data)
-			)
-		);
-		return JWT::encode($payload, $seller_secret);
-	}
-
 	/**
 	 * Generates the JWT for a user to pay off however many SRMs are currently in use and unpaid, or null if no payment is needed
 	 * @param int $instructor_id
