@@ -55,10 +55,6 @@ class ProductsController extends AppController {
 				$expiration = $this->User->getReviewModuleAccessExpiration($user_id);
 			}
 
-			if ($user_attended && ! $can_access) {
-				$this->set('jwt', $this->Product->getReviewModuleRenewalJWT($user_id));
-			}
-
 			$this->set(compact(
 				'user_attended',
 				'can_access',
