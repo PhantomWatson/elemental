@@ -89,7 +89,7 @@ class ProductsController extends AppController {
 			$product = reset($path_split);
 			switch ($product) {
 				case 'student_review':
-					$product_id = $this->Product->getReviewModuleRenewalId();
+					$product_id = $this->Product->getProductId('srm renewal');
 					break;
 			}
 

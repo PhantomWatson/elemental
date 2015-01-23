@@ -361,7 +361,7 @@ class User extends AppModel {
 
 			// Students who have purchased the review material module in the past year get access
 			$Product = ClassRegistry::init('Product');
-			$product_id = $Product->getReviewModuleRenewalId();
+			$product_id = $Product->getProductId('srm renewal');
 			$purchase = $this->Purchase->find('first', array(
 				'conditions' => array(
 					'Purchase.user_id' => $user_id,
