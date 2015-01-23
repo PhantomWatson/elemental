@@ -222,7 +222,7 @@ class ProductsController extends AppController {
 				'warn' => $expiration < strtotime('+30 days')
 			));
 		} else {
-			$product_id = $this->Product->getClassroomModuleId();
+			$product_id = $this->Product->getProductId('classroom module');
 			$this->Product->id = $product_id;
 			$this->set(array(
 				'cost' => $this->Product->field('cost')

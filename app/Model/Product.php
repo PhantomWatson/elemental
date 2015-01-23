@@ -226,7 +226,7 @@ class Product extends AppModel {
 		$retval = false;
 
 		// Users who have purchased the module in the past year get access
-		$product_id = $this->getClassroomModuleId();
+		$product_id = $this->getProductId('classroom module');
 		$purchase = $this->Purchase->find('first', array(
 			'conditions' => array(
 				'Purchase.user_id' => $user_id,
@@ -244,5 +244,18 @@ class Product extends AppModel {
 
 		Cache::write($cache_key, $retval);
 		return $retval;
+	}
+
+	public function getProductId($product) {
+		switch ($product) {
+			case 'srm renewal':
+				return 2;
+			case 'srm':
+				return 3;
+			case 'classroom module':
+				return 4;
+		}
+
+		return false;
 	}
 }

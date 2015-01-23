@@ -163,10 +163,7 @@ class PurchasesController extends AppController {
 			throw new NotFoundException('User #'.$instructor_id.' not found.');
 		}
 
-		$product_id = $this->Product->field(
-			'id',
-			array('name' => 'Classroom Module')
-		);
+		$product_id = $this->Product->getProductId('classroom module');
 		$this->Product->id = $product_id;
 		if (! $this->Product->exists()) {
 			throw new NotFoundException('Product "Classroom Module" not found.');
