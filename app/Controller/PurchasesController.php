@@ -48,7 +48,6 @@ class PurchasesController extends AppController {
 		$result = $this->Stripe->charge($charge);
 
 		if (is_array($result)) {
-			$this->loadModel('Purchase');
 			$this->Purchase->create(array(
 				'product_id' => $product_id,
 				'quantity' => 1,
@@ -101,7 +100,6 @@ class PurchasesController extends AppController {
 		$result = $this->Stripe->charge($charge);
 
 		if (is_array($result)) {
-			$this->loadModel('Purchase');
 			$this->Purchase->create(array(
 				'product_id' => $product_id,
 				'quantity' => $quantity,
