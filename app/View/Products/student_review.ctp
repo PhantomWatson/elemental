@@ -118,7 +118,7 @@
 					post_data: {
 						student_id: '$user_id'
 					},
-					post_url: '/student_review_modules/complete_student_purchase'
+					post_url: '/purchases/complete_purchase/srm_student'
 				});
 			");
 		?>

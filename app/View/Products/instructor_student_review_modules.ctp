@@ -194,7 +194,7 @@
 									instructor_id: '$user_id',
 									quantity: '$unpaid_total'
 								},
-								post_url: '/student_review_modules/complete_instructor_purchase'
+								post_url: '/purchases/complete_purchase/srm_instructor'
 							});
 						");
 					}

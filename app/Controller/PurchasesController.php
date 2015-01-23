@@ -1,10 +1,25 @@
 <?php
 App::uses('AppController', 'Controller');
-class StudentReviewModulesController extends AppController {
-	public $name = 'StudentReviewModules';
+class PurchasesController extends AppController {
+	public $name = 'Purchases';
 	public $components = array('Stripe.Stripe');
 
-	public function complete_student_purchase() {
+	public function complete_purchase($product) {
+		switch ($product) {
+			case 'srm_student':
+			case 'srm_instructor':
+				$method = "__$product";
+				$retval = $this->$method();
+				break;
+			default:
+				throw new NotFoundException("Sorry, but that product ('$product') was not recognized.");
+		}
+
+		$this->layout = 'json';
+		$this->set('retval', $retval);
+	}
+
+	private function __srm_student() {
 		$data = $_POST;
 
 		$student_id = isset($data['student_id']) ? $data['student_id'] : null;
@@ -54,12 +69,11 @@ class StudentReviewModulesController extends AppController {
 			);
 			$this->response->statusCode('500');
 		}
-		$this->set('retval', $retval);
-		$this->layout = 'json';
-		$this->render('/Purchases/complete_purchase');
+
+		return $retval;
 	}
 
-	public function complete_instructor_purchase() {
+	private function __srm_instructor() {
 		$data = $_POST;
 
 		$instructor_id = isset($data['instructor_id']) ? $data['instructor_id'] : null;
@@ -98,6 +112,7 @@ class StudentReviewModulesController extends AppController {
 				$purchase_id = $this->Purchase->getLastInsertId();
 
 				// Apply this purchase to existing unpaid StudentReviewModule records
+				$this->loadModel('StudentReviewModule');
 				$unpaid_modules = $this->StudentReviewModule->getAwaitingPaymentList($instructor_id);
 				foreach ($unpaid_modules as $module_id => $module_course_id) {
 					if ($quantity == 0) {
@@ -132,8 +147,7 @@ class StudentReviewModulesController extends AppController {
 			);
 			$this->response->statusCode('500');
 		}
-		$this->set('retval', $retval);
-		$this->layout = 'json';
-		$this->render('/Purchases/complete_purchase');
+
+		return $retval;
 	}
 }

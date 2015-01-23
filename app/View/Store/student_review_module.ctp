@@ -98,7 +98,7 @@
 					instructor_id: '".$this->request->data['Purchase']['instructor_id']."',
 					quantity: '$quantity'
 				},
-				post_url: '/student_review_modules/complete_instructor_purchase',
+				post_url: '/purchases/complete_purchase/srm_instructor',
 				redirect_url: '$redirect_url'
 			});
 		");
