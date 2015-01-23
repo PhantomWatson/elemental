@@ -58,22 +58,6 @@ class Product extends AppModel {
 		return $results;
 	}
 
-	public function getReviewModuleRenewal() {
-		$cache_key = "getReviewModuleRenewal()";
-		if ($cached = Cache::read($cache_key)) {
-			return $cached;
-		}
-
-		$retval = $this->find('first', array(
-			'conditions' => array(
-				'Product.name' => 'Student Review Module access renewal'
-			),
-			'contain' => false
-		));
-		Cache::write($cache_key, $retval);
-		return $retval;
-	}
-
 	public function getClassroomModuleAccessExpiration($user_id) {
 		$cache_key = "getClassroomModuleAccessExpiration($user_id)";
 		if ($cached = Cache::read($cache_key)) {

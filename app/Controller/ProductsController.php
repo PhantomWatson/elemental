@@ -37,7 +37,12 @@ class ProductsController extends AppController {
 		}
 
 		$logged_in = $this->Auth->loggedIn();
-		$product = $this->Product->getReviewModuleRenewal();
+		$product = $this->Product->find('first', array(
+			'conditions' => array(
+				'Product.id' => $this->Product->getProductId('srm')
+			),
+			'contain' => false
+		));
 		$this->set(array(
 			'title_for_layout' => 'Student Review Materials',
 			'logged_in' => $logged_in,
