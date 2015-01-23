@@ -93,7 +93,7 @@ class PurchasesController extends AppController {
 			)
 		);
 		$this->Product->id = $product_id;
-		$quantity = $_POST['quantity'];
+		$quantity = $data['quantity'];
 		$total_cost = $this->Product->field('cost') * $quantity;
 		$instructor_email = $this->User->field('email');
 		$charge = array(
