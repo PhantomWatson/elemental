@@ -61,19 +61,9 @@ class StudentReviewModule extends AppModel {
 	public function getCost() {
 		App::import('Model', 'Product');
 		$ProductObj = new Product();
-		$result = $ProductObj->find(
-			'first',
-			array(
-				'conditions' => array(
-					'Product.name' => 'Student Review Module'
-				),
-				'contain' => false,
-				'fields' => array(
-					'Product.cost'
-				)
-			)
-		);
-		return $result ? $result['Product']['cost'] : false;
+		$product_id = $ProductObj->getProductId('srm');
+		$ProductObj->id = $product_id;
+		return $ProductObj->field('cost');
 	}
 
 	public function getAvailableCount($instructor_id) {
