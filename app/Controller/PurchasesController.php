@@ -32,13 +32,12 @@ class PurchasesController extends AppController {
 			throw new NotFoundException('User #'.$student_id.' not found.');
 		}
 
-		$product_id = $this->Product->field(
-			'id',
-			array(
-				'name' => 'Student Review Module access renewal'
-			)
-		);
+		$product_id = $this->Product->getProductId('srm renewal');
 		$this->Product->id = $product_id;
+		if (! $this->Product->exists()) {
+			throw new NotFoundException('Product not found.');
+		}
+
 		$cost = $this->Product->field('cost');
 		$student_email = $this->User->field('email');
 		$charge = array(
@@ -85,14 +84,12 @@ class PurchasesController extends AppController {
 			throw new NotFoundException('User #'.$instructor_id.' not found.');
 		}
 
-		$this->loadModel('Product');
-		$product_id = $this->Product->field(
-			'id',
-			array(
-				'name' => 'Student Review Module'
-			)
-		);
+		$product_id = $this->Product->getProductId('srm');
 		$this->Product->id = $product_id;
+		if (! $this->Product->exists()) {
+			throw new NotFoundException('Product not found.');
+		}
+
 		$quantity = $data['quantity'];
 		$total_cost = $this->Product->field('cost') * $quantity;
 		$instructor_email = $this->User->field('email');
