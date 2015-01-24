@@ -57,61 +57,6 @@ class Purchase extends AppModel {
 		)
 	);
 
-	public function purchaseCourseRegistration($seller_data, $order_id, $jwt_decoded) {
-		// Check for required sellerData
-		App::import('Model','Course');
-		$Course = new Course();
-		if (! isset($seller_data['user_id'])) {
-			throw new BadRequestException('User ID missing');
-		} elseif (! $this->User->exists($seller_data['user_id'])) {
-			throw new BadRequestException('User #'.$seller_data['user_id'].' not found');
-		} elseif (! isset($seller_data['course_id'])) {
-			throw new BadRequestException('Course ID missing');
-		} elseif (! $Course->exists($seller_data['course_id'])) {
-			throw new BadRequestException('Course #'.$seller_data['course_id'].' not found');
-		}
-
-		// Make sure that registration is allowed
-		$Course->id = $seller_data['course_id'];
-		$deadline = $Course->field('deadline');
-		if ($deadline < date('Y-m-d')) {
-			throw new ForbiddenException('Sorry, the deadline for registering for that course has passed');
-		}
-		if ($Course->isFull($seller_data['course_id'])) {
-			throw new ForbiddenException('Sorry, this course has no available spots left');
-		}
-
-		// Prevent accidental double-payment
-		App::import('Model','CoursePayment');
-		$CoursePayment = new CoursePayment();
-		$already_purchased = $CoursePayment->find(
-			'count',
-			array(
-				'conditions' => array(
-					'CoursePayment.course_id' => $seller_data['course_id'],
-					'CoursePayment.user_id' => $seller_data['user_id'],
-					'CoursePayment.refunded' => null
-				)
-			)
-		);
-		if ($already_purchased) {
-			throw new ForbiddenException('You have already paid this course\'s registration fee');
-		}
-
-		// Record purchase
-		$CoursePayment->create(array(
-			'course_id' => $seller_data['course_id'],
-			'user_id' => $seller_data['user_id'],
-			'order_id' => $order_id,
-			'jwt' => serialize($jwt_decoded)
-		));
-		if (! $CoursePayment->save()) {
-			throw new InternalErrorException('Purchase could not be saved');
-		}
-
-		return true;
-	}
-
 	public function purchaseStudentReviewModuleRenewal($seller_data, $order_id, $jwt_decoded) {
 		// Check for required sellerData
 		if (! isset($seller_data['user_id'])) {
