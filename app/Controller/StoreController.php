@@ -8,61 +8,6 @@ class StoreController extends AppController {
 		parent::beforeFilter();
 	}
 
-	/**
-	 * Postback method for confirming payments
-	 */
-	public function postback() {
-		if (! $this->request->is('post')) {
-			throw new MethodNotAllowedException('Request must be POST.');
-		}
-		if (! isset($_POST['jwt'])) {
-			throw new BadRequestException('Postback data not received.');
-		}
-
-		// Decode order data
-		$jwt = $_POST['jwt'];
-		App::import('Vendor', 'JWT');
-		$seller_secret = Configure::read('google_wallet_seller_secret');
-		$jwt_decoded = JWT::decode($jwt, $seller_secret);
-		if (isset($jwt_decoded->response->orderId)) {
-			$order_id = $jwt_decoded->response->orderId;
-		} else {
-			throw new BadRequestException('Order ID not received');
-		}
-
-		// Get sellerData
-		foreach (explode(',', $jwt_decoded->request->sellerData) as $datum) {
-			list($var, $val) = explode(":", $datum);
-			$seller_data[$var] = $val;
-		}
-
-		// Run product-specific processing
-		if (! isset($seller_data['type'])) {
-			throw new BadRequestException('Purchase type not specified');
-		}
-		switch ($seller_data['type']) {
-			case 'course':
-				$this->Purchase->purchaseCourseRegistration($seller_data, $order_id, $jwt_decoded);
-				break;
-			case 'student_review_module_renewal':
-				$this->Purchase->purchaseStudentReviewModuleRenewal($seller_data, $order_id, $jwt_decoded);
-				break;
-			case 'student_review_module':
-				$this->Purchase->purchaseStudentReviewModule($seller_data, $order_id, $jwt_decoded);
-				break;
-			case 'classroom_module':
-				$this->Purchase->purchaseClassroomModule($seller_data, $order_id, $jwt_decoded);
-				break;
-			default:
-				throw new BadRequestException('Unrecognized purchase type: '.$seller_data['type']);
-		}
-
-		// If order is okay, send 200 OK response and this order ID
-		$this->set(array(
-			'order_id' => $order_id
-		));
-	}
-
 	public function student_review_module() {
 		$step = 'prep';
 		$user_id = $this->Auth->user('id');
