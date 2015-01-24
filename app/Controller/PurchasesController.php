@@ -235,6 +235,25 @@ class PurchasesController extends AppController {
 			);
 		}
 
+		// Prevent accidental double-payment
+		$this->loadModel('CoursePayment');
+		$already_purchased = $this->CoursePayment->find(
+			'count',
+			array(
+				'conditions' => array(
+					'CoursePayment.course_id' => $course_id,
+					'CoursePayment.user_id' => $user_id,
+					'CoursePayment.refunded' => null
+				)
+			)
+		);
+		if ($already_purchased) {
+			return array(
+				'success' => false,
+				'message' => 'You have already paid this course\'s registration fee.'
+			);
+		}
+
 		// Make purchase
 		$cost = $this->Course->field('cost');
 		$student_email = $this->User->field('email');
@@ -247,7 +266,6 @@ class PurchasesController extends AppController {
 
 		// Record purchase
 		if (is_array($result)) {
-			$this->loadModel('CoursePayment');
 			$this->CoursePayment->create(array(
 				'course_id' => $course_id,
 				'user_id' => $student_id,
