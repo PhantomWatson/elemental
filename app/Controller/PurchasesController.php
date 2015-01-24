@@ -12,8 +12,12 @@ class PurchasesController extends AppController {
 			case 'srm_student':
 			case 'srm_instructor':
 			case 'classroom_module':
+			case 'course_registration':
 				$method = "__$product";
 				$retval = $this->$method();
+				if (! $retval['success']) {
+					$this->response->statusCode('500');
+				}
 				break;
 			default:
 				throw new NotFoundException("Sorry, but that product ('$product') was not recognized.");
@@ -207,5 +211,61 @@ class PurchasesController extends AppController {
 		Cache::delete($cache_key);
 
 		return $retval;
+	}
+
+	private function __course_registration() {
+		$data = $_POST;
+
+		$student_id = $data['student_id'];
+		$this->User->id = $student_id;
+		if (! $this->User->exists()) {
+			return array(
+				'success' => false,
+				'message' => 'User #'.$student_id.' not found.'
+			);
+		}
+
+		$course_id = $data['course_id'];
+		$this->loadModel('Course');
+		$this->Course->id = $course_id;
+		if (! $this->Course->exists()) {
+			return array(
+				'success' => false,
+				'message' => 'Course #'.$course_id.' not found.'
+			);
+		}
+
+		// Make purchase
+		$cost = $this->Course->field('cost');
+		$student_email = $this->User->field('email');
+		$charge = array(
+			'amount' => $cost,
+			'stripeToken' => isset($data['token']) ? $data['token'] : null,
+			'description' => "Paying for course registration for $student_email (user #$student_id)"
+		);
+		$result = $this->Stripe->charge($charge);
+
+		// Record purchase
+		if (is_array($result)) {
+			$this->loadModel('CoursePayment');
+			$this->CoursePayment->create(array(
+				'course_id' => $course_id,
+				'user_id' => $student_id,
+				'order_id' => $result['stripe_id']
+			));
+			if ($this->CoursePayment->save()) {
+				return array('success' => true);
+			} else {
+				return array(
+					'success' => false,
+					'message' => 'Payment was accepted, but there was an error making a record of this purchase.'
+				);
+			}
+		}
+
+		return array(
+			'success' => false,
+			'message' => $result
+		);
 	}
 }

@@ -381,7 +381,8 @@ class CoursesController extends AppController {
 			'paid',
 			'registration_completed',
 			'registration_id',
-			'release_submitted'
+			'release_submitted',
+			'user_id'
 		));
 		$this->set(array(
 			'jwt' => $this->Course->getJWT($course_id, $user_id),

@@ -85,28 +85,31 @@
 									Pay
 								</a>
 								<?php
-									$this->Html->script(Configure::read('google_wallet_lib'), array('inline' => false));
+									$this->Html->script('https://checkout.stripe.com/checkout.js', array('inline' => false));
+									$this->Html->script('purchase.js', array('inline' => false));
+									$course_id = $course['Course']['id'];
 									$complete_reg_url = Router::url(
 										array(
 											'controller' => 'courses',
 											'action' => 'complete_registration',
-											'course_id' => $course['Course']['id']
+											'course_id' => $course_id
 										),
 										true
 									);
+									$cost = $course['Course']['cost'];
 									$this->Js->buffer("
-										$('#course_payment').click(function(event) {
-											event.preventDefault();
-											google.payments.inapp.buy({
-												'jwt': '$jwt',
-												'success' : function(purchaseAction) {
-													alert('Payment received');
-													window.location.href = '$complete_reg_url';
-												},
-												'failure' : function(purchaseActionError){
-													alert('There was an error processing your payment: '+purchaseActionError.response.errorType);
-												}
-											});
+										elementalPurchase.setupPurchaseButton({
+											button_selector: '#course_payment',
+											confirmation_message: 'Confirm payment of \$$cost to register for this course?',
+											cost_dollars: $cost,
+											description: 'Course registration (\${$cost})',
+											key: '".Configure::read('Stripe.Public')."',
+											post_data: {
+												student_id: '$user_id',
+												course_id: '$course_id'
+											},
+											post_url: '/purchases/complete_purchase/course_registration',
+											redirect_url: '$complete_reg_url'
 										});
 									");
 								?>
