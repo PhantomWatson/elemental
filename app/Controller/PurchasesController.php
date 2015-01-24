@@ -235,6 +235,21 @@ class PurchasesController extends AppController {
 			);
 		}
 
+		// Make sure that registration is allowed
+		$deadline = $this->Course->field('deadline');
+		if ($deadline < date('Y-m-d')) {
+			return array(
+				'success' => false,
+				'message' => 'Sorry, the deadline for registering for that course has passed.'
+			);
+		}
+		if ($this->Course->isFull($course_id)) {
+			return array(
+				'success' => false,
+				'message' => 'Sorry, this course has no available spots left.'
+			);
+		}
+
 		// Prevent accidental double-payment
 		$this->loadModel('CoursePayment');
 		$already_purchased = $this->CoursePayment->find(
