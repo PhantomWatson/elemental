@@ -384,10 +384,7 @@ class CoursesController extends AppController {
 			'release_submitted',
 			'user_id'
 		));
-		$this->set(array(
-			'jwt' => $this->Course->getJWT($course_id, $user_id),
-			'title_for_layout' => 'Register for a Course'
-		));
+		$this->set('title_for_layout', 'Register for a Course');
 	}
 
 	public function complete_registration($course_id) {
