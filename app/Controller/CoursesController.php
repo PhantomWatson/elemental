@@ -496,15 +496,16 @@ class CoursesController extends AppController {
 			);
 		}
 
-		$this->paginate = array(
+		$this->Paginator = $this->Components->load('Paginator');
+		$this->Paginator->settings = array(
 			'conditions' => $conditions,
 			'order' => array(
-				'Course.created DESC'
+				'Course.begins' => 'DESC'
 			)
 		);
 		$this->set(array(
 			'title_for_layout' => 'Manage Courses',
-			'courses' => $this->paginate(),
+			'courses' => $this->Paginator->paginate(),
 			'is_admin' => $is_admin
 		));
 	}
