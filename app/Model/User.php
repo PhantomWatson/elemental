@@ -112,6 +112,7 @@ class User extends AppModel {
 		),
 		'Certification' => array(
 			'dependent' => true,
+			'foreignKey' => 'instructor_id',
 			'order' => array(
 				'Certification.date_expires' => 'DESC'
 			)
