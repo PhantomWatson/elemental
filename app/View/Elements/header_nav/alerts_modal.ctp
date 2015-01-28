@@ -1,9 +1,9 @@
-<div class="modal fade" id="alert_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="alert_modal" tabindex="-1" role="dialog" aria-labelledby="alerts_modal_label" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Alert</h4>
+				<h4 class="modal-title" id="alerts_modal_label">Alert</h4>
 			</div>
 			<div class="modal-body">
 				<ul>
