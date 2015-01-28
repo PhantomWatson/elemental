@@ -180,10 +180,9 @@
 
 						$this->Html->script('https://checkout.stripe.com/checkout.js', array('inline' => false));
 						$this->Html->script('purchase.js', array('inline' => false));
-						$this->Html->script('instructor.js', array('inline' => false));
 						$purchase_noun = __n('SRM', 'SRMs', $unpaid_total);
 						$this->Js->buffer("
-							studentReviewPurchase_instructor.init({
+							elementalPurchase.setupPurchaseButton({
 								button_selector: '#pay_outstanding',
 								confirmation_message: 'Confirm payment of $".number_format($cost * $unpaid_total, 2)." for $purchase_noun?',
 								cost_dollars: ".($cost * $unpaid_total).",
