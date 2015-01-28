@@ -1,6 +1,5 @@
 <?php
 	Router::connect('/', 			array('controller' => 'pages', 'action' => 'home'));
-	Router::connect('/postback',	array('controller' => 'store', 'action' => 'postback'));
 	Router::connect('/clear_cache',	array('controller' => 'pages', 'action' => 'clear_cache'));
 
 	// Pages

@@ -25,7 +25,6 @@ class CoursesController extends AppController {
 		/*
 		$this->Security->blackHoleCallback = 'forceSSL';
 		$this->Security->requireSecure('register');
-		$this->Security->requirePost('postback');
 		*/
 	}
 
