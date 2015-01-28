@@ -31,6 +31,7 @@ var elementalPurchase = {
 						},
 						success: function (data, textStatus, jqXHR) {
 							if (data.success) {
+								
 								// Redirect if redirect_url is provided, refresh otherwise
 								if (params.hasOwnProperty('redirect_url')) {
 									window.location.href = params.redirect_url;
@@ -81,12 +82,12 @@ var elementalPurchase = {
 	
 	getConfirmationModal: function (confirmation_message) {
 		return $(
-			'<div class="modal fade" id="confirmation_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+			'<div class="modal fade" id="confirmation_modal" tabindex="-1" role="dialog" aria-labelledby="confirmation_modal_label" aria-hidden="true">'+
 				'<div class="modal-dialog">'+
 					'<div class="modal-content">'+
 						'<div class="modal-header">'+
 							'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-							'<h4 class="modal-title" id="myModalLabel">Almost done!</h4>'+
+							'<h4 class="modal-title" id="confirmation_modal_label">Almost done!</h4>'+
 						'</div>'+
 						'<div class="modal-body">'+
 							'<p>'+
