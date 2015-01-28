@@ -31,6 +31,8 @@ var elementalPurchase = {
 						},
 						success: function (data, textStatus, jqXHR) {
 							if (data.success) {
+								$('#confirmation_modal_label').html('Done!');
+								modal.find('.modal-body p:first-child').slideUp();
 								
 								// Redirect if redirect_url is provided, refresh otherwise
 								if (params.hasOwnProperty('redirect_url')) {
