@@ -20,7 +20,10 @@ class PurchasesController extends AppController {
 				}
 				break;
 			default:
-				throw new NotFoundException("Sorry, but that product ('$product') was not recognized.");
+				return array(
+					'success' => false,
+					'message' => "Sorry, but that product ('$product') was not found."
+				);
 		}
 
 		$this->layout = 'json';
@@ -33,13 +36,19 @@ class PurchasesController extends AppController {
 		$student_id = isset($data['student_id']) ? $data['student_id'] : null;
 		$this->User->id = $student_id;
 		if (! $this->User->exists()) {
-			throw new NotFoundException('User #'.$student_id.' not found.');
+			return array(
+				'success' => false,
+				'message' => 'User #'.$student_id.' not found.'
+			);
 		}
 
 		$product_id = $this->Product->getProductId('srm renewal');
 		$this->Product->id = $product_id;
 		if (! $this->Product->exists()) {
-			throw new NotFoundException('Product not found.');
+			return array(
+				'success' => false,
+				'message' => 'Product not found.'
+			);
 		}
 
 		$cost = $this->Product->field('cost');
@@ -85,13 +94,19 @@ class PurchasesController extends AppController {
 		$instructor_id = isset($data['instructor_id']) ? $data['instructor_id'] : null;
 		$this->User->id = $instructor_id;
 		if (! $this->User->exists()) {
-			throw new NotFoundException('User #'.$instructor_id.' not found.');
+			return array(
+				'success' => false,
+				'message' => 'User #'.$instructor_id.' not found.'
+			);
 		}
 
 		$product_id = $this->Product->getProductId('srm');
 		$this->Product->id = $product_id;
 		if (! $this->Product->exists()) {
-			throw new NotFoundException('Product not found.');
+			return array(
+				'success' => false,
+				'message' => 'Product not found.'
+			);
 		}
 
 		$quantity = $data['quantity'];
@@ -161,13 +176,19 @@ class PurchasesController extends AppController {
 		$instructor_id = $data['instructor_id'];
 		$this->User->id = $instructor_id;
 		if (! $this->User->exists()) {
-			throw new NotFoundException('User #'.$instructor_id.' not found.');
+			return array(
+				'success' => false,
+				'message' => 'User #'.$instructor_id.' not found.'
+			);
 		}
 
 		$product_id = $this->Product->getProductId('classroom module');
 		$this->Product->id = $product_id;
 		if (! $this->Product->exists()) {
-			throw new NotFoundException('Product "Classroom Module" not found.');
+			return array(
+				'success' => false,
+				'message' => 'Product "Classroom Module" not found.'
+			);
 		}
 
 		// Remove cached information
