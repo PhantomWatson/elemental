@@ -109,7 +109,8 @@
 												course_id: '$course_id'
 											},
 											post_url: '/purchases/complete_purchase/course_registration',
-											redirect_url: '$complete_reg_url'
+											redirect_url: '$complete_reg_url',
+											email: '$email'
 										});
 									");
 								?>

@@ -63,7 +63,8 @@
 					post_data: {
 						instructor_id: '$user_id'
 					},
-					post_url: '/purchases/complete_purchase/classroom_module'
+					post_url: '/purchases/complete_purchase/classroom_module',
+					email: '$email'
 				});
 			");
 		?>

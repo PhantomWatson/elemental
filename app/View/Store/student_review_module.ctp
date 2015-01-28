@@ -83,11 +83,10 @@
 	<?php
 		$this->Html->script('https://checkout.stripe.com/checkout.js', array('inline' => false));
 		$this->Html->script('purchase.js', array('inline' => false));
-		$this->Html->script('instructor.js', array('inline' => false));
 		$purchase_noun = __n('SRM', 'SRMs', $quantity);
 		$user_id_for_js = $user_id ? "'$user_id'" : 'null';
 		$this->Js->buffer("
-			studentReviewPurchase_instructor.init({
+			elementalPurchase.setupPurchaseButton({
 				button_selector: '#purchase_button',
 				confirmation_message: 'Confirm payment of $".number_format($cost * $quantity, 2)." for $quantity $purchase_noun?',
 				cost_dollars: ".($cost * $quantity).",
@@ -99,7 +98,8 @@
 					quantity: '$quantity'
 				},
 				post_url: '/purchases/complete_purchase/srm_instructor',
-				redirect_url: '$redirect_url'
+				redirect_url: '$redirect_url',
+				email: '$email'
 			});
 		");
 	?>

@@ -165,11 +165,14 @@ class ProductsController extends AppController {
 
 		$user_id = $this->Auth->user('id');
 		$this->loadModel('StudentReviewModule');
+		$this->loadModel('User');
+		$this->User->id = $user_id;
 		$this->set(array(
 			'title_for_layout' => 'Student Review Modules',
 			'cost' => $this->StudentReviewModule->getCost(),
 			'report' => $this->StudentReviewModule->getReport($user_id),
-			'user_id' => $user_id
+			'user_id' => $user_id,
+			'email' => $this->User->field('email')
 		));
 	}
 
@@ -229,8 +232,11 @@ class ProductsController extends AppController {
 		} else {
 			$product_id = $this->Product->getProductId('classroom module');
 			$this->Product->id = $product_id;
+			$this->loadModel('User');
+			$this->User->id = $user_id;
 			$this->set(array(
-				'cost' => $this->Product->field('cost')
+				'cost' => $this->Product->field('cost'),
+				'email' => $this->User->field('email')
 			));
 		}
 	}

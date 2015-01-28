@@ -367,6 +367,8 @@ class CoursesController extends AppController {
 			$intro_msg = 'Before you can register for this course, you must complete the following steps:';
 		}
 
+		$this->loadModel('User');
+		$this->User->id = $user_id;
 		$this->set(compact(
 			'actions_pending',
 			'can_elevate',
@@ -383,7 +385,10 @@ class CoursesController extends AppController {
 			'release_submitted',
 			'user_id'
 		));
-		$this->set('title_for_layout', 'Register for a Course');
+		$this->set(array(
+			'title_for_layout' => 'Register for a Course',
+			'email' => $this->User->field('email')
+		));
 	}
 
 	public function complete_registration($course_id) {

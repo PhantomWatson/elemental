@@ -63,6 +63,11 @@ var elementalPurchase = {
 				});
 			}
 		};
+		
+		if (params.hasOwnProperty('email') && params.email != '') {
+			configuration.email = params.email;
+		}
+		
 		return StripeCheckout.configure(configuration);
 	},
 	

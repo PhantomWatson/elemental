@@ -38,7 +38,6 @@ class StoreController extends AppController {
 				$step = 'purchase';
 				$quantity = $this->request->data['Purchase']['quantity'];
 				$instructor_id = $this->request->data['Purchase']['instructor_id'];
-				$this->loadModel('User');
 				$this->User->id = $instructor_id;
 				if ($is_instructor) {
 					$redirect_url = array(
@@ -68,16 +67,17 @@ class StoreController extends AppController {
 			if (! isset($this->request->data['Purchase']['instructor_id'])) {
 				$this->request->data['Purchase']['instructor_id'] = $this->Auth->user('id');
 			}
-			$this->loadModel('User');
 			$this->set(array(
 				'instructors' => $this->User->getCertifiedInstructorList()
 			));
 		}
+		$this->User->id = $user_id;
 		$this->set(array(
 			'cost' => $cost,
 			'step' => $step,
 			'title_for_layout' => 'Purchase Student Review Modules',
-			'user_id' => $user_id
+			'user_id' => $user_id,
+			'email' => $this->User->field('email')
 		));
 	}
 }
