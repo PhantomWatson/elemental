@@ -1,7 +1,7 @@
 var elementalPurchase = {	 
 	// params must contain key, post_data, and post_url
 	getStripeHandler: function (params) {
-		return StripeCheckout.configure({
+		var configuration = {
 			key: params.key,
 			image: 'http://elementalprotection.org/img/star-256px-whitebg.png',
 			panelLabel: 'Continue (Total: {{amount}})',
@@ -62,7 +62,8 @@ var elementalPurchase = {
 					});
 				});
 			}
-		});
+		};
+		return StripeCheckout.configure(configuration);
 	},
 	
 	setupPurchaseButton: function (params) {
