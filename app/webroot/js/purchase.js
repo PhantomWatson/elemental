@@ -14,18 +14,21 @@ var elementalPurchase = {
 					dialog.css('margin-top', (window.screenY / 2) + initModalHeight);
 				});
 				modal.modal();
+				var status = modal.find('.status');
 				modal.find('.btn-primary').click(function (event) {
 					event.preventDefault();
-					modal.find('.btn').addClass('disabled');
-					var hangon = $('<p class=\"hangon\" style=\"display: none;\">Please wait... <img src=\"/img/loading_small.gif\" /></p>');
-					modal.find('.modal-body').append(hangon);
-					hangon.slideDown();
 					var data = params.post_data;
 					data.token = token.id;
 					$.ajax({
 						type: 'POST',
 						url: params.post_url,
 						data: data,
+						dataType: 'json',
+						beforeSend: function (jqXHR, settings) {
+							modal.find('.btn').addClass('disabled');
+							status.html('Please wait... <img src=\"/img/loading_small.gif\" />');
+							status.slideDown();
+						},
 						success: function (data, textStatus, jqXHR) {
 							if (data.success) {
 								// Redirect if redirect_url is provided, refresh otherwise
@@ -41,7 +44,18 @@ var elementalPurchase = {
 								modal.find('.modal-body').html(data.message);
 							}
 						},
-						dataType: 'json'
+						error: function (jqXHR, textStatus, errorThrown) {
+							modal.find('.btn').removeClass('disabled');
+							status.slideUp(500, function() {
+								var msg = '<span class="text-danger">There was an error submitting your payment';
+								if (errorThrown) {
+									msg += ' ('+errorThrown+')';
+								}
+								msg += '. Please try again.</span>';
+								status.html(msg);
+								status.slideDown();
+							});
+						}
 					});
 				});
 			}
@@ -75,7 +89,10 @@ var elementalPurchase = {
 							'<h4 class="modal-title" id="myModalLabel">Almost done!</h4>'+
 						'</div>'+
 						'<div class="modal-body">'+
-							confirmation_message+
+							'<p>'+
+								confirmation_message+
+							'</p>'+
+							'<p class="status" style="display: none;"></p>'+
 						'</div>'+
 						'<div class="modal-footer">'+
 							'<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>'+
