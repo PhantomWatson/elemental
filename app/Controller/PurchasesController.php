@@ -53,6 +53,10 @@ class PurchasesController extends AppController {
 			);
 		}
 
+		// Remove cached information
+		$cache_key = "hasPurchased($student_id, $product_id)";
+		Cache::delete($cache_key);
+
 		$cost = $this->Product->field('cost');
 		$student_email = $this->User->field('email');
 		$charge = array(
@@ -108,6 +112,10 @@ class PurchasesController extends AppController {
 				'message' => 'Product not found.'
 			);
 		}
+
+		// Remove cached information
+		$cache_key = "hasPurchased($instructor_id, $product_id)";
+		Cache::delete($cache_key);
 
 		$quantity = $data['quantity'];
 		$total_cost = $this->Product->field('cost') * $quantity;
