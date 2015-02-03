@@ -63,7 +63,8 @@ class PurchasesController extends AppController {
 			'amount' => $cost,
 			'stripeToken' => isset($data['token']) ? $data['token'] : null,
 			'description' => "Student Review Module access renewal for $student_email (user #$student_id)",
-			'statement_descriptor' => 'Elemental SRM'
+			'statement_descriptor' => 'Elemental SRM',
+			'receipt_email' => $student_email
 		);
 		$result = $this->Stripe->charge($charge);
 
@@ -124,7 +125,8 @@ class PurchasesController extends AppController {
 			'amount' => $total_cost,
 			'stripeToken' => isset($data['token']) ? $data['token'] : null,
 			'description' => "Purchasing $quantity Student Review ".__n('Module', 'Modules', $quantity)." for $instructor_email (user #$instructor_id)",
-			'statement_descriptor' => 'Elemental SRM'
+			'statement_descriptor' => 'Elemental SRM',
+			'receipt_email' => $instructor_email
 		);
 		$result = $this->Stripe->charge($charge);
 
@@ -208,7 +210,8 @@ class PurchasesController extends AppController {
 			'amount' => $total_cost,
 			'stripeToken' => isset($data['token']) ? $data['token'] : null,
 			'description' => "Purchasing Classroom Module for $instructor_email (user #$instructor_id)",
-			'statement_descriptor' => 'Elemental Classroom'
+			'statement_descriptor' => 'Elemental Classroom',
+			'receipt_email' => $instructor_email
 		);
 		$result = $this->Stripe->charge($charge);
 
@@ -298,7 +301,8 @@ class PurchasesController extends AppController {
 			'amount' => $cost,
 			'stripeToken' => isset($data['token']) ? $data['token'] : null,
 			'description' => "Paying for course registration for $student_email (user #$student_id)",
-			'statement_descriptor' => 'Elemental Registration'
+			'statement_descriptor' => 'Elemental Registration',
+			'receipt_email' => $student_email
 		);
 		$result = $this->Stripe->charge($charge);
 
