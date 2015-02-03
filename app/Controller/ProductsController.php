@@ -92,11 +92,6 @@ class ProductsController extends AppController {
 			// Get product info
 			$path_split = explode('/', $url);
 			$product = reset($path_split);
-			switch ($product) {
-				case 'student_review':
-					$product_id = $this->Product->getProductId('srm renewal');
-					break;
-			}
 
 			// Verify that the user is authorized to access this
 			$user_id = $this->Auth->user('id');
@@ -106,7 +101,7 @@ class ProductsController extends AppController {
 					$can_access = $this->User->canAccessInstructorTraining($user_id);
 					break;
 				case 'student_review':
-					$can_access = $this->User->hasPurchased($user_id, $product_id);
+					$can_access = $this->User->canAccessReviewMaterials($user_id);
 					break;
 				case 'classroom_module':
 					$can_access = $this->User->canAccessClassroomModule($user_id);
