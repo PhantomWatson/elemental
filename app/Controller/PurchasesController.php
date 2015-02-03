@@ -151,23 +151,19 @@ class PurchasesController extends AppController {
 					$this->StudentReviewModule->save();
 				}
 
-				$retval = array('success' => true);
-			} else {
-				$retval = array(
-					'success' => false,
-					'message' => 'Payment was accepted, but there was an error making a record of this purchase.'
-				);
-				$this->response->statusCode('500');
+				return array('success' => true);
 			}
-		} else {
-			$retval = array(
+
+			return array(
 				'success' => false,
-				'message' => $result
+				'message' => 'Payment was accepted, but there was an error making a record of this purchase.'
 			);
-			$this->response->statusCode('500');
 		}
 
-		return $retval;
+		return array(
+			'success' => false,
+			'message' => $result
+		);
 	}
 
 	private function __classroom_module() {
