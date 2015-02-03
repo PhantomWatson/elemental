@@ -100,6 +100,7 @@ var elementalPurchase = {
 						'<div class="modal-body">'+
 							'<p>'+
 								confirmation_message+
+								' A receipt will be emailed to you once your payment is complete.'+
 							'</p>'+
 							'<p class="status" style="display: none;"></p>'+
 						'</div>'+
