@@ -72,6 +72,8 @@ class PurchasesController extends AppController {
 			));
 			if ($this->Purchase->save()) {
 				$retval = array('success' => true);
+				$cache_key = "getReviewModuleAccessExpiration($student_id)";
+				Cache::delete($cache_key);
 			} else {
 				$retval = array(
 					'success' => false,
