@@ -17,6 +17,8 @@ class PurchasesController extends AppController {
 				$retval = $this->$method();
 				if (! $retval['success']) {
 					$this->response->statusCode('500');
+					$admin_email = Configure::read('admin_email');
+					$retval['message'] .= ' For assistance, please contact <a href="mailto:'.$admin_email.'">'.$admin_email.'</a>.';
 				}
 				break;
 			default:
