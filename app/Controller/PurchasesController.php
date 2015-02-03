@@ -303,12 +303,12 @@ class PurchasesController extends AppController {
 			));
 			if ($this->CoursePayment->save()) {
 				return array('success' => true);
-			} else {
-				return array(
-					'success' => false,
-					'message' => 'Payment was accepted, but there was an error making a record of this purchase.'
-				);
 			}
+
+			return array(
+				'success' => false,
+				'message' => 'Payment was accepted, but there was an error making a record of this purchase.'
+			);
 		}
 
 		return array(
