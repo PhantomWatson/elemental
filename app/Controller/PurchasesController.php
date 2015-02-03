@@ -190,6 +190,8 @@ class PurchasesController extends AppController {
 		// Remove cached information
 		$cache_key = "hasPurchased($instructor_id, $product_id)";
 		Cache::delete($cache_key);
+		$cache_key = 'getClassroomModuleAccessExpiration('.$instructor_id.')';
+		Cache::delete($cache_key);
 
 		// Record purchase
 		$total_cost = $this->Product->field('cost');
@@ -210,27 +212,19 @@ class PurchasesController extends AppController {
 				'order_id' => $result['stripe_id']
 			));
 			if ($this->Purchase->save()) {
-				$retval = array('success' => true);
-			} else {
-				$retval = array(
-					'success' => false,
-					'message' => 'Payment was accepted, but there was an error making a record of this purchase.'
-				);
-				$this->response->statusCode('500');
+				return array('success' => true);
 			}
-		} else {
-			$retval = array(
+
+			return array(
 				'success' => false,
-				'message' => $result
+				'message' => 'Payment was accepted, but there was an error making a record of this purchase.'
 			);
-			$this->response->statusCode('500');
 		}
 
-		// Clear relevant cache keys
-		$cache_key = 'getClassroomModuleAccessExpiration('.$instructor_id.')';
-		Cache::delete($cache_key);
-
-		return $retval;
+		return array(
+			'success' => false,
+			'message' => $result
+		);
 	}
 
 	private function __course_registration() {
