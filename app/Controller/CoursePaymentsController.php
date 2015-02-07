@@ -145,6 +145,9 @@ class CoursePaymentsController extends AppController {
 					'CoursePayment.id',
 					'CoursePayment.refunded',
 					'CoursePayment.created'
+				),
+				'order' => array(
+					'CoursePayment.created' => 'DESC'
 				)
 			)
 		);
