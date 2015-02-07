@@ -143,6 +143,7 @@ class CoursePaymentsController extends AppController {
 				),
 				'fields' => array(
 					'CoursePayment.id',
+					'CoursePayment.jwt',
 					'CoursePayment.refunded',
 					'CoursePayment.created'
 				),

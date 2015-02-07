@@ -63,19 +63,25 @@
 								<?php echo 'Refunded on '.date('F j, Y', $timestamp); ?>
 							</span>
 						<?php else: ?>
-							<?php echo $this->Html->link(
-								'Refund',
-								array(
-									'admin' => true,
-									'controller' => 'course_payments',
-									'action' => 'refund',
-									$payment['CoursePayment']['id']
-								),
-								array(
-									'class' => 'btn btn-default'
-								),
-								'Are you sure you want to issue a full refund for this payment?'
-							); ?>
+							<?php if ($payment['CoursePayment']['jwt']): ?>
+								<span class="text-warning">
+									Refund via Google Wallet
+								</span>
+							<?php else: ?>
+								<?php echo $this->Html->link(
+									'Refund',
+									array(
+										'admin' => true,
+										'controller' => 'course_payments',
+										'action' => 'refund',
+										$payment['CoursePayment']['id']
+									),
+									array(
+										'class' => 'btn btn-default'
+									),
+									'Are you sure you want to issue a full refund for this payment?'
+								); ?>
+							<?php endif; ?>
 						<?php endif; ?>
 					</td>
 				</tr>
