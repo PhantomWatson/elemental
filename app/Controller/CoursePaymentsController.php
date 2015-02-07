@@ -19,7 +19,7 @@ class CoursePaymentsController extends AppController {
 
 		$charge_id = $this->CoursePayment->field('order_id');
 		$charge = $this->__retrieveCharge($charge_id);
-		if (! is_array($charge)) {
+		if (is_string($charge)) {
 			$this->Flash->error('There was a problem retrieving information about that payment: '.$charge);
 			$this->redirect($this->request->referer());
 		}
@@ -113,7 +113,7 @@ class CoursePaymentsController extends AppController {
 
 		CakeLog::info('Stripe: charge id ' . $charge_id, 'stripe');
 
-		return $this->Stripe->_formatResult($charge);
+		return $charge;
 	}
 
 	public function admin_index() {
