@@ -4,6 +4,11 @@ class CoursePaymentsController extends AppController {
 	public $name = 'CoursePayments';
 	public $components = array('Stripe.Stripe');
 
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->deny();
+	}
+
 	public function admin_refund($course_payment_id = null) {
 		$this->CoursePayment->id = $course_payment_id;
 		if (! $this->CoursePayment->exists()) {
