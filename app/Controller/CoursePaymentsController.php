@@ -25,7 +25,7 @@ class CoursePaymentsController extends AppController {
 		}
 
 		$params = array(
-			'id' => $charge_id,
+			//'id' => $charge_id,
 			'reason' => null,
 			'metadata' => array(
 				'type' => 'Course registration cancellation refund',
@@ -50,13 +50,18 @@ class CoursePaymentsController extends AppController {
 		$course_date = $this->Course->field('begins');
 		$params['metadata']['course'] = "$course_date (#$course_id)";
 
-		$refund = $charge->refunds->create($params);
+		try {
+			$refund = $charge->refunds->create($params);
+		} catch (Exception $e) {
+			$this->Flash->error('There was a problem issuing that refund: '.$e->getMessage());
+			$this->redirect($this->request->referer());
+		}
 
-		if (is_array($refund)) {
+		if (is_string($refund)) {
+			$this->Flash->error('There was a problem issuing that refund: '.$refund);
+		} else {
 			$this->Flash->success('That charge has been refunded.');
 			$this->CoursePayment->saveField('refunded', date('Y-m-d H:i:s'));
-		} else {
-			$this->Flash->error('There was a problem issuing that refund: '.$refund);
 		}
 
 		$this->redirect($this->request->referer());
