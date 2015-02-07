@@ -68,7 +68,7 @@ class CoursePaymentsController extends AppController {
 	private function __retrieveCharge($charge_id) {
 		$error = null;
 		try {
-			$charge = Stripe_Charge::retrieve($chargeData);
+			$charge = Stripe_Charge::retrieve($charge_id);
 
 		} catch(Stripe_CardError $e) {
 			$body = $e->getJsonBody();
@@ -110,8 +110,15 @@ class CoursePaymentsController extends AppController {
 			return (string)$error;
 		}
 
-		CakeLog::info('Stripe: charge id ' . $charge->id, 'stripe');
+		CakeLog::info('Stripe: charge id ' . $charge_id, 'stripe');
 
 		return $this->Stripe->_formatResult($charge);
+	}
+
+	public function admin_index() {
+		$this->set(array(
+			'title_for_layout' => 'Course Registration Payments',
+			'payments' => $this->CoursePayment->find('all')
+		));
 	}
 }
