@@ -68,6 +68,7 @@ class CoursePaymentsController extends AppController {
 	private function __retrieveCharge($charge_id) {
 		$error = null;
 		try {
+			Stripe::setApiKey($this->Stripe->key);
 			$charge = Stripe_Charge::retrieve($charge_id);
 
 		} catch(Stripe_CardError $e) {
