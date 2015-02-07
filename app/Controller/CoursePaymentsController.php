@@ -122,9 +122,35 @@ class CoursePaymentsController extends AppController {
 	}
 
 	public function admin_index() {
+		$payments = $this->CoursePayment->find(
+			'all',
+			array(
+				'contain' => array(
+					'Course' => array(
+						'fields' => array(
+							'Course.begins',
+							'Course.city',
+							'Course.state'
+						)
+					),
+					'User' => array(
+						'fields' => array(
+							'User.id',
+							'User.name',
+							'User.email'
+						)
+					)
+				),
+				'fields' => array(
+					'CoursePayment.id',
+					'CoursePayment.refunded',
+					'CoursePayment.created'
+				)
+			)
+		);
 		$this->set(array(
 			'title_for_layout' => 'Course Registration Payments',
-			'payments' => $this->CoursePayment->find('all')
+			'payments' => $payments
 		));
 	}
 }
