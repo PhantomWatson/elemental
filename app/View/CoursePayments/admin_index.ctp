@@ -33,20 +33,35 @@
 			<?php foreach ($payments as $payment): ?>
 				<tr>
 					<td>
-						<?php echo $payment['Course']['begins']; ?> in <?php echo $payment['Course']['city']; ?>, <?php echo $payment['Course']['state']; ?>
+						<?php
+							$timestamp = strtotime($payment['Course']['begins']);
+							echo date('F j, Y', $timestamp);
+						?>
+						<br />
+						<?php echo $payment['Course']['city']; ?>, <?php echo $payment['Course']['state']; ?>
 					</td>
 					<td>
-						<?php echo $payment['User']['name']; ?>: <?php echo $payment['User']['email']; ?> (#<?php echo $payment['User']['id']; ?>)
+						<?php echo $payment['User']['name']; ?> (#<?php echo $payment['User']['id']; ?>)
+						<br />
+						<a href="mailto:<?php echo $payment['User']['email']; ?>">
+							<?php echo $payment['User']['email']; ?>
+						</a>
 					</td>
 					<td>
 						Attended?
 					</td>
 					<td>
-						<?php echo $payment['CoursePayment']['created']; ?>
+						<?php $timestamp = strtotime($payment['CoursePayment']['created']); ?>
+						<span title="<?php echo date('h:ia', $timestamp); ?>">
+							<?php echo date('F j, Y', $timestamp); ?>
+						</span>
 					</td>
 					<td>
 						<?php if ($payment['CoursePayment']['refunded']): ?>
-							Refunded on <?php echo $payment['CoursePayment']['refunded']; ?>
+							<?php $timestamp = strtotime($payment['CoursePayment']['refunded']); ?>
+							<span class="text-success" title="<?php echo date('h:ia', $timestamp); ?>">
+								<?php echo 'Refunded on '.date('F j, Y', $timestamp); ?>
+							</span>
 						<?php else: ?>
 							<?php echo $this->Html->link(
 								'Refund',
