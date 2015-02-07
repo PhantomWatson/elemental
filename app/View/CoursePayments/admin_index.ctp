@@ -19,6 +19,9 @@
 					Student
 				</th>
 				<th>
+					Withdrew
+				</th>
+				<th>
 					Attended
 				</th>
 				<th>
@@ -47,13 +50,18 @@
 							<?php echo $payment['User']['email']; ?>
 						</a>
 					</td>
-					<td class="attended">
-						<?php if (! $payment['CourseRegistration']['id']): ?>
-							<span class="glyphicon glyphicon-question-sign text-muted" title="Attendance info could not be found"></span>
-						<?php elseif ($payment['CourseRegistration']['attended']): ?>
+					<td>
+						<?php if ($payment['CourseRegistration']['id']): ?>
+							<span class="glyphicon glyphicon-remove-sign text-warning" title="Has not withdrawn"></span>
+						<?php else: ?>
+							<span class="glyphicon glyphicon-ok-sign text-success" title="Withdrew"></span>
+						<?php endif; ?>
+					</td>
+					<td>
+						<?php if ($payment['CourseRegistration']['id'] && $payment['CourseRegistration']['attended']): ?>
 							<span class="glyphicon glyphicon-ok-sign text-success" title="Attended"></span>
 						<?php else: ?>
-							<span class="glyphicon glyphicon-remove-sign text-warning" title="Has not attend"></span>
+							<span class="glyphicon glyphicon-remove-sign text-warning" title="Has not attended"></span>
 						<?php endif; ?>
 					</td>
 					<td>
