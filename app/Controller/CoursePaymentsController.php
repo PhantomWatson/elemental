@@ -122,6 +122,7 @@ class CoursePaymentsController extends AppController {
 	}
 
 	public function admin_index() {
+		//$this->CoursePayment->virtualFields['attended'] = 'CourseRegistration.attended';
 		$payments = $this->CoursePayment->find(
 			'all',
 			array(
@@ -145,7 +146,20 @@ class CoursePaymentsController extends AppController {
 					'CoursePayment.id',
 					'CoursePayment.jwt',
 					'CoursePayment.refunded',
-					'CoursePayment.created'
+					'CoursePayment.created',
+					'CourseRegistration.id',
+					'CourseRegistration.attended'
+				),
+				'joins' => array(
+					array(
+						'table' => 'course_registrations',
+						'alias' => 'CourseRegistration',
+						'type' => 'LEFT',
+						'conditions' => array(
+							'CourseRegistration.user_id = CoursePayment.user_id',
+							'CourseRegistration.course_id = CoursePayment.course_id'
+						)
+					)
 				),
 				'order' => array(
 					'CoursePayment.created' => 'DESC'

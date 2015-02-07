@@ -9,7 +9,7 @@
 		No records of class registration payments were found in the database.
 	</p>
 <?php else: ?>
-	<table class="table">
+	<table class="table" id="refunds">
 		<thead>
 			<tr>
 				<th>
@@ -47,8 +47,14 @@
 							<?php echo $payment['User']['email']; ?>
 						</a>
 					</td>
-					<td>
-						Attended?
+					<td class="attended">
+						<?php if (! $payment['CourseRegistration']['id']): ?>
+							<span class="glyphicon glyphicon-question-sign text-muted" title="Attendance info could not be found"></span>
+						<?php elseif ($payment['CourseRegistration']['attended']): ?>
+							<span class="glyphicon glyphicon-ok-sign text-success" title="Attended"></span>
+						<?php else: ?>
+							<span class="glyphicon glyphicon-remove-sign text-warning" title="Has not attend"></span>
+						<?php endif; ?>
 					</td>
 					<td>
 						<?php $timestamp = strtotime($payment['CoursePayment']['created']); ?>
