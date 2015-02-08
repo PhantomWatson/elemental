@@ -10,6 +10,7 @@ class ProductsController extends AppController {
 			'classroom_module',
 			'instructor_student_review_modules'
 		));
+		$this->Security->requireSecure('classroom_module', 'instructor_student_review_modules');
 	}
 
 	public function isAuthorized($user) {
