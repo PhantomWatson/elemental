@@ -127,53 +127,49 @@ class CoursePaymentsController extends AppController {
 	}
 
 	public function admin_index() {
-		//$this->CoursePayment->virtualFields['attended'] = 'CourseRegistration.attended';
-		$payments = $this->CoursePayment->find(
-			'all',
-			array(
-				'contain' => array(
-					'Course' => array(
-						'fields' => array(
-							'Course.begins',
-							'Course.city',
-							'Course.state'
-						)
-					),
-					'User' => array(
-						'fields' => array(
-							'User.id',
-							'User.name',
-							'User.email'
-						)
+		$this->paginate = array(
+			'contain' => array(
+				'Course' => array(
+					'fields' => array(
+						'Course.begins',
+						'Course.city',
+						'Course.state'
 					)
 				),
-				'fields' => array(
-					'CoursePayment.id',
-					'CoursePayment.jwt',
-					'CoursePayment.refunded',
-					'CoursePayment.created',
-					'CourseRegistration.id',
-					'CourseRegistration.attended'
-				),
-				'joins' => array(
-					array(
-						'table' => 'course_registrations',
-						'alias' => 'CourseRegistration',
-						'type' => 'LEFT',
-						'conditions' => array(
-							'CourseRegistration.user_id = CoursePayment.user_id',
-							'CourseRegistration.course_id = CoursePayment.course_id'
-						)
+				'User' => array(
+					'fields' => array(
+						'User.id',
+						'User.name',
+						'User.email'
 					)
-				),
-				'order' => array(
-					'CoursePayment.created' => 'DESC'
 				)
+			),
+			'fields' => array(
+				'CoursePayment.id',
+				'CoursePayment.jwt',
+				'CoursePayment.refunded',
+				'CoursePayment.created',
+				'CourseRegistration.id',
+				'CourseRegistration.attended'
+			),
+			'joins' => array(
+				array(
+					'table' => 'course_registrations',
+					'alias' => 'CourseRegistration',
+					'type' => 'LEFT',
+					'conditions' => array(
+						'CourseRegistration.user_id = CoursePayment.user_id',
+						'CourseRegistration.course_id = CoursePayment.course_id'
+					)
+				)
+			),
+			'order' => array(
+				'CoursePayment.created' => 'DESC'
 			)
 		);
 		$this->set(array(
 			'title_for_layout' => 'Course Registration Payments',
-			'payments' => $payments
+			'payments' => $this->paginate()
 		));
 	}
 }

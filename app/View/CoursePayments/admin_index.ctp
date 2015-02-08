@@ -9,6 +9,9 @@
 		No records of class registration payments were found in the database.
 	</p>
 <?php else: ?>
+
+	<?php echo $this->element('pagination'); ?>
+
 	<table class="table" id="refunds">
 		<thead>
 			<tr>
@@ -102,4 +105,7 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
+
+	<?php echo $this->element('pagination'); ?>
+
 <?php endif; ?>
