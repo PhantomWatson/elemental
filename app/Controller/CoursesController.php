@@ -22,7 +22,7 @@ class CoursesController extends AppController {
 		 * logged-in users, but the error message and redirect
 		 * is handled inside that method. */
 
-		//$this->Security->requireSecure('register');
+		$this->Security->requireSecure('register');
 	}
 
 	public function isAuthorized($user) {
