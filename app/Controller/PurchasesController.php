@@ -306,7 +306,7 @@ class PurchasesController extends AppController {
 		$charge = array(
 			'amount' => $cost,
 			'stripeToken' => isset($data['token']) ? $data['token'] : null,
-			'description' => "Paying for course registration for $student_email (user #$student_id)",
+			'description' => "Paying for course registration for $student_email (user #$student_id, course #$course_id)",
 			'statement_descriptor' => 'Elemental Registration',
 			'receipt_email' => $student_email
 		);
