@@ -51,6 +51,7 @@ class AppController extends Controller {
 		'Cookie'
 	);
 	public $uses = array('User');
+	public $maintenance_mode = true;
 
 	public function isAuthorized($user = null) {
 		// Admins can access everything
@@ -62,8 +63,35 @@ class AppController extends Controller {
         return false;
     }
 
+	/**
+	 * Displays a Flash message and redirects back to home page for anyone other than admins
+	 */
+	private function __maintenanceModeBlock() {
+		$this->loadModel('User');
+		if (false && $this->User->hasRole($this->Auth->user('id'), 'admin')) {
+			return;
+		}
+
+		$this->Session->delete('FlashMessage'); // Prevent these messages from stacking up
+		$this->Flash->set('The website is currently undergoing an upgrade and some pages are temporarily inaccessible. Please check back later.');
+		if ($this->request->params['controller'] == 'pages' && $this->request->params['action'] == 'home') {
+			return;
+		}
+
+		$this->redirect(array(
+			'admin' => false,
+			'instructor' => false,
+			'controller' => 'pages',
+			'action' => 'home'
+		));
+	}
+
 	public function beforeFilter() {
 		$this->Auth->allow();
+
+		if ($this->maintenance_mode) {
+			$this->__maintenanceModeBlock();
+		}
 
 		if ($this->Auth->loggedIn()) {
 			$this->Auth->authError = 'You are not authorized to access that location.';
