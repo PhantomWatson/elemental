@@ -52,7 +52,7 @@ class AppController extends Controller {
 		'Cookie'
 	);
 	public $uses = array('User');
-	public $maintenance_mode = true;
+	public $maintenance_mode = false;
 
 	public function isAuthorized($user = null) {
 		// Admins can access everything
