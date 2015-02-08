@@ -4,6 +4,12 @@ class PurchasesController extends AppController {
 	public $name = 'Purchases';
 	public $components = array('Stripe.Stripe');
 
+	public function beforeFilter() {
+		parent::beforeFilter();
+
+		$this->Security->requireSecure('complete_purchase');
+	}
+
 	public function complete_purchase($product) {
 		$this->loadModel('Product');
 		$this->loadModel('User');
