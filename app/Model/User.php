@@ -489,10 +489,12 @@ class User extends AppModel {
 				)
 			)
 		);
-		foreach ($result['Role'] as $role) {
-			if ((is_array($role_name) && in_array($role['name'], $role_name)) || $role['name'] == $role_name) {
-				Cache::write($cache_key, true);
-				return true;
+		if (isset($result['Role'])) {
+			foreach ($result['Role'] as $role) {
+				if ((is_array($role_name) && in_array($role['name'], $role_name)) || $role['name'] == $role_name) {
+					Cache::write($cache_key, true);
+					return true;
+				}
 			}
 		}
 		Cache::write($cache_key, false);
