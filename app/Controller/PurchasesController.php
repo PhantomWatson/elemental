@@ -68,7 +68,7 @@ class PurchasesController extends AppController {
 		$charge = array(
 			'amount' => $cost,
 			'stripeToken' => isset($data['token']) ? $data['token'] : null,
-			'description' => "Student Review Module access renewal for $student_email (user #$student_id)",
+			'description' => "Student Review Module access renewal for $student_email (u:$student_id)",
 			'statement_descriptor' => 'Elemental SRM',
 			'receipt_email' => $student_email
 		);
@@ -130,7 +130,7 @@ class PurchasesController extends AppController {
 		$charge = array(
 			'amount' => $total_cost,
 			'stripeToken' => isset($data['token']) ? $data['token'] : null,
-			'description' => "Purchasing $quantity Student Review ".__n('Module', 'Modules', $quantity)." for $instructor_email (user #$instructor_id)",
+			'description' => "Purchasing $quantity Student Review ".__n('Module', 'Modules', $quantity)." for $instructor_email (u:$instructor_id)",
 			'statement_descriptor' => 'Elemental SRM',
 			'receipt_email' => $instructor_email
 		);
@@ -215,7 +215,7 @@ class PurchasesController extends AppController {
 		$charge = array(
 			'amount' => $total_cost,
 			'stripeToken' => isset($data['token']) ? $data['token'] : null,
-			'description' => "Purchasing Classroom Module for $instructor_email (user #$instructor_id)",
+			'description' => "Purchasing Classroom Module for $instructor_email (u:$instructor_id)",
 			'statement_descriptor' => 'Elemental Classroom',
 			'receipt_email' => $instructor_email
 		);
@@ -306,7 +306,7 @@ class PurchasesController extends AppController {
 		$charge = array(
 			'amount' => $cost,
 			'stripeToken' => isset($data['token']) ? $data['token'] : null,
-			'description' => "Paying for course registration for $student_email (user #$student_id, course #$course_id)",
+			'description' => "Paying for course registration for $student_email (u:$student_id c:$course_id)",
 			'statement_descriptor' => 'Elemental Registration',
 			'receipt_email' => $student_email
 		);
