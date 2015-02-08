@@ -168,7 +168,7 @@
 			</td>
 			<td>
 				<?php
-					if ($unpaid_jwt) {
+					if ($unpaid_total > 0) {
 						echo $this->Html->link(
 							'Pay ($'.($cost*$unpaid_total).')',
 							'#',
@@ -177,19 +177,24 @@
 								'id' => 'pay_outstanding'
 							)
 						);
-						$this->Html->script(Configure::read('google_wallet_lib'), array('inline' => false));
+
+						$this->Html->script('https://checkout.stripe.com/checkout.js', array('inline' => false));
+						$this->Html->script('purchase.js', array('inline' => false));
+						$purchase_noun = __n('SRM', 'SRMs', $unpaid_total);
 						$this->Js->buffer("
-							$('#pay_outstanding').click(function(event) {
-								event.preventDefault();
-								google.payments.inapp.buy({
-									'jwt': '$unpaid_jwt',
-									'success' : function(purchaseAction) {
-										location.reload(true);
-									},
-									'failure' : function(purchaseActionError){
-										alert('There was an error processing your payment: '+purchaseActionError.response.errorType);
-									}
-								});
+							elementalPurchase.setupPurchaseButton({
+								button_selector: '#pay_outstanding',
+								confirmation_message: 'Confirm payment of $".number_format($cost * $unpaid_total, 2)." for $purchase_noun?',
+								cost_dollars: ".($cost * $unpaid_total).",
+								description: 'Pay for $unpaid_total $purchase_noun',
+								key: '".Configure::read('Stripe.Public')."',
+								post_data: {
+									purchaser_id: '$user_id',
+									instructor_id: '$user_id',
+									quantity: '$unpaid_total'
+								},
+								post_url: '/purchases/complete_purchase/srm_instructor',
+								email: '$email'
 							});
 						");
 					}

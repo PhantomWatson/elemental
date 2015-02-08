@@ -10,7 +10,7 @@ class BiosController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->deny(array('edit'));
+		$this->Auth->deny(array('edit', 'add'));
 	}
 
 	public function isAuthorized($user) {

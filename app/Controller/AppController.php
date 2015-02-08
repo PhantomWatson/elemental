@@ -33,6 +33,7 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 	public $components = array(
+		'Security',
 		'DebugKit.Toolbar',
 		'Flash',
 		'Session',
@@ -51,6 +52,7 @@ class AppController extends Controller {
 		'Cookie'
 	);
 	public $uses = array('User');
+	public $maintenance_mode = false;
 
 	public function isAuthorized($user = null) {
 		// Admins can access everything
@@ -62,8 +64,33 @@ class AppController extends Controller {
         return false;
     }
 
+	/**
+	 * Displays a Flash message and redirects back to home page for anyone other than admins
+	 */
+	private function __maintenanceModeBlock() {
+		$this->loadModel('User');
+		if ($this->User->hasRole($this->Auth->user('id'), 'admin')) {
+			return;
+		}
+
+		$this->Session->delete('FlashMessage'); // Prevent these messages from stacking up
+		$this->Flash->set('The website is currently undergoing an upgrade and some pages are temporarily inaccessible. Please check back later.');
+		if ($this->request->params['controller'] == 'pages' && $this->request->params['action'] == 'home') {
+			return;
+		}
+
+		$this->redirect(array(
+			'admin' => false,
+			'instructor' => false,
+			'controller' => 'pages',
+			'action' => 'home'
+		));
+	}
+
 	public function beforeFilter() {
 		$this->Auth->allow();
+
+		$this->Security->blackHoleCallback = 'blackhole';
 
 		if ($this->Auth->loggedIn()) {
 			$this->Auth->authError = 'You are not authorized to access that location.';
@@ -110,24 +137,41 @@ class AppController extends Controller {
 			}
 		}
 
-		$this->__setAlerts();
+		if ($this->maintenance_mode) {
+			$this->__maintenanceModeBlock();
+		}
 	}
 
 	public function beforeRender() {
 		if ($this->layout == 'default') {
 			$user_roles = $this->__getUserRoles();
-			$this->set('user_roles', $user_roles);
+			$user_id = $this->Auth->user('id');
+			$this->set(array(
+				'user_roles' => $user_roles,
+				'certified' => in_array('instructor', $user_roles) && $this->User->isCertified($user_id)
+			));
+			if ($this->Auth->loggedIn()) {
+				$this->__setAlerts();
+			}
 		}
 	}
 
 	protected function __setAlerts() {
-		$user_roles = $this->__getUserRoles();
-		if (in_array('instructor', $user_roles)) {
-			$this->__setInstructorAlerts();
+		// Remember these alerts for at most one hour
+		$recheck = ! $this->Cookie->check('alerts_last_checked') || $this->Cookie->read('alerts_last_checked') < strtotime('1 hour ago');
+		if ($recheck) {
+			$this->Cookie->delete('alerts');
+			$user_roles = $this->__getUserRoles();
+			if (in_array('instructor', $user_roles)) {
+				$this->__setInstructorAlerts();
+			}
+			if (in_array('admin', $user_roles)) {
+				$this->__setAdminAlerts();
+			}
+			$this->Cookie->write('alerts_last_checked', time());
 		}
-		if (in_array('admin', $user_roles)) {
-			$this->__setAdminAlerts();
-		}
+
+		$this->set('alerts', $this->Cookie->read('alerts'));
 	}
 
 	protected function __setInstructorAlerts() {
@@ -142,7 +186,7 @@ class AppController extends Controller {
 				'id' => $course_id,
 				$this->params['prefix'] => false
 			));
-			$this->Flash->set('Please <strong><a href="'.$url.'">report attendance</a></strong> for your recent course.');
+			$this->Cookie->write('alerts.instructor_attendance', 'Please <strong><a href="'.$url.'">report attendance</a></strong> for your recent course.');
 		}
 
 		$this->loadModel('StudentReviewModule');
@@ -152,11 +196,13 @@ class AppController extends Controller {
 				'controller' => 'products',
 				'action' => 'student_review_modules'
 			));
-			$this->Flash->set('Please <strong><a href="'.$url.'">submit payment</a></strong> for the Student Review Modules used in your recent course.');
+			$this->Cookie->write('alerts.instructor_srm_payment', 'Please <strong><a href="'.$url.'">submit payment</a></strong> for the Student Review Modules used in your recent course.');
 		}
 	}
 
 	public function __setAdminAlerts() {
+		$this->Cookie->delete('alerts.admin');
+
 		$this->loadModel('Testimonial');
 		if ($this->Testimonial->approvalNeeded()) {
 			$url = Router::url(array(
@@ -164,7 +210,7 @@ class AppController extends Controller {
 				'action' => 'manage',
 				$this->params['prefix'] => false
 			));
-			$this->Flash->set('Please <strong><a href="'.$url.'">approve or delete</a></strong> new testimonial(s).');
+			$this->Cookie->write('alerts.admin_testimonials', 'Please <strong><a href="'.$url.'">approve or delete</a></strong> new testimonial(s).');
 		}
 	}
 
@@ -186,5 +232,11 @@ class AppController extends Controller {
 			}
 		}
 		return $user_roles;
+	}
+
+	public function blackhole($type) {
+		if ($type == 'secure') {
+			$this->redirect('https://' . $_SERVER['SERVER_NAME'] . $this->here);
+		}
 	}
 }

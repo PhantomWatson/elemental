@@ -92,32 +92,36 @@
 
 		<p>
 			<?php
+				$cost = $product['Product']['cost'];
 				echo $this->Html->link(
-					'Renew access for $'.number_format($product['Product']['cost'], 2),
+					'Renew access for $'.number_format($cost, 2),
 					'#',
 					array(
 						'class' => 'btn btn-primary btn-large',
 						'id' => 'purchase_student_review'
 					)
 				);
-				$this->Html->script(Configure::read('google_wallet_lib'), array('inline' => false));
-				$this->Js->buffer("
-					$('#purchase_student_review').click(function(event) {
-						event.preventDefault();
-						google.payments.inapp.buy({
-							'jwt': '$jwt',
-							'success' : function(purchaseAction) {
-								location.reload(true);
-							},
-							'failure' : function(purchaseActionError){
-								alert('There was an error processing your payment: '+purchaseActionError.response.errorType);
-							}
-						});
-					});
-				");
 			?>
 		</p>
 
+		<?php
+			$this->Html->script('https://checkout.stripe.com/checkout.js', array('inline' => false));
+			$this->Html->script('purchase.js', array('inline' => false));
+			$this->Html->script('main.js', array('inline' => false));
+			$this->Js->buffer("
+				studentReviewPurchase_student.init({
+					button_selector: '#purchase_student_review',
+					confirmation_message: 'Confirm payment of $".number_format($cost, 2)." for renewed Student Review Module access?',
+					cost_dollars: $cost,
+					description: 'Review Module access renewal (\${$cost})',
+					key: '".Configure::read('Stripe.Public')."',
+					post_data: {
+						student_id: '$user_id'
+					},
+					post_url: '/purchases/complete_purchase/srm_student'
+				});
+			");
+		?>
 	<?php endif; ?>
 
 </div>

@@ -10,6 +10,7 @@ class ProductsController extends AppController {
 			'classroom_module',
 			'instructor_student_review_modules'
 		));
+		$this->Security->requireSecure('classroom_module', 'instructor_student_review_modules');
 	}
 
 	public function isAuthorized($user) {
@@ -37,7 +38,12 @@ class ProductsController extends AppController {
 		}
 
 		$logged_in = $this->Auth->loggedIn();
-		$product = $this->Product->getReviewModuleRenewal();
+		$product = $this->Product->find('first', array(
+			'conditions' => array(
+				'Product.id' => $this->Product->getProductId('srm')
+			),
+			'contain' => false
+		));
 		$this->set(array(
 			'title_for_layout' => 'Student Review Materials',
 			'logged_in' => $logged_in,
@@ -55,14 +61,13 @@ class ProductsController extends AppController {
 				$expiration = $this->User->getReviewModuleAccessExpiration($user_id);
 			}
 
-			if ($user_attended && ! $can_access) {
-				$this->set('jwt', $this->Product->getReviewModuleRenewalJWT($user_id));
-			}
-
 			$this->set(compact(
 				'user_attended',
 				'can_access',
 				'expiration'
+			));
+			$this->set(array(
+				'user_id' => $this->Auth->user('id')
 			));
 		} else {
 			$this->set('can_access', false);
@@ -88,11 +93,6 @@ class ProductsController extends AppController {
 			// Get product info
 			$path_split = explode('/', $url);
 			$product = reset($path_split);
-			switch ($product) {
-				case 'student_review':
-					$product_id = $this->Product->getReviewModuleRenewalId();
-					break;
-			}
 
 			// Verify that the user is authorized to access this
 			$user_id = $this->Auth->user('id');
@@ -102,7 +102,7 @@ class ProductsController extends AppController {
 					$can_access = $this->User->canAccessInstructorTraining($user_id);
 					break;
 				case 'student_review':
-					$can_access = $this->User->hasPurchased($user_id, $product_id);
+					$can_access = $this->User->canAccessReviewMaterials($user_id);
 					break;
 				case 'classroom_module':
 					$can_access = $this->User->canAccessClassroomModule($user_id);
@@ -155,13 +155,20 @@ class ProductsController extends AppController {
 	}
 
 	public function instructor_student_review_modules() {
+		if ($this->Cookie->check('alerts.instructor_srm_payment')) {
+			$this->Cookie->delete('alerts.instructor_srm_payment');
+		}
+
 		$user_id = $this->Auth->user('id');
 		$this->loadModel('StudentReviewModule');
+		$this->loadModel('User');
+		$this->User->id = $user_id;
 		$this->set(array(
 			'title_for_layout' => 'Student Review Modules',
 			'cost' => $this->StudentReviewModule->getCost(),
 			'report' => $this->StudentReviewModule->getReport($user_id),
-			'unpaid_jwt' => $this->StudentReviewModule->getAwaitingPaymentJWT($user_id)
+			'user_id' => $user_id,
+			'email' => $this->User->field('email')
 		));
 	}
 
@@ -210,7 +217,8 @@ class ProductsController extends AppController {
 		$this->set(array(
 			'title_for_layout' => 'Classroom Module',
 			'can_access' => $can_access,
-			'expiration' => $expiration
+			'expiration' => $expiration,
+			'user_id' => $user_id
 		));
 
 		if ($can_access) {
@@ -218,11 +226,13 @@ class ProductsController extends AppController {
 				'warn' => $expiration < strtotime('+30 days')
 			));
 		} else {
-			$product_id = $this->Product->getClassroomModuleId();
+			$product_id = $this->Product->getProductId('classroom module');
 			$this->Product->id = $product_id;
+			$this->loadModel('User');
+			$this->User->id = $user_id;
 			$this->set(array(
 				'cost' => $this->Product->field('cost'),
-				'jwt' => $this->Product->getClassroomModuleJWT($user_id)
+				'email' => $this->User->field('email')
 			));
 		}
 	}

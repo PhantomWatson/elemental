@@ -22,11 +22,7 @@ class CoursesController extends AppController {
 		 * logged-in users, but the error message and redirect
 		 * is handled inside that method. */
 
-		/*
-		$this->Security->blackHoleCallback = 'forceSSL';
 		$this->Security->requireSecure('register');
-		$this->Security->requirePost('postback');
-		*/
 	}
 
 	public function isAuthorized($user) {
@@ -368,6 +364,8 @@ class CoursesController extends AppController {
 			$intro_msg = 'Before you can register for this course, you must complete the following steps:';
 		}
 
+		$this->loadModel('User');
+		$this->User->id = $user_id;
 		$this->set(compact(
 			'actions_pending',
 			'can_elevate',
@@ -381,11 +379,12 @@ class CoursesController extends AppController {
 			'paid',
 			'registration_completed',
 			'registration_id',
-			'release_submitted'
+			'release_submitted',
+			'user_id'
 		));
 		$this->set(array(
-			'jwt' => $this->Course->getJWT($course_id, $user_id),
-			'title_for_layout' => 'Register for a Course'
+			'title_for_layout' => 'Register for a Course',
+			'email' => $this->User->field('email')
 		));
 	}
 
@@ -474,15 +473,6 @@ class CoursesController extends AppController {
 		));
 	}
 
-
-	/**
-	 * Redirects http:// address to https://
-	 * Suggested by http://techno-geeks.org/2009/03/using-the-security-component-in-cakephp-for-ssl/
-	 */
-	public function forceSSL() {
-		$this->redirect('https://' . $_SERVER['SERVER_NAME'] . $this->here);
-	}
-
 	public function manage() {
 		$user_id = $this->Auth->user('id');
 		$is_admin = $this->User->hasRole($user_id, 'admin');
@@ -498,15 +488,16 @@ class CoursesController extends AppController {
 			);
 		}
 
-		$this->paginate = array(
+		$this->Paginator = $this->Components->load('Paginator');
+		$this->Paginator->settings = array(
 			'conditions' => $conditions,
 			'order' => array(
-				'Course.created DESC'
+				'Course.begins' => 'DESC'
 			)
 		);
 		$this->set(array(
 			'title_for_layout' => 'Manage Courses',
-			'courses' => $this->paginate(),
+			'courses' => $this->Paginator->paginate(),
 			'is_admin' => $is_admin
 		));
 	}
@@ -580,6 +571,9 @@ class CoursesController extends AppController {
 			$this->Course->sendSrmAvailableEmails($course_id);
 			$this->Course->saveField('attendance_reported', true);
 			$this->Flash->success('Attendance reported.');
+			if ($this->Cookie->check('alerts.instructor_attendance')) {
+				$this->Cookie->delete('alerts.instructor_attendance');
+			}
 
 			// Update instructor certification expiration date
 			$course_end_date = $this->Course->getEndDate($course_id);

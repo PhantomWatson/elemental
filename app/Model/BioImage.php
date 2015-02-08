@@ -151,9 +151,11 @@ class BioImage extends Image {
 			return array(false, 'Error saving image');
 		}
 
+		// For some reason, $this->id is not being updated as expected, so we're using getLastInsertID()
+		$image_id = $this->getLastInsertID();
+
 		$image = array(
-			'id' => $this->id,
-			'bio_id' => 999,
+			'id' => $image_id,
 			'filename' => $filename
 		);
 		return array(true, $image);

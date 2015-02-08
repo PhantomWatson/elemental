@@ -112,6 +112,7 @@ class User extends AppModel {
 		),
 		'Certification' => array(
 			'dependent' => true,
+			'foreignKey' => 'instructor_id',
 			'order' => array(
 				'Certification.date_expires' => 'DESC'
 			)
@@ -361,7 +362,7 @@ class User extends AppModel {
 
 			// Students who have purchased the review material module in the past year get access
 			$Product = ClassRegistry::init('Product');
-			$product_id = $Product->getReviewModuleRenewalId();
+			$product_id = $Product->getProductId('srm renewal');
 			$purchase = $this->Purchase->find('first', array(
 				'conditions' => array(
 					'Purchase.user_id' => $user_id,
@@ -442,6 +443,19 @@ class User extends AppModel {
 		return $retval;
 	}
 
+	public function isCertified($user_id) {
+		$result = $this->Certification->find(
+			'count',
+			array(
+				'conditions' => array(
+					'Certification.date_expires >' => date('Y-m-d'),
+					'Certification.instructor_id' => $user_id
+				)
+			)
+		);
+		return $result > 0;
+	}
+
 	/**
 	 * Determines if user current has the specified role (or any of the specified roles if $role_name is an array)
 	 * @param int $user_id
@@ -475,10 +489,12 @@ class User extends AppModel {
 				)
 			)
 		);
-		foreach ($result['Role'] as $role) {
-			if ((is_array($role_name) && in_array($role['name'], $role_name)) || $role['name'] == $role_name) {
-				Cache::write($cache_key, true);
-				return true;
+		if (isset($result['Role'])) {
+			foreach ($result['Role'] as $role) {
+				if ((is_array($role_name) && in_array($role['name'], $role_name)) || $role['name'] == $role_name) {
+					Cache::write($cache_key, true);
+					return true;
+				}
 			}
 		}
 		Cache::write($cache_key, false);

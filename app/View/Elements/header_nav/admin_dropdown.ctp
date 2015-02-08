@@ -67,5 +67,15 @@
 				)
 			); ?>
 		</li>
+		<li>
+			<?php echo $this->Html->link(
+				'Registration Refunds',
+				array(
+					'admin' => true,
+					'controller' => 'course_payments',
+					'action' => 'index'
+				)
+			); ?>
+		</li>
 	</ul>
 </li>

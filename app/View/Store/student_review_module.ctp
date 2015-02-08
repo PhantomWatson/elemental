@@ -79,20 +79,27 @@
 	<a href="javascript:history.back()" class="btn btn-default">
 		Go back
 	</a>
+
 	<?php
-		$this->Html->script(Configure::read('google_wallet_lib'), array('inline' => false));
+		$this->Html->script('https://checkout.stripe.com/checkout.js', array('inline' => false));
+		$this->Html->script('purchase.js', array('inline' => false));
+		$purchase_noun = __n('SRM', 'SRMs', $quantity);
+		$user_id_for_js = $user_id ? "'$user_id'" : 'null';
 		$this->Js->buffer("
-			$('#purchase_button').click(function(event) {
-				event.preventDefault();
-				google.payments.inapp.buy({
-					'jwt': '$jwt',
-					'success' : function(purchaseAction) {
-						window.location.href = '$redirect_url';
-					},
-					'failure' : function(purchaseActionError) {
-						console.log('There was an error processing your payment: '+purchaseActionError.response.errorType);
-					}
-				});
+			elementalPurchase.setupPurchaseButton({
+				button_selector: '#purchase_button',
+				confirmation_message: 'Confirm payment of $".number_format($cost * $quantity, 2)." for $quantity $purchase_noun?',
+				cost_dollars: ".($cost * $quantity).",
+				description: 'Pay for $quantity $purchase_noun',
+				key: '".Configure::read('Stripe.Public')."',
+				post_data: {
+					purchaser_id: $user_id_for_js,
+					instructor_id: '".$this->request->data['Purchase']['instructor_id']."',
+					quantity: '$quantity'
+				},
+				post_url: '/purchases/complete_purchase/srm_instructor',
+				redirect_url: '$redirect_url',
+				email: '$email'
 			});
 		");
 	?>
