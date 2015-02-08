@@ -92,10 +92,6 @@ class AppController extends Controller {
 
 		$this->Security->blackHoleCallback = 'blackhole';
 
-		if ($this->maintenance_mode) {
-			$this->__maintenanceModeBlock();
-		}
-
 		if ($this->Auth->loggedIn()) {
 			$this->Auth->authError = 'You are not authorized to access that location.';
 		}
@@ -139,6 +135,10 @@ class AppController extends Controller {
 					));
 				}
 			}
+		}
+
+		if ($this->maintenance_mode) {
+			$this->__maintenanceModeBlock();
 		}
 	}
 
