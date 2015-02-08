@@ -68,7 +68,7 @@ class AppController extends Controller {
 	 */
 	private function __maintenanceModeBlock() {
 		$this->loadModel('User');
-		if (false && $this->User->hasRole($this->Auth->user('id'), 'admin')) {
+		if ($this->User->hasRole($this->Auth->user('id'), 'admin')) {
 			return;
 		}
 
