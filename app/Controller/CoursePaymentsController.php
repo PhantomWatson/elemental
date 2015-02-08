@@ -127,7 +127,24 @@ class CoursePaymentsController extends AppController {
 	}
 
 	public function admin_index() {
+		$filter = isset($this->request->named['filter']) ? $this->request->named['filter'] : null;
+		switch ($filter) {
+			case 'refundable':
+				$conditions = array(
+					'CoursePayment.refunded' => null,
+					'CoursePayment.jwt' => null
+				);
+				break;
+			case 'refunded':
+				$conditions = array(
+					'CoursePayment.refunded NOT' => null
+				);
+				break;
+			default:
+				$conditions = array();
+		}
 		$this->paginate = array(
+			'conditions' => $conditions,
 			'contain' => array(
 				'Course' => array(
 					'fields' => array(

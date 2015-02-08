@@ -4,9 +4,35 @@
 	</h1>
 </div>
 
+<?php
+	$selected_filter = isset($this->request->named['filter']) ? $this->request->named['filter'] : null;
+	echo $this->Html->link(
+		'All',
+		array(
+			'filter' => null
+		),
+		array(
+			'class' => 'btn btn-'.(! $selected_filter ? 'primary' : 'default')
+		)
+	);
+	$buttons = array(
+		'Refundable' => 'refundable',
+		'Refunded' => 'refunded'
+	);
+	foreach ($buttons as $label => $filter) {
+		echo $this->Html->link(
+			$label,
+			compact('filter'),
+			array(
+				'class' => 'btn btn-'.($selected_filter == $filter ? 'primary' : 'default')
+			)
+		);
+	}
+?>
+
 <?php if (empty($payments)): ?>
 	<p class="alert alert-info">
-		No records of class registration payments were found in the database.
+		No results were found.
 	</p>
 <?php else: ?>
 
