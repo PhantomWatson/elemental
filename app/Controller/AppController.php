@@ -33,6 +33,7 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 	public $components = array(
+		'Security',
 		'DebugKit.Toolbar',
 		'Flash',
 		'Session',
@@ -88,6 +89,8 @@ class AppController extends Controller {
 
 	public function beforeFilter() {
 		$this->Auth->allow();
+
+		$this->Security->blackHoleCallback = 'blackhole';
 
 		if ($this->maintenance_mode) {
 			$this->__maintenanceModeBlock();
@@ -229,5 +232,11 @@ class AppController extends Controller {
 			}
 		}
 		return $user_roles;
+	}
+
+	public function blackhole($type) {
+		if ($type == 'secure') {
+			$this->redirect('https://' . $_SERVER['SERVER_NAME'] . $this->here);
+		}
 	}
 }

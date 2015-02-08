@@ -22,10 +22,7 @@ class CoursesController extends AppController {
 		 * logged-in users, but the error message and redirect
 		 * is handled inside that method. */
 
-		/*
-		$this->Security->blackHoleCallback = 'forceSSL';
-		$this->Security->requireSecure('register');
-		*/
+		//$this->Security->requireSecure('register');
 	}
 
 	public function isAuthorized($user) {
@@ -474,15 +471,6 @@ class CoursesController extends AppController {
 			'action' => 'register',
 			'id' => $course_id
 		));
-	}
-
-
-	/**
-	 * Redirects http:// address to https://
-	 * Suggested by http://techno-geeks.org/2009/03/using-the-security-component-in-cakephp-for-ssl/
-	 */
-	public function forceSSL() {
-		$this->redirect('https://' . $_SERVER['SERVER_NAME'] . $this->here);
 	}
 
 	public function manage() {
