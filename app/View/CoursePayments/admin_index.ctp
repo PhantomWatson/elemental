@@ -16,10 +16,10 @@
 		<thead>
 			<tr>
 				<th>
-					Course
+					<?php echo $this->Paginator->sort('Course.begins', 'Course'); ?>
 				</th>
 				<th>
-					Student
+					<?php echo $this->Paginator->sort('User.name', 'Student'); ?>
 				</th>
 				<th>
 					Withdrew
@@ -28,10 +28,10 @@
 					Attended
 				</th>
 				<th>
-					Payment Date
+					<?php echo $this->Paginator->sort('CoursePayment.created', 'Payment Date'); ?>
 				</th>
 				<th>
-					Refund
+					<?php echo $this->Paginator->sort('CoursePayment.refunded', 'Refund'); ?>
 				</th>
 			</tr>
 		</thead>
