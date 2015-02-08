@@ -6,6 +6,8 @@ class StoreController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
+
+		$this->Security->requireSecure('student_review_module');
 	}
 
 	public function student_review_module() {
