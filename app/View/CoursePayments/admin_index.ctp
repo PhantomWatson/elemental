@@ -4,31 +4,33 @@
 	</h1>
 </div>
 
-<?php
-	$selected_filter = isset($this->request->named['filter']) ? $this->request->named['filter'] : null;
-	echo $this->Html->link(
-		'All',
-		array(
-			'filter' => null
-		),
-		array(
-			'class' => 'btn btn-'.(! $selected_filter ? 'primary' : 'default')
-		)
-	);
-	$buttons = array(
-		'Refundable' => 'refundable',
-		'Refunded' => 'refunded'
-	);
-	foreach ($buttons as $label => $filter) {
+<p>
+	<?php
+		$selected_filter = isset($this->request->named['filter']) ? $this->request->named['filter'] : null;
 		echo $this->Html->link(
-			$label,
-			compact('filter'),
+			'All',
 			array(
-				'class' => 'btn btn-'.($selected_filter == $filter ? 'primary' : 'default')
+				'filter' => null
+			),
+			array(
+				'class' => 'btn btn-'.(! $selected_filter ? 'primary' : 'default')
 			)
 		);
-	}
-?>
+		$buttons = array(
+			'Refundable' => 'refundable',
+			'Refunded' => 'refunded'
+		);
+		foreach ($buttons as $label => $filter) {
+			echo $this->Html->link(
+				$label,
+				compact('filter'),
+				array(
+					'class' => 'btn btn-'.($selected_filter == $filter ? 'primary' : 'default')
+				)
+			);
+		}
+	?>
+</p>
 
 <?php if (empty($payments)): ?>
 	<p class="alert alert-info">
@@ -36,7 +38,9 @@
 	</p>
 <?php else: ?>
 
-	<?php echo $this->element('pagination'); ?>
+	<p>
+		<?php echo $this->element('pagination'); ?>
+	</p>
 
 	<table class="table" id="refunds">
 		<thead>
