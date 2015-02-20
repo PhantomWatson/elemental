@@ -4,19 +4,52 @@
 	</h1>
 </div>
 
+<p>
+	<?php
+		$selected_filter = isset($this->request->named['filter']) ? $this->request->named['filter'] : null;
+		echo $this->Html->link(
+			'All',
+			array(
+				'filter' => null
+			),
+			array(
+				'class' => 'btn btn-'.(! $selected_filter ? 'primary' : 'default')
+			)
+		);
+		$buttons = array(
+			'Refundable' => 'refundable',
+			'Refunded' => 'refunded'
+		);
+		foreach ($buttons as $label => $filter) {
+			echo $this->Html->link(
+				$label,
+				compact('filter'),
+				array(
+					'class' => 'btn btn-'.($selected_filter == $filter ? 'primary' : 'default')
+				)
+			);
+		}
+	?>
+</p>
+
 <?php if (empty($payments)): ?>
 	<p class="alert alert-info">
-		No records of class registration payments were found in the database.
+		No results were found.
 	</p>
 <?php else: ?>
+
+	<p>
+		<?php echo $this->element('pagination'); ?>
+	</p>
+
 	<table class="table" id="refunds">
 		<thead>
 			<tr>
 				<th>
-					Course
+					<?php echo $this->Paginator->sort('Course.begins', 'Course'); ?>
 				</th>
 				<th>
-					Student
+					<?php echo $this->Paginator->sort('User.name', 'Student'); ?>
 				</th>
 				<th>
 					Withdrew
@@ -25,10 +58,10 @@
 					Attended
 				</th>
 				<th>
-					Payment Date
+					<?php echo $this->Paginator->sort('CoursePayment.created', 'Payment Date'); ?>
 				</th>
 				<th>
-					Refund
+					<?php echo $this->Paginator->sort('CoursePayment.refunded', 'Refund'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -102,4 +135,7 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
+
+	<?php echo $this->element('pagination'); ?>
+
 <?php endif; ?>

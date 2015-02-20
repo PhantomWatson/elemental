@@ -70,7 +70,7 @@ class StripeComponent extends Component {
 			'file' => 'Stripe' . DS . 'lib' . DS . 'Stripe.php')
 		);
 		if (!class_exists('Stripe')) {
-			throw new CakeException('Stripe API Libaray is missing or could not be loaded.');
+			throw new CakeException('Stripe API library is missing or could not be loaded.');
 		}
 
 		// if mode is set in bootstrap.php, use it. otherwise, Test.
@@ -135,12 +135,29 @@ class StripeComponent extends Component {
 		Stripe::setApiKey($this->key);
 		$error = null;
 
-		$chargeData = array(
-			'amount' => $data['amount'],
-			'currency' => $this->currency,
-			'description' => $data['description'],
-			'capture' => $data['capture']
+		$chargeData = array();
+		$validParams = array(
+			'amount',
+			'currency',
+			'customer',
+			'card',
+			'description',
+			'metadata',
+			'capture',
+			'statement_descriptor',
+			'receipt_email',
+			'application_fee',
+			'shipping'
 		);
+		foreach ($validParams as $param) {
+			if (isset($data[$param])) {
+				$chargeData[$param] = $data[$param];
+			}
+		}
+
+		if (! isset($chargeData['currency'])) {
+			$chargeData['currency'] = $this->currency;
+		}
 
 		if (isset($data['stripeToken'])) {
 			$chargeData['card'] = $data['stripeToken'];
