@@ -708,7 +708,29 @@ section.about {
 		}
 	}
 }
+@srm_overview_colgroup_border: 1px solid #ddd;
+#srm_overview {
+	&.instructors {
+		td,
+		th {
+			text-align: center;
 
+			&:first-child {
+				text-align: left;
+			}
+			&:nth-child(2) {
+				border-left: @srm_overview_colgroup_border;
+				border-right: @srm_overview_colgroup_border;
+			}
+			&:nth-child(5) {
+				border-right: @srm_overview_colgroup_border;
+			}
+			&:last-child {
+				border-right: @srm_overview_colgroup_border;
+			}
+		}
+	}
+}
 
 
 /* INSTRUCTOR AGREEMENTS */
