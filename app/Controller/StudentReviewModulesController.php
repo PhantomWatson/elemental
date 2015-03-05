@@ -49,7 +49,7 @@ class StudentReviewModulesController extends AppController {
 					$instructor['srm_totals']['total']++;
 					$instructor['srm_totals']['paid'] += $srm['purchase_id'] ? 1 : 0;
 					$instructor['srm_totals']['granted'] += $srm['override_admin_id'] ? 1 : 0;
-					$instructor['srm_totals']['awaiting_payment'] += (! $srm['purchase_id'] && ! $srm['override_admin_id']) ? 1 : 2;
+					$instructor['srm_totals']['awaiting_payment'] += (! $srm['purchase_id'] && ! $srm['override_admin_id']) ? 1 : 0;
 					$instructor['srm_totals']['assigned'] += $srm['student_id'] ? 1 : 0;
 					$instructor['srm_totals']['available'] += ! $srm['student_id'] ? 1 : 0;
 				}
