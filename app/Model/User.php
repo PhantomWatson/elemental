@@ -96,6 +96,11 @@ class User extends AppModel {
 			'className' => 'Purchase',
 			'foreignKey' => 'user_id',
 			'dependent' => false
+		),
+		'StudentReviewModule' => array(
+			'className' => 'StudentReviewModule',
+			'foreignKey' => 'instructor_id',
+			'dependent' => false
 		)
 	);
 	public $hasOne = array(
