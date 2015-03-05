@@ -47,6 +47,14 @@
 				</tr>
 			</thead>
 			<tbody>
+				<?php
+					function styleTotal($number) {
+						if ($number == 0) {
+							return '<span class="zero">0</span>';
+						}
+						return $number;
+					}
+				?>
 				<?php foreach ($instructors as $instructor): ?>
 					<tr>
 						<td>
@@ -57,22 +65,22 @@
 							</a>
 						</td>
 						<td>
-							<?php echo $instructor['srm_totals']['total']; ?>
+							<?php echo styleTotal($instructor['srm_totals']['total']); ?>
 						</td>
 						<td>
-							<?php echo $instructor['srm_totals']['paid']; ?>
+							<?php echo styleTotal($instructor['srm_totals']['paid']); ?>
 						</td>
 						<td>
-							<?php echo $instructor['srm_totals']['granted']; ?>
+							<?php echo styleTotal($instructor['srm_totals']['granted']); ?>
 						</td>
 						<td>
-							<?php echo $instructor['srm_totals']['awaiting_payment']; ?>
+							<?php echo styleTotal($instructor['srm_totals']['awaiting_payment']); ?>
 						</td>
 						<td>
-							<?php echo $instructor['srm_totals']['assigned']; ?>
+							<?php echo styleTotal($instructor['srm_totals']['assigned']); ?>
 						</td>
 						<td>
-							<?php echo $instructor['srm_totals']['available']; ?>
+							<?php echo styleTotal($instructor['srm_totals']['available']); ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
