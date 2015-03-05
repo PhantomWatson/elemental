@@ -69,14 +69,13 @@
 	</ul>
 
 	<p>
-		<strong>Instructor certification available beginning Spring 2014.</strong>
 		<?php echo $this->Html->link(
 			'Contact us for details',
 			array(
 				'controller' => 'pages',
 				'action' => 'contact'
 			)
-		); ?>.
+		); ?> about instructor certification.
 	</p>
 </section>
 
@@ -99,6 +98,19 @@
 	</ul>
 
 	<p>
-		<strong>Check back soon for a list of certified independent instructors.</strong>
+		<?php echo $this->Html->link(
+			'Contact us for details',
+			array(
+				'controller' => 'pages',
+				'action' => 'contact'
+			)
+		); ?> about booking an independent Elemental instructor, or
+		<?php echo $this->Html->link(
+			'contact an instructor directly',
+			array(
+				'controller' => 'bios',
+				'action' => 'index'
+			)
+		); ?>.
 	</p>
 </section>
