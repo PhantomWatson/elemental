@@ -56,7 +56,10 @@ class StudentReviewModulesController extends AppController {
 			}
 			$this->set('instructors', $instructors);
 		} elseif ($mode == 'students') {
-
+			$this->Flash->set('Viewing distribution of SRMs among students is not currently available.');
+			$this->redirect(array(
+				'action' => 'overview'
+			));
 		} else {
 			throw new NotFoundException('Sorry, your request was not understood.');
 		}
