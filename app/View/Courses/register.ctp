@@ -148,18 +148,20 @@
 							$confirmation = $is_on_waiting_list
 								? 'Are you sure you want to remove yourself from this course\'s waiting list?'
 								: 'Are you sure you want to cancel your registration to this course?';
-							echo $this->Form->postLink(
-								$label,
-								array(
-									'controller' => 'course_registrations',
-									'action' => 'delete',
-									'id' => $registration_id
-								),
-								array(
-									'class' => 'btn btn-danger'
-								),
-								$confirmation
-							);
+							if ($is_on_waiting_list || ! $has_begun) {
+								echo $this->Form->postLink(
+									$label,
+									array(
+										'controller' => 'course_registrations',
+										'action' => 'delete',
+										'id' => $registration_id
+									),
+									array(
+										'class' => 'btn btn-danger'
+									),
+									$confirmation
+								);
+							}
 						?>
 					<?php else: ?>
 						<?php if ($actions_pending): ?>
