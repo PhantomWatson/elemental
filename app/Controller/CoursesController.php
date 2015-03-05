@@ -96,6 +96,7 @@ class CoursesController extends AppController {
 			$course['on_class_list'] = $this->User->registeredForCourse($user_id, $course_id);
 			$course['on_waiting_list'] = $this->CourseRegistration->isOnWaitingList($user_id, $course_id);
 			$course['registration_id'] = $this->CourseRegistration->getRegistrationId($user_id, $course_id);
+			$course['has_begun'] = $course['Course']['begins'] > date('Y-m-d');
 		}
 
 		$this->set(array(

@@ -68,20 +68,22 @@
 										You are registered
 									</span>
 								</p>
-								<p>
-									<?php echo $this->Form->postLink(
-										'Cancel Registration',
-										array(
-											'controller' => 'course_registrations',
-											'action' => 'delete',
-											'id' => $course['registration_id']
-										),
-										array(
-											'class' => 'btn btn-danger'
-										),
-										'Are you sure you want to cancel your registration to this course?'
-									); ?>
-								</p>
+								<?php if (! $course['has_begun']): ?>
+									<p>
+										<?php echo $this->Form->postLink(
+											'Cancel Registration',
+											array(
+												'controller' => 'course_registrations',
+												'action' => 'delete',
+												'id' => $course['registration_id']
+											),
+											array(
+												'class' => 'btn btn-danger'
+											),
+											'Are you sure you want to cancel your registration to this course?'
+										); ?>
+									</p>
+								<?php endif; ?>
 							<?php elseif ($course['on_waiting_list']): ?>
 								<p>
 									<span>
