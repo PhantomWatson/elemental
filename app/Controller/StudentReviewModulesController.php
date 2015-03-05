@@ -6,11 +6,11 @@ class StudentReviewModulesController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->deny(array(
-			'overview'
+			'admin_overview'
 		));
 	}
 
-	public function overview($mode = 'instructors') {
+	public function admin_overview($mode = 'instructors') {
 		if ($mode == 'instructors') {
 			$this->loadModel('Role');
 			$role = $this->Role->find(
