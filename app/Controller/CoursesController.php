@@ -344,7 +344,7 @@ class CoursesController extends AppController {
 		$is_free = $course['Course']['cost'] == 0;
 		$paid = $this->CoursePayment->isPaid($user_id, $course_id);
 		$actions_pending = ! ($release_submitted && ($is_free || $paid || $is_full));
-		$has_begun = $course['Course']['begins'] > date('Y-m-d');
+		$has_begun = $course['Course']['begins'] <= date('Y-m-d');
 
 		// Determine what the intro message should say
 		if ($registration_completed) {
