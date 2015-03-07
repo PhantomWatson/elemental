@@ -52,7 +52,7 @@
 								'action' => 'edit',
 								'course_id' => $course['Course']['id']
 							),
-							array('class' => 'btn btn-info')
+							array('class' => 'btn btn-default')
 						); ?>
 					<?php else: ?>
 						<?php echo $this->Html->link(
