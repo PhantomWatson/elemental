@@ -26,7 +26,7 @@ var elementalPurchase = {
 						dataType: 'json',
 						beforeSend: function (jqXHR, settings) {
 							modal.find('.btn').addClass('disabled');
-							status.html('Please wait... <img src=\"/img/loading_small.gif\" />');
+							status.html('Please wait... <img src="/img/loading_small.gif" />');
 							status.slideDown();
 						},
 						success: function (data, textStatus, jqXHR) {
