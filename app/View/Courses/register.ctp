@@ -148,7 +148,7 @@
 							$confirmation = $is_on_waiting_list
 								? 'Are you sure you want to remove yourself from this course\'s waiting list?'
 								: 'Are you sure you want to cancel your registration to this course?';
-							if ($is_on_waiting_list || ! $has_begun) {
+							if (! $has_begun) {
 								echo $this->Form->postLink(
 									$label,
 									array(
