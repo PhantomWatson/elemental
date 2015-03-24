@@ -239,7 +239,8 @@ class CourseRegistrationsController extends AppController {
 				}
 			}
 
-			$this->__sendRefundEmail($course_id, $registration_user_id, $user_is_instructor);
+			// Send refund, if appropriate
+			$this->__autoRefund($course_id, $user_id);
 
 		// Unsuccessful cancellation
 		} else {
@@ -272,11 +273,13 @@ class CourseRegistrationsController extends AppController {
 			$course_id = $this->CourseRegistration->field('course_id');
 			$user_id = $this->CourseRegistration->field('user_id');
 			if ($this->CourseRegistration->delete()) {
-				$this->__sendRefundEmail($course_id, $user_id);
 				$this->loadModel('Course');
 				$this->Course->elevateWaitingListMembers($course_id);
 				$message = 'You have been successfully unregistered.';
 				$msg_class = 'success';
+
+				// Send refund, if appropriate
+				$this->__autoRefund($course_id, $user_id);
 			} else {
 				$message = 'There was an error canceling your registration.';
 				$msg_class = 'danger';
