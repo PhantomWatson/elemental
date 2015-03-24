@@ -188,7 +188,7 @@ class CourseRegistration extends AppModel {
 		$this->Course->id = $course_id;
 		$course_begins = $this->Course->field('begins');
 		$limit = $this->autoRefundDeadline;
-		$deadline = strtotime("$course_begins - limit");
+		$deadline = strtotime("$course_begins - $limit");
 		return time() < $deadline;
 	}
 }
