@@ -585,61 +585,6 @@ class Course extends AppModel {
 		return $registered_count >= $max_participants;
 	}
 
-	public function sendRefundEmail($course_id, $user_id) {
-		$payment = $this->CoursePayment->find('first', array(
-			'conditions' => array(
-				'CoursePayment.course_id' => $course_id,
-				'CoursePayment.user_id' => $user_id
-			),
-			'contain' => false
-		));
-		if (empty($payment)) {
-			// No payment received, so no refund is necessary
-			return true;
-		}
-
-		$course = $this->find('first', array(
-			'conditions' => array(
-				'Course.id' => $course_id
-			),
-			'contain' => false
-		));
-		$User = ClassRegistry::init('User');
-		$user = $User->find('first', array(
-			'conditions' => array(
-				'User.id' => $user_id
-			),
-			'contain' => false
-		));
-		$pts = strtotime($payment['CoursePayment']['created']);
-		$payment_time = date('F j, Y, g:ia', $pts).' EST';
-		$course_url = Router::url(array(
-			'controller' => 'courses',
-			'action' => 'view',
-			'id' => $course_id
-		), true);
-		$details = array(
-			'Order ID' => $payment['CoursePayment']['order_id'],
-			'Student Name' => $user['User']['name'],
-			'Student Email' => $user['User']['email'],
-			'Student Phone' => $user['User']['phone'],
-			'Paid' => $payment_time,
-			'Cost' => '$'.$course['Course']['cost'],
-			'Course' => $course_url
-		);
-
-		// Send email
-		App::uses('CakeEmail', 'Network/Email');
-		$Email = new CakeEmail('default');
-		$Email->to(Configure::read('refund_email'));
-		$Email->replyTo(Configure::read('admin_email'));
-		$Email->returnPath(Configure::read('admin_email'));
-		$Email->subject('Elemental: Refund needed');
-		$Email->template('refund', 'default');
-		$Email->viewVars(compact('details'));
-		return $Email->send();
-	}
-
 	public function paymentsReceived($course_id) {
 		return $this->CoursePayment->find('count', array(
 			'conditions' => array(

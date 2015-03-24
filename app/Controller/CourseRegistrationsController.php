@@ -16,23 +16,6 @@ class CourseRegistrationsController extends AppController {
 		);
 	}
 
-	private function __sendRefundEmail($course_id, $registration_user_id, $user_is_instructor = false) {
-		$this->loadModel('Course');
-		$this->Course->id = $course_id;
-		$course_is_free = $this->Course->field('cost') == 0;
-		if (! $course_is_free) {
-			if ($this->Course->sendRefundEmail($course_id, $registration_user_id)) {
-				if ($user_is_instructor) {
-					$this->Flash->set('An email has been sent to an Elemental administrator, who will execute a refund for this student\'s registration fee in the next 5 business days.');
-				} else {
-					$this->Flash->set('Your registration fee will be refunded within the next 5 business days. Please contact '.Configure::read('refund_email').' if you have any questions.');
-				}
-			} else {
-				$this->Flash->error('There was an error contacting an Elemental administrator to request a registration fee refund. Please email '.Configure::read('refund_email').' for assistance.');
-			}
-		}
-	}
-
 	public function isAuthorized($user) {
 		// Instructors can remove students from a class list,
 		// or the students can remove themselves
