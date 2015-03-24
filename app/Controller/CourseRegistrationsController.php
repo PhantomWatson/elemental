@@ -157,7 +157,7 @@ class CourseRegistrationsController extends AppController {
 			return false;
 		}
 
-		$this->Flash->success('Your registration payment has been refunded.');
+		$this->Flash->success('You will receive a refund for your registration payment in 5-10 business days.');
 		$this->CoursePayment->saveField('refunded', date('Y-m-d H:i:s'));
 		return true;
 	}

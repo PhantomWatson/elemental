@@ -5,6 +5,10 @@
 </div>
 
 <p>
+	Note that refunds take <a href="https://support.stripe.com/questions/how-long-do-refunds-take-to-reach-my-customer">5-10 business days</a> to be received.
+</p>
+
+<p>
 	<?php
 		$selected_filter = isset($this->request->named['filter']) ? $this->request->named['filter'] : null;
 		echo $this->Html->link(
