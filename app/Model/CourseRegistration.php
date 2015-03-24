@@ -158,37 +158,4 @@ class CourseRegistration extends AppModel {
 		}
 		return $result['CourseRegistration']['id'];
 	}
-
-	/**
-	 * Returns TRUE if the specified registration qualifies for an automatic refund
-	 * if the student withdraws.
-	 * @param int $registration_id
-	 * @return boolean
-	 */
-	public function qualifiesForRefund($registration_id) {
-		if (! $this->exists($registration_id)) {
-			return false;
-		}
-
-		$course_id = $this->field('course_id', array('id' => $registration_id));
-		$user_id = $this->field('user_id', array('id' => $registration_id));
-		$payment = $this->Course->CoursePayment->find(
-			'first',
-			array(
-				'course_id' => $course_id,
-				'user_id' => $user_id
-			)
-		);
-
-		// Payment was never made, or was already refunded
-		if (empty($payment) || $payment['CoursePayment']['refunded']) {
-			return false;
-		}
-
-		$this->Course->id = $course_id;
-		$course_begins = $this->Course->field('begins');
-		$limit = $this->autoRefundDeadline;
-		$deadline = strtotime("$course_begins - $limit");
-		return time() < $deadline;
-	}
 }

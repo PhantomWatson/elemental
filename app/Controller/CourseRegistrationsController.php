@@ -50,6 +50,81 @@ class CourseRegistrationsController extends AppController {
 		return parent::isAuthorized($user);
 	}
 
+	private function __autoRefund($course_id, $user_id) {
+		$this->loadModel('CoursePayment');
+		$payment = $this->CoursePayment->find(
+			'first',
+			array(
+				'conditions' => compact('course_id', 'user_id'),
+				'contain' => false,
+				'fields' => array(
+					'id',
+					'refunded',
+					'order_id',
+					'user_id'
+				)
+			)
+		);
+
+		// Payment was never made, or was already refunded
+		if (empty($payment) || $payment['CoursePayment']['refunded']) {
+			return false;
+		}
+
+		$this->loadModel('Course');
+		$this->Course->id = $course_id;
+		$course_begins = $this->Course->field('begins');
+		$limit = $this->CourseRegistration->autoRefundDeadline;
+		$deadline = strtotime("$course_begins - $limit");
+
+		// Past the refund deadline
+		if (time() > $deadline) {
+			return false;
+		}
+
+		$charge = $this->__retrieveCharge($payment['CoursePayment']['order_id']);
+		if (is_string($charge)) {
+			$this->Flash->error('There was a problem refunding your course payment. Please <a href="/contact">contact an administrator</a> for assistance.');
+			return false;
+		}
+
+		$params = array(
+			'reason' => null,
+			'metadata' => array(
+				'type' => 'Course registration cancellation automatic refund',
+			)
+		);
+
+		$this->loadModel('User');
+		$student_id = $payment['CoursePayment']['user_id'];
+		$this->User->id = $student_id;
+		$student_name = $this->User->field('name');
+		$student_email = $this->User->field('email');
+		$params['metadata']['student'] = "$student_name, $student_email (#$student_id)";
+
+		$this->loadModel('Course');
+		$course_id = $this->CoursePayment->field('course_id');
+		$this->Course->id = $course_id;
+		$course_date = $this->Course->field('begins');
+		$params['metadata']['course'] = "$course_date (#$course_id)";
+
+		try {
+			$refund = $charge->refunds->create($params);
+		} catch (Exception $e) {
+			$this->Flash->error('There was a problem refunding your course payment. Please <a href="/contact">contact an administrator</a> for assistance.');
+			return false;
+		}
+
+		if (is_string($refund)) {
+			$this->Flash->error('There was a problem refunding your course payment. Please <a href="/contact">contact an administrator</a> for assistance.');
+			return false;
+		}
+
+		$this->Flash->success('Your registration payment has been refunded.');
+		$this->CoursePayment->saveField('refunded', date('Y-m-d H:i:s'));
+		return true;
+	}
+
 /**
  * delete method
  *
