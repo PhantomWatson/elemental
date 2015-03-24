@@ -6,6 +6,7 @@ App::uses('AppController', 'Controller');
  * @property CourseRegistration $CourseRegistration
  */
 class CourseRegistrationsController extends AppController {
+	public $components = array('Stripe.Stripe');
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -13,6 +14,39 @@ class CourseRegistrationsController extends AppController {
 		$this->Auth->deny(
 			'delete'
 		);
+	}
+
+	/**
+	 * Returns TRUE if the specified registration qualifies for an automatic refund
+	 * if the student withdraws.
+	 */
+	private function __qualifiesForRefund($registration_id) {
+		if (! $this->CourseRegistration->exists($registration_id)) {
+			return false;
+		}
+
+		$course_id = $this->CourseRegistration->field('course_id', array('id' => $registration_id));
+		$user_id = $this->CourseRegistration->field('user_id', array('id' => $registration_id));
+		$this->loadModel('CoursePayment');
+		$payment = $this->CoursePayment->find(
+			'first',
+			array(
+				'course_id' => $course_id,
+				'user_id' => $user_id
+			)
+		);
+
+		// Payment was never made, or was already refunded
+		if (empty($payment) || $payment['CoursePayment']['refunded']) {
+			return false;
+		}
+
+		$this->loadModel('Course');
+		$this->Course->id = $course_id;
+		$course_begins = $this->Course->field('begins');
+		$limit = $this->CourseRegistration->autoRefundDeadline;
+		$deadline = strtotime("$course_begins - limit");
+		return time() < $deadline;
 	}
 
 	private function __sendRefundEmail($course_id, $registration_user_id, $user_is_instructor = false) {
