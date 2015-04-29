@@ -69,6 +69,16 @@
 		</li>
 		<li>
 			<?php echo $this->Html->link(
+				'SRM Distribution',
+				array(
+					'admin' => true,
+					'controller' => 'student_review_modules',
+					'action' => 'overview'
+				)
+			); ?>
+		</li>
+		<li>
+			<?php echo $this->Html->link(
 				'Registration Refunds',
 				array(
 					'admin' => true,

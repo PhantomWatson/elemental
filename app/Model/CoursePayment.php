@@ -51,7 +51,8 @@ class CoursePayment extends AppModel {
 		$result = $this->find('count', array(
 			'conditions' => array(
 				'CoursePayment.user_id' => $user_id,
-				'CoursePayment.course_id' => $course_id
+				'CoursePayment.course_id' => $course_id,
+				'CoursePayment.refunded' => null
 			)
 		));
 		return $result > 0;

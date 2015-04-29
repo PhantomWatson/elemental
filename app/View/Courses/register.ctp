@@ -52,7 +52,7 @@
 								'action' => 'edit',
 								'course_id' => $course['Course']['id']
 							),
-							array('class' => 'btn btn-info')
+							array('class' => 'btn btn-default')
 						); ?>
 					<?php else: ?>
 						<?php echo $this->Html->link(
@@ -148,18 +148,20 @@
 							$confirmation = $is_on_waiting_list
 								? 'Are you sure you want to remove yourself from this course\'s waiting list?'
 								: 'Are you sure you want to cancel your registration to this course?';
-							echo $this->Form->postLink(
-								$label,
-								array(
-									'controller' => 'course_registrations',
-									'action' => 'delete',
-									'id' => $registration_id
-								),
-								array(
-									'class' => 'btn btn-danger'
-								),
-								$confirmation
-							);
+							if (! $has_begun) {
+								echo $this->Form->postLink(
+									$label,
+									array(
+										'controller' => 'course_registrations',
+										'action' => 'delete',
+										'id' => $registration_id
+									),
+									array(
+										'class' => 'btn btn-danger'
+									),
+									$confirmation
+								);
+							}
 						?>
 					<?php else: ?>
 						<?php if ($actions_pending): ?>

@@ -84,6 +84,8 @@ class CourseRegistration extends AppModel {
 		)
 	);
 
+	public $autoRefundDeadline = '3 days';
+
 	public function notAlreadyRegistered($data) {
     	$count = $this->find('count', array(
 			'conditions' => array(

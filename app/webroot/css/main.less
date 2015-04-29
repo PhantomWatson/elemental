@@ -625,6 +625,13 @@ table.attendance {
 	.glyphicon-remove {
 		color: #d00;
 	}
+	.btn {
+		display: inline-block;
+		width: 300px;
+	}
+	td:last-child {
+		text-align: right;
+	}
 }
 #refunds {
 	.glyphicon {
@@ -708,7 +715,44 @@ section.about {
 		}
 	}
 }
+@srm_overview_colgroup_border: 1px solid #ddd;
+#srm_overview {
+	&.instructors {
+		td,
+		th {
+			text-align: center;
 
+			&:first-child {
+				text-align: left;
+			}
+			&:nth-child(2) {
+				border-left: @srm_overview_colgroup_border;
+				border-right: @srm_overview_colgroup_border;
+			}
+			&:nth-child(5) {
+				border-right: @srm_overview_colgroup_border;
+			}
+			&:last-child {
+				border-right: @srm_overview_colgroup_border;
+			}
+		}
+		td {
+			&:first-child {
+				a {
+					font-size: 80%;
+				}
+			}
+			&:nth-child(5) {
+				color: red;
+				font-weight: bold;
+			}
+		}
+	}
+	.zero {
+		color: #aaa;
+		font-weight: normal;
+	}
+}
 
 
 /* INSTRUCTOR AGREEMENTS */

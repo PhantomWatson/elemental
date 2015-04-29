@@ -38,35 +38,17 @@
 
 		<?php if (! $class_has_ended && ($is_registered || $is_on_waiting_list)): ?>
 
-			<?php
-				$alert_class = $is_registered ? 'success' : 'warning';
-				$alert = $is_registered
-					? 'You are registered for this course.'
-					: 'You are on this course\'s waiting list.';
-				$button_label = $is_registered
-					? 'Cancel Registration'
-					: 'Remove Self From Waiting List';
-				$confirmation = $is_registered
-					? 'Are you sure you want to cancel your registration to this course?'
-					: 'Are you sure you want to remove yourself from this course\'s waiting list?';
-			?>
 			<p>
-				<span class="label label-<?php echo $alert_class; ?>">
-					<?php echo $alert; ?>
-				</span>
-			</p>
-			<p>
-				 <?php echo $this->Form->postLink(
-					$button_label,
+				 <?php echo $this->Html->link(
+					$is_registered ? 'Registered' : 'On Waiting List',
 					array(
-						'controller' => 'course_registrations',
-						'action' => 'delete',
-						'id' => $registration_id
+						'controller' => 'courses',
+						'action' => 'register',
+						'id' => $course['Course']['id']
 					),
 					array(
-						'class' => 'btn btn-danger'
-					),
-					$confirmation
+						'class' => 'btn btn-primary'
+					)
 				); ?>
 			</p>
 

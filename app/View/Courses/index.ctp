@@ -64,42 +64,30 @@
 						<td class="actions">
 							<?php if ($course['on_class_list']): ?>
 								<p>
-									<span>
-										You are registered
-									</span>
-								</p>
-								<p>
-									<?php echo $this->Form->postLink(
-										'Cancel Registration',
+									<?php echo $this->Html->link(
+										'Registered',
 										array(
-											'controller' => 'course_registrations',
-											'action' => 'delete',
-											'id' => $course['registration_id']
+											'controller' => 'courses',
+											'action' => 'register',
+											'id' => $course['Course']['id']
 										),
 										array(
-											'class' => 'btn btn-danger'
-										),
-										'Are you sure you want to cancel your registration to this course?'
+											'class' => 'btn btn-success'
+										)
 									); ?>
 								</p>
 							<?php elseif ($course['on_waiting_list']): ?>
 								<p>
-									<span>
-										On waiting list
-									</span>
-								</p>
-								<p>
-									<?php echo $this->Form->postLink(
-										'Remove Self from Waiting List',
+									<?php echo $this->Html->link(
+										'On Waiting List',
 										array(
-											'controller' => 'course_registrations',
-											'action' => 'delete',
-											'id' => $course['registration_id']
+											'controller' => 'courses',
+											'action' => 'register',
+											'id' => $course['Course']['id']
 										),
 										array(
-											'class' => 'btn btn-danger'
-										),
-										'Are you sure you want to remove yourself from this course\'s waiting list?'
+											'class' => 'btn btn-success'
+										)
 									); ?>
 								</p>
 							<?php else: ?>
