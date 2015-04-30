@@ -144,6 +144,7 @@ class TestimonialsController extends AppController {
 		}
 		if ($this->Testimonial->delete()) {
 			$this->Flash->success(__('Testimonial deleted'));
+			$this->Alert->refresh('admin_testimonials');
 			$this->redirect(array('action' => 'manage'));
 		}
 		$this->Flash->error(__('Testimonial was not deleted'));
