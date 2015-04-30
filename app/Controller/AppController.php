@@ -158,7 +158,6 @@ class AppController extends Controller {
 		// Check for new alerts every ten minutes
 		$recheck = ! $this->Cookie->check('alerts_last_checked') || $this->Cookie->read('alerts_last_checked') < strtotime('10 minutes ago');
 		if ($recheck) {
-			$this->Cookie->delete('alerts');
 			$user_roles = $this->__getUserRoles();
 			if (in_array('instructor', $user_roles)) {
 				$this->__setInstructorAlerts();
@@ -199,8 +198,6 @@ class AppController extends Controller {
 	}
 
 	public function __setAdminAlerts() {
-		$this->Cookie->delete('alerts.admin');
-
 		$this->loadModel('Testimonial');
 		if ($this->Testimonial->approvalNeeded()) {
 			$url = Router::url(array(
