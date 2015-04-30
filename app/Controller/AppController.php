@@ -139,7 +139,7 @@ class AppController extends Controller {
 		}
 
 		if ($this->layout == 'default') {
-			$user_roles = $this->__getUserRoles();
+			$user_roles = $this->getUserRoles();
 			$user_id = $this->Auth->user('id');
 			$this->set(array(
 				'user_roles' => $user_roles,
@@ -164,7 +164,7 @@ class AppController extends Controller {
 		Configure::load('Recaptcha.key');
 	}
 
-	protected function __getUserRoles() {
+	public function getUserRoles() {
 		$user_roles = array();
 		$session_roles = $this->Auth->user('Role');
 		if (! empty($session_roles)) {
