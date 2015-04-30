@@ -51,7 +51,7 @@ class AlertComponent extends Component {
 		}
 	}
 
-	public function __setAdminAlerts() {
+	protected function __setAdminAlerts() {
 		$this->loadModel('Testimonial');
 		if ($this->Testimonial->approvalNeeded()) {
 			$url = Router::url(array(
