@@ -49,7 +49,8 @@ class AppController extends Controller {
 			'authorize' => array('Controller'),
 			'authError' => 'Please log in to access that page'
 		),
-		'Cookie'
+		'Cookie',
+		'Alert'
 	);
 	public $uses = array('User');
 	public $maintenance_mode = false;
