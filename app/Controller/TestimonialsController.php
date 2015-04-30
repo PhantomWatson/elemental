@@ -151,9 +151,6 @@ class TestimonialsController extends AppController {
 	}
 
 	public function manage() {
-		if ($this->Cookie->check('alerts.admin_testimonials')) {
-			$this->Cookie->delete('alerts.admin_testimonials');
-		}
 		$this->paginate = array(
 			'contain' => array('User'),
 			'order' => 'Testimonial.approved ASC'
@@ -174,6 +171,7 @@ class TestimonialsController extends AppController {
 		}
 		if ($this->Testimonial->saveField('approved', 1)) {
 			$this->Flash->success('Testimonial approved');
+			$this->Alert->refresh('admin testimonials');
 			$this->redirect(array('action' => 'manage'));
 		}
 		$this->Flash->error(__('Testimonial was not approved'));
