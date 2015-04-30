@@ -38,16 +38,6 @@ class AlertComponent extends Component {
 			));
 			$this->Cookie->write('alerts.instructor_attendance', 'Please <strong><a href="'.$url.'">report attendance</a></strong> for your recent course.');
 		}
-
-		$StudentReviewModule = ClassRegistry::init('StudentReviewModule');
-		if ($StudentReviewModule->paymentNeeded($instructor_id)) {
-			$url = Router::url(array(
-				'instructor' => true,
-				'controller' => 'products',
-				'action' => 'student_review_modules'
-			));
-			$this->Cookie->write('alerts.instructor_srm_payment', 'Please <strong><a href="'.$url.'">submit payment</a></strong> for the Student Review Modules used in your recent course.');
-		}
 	}
 
 	protected function __setAdminAlerts() {
@@ -58,6 +48,9 @@ class AlertComponent extends Component {
 		switch ($type) {
 			case 'admin_testimonials':
 				$this->__refreshAdminTestimonials();
+				break;
+			case 'instructor_srm_payment':
+				$this->__refreshInstructorSrmPayment();
 				break;
 		}
 	}
@@ -72,6 +65,21 @@ class AlertComponent extends Component {
 				$this->params['prefix'] => false
 			));
 			$this->Cookie->write($key, 'Please <strong><a href="'.$url.'">approve or delete</a></strong> new testimonial(s).');
+		} else {
+			$this->Cookie->delete($key);
+		}
+	}
+
+	protected function __refreshInstructorSrmPayment() {
+		$key = 'alerts.instructor_srm_payment';
+		$StudentReviewModule = ClassRegistry::init('StudentReviewModule');
+		if ($StudentReviewModule->paymentNeeded($instructor_id)) {
+			$url = Router::url(array(
+				'instructor' => true,
+				'controller' => 'products',
+				'action' => 'student_review_modules'
+			));
+			$this->Cookie->write($key, 'Please <strong><a href="'.$url.'">submit payment</a></strong> for the Student Review Modules used in your recent course.');
 		} else {
 			$this->Cookie->delete($key);
 		}
