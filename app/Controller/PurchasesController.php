@@ -176,6 +176,7 @@ class PurchasesController extends AppController {
 					$this->StudentReviewModule->save();
 				}
 
+				$this->Alert->refresh('instructor_srm_payment');
 				return array('success' => true);
 			}
 
