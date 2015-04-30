@@ -137,12 +137,6 @@ class AppController extends Controller {
 			}
 		}
 
-		if ($this->maintenance_mode) {
-			$this->__maintenanceModeBlock();
-		}
-	}
-
-	public function beforeRender() {
 		if ($this->layout == 'default') {
 			$user_roles = $this->__getUserRoles();
 			$user_id = $this->Auth->user('id');
@@ -153,6 +147,10 @@ class AppController extends Controller {
 			if ($this->Auth->loggedIn()) {
 				$this->__setAlerts();
 			}
+		}
+
+		if ($this->maintenance_mode) {
+			$this->__maintenanceModeBlock();
 		}
 	}
 
