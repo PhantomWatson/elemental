@@ -1,7 +1,7 @@
 <?php
 App::uses('Component', 'Controller');
 class AlertComponent extends Component {
-	public $components = array('Cookie');
+	public $components = array('Auth', 'Cookie');
 	public $controller;
 
 	public function initialize(Controller $controller) {
