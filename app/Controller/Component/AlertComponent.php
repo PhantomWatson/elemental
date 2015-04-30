@@ -27,9 +27,8 @@ class AlertComponent extends Component {
 
 	protected function __setInstructorAlerts() {
 		$instructor_id = $this->Auth->user('id');
-		$this->loadModel('Course');
-
-		$course_id = $this->Course->instructorCanReportAttendance($instructor_id);
+		$Course = ClassRegistry::init('Course');
+		$course_id = $Course->instructorCanReportAttendance($instructor_id);
 		if ($course_id) {
 			$url = Router::url(array(
 				'controller' => 'courses',
@@ -40,8 +39,8 @@ class AlertComponent extends Component {
 			$this->Cookie->write('alerts.instructor_attendance', 'Please <strong><a href="'.$url.'">report attendance</a></strong> for your recent course.');
 		}
 
-		$this->loadModel('StudentReviewModule');
-		if ($this->StudentReviewModule->paymentNeeded($instructor_id)) {
+		$StudentReviewModule = ClassRegistry::init('StudentReviewModule');
+		if ($StudentReviewModule->paymentNeeded($instructor_id)) {
 			$url = Router::url(array(
 				'instructor' => true,
 				'controller' => 'products',
@@ -52,7 +51,7 @@ class AlertComponent extends Component {
 	}
 
 	protected function __setAdminAlerts() {
-		$this->adminTestimonials();
+		$this->refresh('admin testimonials');
 	}
 
 	public function refresh($type) {
@@ -65,8 +64,8 @@ class AlertComponent extends Component {
 
 	protected function __refreshAdminTestimonials() {
 		$key = 'alerts.admin_testimonials';
-		$this->loadModel('Testimonial');
-		if ($this->Testimonial->approvalNeeded()) {
+		$Testimonial = ClassRegistry::init('Testimonial');
+		if ($Testimonial->approvalNeeded()) {
 			$url = Router::url(array(
 				'controller' => 'testimonials',
 				'action' => 'manage',
