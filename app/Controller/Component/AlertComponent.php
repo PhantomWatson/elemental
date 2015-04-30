@@ -56,7 +56,7 @@ class AlertComponent extends Component {
 
 	public function refresh($type) {
 		switch ($type) {
-			case 'admin testimonials':
+			case 'admin_testimonials':
 				$this->__refreshAdminTestimonials();
 				break;
 		}

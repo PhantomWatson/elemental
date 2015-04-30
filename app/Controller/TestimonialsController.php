@@ -171,7 +171,7 @@ class TestimonialsController extends AppController {
 		}
 		if ($this->Testimonial->saveField('approved', 1)) {
 			$this->Flash->success('Testimonial approved');
-			$this->Alert->refresh('admin testimonials');
+			$this->Alert->refresh('admin_testimonials');
 			$this->redirect(array('action' => 'manage'));
 		}
 		$this->Flash->error(__('Testimonial was not approved'));
