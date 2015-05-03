@@ -667,7 +667,7 @@ class Course extends AppModel {
 	}
 
 	/**
-	 * Returns FALSE or the course ID that the instructor must report attendance for
+	 * Returns the ID for a course that the instructor is due to report attendance for, or FALSE if none are found.
 	 * @param int $instructor_id
 	 * @return boolean|int
 	 */
