@@ -26,18 +26,7 @@ class AlertComponent extends Component {
 	}
 
 	protected function __setInstructorAlerts() {
-		$instructor_id = $this->Auth->user('id');
-		$Course = ClassRegistry::init('Course');
-		$course_id = $Course->instructorCanReportAttendance($instructor_id);
-		if ($course_id) {
-			$url = Router::url(array(
-				'controller' => 'courses',
-				'action' => 'report_attendance',
-				'id' => $course_id,
-				$this->params['prefix'] => false
-			));
-			$this->Cookie->write('alerts.instructor_attendance', 'Please <strong><a href="'.$url.'">report attendance</a></strong> for your recent course.');
-		}
+		$this->refresh('instructor_report_attendance');
 	}
 
 	protected function __setAdminAlerts() {
@@ -51,6 +40,9 @@ class AlertComponent extends Component {
 				break;
 			case 'instructor_srm_payment':
 				$this->__refreshInstructorSrmPayment();
+				break;
+			case 'instructor_report_attendance':
+				$this->__refreshInstructorReportAttendance();
 				break;
 		}
 	}
@@ -80,6 +72,24 @@ class AlertComponent extends Component {
 				'action' => 'student_review_modules'
 			));
 			$this->Cookie->write($key, 'Please <strong><a href="'.$url.'">submit payment</a></strong> for the Student Review Modules used in your recent course.');
+		} else {
+			$this->Cookie->delete($key);
+		}
+	}
+
+	protected function __refreshInstructorReportAttendance() {
+		$key = 'alerts.instructor_attendance';
+		$instructor_id = $this->Auth->user('id');
+		$Course = ClassRegistry::init('Course');
+		$course_id = $Course->instructorCanReportAttendance($instructor_id);
+		if ($course_id) {
+			$url = Router::url(array(
+				'controller' => 'courses',
+				'action' => 'report_attendance',
+				'id' => $course_id,
+				$this->params['prefix'] => false
+			));
+			$this->Cookie->write($key, 'Please <strong><a href="'.$url.'">report attendance</a></strong> for your recent course.');
 		} else {
 			$this->Cookie->delete($key);
 		}
