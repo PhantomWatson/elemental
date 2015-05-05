@@ -142,7 +142,7 @@
 								</li>
 								<li>
 									<?php
-                                        if ($course['Course']['begins'] <= date('Y-m-d')) {
+                                        if ($course['Course']['begins'] > date('Y-m-d')) {
                                             $warning = 'Are you sure you want to cancel this course?';
                                             if ($class_list_count) {
                                                 $warning .= ' '.$class_list_count.__n(' student is', ' students are', $class_list_count).' already registered for it and they will receive no notification that the course has been canceled.';
