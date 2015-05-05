@@ -55,4 +55,14 @@ class FlashComponent extends Component {
 		}
 		$controller->set('flash_messages', $stored_messages);
 	}
+
+    /**
+     * Moves flash messages into the $messages variable set in the view
+     * so that they can be output in an alternate way
+     */
+    public function setFlashMessagesInView() {
+        $messages = $this->Session->read('FlashMessage');
+        $this->Session->delete('FlashMessage');
+        $this->set('messages', $messages);
+    }
 }
