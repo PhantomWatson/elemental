@@ -302,7 +302,7 @@ class PurchasesController extends AppController {
 			array(
 				'conditions' => array(
 					'CoursePayment.course_id' => $course_id,
-					'CoursePayment.user_id' => $user_id,
+					'CoursePayment.user_id' => $student_id,
 					'CoursePayment.refunded' => null
 				)
 			)
