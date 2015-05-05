@@ -101,7 +101,7 @@ class Course extends AppModel {
 		'CoursePayment' => array(
 			'className' => 'CoursePayment',
 			'foreignKey' => 'course_id',
-			'dependent' => true,
+			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
 			'order' => array('CoursePayment.created ASC'),
@@ -114,7 +114,7 @@ class Course extends AppModel {
 		'CourseRegistration' => array(
 			'className' => 'CourseRegistration',
 			'foreignKey' => 'course_id',
-			'dependent' => true,
+			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
