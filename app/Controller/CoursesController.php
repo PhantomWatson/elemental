@@ -64,7 +64,7 @@ class CoursesController extends AppController {
     private function __refundStudents($course_id) {
         $this->loadModel('CoursePayment');
         $payments = $this->CoursePayment->find(
-            'first',
+            'all',
             array(
                 'conditions' => compact('course_id'),
                 'contain' => false,
@@ -77,6 +77,8 @@ class CoursesController extends AppController {
             )
         );
 
+        $this->loadModel('CourseRegistration');
+        $this->loadModel('User');
         foreach ($payments as $payment) {
             // Payment was never made, or was already refunded
             if ($payment['CoursePayment']['refunded']) {
