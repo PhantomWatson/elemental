@@ -2,6 +2,11 @@
 App::uses('Component', 'Controller');
 class FlashComponent extends Component {
 	public $components = array('Session');
+    public $controller;
+
+    public function initialize(Controller $controller) {
+        $this->controller = $controller;
+    }
 
 	public function beforeRender(Controller $controller) {
 		$this->__prepareFlashMessages($controller);
@@ -63,6 +68,6 @@ class FlashComponent extends Component {
     public function manualOutput() {
         $messages = $this->Session->read('FlashMessage');
         $this->Session->delete('FlashMessage');
-        $this->set('messages', $messages);
+        $this->controller->set('messages', $messages);
     }
 }
