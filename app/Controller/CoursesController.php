@@ -386,6 +386,7 @@ class CoursesController extends AppController {
 		}
 		if ($this->Course->delete()) {
 			$this->Flash->success('Course deleted');
+            $this->__refundStudents($id);
 			$this->redirect(array('action' => 'manage'));
 		}
 		$this->Flash->error('Course was not deleted');
