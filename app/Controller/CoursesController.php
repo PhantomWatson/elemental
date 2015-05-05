@@ -388,6 +388,7 @@ class CoursesController extends AppController {
 			$this->Flash->success('Course deleted');
             $this->__refundStudents($id);
             $this->Flash->manualOutput();
+            $this->set('title_for_layout', 'Course Deleted');
 		} else {
 		    $this->Flash->error('Course was not deleted');
 		    $this->redirect(array('action' => 'manage'));
