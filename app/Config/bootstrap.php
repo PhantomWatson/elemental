@@ -123,7 +123,6 @@ App::uses('FireCake','DebugKit.Lib');
 
 // Recaptcha
 CakePlugin::load('Recaptcha');
-Configure::load('Recaptcha.key');
 
 // Stripe
 CakePlugin::load('Stripe');

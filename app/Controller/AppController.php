@@ -155,15 +155,6 @@ class AppController extends Controller {
 		}
 	}
 
-	/**
-	 * Sets up everything that the Recaptcha plugin depends on
-	 */
-	protected function prepareRecaptcha() {
-		$this->helpers[] = 'Recaptcha.Recaptcha';
-    	$this->Components->load('Recaptcha.Recaptcha')->startup($this);
-		Configure::load('Recaptcha.key');
-	}
-
 	public function getUserRoles() {
 		$user_roles = array();
 		$session_roles = $this->Auth->user('Role');

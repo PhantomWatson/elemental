@@ -31,7 +31,7 @@
 				'class' => 'form-control',
 				'div' => array('class' => 'form-group')
 			));
-			echo $this->element('recaptcha_input');
+			echo $this->element('recaptcha');
 			echo $this->Form->end(array(
 				'label' => 'Reset password',
 				'class' => 'btn btn-default'
