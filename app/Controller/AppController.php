@@ -176,6 +176,11 @@ class AppController extends Controller {
      * Code harvested from /Plugin/Stripe/Controller/Component/StripeComponent.php and adapted to Stripe_Charge::retrieve()
      */
     protected function __retrieveCharge($charge_id) {
+        if (! in_array('Stripe.Stripe', $this->components)) {
+            $this->Stripe = $this->Components->load('Stripe.Stripe');
+            $this->Stripe->startup($this);
+        }
+
         $error = null;
         try {
             Stripe::setApiKey($this->Stripe->key);
