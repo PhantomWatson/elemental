@@ -142,19 +142,21 @@
 								</li>
 								<li>
 									<?php
-										$warning = 'Are you sure you want to cancel this course?';
-										if ($class_list_count) {
-											$warning .= ' '.$class_list_count.__n(' student is', ' students are', $class_list_count).' already registered for it and they will receive no notification that the course has been canceled.';
+                                        if ($course['Course']['begins'] <= date('Y-m-d')) {
+                                            $warning = 'Are you sure you want to cancel this course?';
+                                            if ($class_list_count) {
+                                                $warning .= ' '.$class_list_count.__n(' student is', ' students are', $class_list_count).' already registered for it and they will receive no notification that the course has been canceled.';
+                                            }
+    										echo $this->Form->postLink(
+    											'Cancel Course',
+    											array(
+    												'action' => 'delete',
+    												'id' => $course['Course']['id']
+    											),
+											    null,
+    											$warning
+    										);
 										}
-										echo $this->Form->postLink(
-											'Cancel Course',
-											array(
-												'action' => 'delete',
-												'id' => $course['Course']['id']
-											),
-											null,
-											$warning
-										);
 									?>
 								</li>
 							</ul>
