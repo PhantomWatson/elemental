@@ -18,7 +18,7 @@
                                         Elemental Sexual Assault Protection
                                     </a>
                                 </h1>
-                                <hr style="margin-top: 20px; margin-bottom: 20px; border: 0; border-top: 1px solid #eee;"/>
+                                <hr style="margin-top: 20px; margin-bottom: 20px; border: 0; border-top: 1px solid #eee;" />
                                 <?php echo $this->fetch('content'); ?>
                             </td>
                         </tr>
