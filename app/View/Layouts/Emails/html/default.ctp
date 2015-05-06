@@ -6,7 +6,7 @@
 	    </title>
 	</head>
 	<body>
-        <table cellspacing="0" cellpadding="0" border="0" width="100%" id="email">
+        <table cellspacing="0" cellpadding="0" border="0" width="100%">
             <tr>
                 <td align="center">
                     <table cellspacing="0" cellpadding="0" border="0" width="600px">
