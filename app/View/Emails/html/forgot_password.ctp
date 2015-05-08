@@ -1,6 +1,6 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr>
-        <td colspan="2">
+        <td>
             <p style="margin: 16px 0;">
                 <strong>
                     <?php echo h($user['User']['name']); ?>,
