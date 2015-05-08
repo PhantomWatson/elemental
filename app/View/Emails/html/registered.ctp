@@ -1,12 +1,12 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr>
         <td colspan="2">
-            <p>
+            <p style="margin: 16px 0;">
                 <strong>
                     <?php echo h($student['User']['name']); ?>,
                 </strong>
             </p>
-            <p>
+            <p style="margin: 16px 0;">
                 <?php $action = $registration['CourseRegistration']['waiting_list'] ? 'added to the waiting list' : 'registered'; ?>
                 You have been <?php echo $action; ?> for <a href="<?php echo $course_view_url; ?>">an upcoming Elemental sexual assault protection course</a>.
 
@@ -23,7 +23,7 @@
             <strong>
                 <?php echo __n('Date', 'Dates', count($course['CourseDate'])); ?>
             </strong>
-            <ul style="padding-left: 20px;">
+            <ul style="margin: 0; padding-left: 20px;">
                 <?php foreach ($course['CourseDate'] as $course_date): ?>
                     <li style="list-style-type: none;">
                         <?php echo date('l, F j, Y', strtotime($course_date['date'])); ?>
@@ -37,7 +37,7 @@
             <strong>
                 Location
             </strong>
-            <address style="padding-left: 20px;">
+            <address style="font-style: normal; padding-left: 20px;">
                 <?php echo h($course['Course']['location']); ?>
                 <br />
                 <?php echo nl2br(h($course['Course']['address'])); ?>
@@ -54,7 +54,7 @@
                 <h3>
                     A Message From the Instructor
                 </h3>
-                <p>
+                <p style="margin: 16px 0;">
                     <?php echo $course['Course']['message']; ?>
                 </p>
             <?php endif; ?>
@@ -62,7 +62,7 @@
             <hr style="margin-top: 20px; margin-bottom: 20px; border: 0; border-top: 1px solid #eee;" />
 
             <h3>Cancellation</h3>
-            <p>
+            <p style="margin: 16px 0;">
                 <?php
                     if ($registration['CourseRegistration']['waiting_list']) {
                         $cancelling = 'removing yourself from the waiting list';
@@ -77,7 +77,7 @@
                     If you cancel your registration, you will still be able to re-register up until <?php echo date('F j, Y', strtotime($course['Course']['deadline'])); ?>.
                 <?php endif; ?>
                 <br />
-                <a href="<?php echo $unreg_url; ?>" style="background-color: #d9534f; border-color: #d43f3a; border-radius: border-radius: 4px; color: #fff; display: inline-block; padding: 6px 12px; vertical-align: middle;">
+                <a href="<?php echo $unreg_url; ?>" style="background-color: #d9534f; border-color: #d43f3a; border-radius: 4px; color: #fff; display: inline-block; padding: 6px 12px; text-decoration: none; vertical-align: middle;">
                     <?php echo $button_label; ?>
                 </a>
             </p>
@@ -86,7 +86,7 @@
                 <hr style="margin-top: 20px; margin-bottom: 20px; border: 0; border-top: 1px solid #eee;" />
 
                 <h3>Logging In</h3>
-                <p>
+                <p style="margin: 16px 0;">
                     You can
                     <a href="<?php echo $login_url; ?>">log in to the Elemental website</a>
                     with the email address
