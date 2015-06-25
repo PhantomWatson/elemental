@@ -11,6 +11,15 @@
 		)
 	);
 
+    echo $this->Html->link(
+        '<span class="glyphicon glyphicon-comment"></span> Elemental Blog',
+        'https://elementalprotection.wordpress.com/',
+        array(
+            'class' => 'btn btn-primary btn-block btn-large col-xs-12 col-sm-5',
+            'escape' => false
+        )
+    );
+
 	echo $this->Html->link(
 		'<span class="glyphicon glyphicon-play"></span> Student Review Materials',
 		array(
