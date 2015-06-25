@@ -1,21 +1,33 @@
 <?php
 	echo $this->Html->link(
-		'<span class="glyphicon glyphicon-info-sign"></span> Learn More',
+		'<span class="glyphicon glyphicon-info-sign"></span> About',
 		array(
 			'controller' => 'pages',
 			'action' => 'about_intro'
 		),
 		array(
-			'class' => 'btn btn-primary btn-block btn-large col-xs-12 col-sm-6',
+			'class' => 'btn btn-primary btn-large col-xs-12 col-sm-3',
 			'escape' => false
 		)
 	);
 
     echo $this->Html->link(
-        '<span class="glyphicon glyphicon-comment"></span> Elemental Blog',
+        '<span class="glyphicon glyphicon-info-sign"></span> FAQ',
+        array(
+            'controller' => 'pages',
+            'action' => 'faq'
+        ),
+        array(
+            'class' => 'btn btn-primary btn-large col-xs-12 col-sm-4 col-sm-offset-1',
+            'escape' => false
+        )
+    );
+
+    echo $this->Html->link(
+        '<span class="glyphicon glyphicon-comment"></span> Blog',
         'https://elementalprotection.wordpress.com/',
         array(
-            'class' => 'btn btn-primary btn-block btn-large col-xs-12 col-sm-6',
+            'class' => 'btn btn-primary btn-large col-xs-12 col-sm-3 col-sm-offset-1',
             'escape' => false
         )
     );
