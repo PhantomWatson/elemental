@@ -17,5 +17,14 @@
     For a very limited time during the summer of 2015, we are offering an instructor certification special. For $225, instructors-in-training will have access to all online certification training materials required for the first phase of certification. This represents a substantial discount from our standard minimum certification fee of $575. Please note that this price does not include any costs that might be incurred for face-to-face final testing, yearly rental of the multimedia module that is used to teach the program, or other costs incurred by you or your institution as part of offering the program.
 </p>
 <p>
-    To learn more about the certification process and how it can be tailored to the needs of you or your institution, please see our FAQ ((insert link)). If you would like to begin your certification process or have additional questions, please contact us ((insert link)) for details.
+    To learn more about the certification process and how it can be tailored to the needs of you or your institution, please see our
+    <?php echo $this->Html->link(
+        'FAQ',
+        array('controller' => 'pages', 'action' => 'faq', 'instructor' => false)
+    ); ?>.
+    If you would like to begin your certification process or have additional questions, please
+    <?php echo $this->Html->link(
+        'contact us',
+        array('controller' => 'pages', 'action' => 'contact', 'instructor' => false)
+    ); ?> for details.
 </p>
