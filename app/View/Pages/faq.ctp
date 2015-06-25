@@ -481,3 +481,15 @@
         </p>
     </dd>
 </dl>
+
+<?php $this->Html->script('vendor/jquery.scrollTo.min.js', array('inline' => false)); ?>
+<?php $this->Js->buffer("
+    $('ul.faq a').click(function (event) {
+        event.preventDefault();
+        var target = $(this).attr('href').replace('#', '#faq_');
+        $(window).scrollTo($(target), 1000, {
+            interrupt: true,
+            offset: -70,
+        });
+    });
+"); ?>
