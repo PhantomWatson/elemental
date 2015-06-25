@@ -20,13 +20,13 @@
 			</p>
 			<ul>
 				<li>
-					Combines the best of classroom education and self-defense training in a program <a href="http://jax.sagepub.com/site/misc/Index/Podcasts.xhtml">with proven long-term effectiveness</a>.
+					Combines the best of classroom education and self-defense training in a program <a href="http://jax.sagepub.com/site/misc/Index/Podcasts.xhtml">with peer-reviewed evidence of long-term effectiveness</a>.
 				</li>
 				<li>
  					Offers an organized, cost-effective, and holistic curriculum that is grounded in social science research and is inclusive of a variety of participants, including gender and sexual minorities (GSM).
 				</li>
 				<li>
-					Assists your institution in filling the most recent requirements of the <a href="http://media.wix.com/ugd/c62206_3b605aa14dc748d39efef9add87bedb1.pdf">Violence Against Women Act (including the SaVE Act)</a>. Elemental is a primary prevention and awareness program that offers face-to-face training and ongoing prevention through self-directed student review.
+					Assists your institution in filling the most recent requirements of the <a href="http://media.wix.com/ugd/c62206_3b605aa14dc748d39efef9add87bedb1.pdf">Violence Against Women Act (including the SaVE Act)</a>. Elemental combines some of the best elements of primary prevention and risk reduction programming. We offer face-to-face training and ongoing prevention through self-directed student review.
 				</li>
 				<li>
 					Provides program participants with choices in the way they respond to an assault, each based on the four elements of <a href="http://skhquest.com">To-Shin Do</a>. Our name comes from this element-based problem-solving paradigm.
