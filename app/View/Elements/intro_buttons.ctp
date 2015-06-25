@@ -6,7 +6,7 @@
 			'action' => 'about_intro'
 		),
 		array(
-			'class' => 'btn btn-primary btn-block btn-large col-xs-12 col-sm-5',
+			'class' => 'btn btn-primary btn-block btn-large col-xs-12 col-sm-6',
 			'escape' => false
 		)
 	);
@@ -15,7 +15,7 @@
         '<span class="glyphicon glyphicon-comment"></span> Elemental Blog',
         'https://elementalprotection.wordpress.com/',
         array(
-            'class' => 'btn btn-primary btn-block btn-large col-xs-12 col-sm-5',
+            'class' => 'btn btn-primary btn-block btn-large col-xs-12 col-sm-6',
             'escape' => false
         )
     );
@@ -40,7 +40,7 @@
 			'action' => 'certification'
 		),
 		array(
-			'class' => 'btn btn-primary btn-block btn-large col-xs-12 col-sm-5',
+			'class' => 'btn btn-primary btn-block btn-large col-xs-12 col-sm-6',
 			'escape' => false
 		)
 	);
