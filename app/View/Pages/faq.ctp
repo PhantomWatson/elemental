@@ -489,7 +489,7 @@
         var target = $(this).attr('href').replace('#', '#faq_');
         $(window).scrollTo($(target), 1000, {
             interrupt: true,
-            offset: -70,
+            offset: -90,
         });
     });
 "); ?>
