@@ -212,4 +212,9 @@ class PagesController extends AppController {
 		return $this->render('/Pages/home');
 	}
 
+    public function faq() {
+        $this->set(array(
+            'title_for_layout' => 'Frequently Asked Questions'
+        ));
+    }
 }
