@@ -68,3 +68,12 @@
 			'escape' => false
 		)
 	);
+
+    echo $this->Html->link(
+        '<i class="fa fa-facebook-official"></i> Like us on Facebook',
+        'https://www.facebook.com/pages/Elemental-Sexual-Assault-Protection/222075131179887?ref=hl',
+        array(
+            'class' => 'btn btn-primary btn-block btn-large col-xs-12 col-sm-6',
+            'escape' => false
+        )
+    );
