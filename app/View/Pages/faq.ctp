@@ -59,31 +59,12 @@
             </p>
         </blockquote>
         <p>
-            Sample of related citations:
+            See our
+            <?php echo $this->Html->link(
+                'list of peer-reviewed publications and scholarly presentations',
+                array('controller' => 'pages', 'action' => 'scholarly_work')
+            ); ?>.
         </p>
-        <ul>
-            <li>
-                2015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                Menning, Chadwick and Mellisa Holtzman.&nbsp; "Combining Primary Prevention and
-                Risk Reduction Approaches in Sexual Assault Programming." <i>Journal of
-                American College Health</i>. DOI: 10.1080/07448481.2015.1042881 Online first
-                at: <a href="http://dx.doi.org/10.1080/07448481.2015.1042881">http://dx.doi.org/10.1080/07448481.2015.1042881</a>
-            </li>
-            <li>
-                2015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                Holtzman, Mellisa and Chadwick Menning.&nbsp; "Integrating Experiential
-                Learning and Applied Research to Promote Student Learning and Faculty
-                Research."&nbsp; <i>College Teaching </i>63: 112-118. DOI:&nbsp;
-                10.1080/87567555.2015.1019825&nbsp; Online first at: <a href="http://www.tandfonline.com/eprint/XKib3DspBp9PhxKY2CM4/full">http://www.tandfonline.com/eprint/XKib3DspBp9PhxKY2CM4/full</a>
-            </li>
-            <li>
-                2014&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                Holtzman, Mellisa and Chadwick L. Menning. "A New Model for Sexual Assault
-                Protection: Creation and Initial Testing of Elemental<i>.</i>" <i>Journal of
-                Applied Social Sciences </i>DOI: 10.1177/1936724414536394.&nbsp; Online first
-                at: <a href="http://jax.sagepub.com/content/early/2014/06/11/1936724414536394">http://jax.sagepub.com/content/early/2014/06/11/1936724414536394</a>
-            </li>
-        </ul>
     </dd>
 
 
