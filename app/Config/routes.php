@@ -3,7 +3,7 @@
 	Router::connect('/clear_cache',	array('controller' => 'pages', 'action' => 'clear_cache'));
 
 	// Pages
-	$actions = array('contact', 'terms', 'privacy', 'booking', 'faq');
+	$actions = array('contact', 'terms', 'privacy', 'booking', 'faq', 'scholarly_work');
 	foreach ($actions as $action) {
 		Router::connect("/$action",	array('controller' => 'pages', 'action' => $action));
 	}

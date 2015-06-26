@@ -217,4 +217,10 @@ class PagesController extends AppController {
             'title_for_layout' => 'Frequently Asked Questions'
         ));
     }
+
+    public function scholarly_work() {
+        $this->set(array(
+            'title_for_layout' => 'Scholarly Work'
+        ));
+    }
 }
