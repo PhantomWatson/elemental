@@ -20,7 +20,11 @@
 			</p>
 			<ul>
 				<li>
-					Combines the best of classroom education and self-defense training in a program <a href="http://jax.sagepub.com/site/misc/Index/Podcasts.xhtml">with peer-reviewed evidence of long-term effectiveness</a>.
+					Combines the best of classroom education and self-defense training in a program
+					<?php echo $this->Html->link(
+					   'with peer-reviewed evidence of long-term effectiveness',
+					   array('controller' => 'pages', 'action' => 'scholarly_work')
+				   ); ?>.
 				</li>
 				<li>
  					Offers an organized, cost-effective, and holistic curriculum that is grounded in social science research and is inclusive of a variety of participants, including gender and sexual minorities (GSM).
