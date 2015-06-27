@@ -121,8 +121,12 @@
             program. Each instructor rents the multimedia module that is used to teach the
             program for $150/year. Student review materials are $20 each and are mandatory
             for each program participant. We offer volume discount pricing for both instructor
-            certifications and for student review materials. Please contact us for details.
-            Also note that instructors or the institutions for whom they offer Elemental as
+            certifications and for student review materials. Please
+            <?php echo $this->Html->link(
+                'contact us',
+                array('controller' => 'pages', 'action' => 'contact')
+            ); ?>
+            for details. Also note that instructors or the institutions for whom they offer Elemental as
             part of their employment with that institution <strong>must be covered by
             appropriate insurance</strong>.
         </p>
@@ -131,8 +135,12 @@
             are set by that instructor. The fee to bring Drs. Holtzman and Menning to your
             institution and present the seminar currently typically ranges from $1500 to
             about $4000 depending on travel costs and the availability of local equipment
-            and volunteers to assist with in-classroom training. Please contact us for
-            details.
+            and volunteers to assist with in-classroom training. Please
+            <?php echo $this->Html->link(
+                'contact us',
+                array('controller' => 'pages', 'action' => 'contact')
+            ); ?>
+            for details.
         </p>
     </dd>
 
@@ -194,7 +202,12 @@
         </ul>
 
         <p>
-            We offer reduced-rate certification for those with backgrounds in To-Shin Do; contact us for details.
+            We offer reduced-rate certification for those with backgrounds in To-Shin Do;
+            <?php echo $this->Html->link(
+                'contact us',
+                array('controller' => 'pages', 'action' => 'contact')
+            ); ?>
+            for details.
         </p>
     </dd>
 
