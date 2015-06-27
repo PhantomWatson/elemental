@@ -289,6 +289,9 @@
             <li>
                 Basic first aid kit ($20)
             </li>
+            <li>
+                Insurance (Costs vary. Instructors teaching Elemental as part of regular job duties at an institution may already be covered by their institution’s policy. Independent instructors must carry appropriate liability coverage as a condition of their certification.)
+            </li>
         </ul>
         <p>
             We also recommend 1 very well-padded couch for every 10 students, water, cups, snacks, nametag stickers, pens, and related incidentals.
