@@ -120,9 +120,11 @@
             course at least once every 12 months and follows other standards set by the
             program. Each instructor rents the multimedia module that is used to teach the
             program for $150/year. Student review materials are $20 each and are mandatory
-            for each program participant. We offer volume discount pricing for both
-            instructor certifications and for student review materials. Please contact us
-            for details.
+            for each program participant. We offer volume discount pricing for both instructor
+            certifications and for student review materials. Please contact us for details.
+            Also note that instructors or the institutions for whom they offer Elemental as
+            part of their employment with that institution <strong>must be covered by
+            appropriate insurance</strong>.
         </p>
         <p>
             If you opt to bring in an independent instructor, fees
