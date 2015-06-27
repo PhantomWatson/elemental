@@ -24,7 +24,7 @@
 <ul class="faq">
     <?php foreach ($faq as $question => $shortcut): ?>
         <li>
-            <a href="#<?php echo $shortcut; ?>">
+            <a href="#faq_<?php echo $shortcut; ?>">
                 <?php echo $question; ?>
             </a>
         </li>
@@ -467,10 +467,7 @@
 <?php $this->Js->buffer("
     $('ul.faq a').click(function (event) {
         event.preventDefault();
-        var target = $(this).attr('href').replace('#', '#faq_');
-        $(window).scrollTo($(target), 1000, {
-            interrupt: true,
-            offset: -90,
-        });
+        var target = $(this).attr('href');
+        $(window).scrollTo($(target), 1000);
     });
 "); ?>
