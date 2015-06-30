@@ -45,6 +45,7 @@ class AlertComponent extends Component {
 				$this->__refreshInstructorReportAttendance();
 				break;
 		}
+        $this->setAlerts();
 	}
 
 	protected function __refreshAdminTestimonials() {
