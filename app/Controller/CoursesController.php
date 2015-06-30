@@ -164,7 +164,7 @@ class CoursesController extends AppController {
 			'conditions' => array(
 				'Course.begins >=' => date('Y-m-d')
 			),
-			'order' => array('Course.begins ASC'),
+			'order' => array('Course.begins' => 'ASC'),
 			'limit' => 10
 		);
 		$courses = $this->paginate();
