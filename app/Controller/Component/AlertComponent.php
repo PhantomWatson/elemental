@@ -83,7 +83,8 @@ class AlertComponent extends Component {
 		$instructor_id = $this->Auth->user('id');
 		$Course = ClassRegistry::init('Course');
 		$course_id = $Course->instructorCanReportAttendance($instructor_id);
-		if ($course_id && ! empty($Course->getClassList($course_id))) {
+        $class_list = $Course->getClassList($course_id);
+		if ($course_id && ! empty($class_list)) {
 			$url = Router::url(array(
 				'controller' => 'courses',
 				'action' => 'report_attendance',
