@@ -88,8 +88,7 @@ class TestimonialsController extends AppController {
 			}
 		}
 
-		$user_roles = $this->__getUserRoles();
-		$is_staff = in_array('instructor', $user_roles) || in_array('admin', $user_roles);
+		$is_staff = $this->User->hasRole($user_id, 'instructor') || $this->User->hasRole($user_id, 'admin');
 		$this->set(array(
 			'title_for_layout' => 'Submit a Testimonial',
 			'is_student' => $this->User->hasRole($user_id, 'student'),
