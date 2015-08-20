@@ -120,9 +120,12 @@ class TestimonialsController extends AppController {
 			$this->request->data = $this->Testimonial->read(null, $id);
 		}
 		$this->loadModel('User');
+        $user_id = $this->Auth->user('id');
+        $is_staff = $this->User->hasRole($user_id, 'instructor') || $this->User->hasRole($user_id, 'admin');
 		$this->set(array(
 			'title_for_layout' => 'Edit Testimonial',
-			'is_student' => $this->User->hasRole($user_id, 'student')
+			'is_student' => $this->User->hasRole($user_id, 'student'),
+			'is_staff' => $is_staff
 		));
 		$this->render('form');
 	}
