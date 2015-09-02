@@ -123,5 +123,7 @@
 		array('user_id' => '[0-9]+', 'pass' => array('user_id'))
 	);
 
+	Router::redirect("/app/webroot/*", array('controller' => 'pages', 'action' => 'home'), array('status' => 301));
+
 	CakePlugin::routes();
 	require CAKE . 'Config' . DS . 'routes.php';
