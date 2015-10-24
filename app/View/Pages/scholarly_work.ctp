@@ -6,7 +6,7 @@
 
 <section class="scholarly">
     <h2>
-        Published or Forthcoming Peer-Reviewed Work on Elemental
+        Published or Forthcoming Work on Elemental
     </h2>
 
     <ul>
@@ -16,15 +16,19 @@
             DOI: 10.1080/07448481.2015.1042881 Online first at: <a href="http://dx.doi.org/10.1080/07448481.2015.1042881">http://dx.doi.org/10.1080/07448481.2015.1042881</a>
         </li>
         <li>
-            Holtzman, Mellisa and Chadwick Menning. (2015). Integrating Experiential Learning and Applied Research to Promote Student Learning and Faculty
-            Research.  <i>College Teaching </i>63: 112-118. DOI:  10.1080/87567555.2015.1019825
-            Online first at: <a href="http://www.tandfonline.com/eprint/XKib3DspBp9PhxKY2CM4/full">http://www.tandfonline.com/eprint/XKib3DspBp9PhxKY2CM4/full</a>
+            Holtzman, Mellisa and Chadwick Menning. (2015). "Primary Prevention and Risk Reduction Programming for
+            College-Level Sexual Assault Prevention:  Illustrating the Benefits of a Combined Approach"
+            eJournal of Public Affairs 4: 12-38.
+            Open access journal: <a href="http://ejopa.missouristate.edu/index.php/ejournal/issue/view/12">http://ejopa.missouristate.edu/index.php/ejournal/issue/view/12</a>
+        </li>
+        <li>
+            Holtzman, Mellisa and Chadwick Menning. (2015). Integrating Experiential Learning and
+            Applied Research to Promote Student Learning and Faculty Research.  <i>College Teaching</i> 63: 112-118.
         </li>
         <li>
             <p>
-                Holtzman, Mellisa and Chadwick L. Menning. (2015). A New Model for Sexual Assault Protection: Creation and
-                Initial Testing of Elemental. <i>Journal of Applied Social Sciences</i>
-                DOI: 10.1177/1936724414536394.  Online first at: <a href="http://jax.sagepub.com/content/early/2014/06/11/1936724414536394">http://jax.sagepub.com/content/early/2014/06/11/1936724414536394</a>
+                Holtzman, Mellisa and Chadwick L. Menning. (2015). A New Model for Sexual Assault Protection:
+                Creation and Initial Testing of Elemental. <i>Journal of Applied Social Sciences</i> 9: 139-155.
             </p>
             <p>
                 To listen to a podcast associated with this article, please visit the following link: <a href="http://jax.sagepub.com/site/misc/Index/Podcasts.xhtml">http://jax.sagepub.com/site/misc/Index/Podcasts.xhtml</a>
@@ -39,6 +43,14 @@
     </h2>
 
     <ul>
+        <li>
+            <p>
+                Holtzman, Mellisa and Chadwick Menning. (Forthcoming). "Primary Prevention and Risk Reduction Programming for College-Level Sexual Assault Prevention:  Illustrating the Benefits of a Combined Approach."  Heartland Campus Safety Summit, Overland Park, KS.
+            </p>
+            <p>
+                Invited speakers at a conference on campus safety and gender-based violence prevention
+            </p>
+        </li>
         <li>
             Menning, Chadwick L., and Mellisa Holtzman. (2015). "Combining Primary
             Prevention and Risk Reduction Approaches in Sexual Assault Programming." Annual
