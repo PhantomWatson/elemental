@@ -79,7 +79,7 @@
 					<?php foreach ($more_articles as $a): ?>
 						<li>
 							<?php echo $this->Html->link(
-								h($a['Article']['title']),
+								$a['Article']['title'],
 								array(
 									'controller' => 'articles',
 									'action' => 'view',
