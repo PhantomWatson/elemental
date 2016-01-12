@@ -54,7 +54,14 @@
 		<div class="<?php echo empty($more_articles) ? 'col-lg-12' : 'col-lg-9'; ?>">
 			<h2>Latest News</h2>
 			<h3>
-				<?php echo $article['Article']['title']; ?>
+				<?php echo $this->Html->link(
+                    $article['Article']['title'],
+                    array(
+                        'controller' => 'articles',
+                        'action' => 'view',
+                        'id' => $article['Article']['id']
+                    )
+                ); ?>
 			</h3>
 
 			<p class="article_posted_time">
