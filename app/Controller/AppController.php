@@ -47,7 +47,13 @@ class AppController extends Controller {
 				)
 			),
 			'authorize' => array('Controller'),
-			'authError' => 'Please log in to access that page'
+			'authError' => 'Please log in to access that page',
+			'loginAction' => array(
+			    'admin' => false,
+			    'instructor' => false,
+                'controller' => 'users',
+                'action' => 'login'
+            ),
 		),
 		'Cookie',
 		'Alert'
