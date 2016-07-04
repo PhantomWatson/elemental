@@ -210,9 +210,18 @@ class ProductsController extends AppController {
 			));
 		}
 
-		$expiration = $this->Product->getClassroomModuleAccessExpiration($user_id);
-		$expired = $expiration > time();
+        $this->loadModel('Product');
+        $product_id = $this->Product->getProductId('classroom module');
         $this->loadModel('User');
+        $has_purchased = $this->User->hasPurchased($user_id, $product_id);
+        if ($has_purchased) {
+            $expiration = $this->Product->getClassroomModuleAccessExpiration($user_id);
+            $expired = $expiration < time();
+        } else {
+            $expiration = null;
+            $expired = null;
+        }
+
         $has_upcoming_course = $this->User->hasUpcomingCourse($user_id);
         $is_admin = $this->User->hasRole($user_id, 'admin');
 
@@ -224,27 +233,19 @@ class ProductsController extends AppController {
             ));
         }
 
+		$product_id = $this->Product->getProductId('classroom module');
+		$this->Product->id = $product_id;
+		$this->loadModel('User');
+		$this->User->id = $user_id;
 		$this->set(array(
-			'title_for_layout' => 'Classroom Module',
-			'expired' => $expired,
-			'expiration' => $expiration,
-			'user_id' => $user_id
+		    'title_for_layout' => 'Classroom Module',
+            'expired' => $expired,
+            'expiration' => $expiration,
+            'has_purchased' => $has_purchased,
+            'user_id' => $user_id,
+			'cost' => $this->Product->field('cost'),
+			'email' => $this->User->field('email')
 		));
-
-		if ($can_access) {
-			$this->set(array(
-				'warn' => $expiration < strtotime('+30 days')
-			));
-		} else {
-			$product_id = $this->Product->getProductId('classroom module');
-			$this->Product->id = $product_id;
-			$this->loadModel('User');
-			$this->User->id = $user_id;
-			$this->set(array(
-				'cost' => $this->Product->field('cost'),
-				'email' => $this->User->field('email')
-			));
-		}
 	}
 
 	public function instructor_transfer_srm() {
