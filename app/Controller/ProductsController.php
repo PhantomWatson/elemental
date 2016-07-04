@@ -212,6 +212,17 @@ class ProductsController extends AppController {
 
 		$expiration = $this->Product->getClassroomModuleAccessExpiration($user_id);
 		$expired = $expiration > time();
+        $this->loadModel('User');
+        $has_upcoming_course = $this->User->hasUpcomingCourse($user_id);
+        $is_admin = $this->User->hasRole($user_id, 'admin');
+
+        if (! ($expired || $has_upcoming_course || $is_admin)) {
+            $this->Flash->error('Schedule an upcoming course in order to access the Elemental classroom module.');
+            $this->redirect(array(
+                'controller' => 'courses',
+                'action' => 'add'
+            ));
+        }
 
 		$this->set(array(
 			'title_for_layout' => 'Classroom Module',

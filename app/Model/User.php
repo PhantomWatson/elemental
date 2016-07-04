@@ -556,4 +556,26 @@ class User extends AppModel {
 		$name_split = explode(' ', $name);
 		return $name_split[0];
 	}
+
+    /**
+     * Returns true if the user is the instructor of a course
+     * taking place on or after today
+     *
+     * @param int $instructor_id
+     * @return bool
+     */
+    public function hasUpcomingCourse($instructor_id) {
+        App::import('Model', 'Course');
+        $Course = new Course();
+        $count = $Course->find(
+            'count',
+            array(
+                'conditions' => array(
+                    'Course.user_id' => $instructor_id,
+                    'Course.begins >=' => date('Y-m-d')
+                )
+            )
+        );
+        return $count > 0;
+    }
 }
