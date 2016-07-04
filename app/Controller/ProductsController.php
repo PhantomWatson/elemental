@@ -211,11 +211,11 @@ class ProductsController extends AppController {
 		}
 
 		$expiration = $this->Product->getClassroomModuleAccessExpiration($user_id);
-		$can_access = $expiration > time();
+		$expired = $expiration > time();
 
 		$this->set(array(
 			'title_for_layout' => 'Classroom Module',
-			'can_access' => $can_access,
+			'expired' => $expired,
 			'expiration' => $expiration,
 			'user_id' => $user_id
 		));
