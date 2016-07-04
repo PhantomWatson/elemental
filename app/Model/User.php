@@ -268,6 +268,9 @@ class User extends AppModel {
 	}
 
 	public function canAccessInstructorTraining($user_id = null) {
+	    if ($this->hasRole($user_id, 'admin')) {
+            return true;
+        }
 		if (! $user_id || ! $this->hasSubmittedRelease($user_id)) {
 			return false;
 		}
@@ -535,6 +538,9 @@ class User extends AppModel {
 	}
 
 	public function canAccessClassroomModule($user_id) {
+	    if ($this->hasRole($user_id, 'admin')) {
+	        return true;
+        }
 		App::import('Model','Product');
 		$Product = new Product();
 		$expiration = $Product->getClassroomModuleAccessExpiration($user_id);
