@@ -74,6 +74,7 @@
 				<?php echo $this->Html->link(
 					'Terms',
 					array(
+					    $this->params['prefix'] => false,
 						'controller' => 'pages',
 						'action' => 'terms'
 					)
@@ -81,6 +82,7 @@
 				<?php echo $this->Html->link(
 					'Privacy',
 					array(
+					    $this->params['prefix'] => false,
 						'controller' => 'pages',
 						'action' => 'privacy'
 					)
