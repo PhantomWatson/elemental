@@ -125,5 +125,15 @@
 
 	Router::redirect("/app/webroot/*", array('controller' => 'pages', 'action' => 'home'), array('status' => 301));
 
+    $attackTargets = array(
+        '/wp-admin/admin-ajax.php',
+        '/wp-login.php',
+        '/index.php/component/users/*',
+        '/component/users/*'
+    );
+    foreach ($attackTargets as $path) {
+        Router::redirect($path, array('controller' => 'pages', 'action' => 'home'), array('status' => 404));
+    }
+
 	CakePlugin::routes();
 	require CAKE . 'Config' . DS . 'routes.php';
