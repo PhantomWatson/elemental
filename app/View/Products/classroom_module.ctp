@@ -2,7 +2,7 @@
 	<?php echo $title_for_layout; ?>
 </h1>
 
-<?php if ($expired): ?>
+<?php if ($expired && ! $is_admin): ?>
 
     <?php if ($expiration): ?>
         <div class="alert alert-danger" role="alert">
@@ -13,7 +13,7 @@
 
     <?php echo $this->element('purchase_classroom_module'); ?>
 
-<?php elseif (! $has_purchased): ?>
+<?php elseif (! $has_purchased && ! $is_admin): ?>
 
     <div class="alert alert-info" role="alert">
         Please purchase the Elemental Classroom Module to continue.
@@ -23,7 +23,7 @@
 
 <?php else: ?>
 
-	<?php if ($expiration < strtotime('+30 days')): ?>
+	<?php if ($expiration < strtotime('+30 days') && ! $is_admin): ?>
         <div class="alert alert-warning alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert">
                 <span aria-hidden="true">&times;</span>

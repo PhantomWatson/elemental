@@ -202,7 +202,8 @@ class ProductsController extends AppController {
 		$user_id = $this->Auth->user('id');
 
 		$this->loadModel('InstructorAgreement');
-		if (! $this->InstructorAgreement->hasAgreed($user_id)) {
+        $is_admin = $this->User->hasRole($user_id, 'admin');
+		if (! $is_admin && ! $this->InstructorAgreement->hasAgreed($user_id)) {
 			$this->Flash->error('Before accessing the classroom module, you must first agree to the Certified Elemental Instructor License Agreement.');
 			$this->redirect(array(
 				'controller' => 'instructor_agreements',
@@ -223,8 +224,6 @@ class ProductsController extends AppController {
         }
 
         $has_upcoming_course = $this->User->hasUpcomingCourse($user_id);
-        $is_admin = $this->User->hasRole($user_id, 'admin');
-
         if (! ($expired || $has_upcoming_course || $is_admin)) {
             $this->Flash->error('Schedule an upcoming course in order to access the Elemental classroom module.');
             $this->redirect(array(
@@ -242,6 +241,7 @@ class ProductsController extends AppController {
             'expired' => $expired,
             'expiration' => $expiration,
             'has_purchased' => $has_purchased,
+            'is_admin' => $is_admin,
             'user_id' => $user_id,
 			'cost' => $this->Product->field('cost'),
 			'email' => $this->User->field('email')
