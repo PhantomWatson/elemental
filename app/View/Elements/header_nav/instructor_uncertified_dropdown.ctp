@@ -8,9 +8,14 @@
 			Certification expired
 		</li>
 		<li>
-			<a href="#">
-				Get recertified
-			</a>
+		    <?php echo $this->Html->link(
+                'Contact us to get recertified',
+                array(
+                    'controller' => 'pages',
+                    'action' => 'contact',
+                    $this->params['prefix'] => false
+                )
+            ); ?>
 		</li>
 	</ul>
 </li>

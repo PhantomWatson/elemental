@@ -1,15 +1,36 @@
 <?php
 	echo $this->Html->link(
-		'<span class="glyphicon glyphicon-info-sign"></span> Learn More',
+		'<span class="glyphicon glyphicon-info-sign"></span> About',
 		array(
 			'controller' => 'pages',
 			'action' => 'about_intro'
 		),
 		array(
-			'class' => 'btn btn-primary btn-block btn-large col-xs-12 col-sm-5',
+			'class' => 'btn btn-primary btn-large col-xs-12 col-sm-3',
 			'escape' => false
 		)
 	);
+
+    echo $this->Html->link(
+        '<span class="glyphicon glyphicon-info-sign"></span> FAQ',
+        array(
+            'controller' => 'pages',
+            'action' => 'faq'
+        ),
+        array(
+            'class' => 'btn btn-primary btn-large col-xs-12 col-sm-4 col-sm-offset-1',
+            'escape' => false
+        )
+    );
+
+    echo $this->Html->link(
+        '<span class="glyphicon glyphicon-comment"></span> Blog',
+        'https://elementalprotection.wordpress.com/',
+        array(
+            'class' => 'btn btn-primary btn-large col-xs-12 col-sm-3 col-sm-offset-1',
+            'escape' => false
+        )
+    );
 
 	echo $this->Html->link(
 		'<span class="glyphicon glyphicon-play"></span> Student Review Materials',
@@ -31,7 +52,7 @@
 			'action' => 'certification'
 		),
 		array(
-			'class' => 'btn btn-primary btn-block btn-large col-xs-12 col-sm-5',
+			'class' => 'btn btn-primary btn-block btn-large col-xs-12 col-sm-6',
 			'escape' => false
 		)
 	);
@@ -47,3 +68,12 @@
 			'escape' => false
 		)
 	);
+
+    echo $this->Html->link(
+        '<i class="fa fa-facebook-official"></i> Like us on Facebook',
+        'https://www.facebook.com/pages/Elemental-Sexual-Assault-Protection/222075131179887?ref=hl',
+        array(
+            'class' => 'btn btn-primary btn-block btn-large col-xs-12 col-sm-6',
+            'escape' => false
+        )
+    );

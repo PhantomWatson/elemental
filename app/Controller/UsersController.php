@@ -142,7 +142,7 @@ class UsersController extends AppController {
 			$this->loadModel('Role');
 			$this->request->data['Role']['id'] = $this->Role->getIdWithName('student');
 
-			if ($this->User->save($this->request->data)) {
+			if ($this->Recaptcha->verify() && $this->User->save($this->request->data)) {
 
 				// Format login data (so Session.Auth is populated and formatted correctly)
 				$user = $this->User->read();
@@ -173,6 +173,9 @@ class UsersController extends AppController {
 				}
 			} else {
 				$this->Flash->error('Please correct the indicated error(s).');
+                if ($this->Recaptcha->error) {
+                    $this->set('recaptcha_error', true);
+                }
 			}
 
 			// So the password field isn't filled out automatically when the user
@@ -265,7 +268,7 @@ class UsersController extends AppController {
 		}
 		if ($this->request->is('post')) {
 			$this->User->set($this->request->data);
-			if ($this->User->validates()) {
+			if ($this->Recaptcha->verify() && $this->User->validates()) {
 				App::uses('Security', 'Utility');
 				$hash = Security::hash($this->request->data['User']['new_password'], null, true);
 				$this->User->set('password', $hash);
@@ -275,7 +278,9 @@ class UsersController extends AppController {
 				} else {
 					$this->Flash->error('There was an error changing your password.');
 				}
-			}
+			} elseif ($this->Recaptcha->error) {
+                $this->set('recaptcha_error', true);
+            }
 			unset($this->request->data['User']['new_password']);
 			unset($this->request->data['User']['confirm_password']);
 		}

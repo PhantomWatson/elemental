@@ -6,12 +6,12 @@
 
 <p>
 	<?php echo $this->Html->link(
-		'<span class="glyphicon glyphicon-plus glyphicon-white"></span> Post New Article', 
+		'<span class="glyphicon glyphicon-plus glyphicon-white"></span> Post New Article',
 		array(
 			'action' => 'add'
 		),
 		array(
-			'escape' => false, 
+			'escape' => false,
 			'class' => 'btn btn-success'
 		)
 	); ?>
@@ -33,9 +33,9 @@
 				<tr>
 					<td>
 						<?php echo $this->Html->link(
-							h($article['Article']['title']), 
+							$article['Article']['title'],
 							array(
-								'action' => 'view', 
+								'action' => 'view',
 								'id' => $article['Article']['id']
 							)
 						); ?>
@@ -45,27 +45,27 @@
 					</td>
 					<td class="actions">
 						<?php echo $this->Html->link(
-							'Edit', 
+							'Edit',
 							array(
-								'action' => 'edit', 
+								'action' => 'edit',
 								'id' => $article['Article']['id']
 							),
 							array('class' => 'btn btn-info')
 						); ?>
 						<?php echo $this->Form->postLink(
-							'Delete', 
+							'Delete',
 							array(
-								'action' => 'delete', 
+								'action' => 'delete',
 								'id' => $article['Article']['id']
-							), 
-							array('class' => 'btn btn-danger'), 
+							),
+							array('class' => 'btn btn-danger'),
 							'Are you sure you want to delete this article?'
 						); ?>
 					</td>
 				</tr>
 			<?php endforeach; ?>
 		</table>
-	
+
 		<?php echo $this->element('pagination'); ?>
 	</div>
 <?php endif; ?>

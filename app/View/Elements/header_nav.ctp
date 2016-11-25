@@ -69,7 +69,13 @@
 					</li>
 				<?php endforeach; ?>
 
-				<li class="dropdown <?php echo (stripos($current_action, 'about') === 0) ? 'active' : ''; ?>">
+                <?php
+                    $about_page_active = stripos($current_action, 'about') === 0
+                        || stripos($current_action, 'faq') === 0
+                        || stripos($current_action, 'scholarly_work') === 0;
+                ?>
+
+				<li class="dropdown <?php echo $about_page_active ? 'active' : ''; ?>">
 					<?php echo $this->Html->link(
 						'About <b class="caret"></b>',
 						array(
@@ -124,6 +130,26 @@
 								)
 							); ?>
 						</li>
+						<li>
+                            <?php echo $this->Html->link(
+                                'Frequently Asked Questions',
+                                array(
+                                    'controller' => 'pages',
+                                    'action' => 'faq',
+                                    $this->params['prefix'] => false
+                                )
+                            ); ?>
+                        </li>
+                        <li>
+                            <?php echo $this->Html->link(
+                                'Scholarly Work',
+                                array(
+                                    'controller' => 'pages',
+                                    'action' => 'scholarly_work',
+                                    $this->params['prefix'] => false
+                                )
+                            ); ?>
+                        </li>
 					</ul>
 				</li>
 

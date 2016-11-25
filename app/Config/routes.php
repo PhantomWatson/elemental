@@ -3,7 +3,7 @@
 	Router::connect('/clear_cache',	array('controller' => 'pages', 'action' => 'clear_cache'));
 
 	// Pages
-	$actions = array('contact', 'terms', 'privacy', 'booking');
+	$actions = array('contact', 'terms', 'privacy', 'booking', 'faq', 'scholarly_work');
 	foreach ($actions as $action) {
 		Router::connect("/$action",	array('controller' => 'pages', 'action' => $action));
 	}
@@ -122,6 +122,18 @@
 		array('controller' => 'bios', 'action' => 'view'),
 		array('user_id' => '[0-9]+', 'pass' => array('user_id'))
 	);
+
+	Router::redirect("/app/webroot/*", array('controller' => 'pages', 'action' => 'home'), array('status' => 301));
+
+    $attackTargets = array(
+        '/wp-admin/admin-ajax.php',
+        '/wp-login.php',
+        '/index.php/component/users/*',
+        '/component/users/*'
+    );
+    foreach ($attackTargets as $path) {
+        Router::redirect($path, array('controller' => 'pages', 'action' => 'home'), array('status' => 404));
+    }
 
 	CakePlugin::routes();
 	require CAKE . 'Config' . DS . 'routes.php';

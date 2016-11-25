@@ -58,6 +58,102 @@ class CoursesController extends AppController {
 		return parent::isAuthorized($user);
 	}
 
+    /**
+     * Issue refunds to anyone who has paid for a course that was canceled by its instructor
+     */
+    private function __refundStudents($course_id) {
+        $this->loadModel('CoursePayment');
+        $payments = $this->CoursePayment->find(
+            'all',
+            array(
+                'conditions' => compact('course_id'),
+                'contain' => false,
+                'fields' => array(
+                    'id',
+                    'refunded',
+                    'order_id',
+                    'user_id'
+                )
+            )
+        );
+
+        $this->loadModel('CourseRegistration');
+        $this->loadModel('User');
+        foreach ($payments as $payment) {
+            // Payment was never made, or was already refunded
+            if ($payment['CoursePayment']['refunded']) {
+                continue;
+            }
+
+            $this->loadModel('Course');
+            $this->Course->id = $course_id;
+            $course_begins = $this->Course->field('begins');
+            $limit = $this->CourseRegistration->autoRefundDeadline;
+            $deadline = strtotime("$course_begins - $limit");
+
+            $this->loadModel('User');
+            $user_id = $payment['CoursePayment']['user_id'];
+            $user_name = $this->User->field('name', array('id' => $user_id));
+            $user_email = $this->User->field('email', array('id' => $user_id));
+            $refund_link = Router::url(array(
+                'admin' => true,
+                'controller' => 'course_payments',
+                'action' => 'index'
+            ));
+            $stripe_link = 'https://dashboard.stripe.com/dashboard';
+
+            $charge = $this->__retrieveCharge($payment['CoursePayment']['order_id']);
+            if (is_string($charge)) {
+                $this->Flash->error(
+                    "There was a problem refunding the registration payment made by $user_name (<a href=\"mailto:$user_email\">$user_email</a>). Charge information unavailable.".
+                    "You may need to <a href=\"$refund_link\">try again</a> or refund the student through the <a href=\"$stripe_link\">Stripe dashboard</a>."
+                );
+                continue;
+            }
+
+            $params = array(
+                'reason' => null,
+                'metadata' => array(
+                    'type' => 'Course registration cancellation automatic refund',
+                )
+            );
+
+            $student_id = $payment['CoursePayment']['user_id'];
+            $this->User->id = $student_id;
+            $student_name = $this->User->field('name');
+            $student_email = $this->User->field('email');
+            $params['metadata']['student'] = "$student_name, $student_email (#$student_id)";
+
+            $this->loadModel('Course');
+            $course_id = $this->CoursePayment->field('course_id');
+            $this->Course->id = $course_id;
+            $course_date = $this->Course->field('begins');
+            $params['metadata']['course'] = "$course_date (#$course_id)";
+
+            try {
+                $refund = $charge->refunds->create($params);
+            } catch (Exception $e) {
+                $this->Flash->error(
+                    "There was a problem refunding the registration payment made by $user_name (<a href=\"mailto:$user_email\">$user_email</a>). Refund attempt failed.".
+                    "You may need to <a href=\"$refund_link\">try again</a> or refund the student through the <a href=\"$stripe_link\">Stripe dashboard</a>."
+                );
+                continue;
+            }
+
+            if (is_string($refund)) {
+                $this->Flash->error(
+                    "There was a problem refunding the registration payment made by $user_name (<a href=\"mailto:$user_email\">$user_email</a>). Refund attempt failed.".
+                    "You may need to <a href=\"$refund_link\">try again</a> or refund the student through the <a href=\"$stripe_link\">Stripe dashboard</a>."
+                );
+                continue;
+            }
+
+            $this->Flash->success("Student $user_name ($user_email) will receive a registration payment refund in 5-10 business days.");
+            $this->CoursePayment->id = $payment['CoursePayment']['id'];
+            $this->CoursePayment->saveField('refunded', date('Y-m-d H:i:s'));
+        }
+    }
+
 /**
  * index method
  *
@@ -68,7 +164,7 @@ class CoursesController extends AppController {
 			'conditions' => array(
 				'Course.begins >=' => date('Y-m-d')
 			),
-			'order' => array('Course.begins ASC'),
+			'order' => array('Course.begins' => 'ASC'),
 			'limit' => 10
 		);
 		$courses = $this->paginate();
@@ -292,10 +388,13 @@ class CoursesController extends AppController {
 		}
 		if ($this->Course->delete()) {
 			$this->Flash->success('Course deleted');
-			$this->redirect(array('action' => 'manage'));
-		}
-		$this->Flash->error('Course was not deleted');
-		$this->redirect(array('action' => 'manage'));
+            $this->__refundStudents($id);
+            $this->Flash->manualOutput();
+            $this->set('title_for_layout', 'Course Deleted');
+		} else {
+		    $this->Flash->error('Course was not deleted');
+		    $this->redirect(array('action' => 'manage'));
+        }
 	}
 
 	public function register($course_id = null) {
@@ -576,9 +675,7 @@ class CoursesController extends AppController {
 			$this->Course->sendSrmAvailableEmails($course_id);
 			$this->Course->saveField('attendance_reported', true);
 			$this->Flash->success('Attendance reported.');
-			if ($this->Cookie->check('alerts.instructor_attendance')) {
-				$this->Cookie->delete('alerts.instructor_attendance');
-			}
+			$this->Alert->refresh('instructor_report_attendance');
 
 			// Update instructor certification expiration date
 			$course_end_date = $this->Course->getEndDate($course_id);
@@ -613,6 +710,8 @@ class CoursesController extends AppController {
 
 			$this->request->data = array();
 		}
+
+		$this->Alert->refresh('instructor_report_attendance');
 
 		$this->set(array(
 			'title_for_layout' => 'Report Attendance',

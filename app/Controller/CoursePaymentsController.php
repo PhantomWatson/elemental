@@ -72,60 +72,6 @@ class CoursePaymentsController extends AppController {
 		$this->redirect($this->request->referer());
 	}
 
-	/**
-	 * Code harvested from /Plugin/Stripe/Controller/Component/StripeComponent.php and adapted to Stripe_Charge::retrieve()
-	 */
-	private function __retrieveCharge($charge_id) {
-		$error = null;
-		try {
-			Stripe::setApiKey($this->Stripe->key);
-			$charge = Stripe_Charge::retrieve($charge_id);
-
-		} catch(Stripe_CardError $e) {
-			$body = $e->getJsonBody();
-			$err = $body['error'];
-			CakeLog::error(
-				'Charge::Stripe_CardError: ' . $err['type'] . ': ' . $err['code'] . ': ' . $err['message'],
-				'stripe'
-			);
-			$error = $err['message'];
-
-		} catch (Stripe_InvalidRequestError $e) {
-			$body = $e->getJsonBody();
-			$err = $body['error'];
-			CakeLog::error(
-				'Charge::Stripe_InvalidRequestError: ' . $err['type'] . ': ' . $err['message'],
-				'stripe'
-			);
-			$error = $err['message'];
-
-		} catch (Stripe_AuthenticationError $e) {
-			CakeLog::error('Charge::Stripe_AuthenticationError: API key rejected!', 'stripe');
-			$error = 'Payment processor API key error.';
-
-		} catch (Stripe_ApiConnectionError $e) {
-			CakeLog::error('Charge::Stripe_ApiConnectionError: Stripe could not be reached.', 'stripe');
-			$error = 'Network communication with payment processor failed, try again later';
-
-		} catch (Stripe_Error $e) {
-			CakeLog::error('Charge::Stripe_Error: Stripe could be down.', 'stripe');
-			$error = 'Payment processor error, try again later.';
-
-		} catch (Exception $e) {
-			CakeLog::error('Charge::Exception: Unknown error.', 'stripe');
-			$error = 'There was an error, try again later.';
-		}
-
-		if ($error !== null) {
-			// an error is always a string
-			return (string)$error;
-		}
-
-		CakeLog::info('Stripe: charge id ' . $charge_id, 'stripe');
-
-		return $charge;
-	}
-
 	public function admin_index() {
 		$filter = isset($this->request->named['filter']) ? $this->request->named['filter'] : null;
 		switch ($filter) {

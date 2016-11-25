@@ -22,7 +22,8 @@
 		<?php
 			echo $this->Form->input('name', array(
 				'class' => 'form-control',
-				'div' => array('class' => 'form-group')
+				'div' => array('class' => 'form-group'),
+				'label' => 'Full name'
 			));
 			echo $this->Form->input('phone', array(
 				'class' => 'form-control',

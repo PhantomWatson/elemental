@@ -13,22 +13,15 @@
 	}
 	$instructor_name = $instructor['User']['name'];
 	$instructor_email = $instructor['User']['email'];
-	echo "If you have any questions about this course, you can email $instructor_name at $instructor_email.";
+	echo "Please email instructor {$instructor['User']['name']} at {$instructor['User']['email']} if you have any questions.";
 	echo "\n\n";
 
-	if (count($course['CourseDate']) == 1) {
-		echo 'Date: ';
-		echo date('l, F j, Y', strtotime($course['CourseDate'][0]['date']));
+	echo __n('Date', 'Dates', count($course['CourseDate'])).':';
+	foreach ($course['CourseDate'] as $course_date) {
+		echo "\n";
+		echo date('l, F j, Y', strtotime($course_date['date']));
 		echo ' at ';
-		echo date('g:ia', strtotime($course['CourseDate'][0]['start_time']));
-	} else {
-		echo 'Dates:';
-		foreach ($course['CourseDate'] as $course_date) {
-			echo "\n";
-			echo date('l, F j, Y', strtotime($course_date['date']));
-			echo ' at ';
-			echo date('g:ia', strtotime($course_date['start_time']));
-		}
+		echo date('g:ia', strtotime($course_date['start_time']));
 	}
 	echo "\n\n";
 
@@ -41,33 +34,34 @@
 	echo h($course['Course']['city']); ?>, <?php echo $course['Course']['state'];
 	echo "\n\n";
 
+    if ($course['Course']['message']) {
+        echo "A Message From the Instructor:";
+        echo "\n";
+        echo $course['Course']['message'];
+        echo "\n\n";
+    }
+
+    echo 'Cancellation:';
+    echo "\n";
 	if ($registration['CourseRegistration']['waiting_list']) {
 		$cancelling = 'removing yourself from the waiting list';
 		$button_label = 'Remove Self from Waiting List';
-		$unregistered = 'removed';
 	} else {
 		$cancelling = 'canceling your registration';
 		$button_label = 'Cancel Registration';
-		$unregistered = 'unregistered';
 	}
 	echo 'If you will not be able to attend this course, please let us know as soon as possible by '.$cancelling.'. ';
-	echo "If you are logged in to the Elemental website, you can do this by clicking the '$button_label' button for this course's listing. ";
-	echo "You can also visit this secure link to be automatically $unregistered: $unreg_url. ";
 	if (! $registration['CourseRegistration']['waiting_list']) {
 		echo 'If you cancel your registration, you will still be able to re-register up until '.date('F j, Y', strtotime($course['Course']['deadline'])).'.';
 	}
+    echo "\n";
+    echo "$button_label: $unreg_url";
 	echo "\n\n";
 
-	$instructor_name = $instructor['User']['name'];
-	if ($course['Course']['message']) {
-		echo "A message from this course's instructor, $instructor_name:";
-		echo "\n";
-		echo $course['Course']['message'];
-		echo "\n\n";
-	}
-
 	if ($password) {
+	    echo 'Logging In:';
+        echo "\n";
 		$email = $student['User']['email'];
-		echo "You can log in to the Elemental website with the email address $email and password \"$password\" (without quotes).";
+		echo "You can log in to the Elemental website with the email address $email and password \"$password\" (without quotes) by visiting $login_url.";
 		echo "\n\n";
 	}

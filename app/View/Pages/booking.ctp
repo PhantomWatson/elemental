@@ -69,13 +69,19 @@
 	</ul>
 
 	<p>
-		<?php echo $this->Html->link(
-			'Contact us for details',
-			array(
-				'controller' => 'pages',
-				'action' => 'contact'
-			)
-		); ?> about instructor certification.
+	    For more details about instructor certification, visit the
+	    <?php echo $this->Html->link(
+            'instructor certification page',
+            array('instructor' => true, 'controller' => 'products', 'action' => 'certification')
+        ); ?> page, view our
+	    <?php echo $this->Html->link(
+            'FAQ',
+            array('controller' => 'pages', 'action' => 'faq')
+        ); ?>, or
+	    <?php echo $this->Html->link(
+            'contact us',
+            array('controller' => 'pages', 'action' => 'contact')
+        ); ?>.
 	</p>
 </section>
 

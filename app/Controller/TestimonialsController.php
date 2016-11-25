@@ -88,8 +88,7 @@ class TestimonialsController extends AppController {
 			}
 		}
 
-		$user_roles = $this->__getUserRoles();
-		$is_staff = in_array('instructor', $user_roles) || in_array('admin', $user_roles);
+		$is_staff = $this->User->hasRole($user_id, 'instructor') || $this->User->hasRole($user_id, 'admin');
 		$this->set(array(
 			'title_for_layout' => 'Submit a Testimonial',
 			'is_student' => $this->User->hasRole($user_id, 'student'),
@@ -121,9 +120,12 @@ class TestimonialsController extends AppController {
 			$this->request->data = $this->Testimonial->read(null, $id);
 		}
 		$this->loadModel('User');
+        $user_id = $this->Auth->user('id');
+        $is_staff = $this->User->hasRole($user_id, 'instructor') || $this->User->hasRole($user_id, 'admin');
 		$this->set(array(
 			'title_for_layout' => 'Edit Testimonial',
-			'is_student' => $this->User->hasRole($user_id, 'student')
+			'is_student' => $this->User->hasRole($user_id, 'student'),
+			'is_staff' => $is_staff
 		));
 		$this->render('form');
 	}
@@ -144,6 +146,7 @@ class TestimonialsController extends AppController {
 		}
 		if ($this->Testimonial->delete()) {
 			$this->Flash->success(__('Testimonial deleted'));
+			$this->Alert->refresh('admin_testimonials');
 			$this->redirect(array('action' => 'manage'));
 		}
 		$this->Flash->error(__('Testimonial was not deleted'));
@@ -151,9 +154,6 @@ class TestimonialsController extends AppController {
 	}
 
 	public function manage() {
-		if ($this->Cookie->check('alerts.admin_testimonials')) {
-			$this->Cookie->delete('alerts.admin_testimonials');
-		}
 		$this->paginate = array(
 			'contain' => array('User'),
 			'order' => 'Testimonial.approved ASC'
@@ -174,6 +174,7 @@ class TestimonialsController extends AppController {
 		}
 		if ($this->Testimonial->saveField('approved', 1)) {
 			$this->Flash->success('Testimonial approved');
+			$this->Alert->refresh('admin_testimonials');
 			$this->redirect(array('action' => 'manage'));
 		}
 		$this->Flash->error(__('Testimonial was not approved'));

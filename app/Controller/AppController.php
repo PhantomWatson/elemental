@@ -47,9 +47,16 @@ class AppController extends Controller {
 				)
 			),
 			'authorize' => array('Controller'),
-			'authError' => 'Please log in to access that page'
+			'authError' => 'Please log in to access that page',
+			'loginAction' => array(
+			    'admin' => false,
+			    'instructor' => false,
+                'controller' => 'users',
+                'action' => 'login'
+            ),
 		),
-		'Cookie'
+		'Cookie',
+		'Alert'
 	);
 	public $uses = array('User');
 	public $maintenance_mode = false;
@@ -137,93 +144,24 @@ class AppController extends Controller {
 			}
 		}
 
-		if ($this->maintenance_mode) {
-			$this->__maintenanceModeBlock();
-		}
-	}
-
-	public function beforeRender() {
 		if ($this->layout == 'default') {
-			$user_roles = $this->__getUserRoles();
+			$user_roles = $this->getUserRoles();
 			$user_id = $this->Auth->user('id');
 			$this->set(array(
 				'user_roles' => $user_roles,
 				'certified' => in_array('instructor', $user_roles) && $this->User->isCertified($user_id)
 			));
 			if ($this->Auth->loggedIn()) {
-				$this->__setAlerts();
+				$this->Alert->setAlerts();
 			}
 		}
-	}
 
-	protected function __setAlerts() {
-		// Remember these alerts for at most one hour
-		$recheck = ! $this->Cookie->check('alerts_last_checked') || $this->Cookie->read('alerts_last_checked') < strtotime('1 hour ago');
-		if ($recheck) {
-			$this->Cookie->delete('alerts');
-			$user_roles = $this->__getUserRoles();
-			if (in_array('instructor', $user_roles)) {
-				$this->__setInstructorAlerts();
-			}
-			if (in_array('admin', $user_roles)) {
-				$this->__setAdminAlerts();
-			}
-			$this->Cookie->write('alerts_last_checked', time());
-		}
-
-		$this->set('alerts', $this->Cookie->read('alerts'));
-	}
-
-	protected function __setInstructorAlerts() {
-		$instructor_id = $this->Auth->user('id');
-		$this->loadModel('Course');
-
-		$course_id = $this->Course->instructorCanReportAttendance($instructor_id);
-		if ($course_id) {
-			$url = Router::url(array(
-				'controller' => 'courses',
-				'action' => 'report_attendance',
-				'id' => $course_id,
-				$this->params['prefix'] => false
-			));
-			$this->Cookie->write('alerts.instructor_attendance', 'Please <strong><a href="'.$url.'">report attendance</a></strong> for your recent course.');
-		}
-
-		$this->loadModel('StudentReviewModule');
-		if ($this->StudentReviewModule->paymentNeeded($instructor_id)) {
-			$url = Router::url(array(
-				'instructor' => true,
-				'controller' => 'products',
-				'action' => 'student_review_modules'
-			));
-			$this->Cookie->write('alerts.instructor_srm_payment', 'Please <strong><a href="'.$url.'">submit payment</a></strong> for the Student Review Modules used in your recent course.');
+		if ($this->maintenance_mode) {
+			$this->__maintenanceModeBlock();
 		}
 	}
 
-	public function __setAdminAlerts() {
-		$this->Cookie->delete('alerts.admin');
-
-		$this->loadModel('Testimonial');
-		if ($this->Testimonial->approvalNeeded()) {
-			$url = Router::url(array(
-				'controller' => 'testimonials',
-				'action' => 'manage',
-				$this->params['prefix'] => false
-			));
-			$this->Cookie->write('alerts.admin_testimonials', 'Please <strong><a href="'.$url.'">approve or delete</a></strong> new testimonial(s).');
-		}
-	}
-
-	/**
-	 * Sets up everything that the Recaptcha plugin depends on
-	 */
-	protected function prepareRecaptcha() {
-		$this->helpers[] = 'Recaptcha.Recaptcha';
-    	$this->Components->load('Recaptcha.Recaptcha')->startup($this);
-		Configure::load('Recaptcha.key');
-	}
-
-	protected function __getUserRoles() {
+	public function getUserRoles() {
 		$user_roles = array();
 		$session_roles = $this->Auth->user('Role');
 		if (! empty($session_roles)) {
@@ -239,4 +177,63 @@ class AppController extends Controller {
 			$this->redirect('https://' . $_SERVER['SERVER_NAME'] . $this->here);
 		}
 	}
+
+    /**
+     * Code harvested from /Plugin/Stripe/Controller/Component/StripeComponent.php and adapted to Stripe_Charge::retrieve()
+     */
+    protected function __retrieveCharge($charge_id) {
+        if (! in_array('Stripe.Stripe', $this->components)) {
+            $this->Stripe = $this->Components->load('Stripe.Stripe');
+            $this->Stripe->startup($this);
+        }
+
+        $error = null;
+        try {
+            Stripe::setApiKey($this->Stripe->key);
+            $charge = Stripe_Charge::retrieve($charge_id);
+
+        } catch(Stripe_CardError $e) {
+            $body = $e->getJsonBody();
+            $err = $body['error'];
+            CakeLog::error(
+                'Charge::Stripe_CardError: ' . $err['type'] . ': ' . $err['code'] . ': ' . $err['message'],
+                'stripe'
+            );
+            $error = $err['message'];
+
+        } catch (Stripe_InvalidRequestError $e) {
+            $body = $e->getJsonBody();
+            $err = $body['error'];
+            CakeLog::error(
+                'Charge::Stripe_InvalidRequestError: ' . $err['type'] . ': ' . $err['message'],
+                'stripe'
+            );
+            $error = $err['message'];
+
+        } catch (Stripe_AuthenticationError $e) {
+            CakeLog::error('Charge::Stripe_AuthenticationError: API key rejected!', 'stripe');
+            $error = 'Payment processor API key error.';
+
+        } catch (Stripe_ApiConnectionError $e) {
+            CakeLog::error('Charge::Stripe_ApiConnectionError: Stripe could not be reached.', 'stripe');
+            $error = 'Network communication with payment processor failed, try again later';
+
+        } catch (Stripe_Error $e) {
+            CakeLog::error('Charge::Stripe_Error: Stripe could be down.', 'stripe');
+            $error = 'Payment processor error, try again later.';
+
+        } catch (Exception $e) {
+            CakeLog::error('Charge::Exception: Unknown error.', 'stripe');
+            $error = 'There was an error, try again later.';
+        }
+
+        if ($error !== null) {
+            // an error is always a string
+            return (string)$error;
+        }
+
+        CakeLog::info('Stripe: charge id ' . $charge_id, 'stripe');
+
+        return $charge;
+    }
 }

@@ -18,7 +18,7 @@
 				</td>
 				<td>
 					<?php echo $this->Html->link(
-						h($article['Article']['title']),
+						$article['Article']['title'],
 						array(
 							'controller' => 'articles',
 							'action' => 'view',
@@ -29,6 +29,6 @@
 			</tr>
 		<?php endforeach; ?>
 	</table>
-	
+
 	<?php echo $this->element('pagination'); ?>
 </div>

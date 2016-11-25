@@ -12,7 +12,19 @@ class CertificationsController extends AppController {
 				'fields' => array(
 					'User.id',
 					'User.name'
-				)
+				),
+				'Purchase' => array(
+				    'conditions' => array(
+                        'Purchase.refunded' => null
+                    ),
+				    'fields' => array(
+				        'Purchase.created'
+                    ),
+                    'limit' => 1,
+                    'order' => array(
+                        'Purchase.created' => 'DESC'
+                    )
+                )
 			)
 		),
 		'order' => array(
@@ -23,6 +35,9 @@ class CertificationsController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->deny(array('instructor_index', 'admin_index', 'admin_add'));
+        $this->loadModel('Product');
+        $product_id = $this->Product->getProductId('classroom module');
+        $this->paginate['contain']['User']['Purchase']['conditions']['product_id'] = $product_id;
 	}
 
 	public function isAuthorized($user) {

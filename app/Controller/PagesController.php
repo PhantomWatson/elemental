@@ -22,6 +22,8 @@
 App::uses('AppController', 'Controller');
 class PagesController extends AppController {
 	public $name = 'Pages';
+    public $components = array('Recaptcha.Recaptcha');
+    public $helpers = array('Recaptcha.Recaptcha');
 	public $uses = array();
 
 	public function beforeFilter() {
@@ -143,13 +145,11 @@ class PagesController extends AppController {
 			)
 		);
 
-		$this->prepareRecaptcha();
-
 		$categories = array('General');
 		if ($this->request->is('post')) {
 			$this->Dummy->set($this->request->data);
 
-			if ($this->Dummy->validates()) {
+			if ($this->Recaptcha->verify() && $this->Dummy->validates()) {
 				$email = new CakeEmail('contact_form');
 
 				// If there are choices of categories,
@@ -173,7 +173,11 @@ class PagesController extends AppController {
 						Please contact <a href="mailto:'.Configure::read('admin_email').'">'
 						.Configure::read('admin_email').'</a> for assistance.');
 				}
-			}
+			} else {
+			    if ($this->Recaptcha->error) {
+                    $this->set('recaptcha_error', true);
+                }
+            }
 		}
 		$this->set(array(
 			'title_for_layout' => 'Contact Us',
@@ -208,4 +212,15 @@ class PagesController extends AppController {
 		return $this->render('/Pages/home');
 	}
 
+    public function faq() {
+        $this->set(array(
+            'title_for_layout' => 'Frequently Asked Questions'
+        ));
+    }
+
+    public function scholarly_work() {
+        $this->set(array(
+            'title_for_layout' => 'Scholarly Work'
+        ));
+    }
 }

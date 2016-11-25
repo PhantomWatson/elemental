@@ -1,4 +1,5 @@
 @import "bootstrap.custom.less";
+@import "vendor/fontawesome/font-awesome.less";
 
 /* VARIABLES */
 @TextColorFootnote: #666;
@@ -180,7 +181,8 @@ table.elements {
 #intro_buttons {
 	margin-bottom: 30px;
 
-	.glyphicon {
+	.glyphicon,
+	i.fa {
 		float: left;
 	}
 	.btn:last-child {
@@ -791,6 +793,60 @@ section.about {
 }
 #bio_form {
 	.text-info {
+		font-size: 80%;
+	}
+}
+
+
+
+/* FAQ */
+ul.faq {
+    font-size: 120%;
+    font-weight: bold;
+    margin: 0 0 60px 0;
+    padding: 0;
+
+    li {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+dl.faq {
+    dt {
+        font-size: 120%;
+        font-weight: bold;
+        margin-top: -90px;
+        padding-top: 90px;
+    }
+    dd {
+        margin-bottom: 60px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    blockquote {
+        font-size: 100%;
+    }
+}
+
+
+
+/* SCHOLARLY WORK */
+section.scholarly {
+    margin-bottom: 60px;
+
+    li {
+        margin-bottom: 15px;
+    }
+}
+
+
+
+/* CERTIFICATIONS */
+#certifications {
+	.details {
 		font-size: 80%;
 	}
 }

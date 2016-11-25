@@ -2,6 +2,11 @@
 App::uses('Component', 'Controller');
 class FlashComponent extends Component {
 	public $components = array('Session');
+    public $controller;
+
+    public function initialize(Controller $controller) {
+        $this->controller = $controller;
+    }
 
 	public function beforeRender(Controller $controller) {
 		$this->__prepareFlashMessages($controller);
@@ -55,4 +60,14 @@ class FlashComponent extends Component {
 		}
 		$controller->set('flash_messages', $stored_messages);
 	}
+
+    /**
+     * Moves flash messages into the $messages variable set in the view
+     * so that they can be output in an alternate way
+     */
+    public function manualOutput() {
+        $messages = $this->Session->read('FlashMessage');
+        $this->Session->delete('FlashMessage');
+        $this->controller->set('messages', $messages);
+    }
 }

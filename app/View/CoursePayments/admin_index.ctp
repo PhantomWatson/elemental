@@ -73,19 +73,27 @@
 			<?php foreach ($payments as $payment): ?>
 				<tr>
 					<td>
-						<?php
-							$timestamp = strtotime($payment['Course']['begins']);
-							echo date('F j, Y', $timestamp);
-						?>
-						<br />
-						<?php echo $payment['Course']['city']; ?>, <?php echo $payment['Course']['state']; ?>
+						<?php if (empty($payment['Course'])): ?>
+							N/A
+						<?php else: ?>
+							<?php
+								$timestamp = strtotime($payment['Course']['begins']);
+								echo date('F j, Y', $timestamp);
+							?>
+							<br />
+							<?php echo $payment['Course']['city']; ?>, <?php echo $payment['Course']['state']; ?>
+						<?php endif; ?>
 					</td>
 					<td>
-						<?php echo $payment['User']['name']; ?> (#<?php echo $payment['User']['id']; ?>)
-						<br />
-						<a href="mailto:<?php echo $payment['User']['email']; ?>">
-							<?php echo $payment['User']['email']; ?>
-						</a>
+						<?php if (empty($payment['User'])): ?>
+							N/A
+						<?php else: ?>
+							<?php echo $payment['User']['name']; ?> (#<?php echo $payment['User']['id']; ?>)
+							<br />
+							<a href="mailto:<?php echo $payment['User']['email']; ?>">
+								<?php echo $payment['User']['email']; ?>
+							</a>
+						<?php endif; ?>
 					</td>
 					<td>
 						<?php if ($payment['CourseRegistration']['id']): ?>

@@ -10,7 +10,9 @@ class ProductsController extends AppController {
 			'classroom_module',
 			'instructor_student_review_modules'
 		));
-		$this->Security->requireSecure('classroom_module', 'instructor_student_review_modules');
+		if (Configure::read('debug') == 0) {
+			$this->Security->requireSecure('classroom_module', 'instructor_student_review_modules');
+		}
 	}
 
 	public function isAuthorized($user) {
@@ -155,10 +157,7 @@ class ProductsController extends AppController {
 	}
 
 	public function instructor_student_review_modules() {
-		if ($this->Cookie->check('alerts.instructor_srm_payment')) {
-			$this->Cookie->delete('alerts.instructor_srm_payment');
-		}
-
+		$this->Alert->refresh('instructor_srm_payment');
 		$user_id = $this->Auth->user('id');
 		$this->loadModel('StudentReviewModule');
 		$this->loadModel('User');
@@ -203,7 +202,8 @@ class ProductsController extends AppController {
 		$user_id = $this->Auth->user('id');
 
 		$this->loadModel('InstructorAgreement');
-		if (! $this->InstructorAgreement->hasAgreed($user_id)) {
+        $is_admin = $this->User->hasRole($user_id, 'admin');
+		if (! $is_admin && ! $this->InstructorAgreement->hasAgreed($user_id)) {
 			$this->Flash->error('Before accessing the classroom module, you must first agree to the Certified Elemental Instructor License Agreement.');
 			$this->redirect(array(
 				'controller' => 'instructor_agreements',
@@ -211,30 +211,41 @@ class ProductsController extends AppController {
 			));
 		}
 
-		$expiration = $this->Product->getClassroomModuleAccessExpiration($user_id);
-		$can_access = $expiration > time();
+        $this->loadModel('Product');
+        $product_id = $this->Product->getProductId('classroom module');
+        $this->loadModel('User');
+        $has_purchased = $this->User->hasPurchased($user_id, $product_id);
+        if ($has_purchased) {
+            $expiration = $this->Product->getClassroomModuleAccessExpiration($user_id);
+            $expired = $expiration < time();
+        } else {
+            $expiration = null;
+            $expired = null;
+        }
 
+        $has_upcoming_course = $this->User->hasUpcomingCourse($user_id);
+        if (! ($expired || $has_upcoming_course || $is_admin)) {
+            $this->Flash->error('Schedule an upcoming course in order to access the Elemental classroom module.');
+            $this->redirect(array(
+                'controller' => 'courses',
+                'action' => 'add'
+            ));
+        }
+
+		$product_id = $this->Product->getProductId('classroom module');
+		$this->Product->id = $product_id;
+		$this->loadModel('User');
+		$this->User->id = $user_id;
 		$this->set(array(
-			'title_for_layout' => 'Classroom Module',
-			'can_access' => $can_access,
-			'expiration' => $expiration,
-			'user_id' => $user_id
+		    'title_for_layout' => 'Classroom Module',
+            'expired' => $expired,
+            'expiration' => $expiration,
+            'has_purchased' => $has_purchased,
+            'is_admin' => $is_admin,
+            'user_id' => $user_id,
+			'cost' => $this->Product->field('cost'),
+			'email' => $this->User->field('email')
 		));
-
-		if ($can_access) {
-			$this->set(array(
-				'warn' => $expiration < strtotime('+30 days')
-			));
-		} else {
-			$product_id = $this->Product->getProductId('classroom module');
-			$this->Product->id = $product_id;
-			$this->loadModel('User');
-			$this->User->id = $user_id;
-			$this->set(array(
-				'cost' => $this->Product->field('cost'),
-				'email' => $this->User->field('email')
-			));
-		}
 	}
 
 	public function instructor_transfer_srm() {
