@@ -6,33 +6,64 @@
 
 <section class="scholarly">
     <h2>
-        Published or Forthcoming Work on Elemental
+        Published Work on Elemental
     </h2>
 
     <ul>
         <li>
-            Menning, Chadwick and Mellisa Holtzman. (Forthcoming). Combining Primary Prevention and Risk Reduction
-            Approaches in Sexual Assault Programming. <i>Journal of American College Health</i>.
-            DOI: 10.1080/07448481.2015.1042881 Online first at: <a href="http://dx.doi.org/10.1080/07448481.2015.1042881">http://dx.doi.org/10.1080/07448481.2015.1042881</a>
+            <p>
+                Menning, Chadwick and Mellisa Holtzman. (2015). "Combining Primary Prevention and Risk Reduction
+                Approaches in Sexual Assault Programming." <i>Journal of American College Health</i>.
+                63: 513-522.
+            </p>
+            <p>
+                In June, 2016 this article was cited by the American College Health Association in their updated
+                guidelines for colleges and universities on sexual assault prevention. In prior guidelines the
+                Association had stressed <em>only</em> primary prevention, but our work on the importance of combining
+                primary prevention with risk reduction spurred the Association to change its position and recommend
+                that both approaches be used in prevention efforts. This is a major policy change that has
+                resulted, at least in part, from our research. The guidelines can be found at:
+                <a href="http://www.acha.org/documents/resources/guidelines/Addressing_Sexual_Violence.pdf">
+                    http://www.acha.org/documents/resources/guidelines/Addressing_Sexual_Violence.pdf
+                </a>
+            </p>
         </li>
         <li>
             Holtzman, Mellisa and Chadwick Menning. (2015). "Primary Prevention and Risk Reduction Programming for
             College-Level Sexual Assault Prevention:  Illustrating the Benefits of a Combined Approach"
-            eJournal of Public Affairs 4: 12-38.
-            Open access journal: <a href="http://ejopa.missouristate.edu/index.php/ejournal/issue/view/12">http://ejopa.missouristate.edu/index.php/ejournal/issue/view/12</a>
+            <i>eJournal of Public Affairs</i> 4: 12-38.
         </li>
         <li>
-            Holtzman, Mellisa and Chadwick Menning. (2015). Integrating Experiential Learning and
-            Applied Research to Promote Student Learning and Faculty Research.  <i>College Teaching</i> 63: 112-118.
+            Holtzman, Mellisa and Chadwick Menning. (2015). "Integrating Experiential Learning and
+            Applied Research to Promote Student Learning and Faculty Research."  <i>College Teaching</i> 63: 112-118.
         </li>
         <li>
             <p>
-                Holtzman, Mellisa and Chadwick L. Menning. (2015). A New Model for Sexual Assault Protection:
-                Creation and Initial Testing of Elemental. <i>Journal of Applied Social Sciences</i> 9: 139-155.
+                Holtzman, Mellisa and Chadwick L. Menning. (2015). "A New Model for Sexual Assault Protection:
+                Creation and Initial Testing of Elemental." <i>Journal of Applied Social Sciences</i> 9: 139-155.
             </p>
             <p>
-                To listen to a podcast associated with this article, please visit the following link: <a href="http://jax.sagepub.com/site/misc/Index/Podcasts.xhtml">http://jax.sagepub.com/site/misc/Index/Podcasts.xhtml</a>
+                To listen to a podcast associated with this article, please visit the following link:
+                <a href="http://jax.sagepub.com/site/misc/Index/Podcasts.xhtml">
+                    http://jax.sagepub.com/site/misc/Index/Podcasts.xhtml
+                </a>
             </p>
+        </li>
+    </ul>
+</section>
+
+<section class="scholarly">
+    <h2>
+        Manuscripts Under Review or in Progress
+    </h2>
+    <ul>
+        <li>
+            Menning, Chadwick and Mellisa Holtzman. "Predicting Successful Self-Protection to Attempted Sexual
+            Assault: Factors, Tactics, and Outcomes."
+        </li>
+        <li>
+            Holtzman, Mellisa and Chadwick Menning. "Developments in Sexual Assault Resistance Education: Combining
+            Risk Reduction and Primary Prevention."
         </li>
     </ul>
 </section>
@@ -44,12 +75,65 @@
 
     <ul>
         <li>
+            Holtzman, Mellisa. (2016). "New Developments in Sexual Assault Prevention Efforts: Why Primary Prevention
+            <em>and</em> Risk Reduction Matter." Presented at the Heartland Campus Safety Summit, Overland, KS. (Invited
+            Breakout Session)
+        </li>
+        <li>
+            Holtzman, Mellisa and Chadwick Menning. (2016). "Elemental: An Evidence-Based Sexual Assault Protection
+            Program." Presented at the Heartland Campus Safety Summit, Overland, KS. (Invited Workshop)
+        </li>
+        <li>
+            Holtzman, Mellisa and Chadwick Menning. (2016). "Developments in Sexual Assault Resistance Education:
+            Combining Risk Reduction and Primary Prevention." Presented at the American Psychological Association Annual
+            Meetings, Denver, CO. (Invited Panel Session)
+        </li>
+        <li>
+            Holtzman, Mellisa and Chadwick Menning. (2016). "Comprehensive Sexual Violence Prevention Programming in
+            Schools: Why Does It Matter?" Presented at the Action in Education Summer Institute, Northern Michigan
+            University, Marquette, MI. (Invited Keynote Presentation)
+        </li>
+        <li>
+            McEvoy, Alan, Chadwick Menning, and Mellisa Holtzman. (2016). "Helping Students End Sexual Assault and
+            Relationship Violence." Presented at the Action in Education Summer Institute, Northern Michigan University,
+            Marquette, MI. (Invited Breakout Session)
+        </li>
+        <li>
+            Menning, Chadwick and Mellisa Holtzman. (2016). "Combining Primary Prevention and Risk Reduction Programming
+            to Increase the Efficacy of Sexual Assault Prevention on College Campuses." Presented at the Rocky Mountain
+            Campus Safety Summit, Colorado Springs, CO. (Invited Breakout Session)
+        </li>
+        <li>
+            Holtzman, Mellisa (with Chadwick Menning). (2016). "Next Steps in College Sexual Assault Prevention:
+            Comprehensive Programming." Presented at ConsenTED, Ball State University, Muncie, IN. (Invited Keynote
+            Presentation)
+        </li>
+        <li>
+            Menning, Chadwick and Mellisa Holtzman. (2016). "Precursors and Processes of Attempted Sexual Assault: A
+            Multimethodological Approach." Presented at the North Central Sociological Association meetings, Chicago,
+            IL.
+        </li>
+        <li>
             <p>
-                Holtzman, Mellisa and Chadwick Menning. (Forthcoming). "Primary Prevention and Risk Reduction Programming for College-Level Sexual Assault Prevention:  Illustrating the Benefits of a Combined Approach."  Heartland Campus Safety Summit, Overland Park, KS.
+                Holtzman, Mellisa (with Chadwick Menning). (2015). "What If Sexual Assault Self-Protection Could be
+                Nonviolent?" Presented at TEDx Ball State University, Muncie, IN
             </p>
             <p>
-                Invited speakers at a conference on campus safety and gender-based violence prevention
+                Invited by the TEDx organizers to be 1 of 12 featured speakers for an event in November, 2015. TEDx
+                talks focus on "ideas worth spreading" and the theme for this particular event was "What if . . ." Thus,
+                all talks offered a provocative and unique look at familiar topics using a "What if . . ." lens. Video
+                of the presentation can be found at:
+                <a href="http://youtu.be/u-7VAFBGWqc">
+                    http://youtu.be/u-7VAFBGWqc
+                </a>
             </p>
+        </li>
+
+
+        <li>
+            Holtzman, Mellisa and Chadwick Menning. (2015). "Primary Prevention and Risk Reduction
+            Programming for College-Level Sexual Assault Prevention:  Illustrating the Benefits of a Combined
+            Approach." Presented at the Heartland Campus Safety Summit, Overland, KS. (Invited Breakout Session)
         </li>
         <li>
             Menning, Chadwick L., and Mellisa Holtzman. (2015). "Combining Primary
