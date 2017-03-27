@@ -6,7 +6,7 @@
 
     <?php if ($expiration): ?>
         <div class="alert alert-danger" role="alert">
-            Your access to the Classroom Module expired on
+            Due to not teaching a class in over one year, your access to the Classroom Module expired on
             <strong><?php echo date('F j, Y', $expiration); ?></strong>.
         </div>
     <?php endif; ?>
@@ -30,7 +30,8 @@
                 <span class="sr-only">Close</span>
             </button>
             Your access to the Classroom Module will expire on
-            <strong><?php echo date('F j, Y', $expiration); ?></strong>.
+            <strong><?php echo date('F j, Y', $expiration); ?></strong>
+            if you do not schedule a class before then.
         </div>
     <?php endif; ?>
 
