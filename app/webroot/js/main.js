@@ -69,15 +69,15 @@ var courseAddForm = {
 		}
 		
 		$('#CourseCostDollars').change(function () {
-			if ($('#CourseFree0').is(':checked') && $('#CourseCostDollars').val() < 20) {
-				alert('If a registration fee is charged for this course, it must be at least $20.');
-				$('#CourseCostDollars').val(20);
+			if ($('#CourseFree0').is(':checked') && $('#CourseCostDollars').val() < 5) {
+				alert('If a registration fee is charged for this course, it must be at least $5.');
+				$('#CourseCostDollars').val(5);
 			}
 		});
 		$('#course_form').submit(function (event) {
-			if ($('#CourseFree0').is(':checked') && $('#CourseCostDollars').val() < 20) {
+			if ($('#CourseFree0').is(':checked') && $('#CourseCostDollars').val() < 5) {
 				event.preventDefault();
-				alert('If a registration fee is charged for this course, it must be at least $20.');
+				alert('If a registration fee is charged for this course, it must be at least $5.');
 			}
 		});
 	},
