@@ -75,11 +75,15 @@ class Product extends AppModel {
 			),
 			'contain' => false,
 			'fields' => array(
-				'Purchase.id'
+				'Purchase.id',
+                'Purchase.created'
 			),
 			'order' => 'Purchase.created DESC'
 		));
 		if (! empty($purchase)) {
+		    $year_after_purchase = strtotime($purchase['Purchase']['created'].' + 1 year + 2 days');
+
+
             App::import('Model', 'Course');
             $Course = new Course();
             $most_recent_course = $Course->find('first', array(
@@ -93,7 +97,10 @@ class Product extends AppModel {
                 'order' => 'Course.begins DESC'
             ));
             if (! empty($most_recent_course)) {
-                $retval = strtotime($purchase['Course']['begins'].' + 1 year + 2 days');
+                $year_after_teaching = strtotime($purchase['Course']['begins'].' + 1 year + 2 days');
+                $retval = max($year_after_purchase, $year_after_teaching);
+            } else {
+                $retval = $year_after_purchase;
             }
 		}
 
