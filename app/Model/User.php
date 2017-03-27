@@ -571,6 +571,14 @@ class User extends AppModel {
      * @return bool
      */
     public function hasUpcomingCourse($instructor_id) {
+        App::import('Model', 'CourseDate');
+        $CourseDate = new CourseDate();
+        $upcoming_courses = $CourseDate->getCurrentAndUpcomingCourses();
+
+        if (empty($upcoming_courses)) {
+            return false;
+        }
+
         App::import('Model', 'Course');
         $Course = new Course();
         $count = $Course->find(
@@ -578,7 +586,7 @@ class User extends AppModel {
             array(
                 'conditions' => array(
                     'Course.user_id' => $instructor_id,
-                    'Course.begins >=' => date('Y-m-d')
+                    'Course.id' => $upcoming_courses
                 )
             )
         );

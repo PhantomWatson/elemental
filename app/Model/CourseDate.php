@@ -76,4 +76,31 @@ class CourseDate extends AppModel {
 			'order' => ''
 		)
 	);
+
+    /**
+     * Returns the IDs of all courses with dates on and after today
+     *
+     * @return array
+     */
+	public function getCurrentAndUpcomingCourses() {
+	    $results = $this->find('all', array(
+	        'conditions' => array(
+                'CourseDate.date >=' => date('Y-m-d')
+            ),
+            'fields' => array('CourseDate.course_id')
+        ));
+	    if ($results) {
+            $course_ids = array();
+	        foreach ($results as $result) {
+	            $course_id = $result['CourseDate']['course_id'];
+	            if (! in_array($course_id, $course_ids)) {
+                    $course_ids[] = $course_id;
+                }
+            }
+
+            return $course_ids;
+        }
+
+        return array();
+    }
 }
