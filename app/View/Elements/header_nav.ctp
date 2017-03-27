@@ -164,12 +164,12 @@
 						if (in_array('admin', $user_roles)) {
 							$user_menu_links .= $this->element('header_nav/admin_dropdown');
 							$user_menu_links .= $this->element('header_nav/instructor_certified_dropdown');
-						}
-
-						if (in_array('admin', $user_roles) || (in_array('instructor', $user_roles) && $certified)) {
-							$user_menu_links .= $this->element('header_nav/instructor_certified_dropdown');
-						} elseif (in_array('instructor', $user_roles) && ! $certified) {
-							$user_menu_links .= $this->element('header_nav/instructor_uncertified_dropdown');
+						} else {
+                            if (in_array('instructor', $user_roles) && $certified) {
+                                $user_menu_links .= $this->element('header_nav/instructor_certified_dropdown');
+                            } elseif (in_array('instructor', $user_roles) && ! $certified) {
+                                $user_menu_links .= $this->element('header_nav/instructor_uncertified_dropdown');
+                            }
 						}
 
 						if (in_array('trainee', $user_roles)) {
