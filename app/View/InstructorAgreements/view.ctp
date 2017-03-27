@@ -167,7 +167,7 @@
 			4.2.  Fees.
 			<ul>
 				<li>
-					4.2.1.  Materials Fees.  You will charge Elemental Students a materials fee as established by Elemental, in its sole discretion, from time-to-time (the "Materials Fee").  The initial Materials Fee shall be $20.00 per Elemental Student per Seminar.
+					4.2.1.  Materials Fees.  You will charge Elemental Students a materials fee as established by Elemental, in its sole discretion, from time-to-time (the "Materials Fee").  The initial Materials Fee shall be $5.00 per Elemental Student per Seminar.
 				</li>
 				<li>
 					4.2.2.  Fees Retained by You.  You will be entitled to all fees charged to Elemental Students in addition to the Materials Fee.

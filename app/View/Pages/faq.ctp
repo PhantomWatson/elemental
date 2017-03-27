@@ -119,7 +119,7 @@
             Individual certification is permanent provided that the instructor teaches the
             course at least once every 12 months and follows other standards set by the
             program. Each instructor rents the multimedia module that is used to teach the
-            program for $150/year. Student review materials are $20 each and are mandatory
+            program for $150/year. Student review materials are $5 each and are mandatory
             for each program participant. We offer volume discount pricing for both instructor
             certifications and for student review materials. Please
             <?php echo $this->Html->link(

@@ -191,8 +191,8 @@ class Course extends AppModel {
 
 	public function validateCost($check) {
 		$cost = $check['cost'];
-		if ($cost > 0 && $cost < 2000) {
-			return 'If a registration fee is charged for this course, it must be at least $20.';
+		if ($cost > 0 && $cost < 500) {
+			return 'If a registration fee is charged for this course, it must be at least $5.';
 		}
 		return true;
 	}

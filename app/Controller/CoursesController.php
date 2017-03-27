@@ -284,7 +284,7 @@ class CoursesController extends AppController {
 
 		// Set default dollars/cents
 		if (! isset($this->request->data['Course']['cost_dollars']) || empty ($this->request->data['Course']['cost_dollars'])) {
-			$this->request->data['Course']['cost_dollars'] = '20';
+			$this->request->data['Course']['cost_dollars'] = '5';
 		}
 		if (! isset($this->request->data['Course']['cost_cents']) || empty ($this->request->data['Course']['cost_cents'])) {
 			$this->request->data['Course']['cost_cents'] = '00';
