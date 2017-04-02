@@ -59,11 +59,6 @@ class Product extends AppModel {
 	}
 
 	public function getClassroomModuleAccessExpiration($user_id) {
-		$cache_key = "getClassroomModuleAccessExpiration($user_id)";
-		if ($cached = Cache::read($cache_key)) {
-			return $cached;
-		}
-
 		$retval = false;
 
 		// Users who have purchased the module and taught a class in the past year get access
@@ -104,7 +99,6 @@ class Product extends AppModel {
             }
 		}
 
-		Cache::write($cache_key, $retval);
 		return $retval;
 	}
 
