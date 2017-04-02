@@ -59,9 +59,6 @@ class Product extends AppModel {
 	}
 
 	public function getClassroomModuleAccessExpiration($user_id) {
-		$retval = false;
-
-		// Users who have purchased the module and taught a class in the past year get access
 		$product_id = $this->getProductId('classroom module');
 		$purchase = $this->Purchase->find('first', array(
 			'conditions' => array(
@@ -75,31 +72,35 @@ class Product extends AppModel {
 			),
 			'order' => 'Purchase.created DESC'
 		));
-		if (! empty($purchase)) {
-		    $year_after_purchase = strtotime($purchase['Purchase']['created'].' + 1 year + 2 days');
 
+		// No purchase? Expiration inapplicable
+		if (empty($purchase)) {
+            return false;
+        }
 
-            App::import('Model', 'Course');
-            $Course = new Course();
-            $most_recent_course = $Course->find('first', array(
-                'conditions' => array(
-                    'Course.user_id' => $user_id
-                ),
-                'contain' => false,
-                'fields' => array(
-                    'Course.begins'
-                ),
-                'order' => 'Course.begins DESC'
-            ));
-            if (! empty($most_recent_course)) {
-                $year_after_teaching = strtotime($most_recent_course['Course']['begins'].' + 1 year + 2 days');
-                $retval = max($year_after_purchase, $year_after_teaching);
-            } else {
-                $retval = $year_after_purchase;
-            }
-		}
+        $year_after_purchase = strtotime($purchase['Purchase']['created'].' + 1 year + 2 days');
+        App::import('Model', 'Course');
+        $Course = new Course();
+        $most_recent_course = $Course->find('first', array(
+            'conditions' => array(
+                'Course.user_id' => $user_id
+            ),
+            'contain' => false,
+            'fields' => array(
+                'Course.begins'
+            ),
+            'order' => 'Course.begins DESC'
+        ));
 
-		return $retval;
+        // No courses? Expiration is a year after purchase
+        if (empty($most_recent_course)) {
+            return $year_after_purchase;
+        }
+
+        // Courses scheduled after purchase? Expiration is one year after the latest-scheduled course began
+        $course = $most_recent_course['Course'];
+        $year_after_teaching = strtotime($course['begins'].' + 1 year + 2 days');
+        return max($year_after_purchase, $year_after_teaching);
 	}
 
 	public function getProductId($product) {
