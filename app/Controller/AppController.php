@@ -98,6 +98,7 @@ class AppController extends Controller {
 		$this->Auth->allow();
 
 		$this->Security->blackHoleCallback = 'blackhole';
+        $this->Security->requireSecure();
 
 		if ($this->Auth->loggedIn()) {
 			$this->Auth->authError = 'You are not authorized to access that location.';
