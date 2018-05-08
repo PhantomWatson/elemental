@@ -29,7 +29,7 @@
 	</ul>
 	
 	<p>
-		These same measures are associated with <strong>significantly reduced chances of assault during the first 6 months of college among students overall</strong>. In fact, 9 out of 10 Elemental participants who encountered an awkward or dangerous and sexually-charged situation during this time period <strong>used what they had learned and protected themselves effectively</strong>.
+        These same measures are associated with <strong>significantly reduced chances of assault within the next 6 months</strong>. In fact, Elemental participants experience a <strong>nearly 66% reduction in assault risk</strong> and <strong>94%</strong> of the students who have encountered an awkward or dangerous and sexually-charged situation since taking Elemental have <strong>used what they learned to effectively protect themselves</strong>.
 	</p>
 </section>
 

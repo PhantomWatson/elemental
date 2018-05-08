@@ -5,46 +5,25 @@
 </div>
 
 <section class="about">
-	<h2>
-		Chadwick Menning, PhD, Associate Professor of Sociology at Ball State University
-	</h2>
-	<p>
-		In 2010, Professor Menning was awarded a competitive, interdisciplinary teaching fellowship. The resources associated with this fellowship enabled Professor Menning, along with a team of 15 students, to design a new approach to sexual assault protection. The project was grounded in a combination of social science research, martial arts, and best practices of professionals working in the field of sexual assault protection. The resulting project, <em>Elemental</em>, 1) focuses on assaults as they are likely to happen to college students, 2) provides program participants with choices in the way they respond to an assault, and 3) offers an organized, holistic curriculum that is grounded in social science research and is inclusive of a variety of participants, including sexual minorities. Continued testing and development has yielded a program that is not only demonstrably effective, but engaging and speaks to the realities that students face. As such, <em>Elemental</em> represents a synthesis of Professor Menning's life-long interest in martial arts, his career as a scientist, and his interests in gender, sexuality, and social justice.
-	</p>
-	<p>
-		His research has been published in outlets such as <em>Journal of Interpersonal Violence</em>, <em>Perspectives on Sexual and Reproductive Health</em>, and <em>Journal of Health and Social Behavior</em>. He has over 27 years of martial arts experience including training in To-Shin Do, Shotokan karate-do, Shaolin-do kung fu, kendo, aikido, and other arts, and currently serves as an instructor and faculty advisor for the Martial Arts Club at Ball State University.
-	</p>
-	<p>
-		Contact Chad at <a href="mailto:cmenning@elementalprotection.org">cmenning@elementalprotection.org</a>.
-	</p>
+    <h2>
+        Mellisa Holtzman, PhD, Professor of Sociology at Ball State University
+    </h2>
+    <p>
+        In 2011 Professor Holtzman worked alongside her colleague, Professor Menning, and a team of 15 students to design a new approach to sexual assault protection. The project was grounded in a combination of social science research, martial arts, and best practices in the field of sexual assault prevention. The resulting project, Elemental, 1) combines primary prevention programming with risk reduction training, 2) focuses on assaults as they are likely to happen to students, 3) provides students with choices in the way they respond to an assault, and 4) offers an organized, holistic curriculum that is grounded in social science research and is inclusive of a variety of participants, including men and sexual minorities. Nearly a decade of testing and refinement has demonstrated that Elemental is not only effective at reducing assault risk for participants by nearly 66%, but it is engaging and speaks to the realities that students face.
+    </p>
+    <p>
+        As a winner of numerous university and regional teaching awards and fellowships, Professor Holtzman brought her pedagogical expertise to the design and implementation of the Elemental curriculum. She assisted in the conversion of social science research (including the analysis of original data) into specific vignettes that are representative of common threatening and sexually charged situations and she piloted the teaching materials that now serve as the basis of Elemental. Her dedication to the program is grounded in her research interests in gender and sexual orientation, sociology of law, and the scholarship of teaching and learning. Her research has been published in outlets such as <em>Journal of Interpersonal Violence</em>, <em>Journal of American College Health</em>, <em>Perspectives on Sexual and Reproductive Health</em>, <em>College Teaching, Teaching Sociology</em>, and <em>Journal of Applied Social Sciences</em>. She is a second degree black belt in To-Shin Do and serves as the Director of Elemental.
+    </p>
+    <p>
+        Contact Mellisa at <a href="mailto:mkholtzman@elementalprotection.org">mkholtzman@elementalprotection.org</a>.
+    </p>
 </section>
 
 <section class="about">
 	<h2>
-		Mellisa Holtzman, PhD, Associate Professor of Sociology at Ball State University
+        Chadwick Menning, PhD, Professor of Sociology at Ball State University
 	</h2>
 	<p>
-		Professor Holtzman was part of the Elemental project from its inception. She assisted Professor Menning and the students in the conversion of social science research (including the analysis of original data) into specific vignettes that are representative of common threatening and sexually charged situations found in the college population. As a winner of four university and regional teaching awards and several teaching fellowships, she also brought her pedagogical expertise to the design and implementation of the Elemental curriculum. Professor Holtzman's dedication to the program is grounded in her research interests in gender and sexual orientation, sociology of law, and the scholarship of teaching and learning.
-	</p>
-	<p>
-		Her research has been published in outlets such as <em>Journal of Interpersonal Violence</em> <em>Perspectives on Sexual and Reproductive Health</em> <em>College Teaching</em> <em>International Journal for the Scholarship of Teaching and Learning</em> and <em>Law and Social Inquiry</em> She currently trains in To-Shin Do and serves as the lead instructor for Elemental seminars.
-	</p>
-	<p>
-		Contact Mellisa at <a href="mailto:mkholtzman@elementalprotection.org">mkholtzman@elementalprotection.org</a>.
-	</p>
-</section>
-
-<section class="about">
-	<h2>
-		Selected Publications
-	</h2>
-	<p>
-		Holtzman, Mellisa and Menning, Chadwick L. (Forthcoming). A New Model for Sexual Assault Protection: Creation and Initial Testing of Elemental.  <em>Journal of Applied Social Science</em>
-	</p>
- 	<p>
-		Menning, Chadwick L. and Holtzman, Mellisa (2014). Processes and Patterns in Gay, Lesbian, and Bisexual Sexual Assault: A Multimethodological Assessment. <em>Journal of Interpersonal Violence</em> 29: 1071-1093.
-	</p>
-	<p>
-		Menning, Chadwick L. (2009). Unsafe at Any House? Attendees' Perceptions of Microlevel Environmental Traits and Personal Safety at Fraternity and Nonfraternity Parties. <em>Journal of Interpersonal Violence</em> 24(10): 1714-1734.
+        In 2010 Professor Menning was awarded a competitive, interdisciplinary teaching fellowship at Ball State University and it provided the resources for the creation of Elemental. The program represents a synthesis of Professor Menning’s life-long interest in martial arts, his career as a scientist, and his interests in gender, sexuality, and social justice. His research has been published in outlets such as <em>Journal of Interpersonal Violence</em>, <em>Perspectives on Sexual and Reproductive Health</em>, and <em>Journal of Health and Social Behavior</em>. He has practiced martial arts since 1986, including training in To-Shin Do, Shotokan karate-do, Shaolin-do kung fu, kendo, aikido, and other arts, and currently serves as an instructor and faculty advisor for the Martial Arts Club at Ball State University. Although no longer serving as a director of Elemental, Professor Menning’s original insights and ideas remain an important part of Elemental’s design and effectiveness.
 	</p>
 </section>

@@ -14,7 +14,7 @@
         'Who would make a good Elemental instructor?' => 'qualifications',
         'How does someone become an Elemental instructor?' => 'certification',
         'What are the personnel needs?' => 'personnel',
-        'What are the equipment needs and their associated costs?' => 'equipment',
+        'What are the equipment needs for Elemental?' => 'equipment',
         'Does Elemental incorporate best practices in the field?' => 'bestpractices',
         'Isn\'t self-defense programming just victim-blaming?' => 'victimblaming',
         'How does Elemental fit with other government-mandated and optional programming?' => 'fit'
@@ -48,7 +48,7 @@
             </p>
             <p>
                 Assault rates among
-                program participants are lower than for non-participants 6 months post seminar,
+                program participants are nearly 66% lower than for non-participants 6 months post seminar,
                 net of the effects of demographic and other background factors.
             </p>
             <p>
@@ -74,15 +74,7 @@
     </dt>
     <dd>
         <p>
-            Elemental is delivered as a face-to-face, media-driven
-            seminar with time for interactive practice. Instructors and their assistants
-            teach lessons and lead discussion about sexual assault, consent, effective
-            verbal- and non-verbal communication, campus culture, gender-role
-            socialization, environmental and alcohol awareness, and physical
-            self-protection. Total instruction time is 6 hours, which can be split over
-            multiple sessions. Students who complete the program receive 1 year of access
-            to online review materials that cover all of the verbal and physical techniques
-            taught during the seminar.
+            Elemental is delivered as a face-to-face, media-driven seminar with time for interactive practice. Instructors and their assistants teach lessons and lead discussion about sexual assault, consent, effective verbal- and non-verbal communication, campus culture, gender-role socialization, environmental and alcohol awareness, and physical self-protection. Elemental was originally designed to be taught at a 6 hour seminar but it has since been modified to allow for other teaching models as well (original 6 hour version; summer bridge 9 hour version; 1 credit-hour semester version that takes place across 16 hours). Students who complete the program receive 1 year of access to online review materials that cover all of the verbal and physical techniques taught during the seminar.
         </p>
     </dd>
 
@@ -115,33 +107,22 @@
             Fees will vary depending on how you choose to bring Elemental to your institution.
         </p>
         <p>
-            Instructor certification fees start at $575.
-            Individual certification is permanent provided that the instructor teaches the
-            course at least once every 12 months and follows other standards set by the
-            program. Each instructor rents the multimedia module that is used to teach the
-            program for $150/year. Student review materials are $5 each and are mandatory
-            for each program participant. We offer volume discount pricing for both instructor
-            certifications and for student review materials. Please
-            <?php echo $this->Html->link(
-                'contact us',
-                array('controller' => 'pages', 'action' => 'contact')
-            ); ?>
-            for details. Also note that instructors or the institutions for whom they offer Elemental as
-            part of their employment with that institution <strong>must be covered by
-            appropriate insurance</strong>.
+            If you opt to bring in an independent instructor, fees are set by that instructor. The fee to bring Dr. Holtzman, the director of Elemental, to your institution to present the seminar is variable depending on travel costs.
         </p>
         <p>
-            If you opt to bring in an independent instructor, fees
-            are set by that instructor. The fee to bring Drs. Holtzman and Menning to your
-            institution and present the seminar currently typically ranges from $1500 to
-            about $4000 depending on travel costs and the availability of local equipment
-            and volunteers to assist with in-classroom training. Please
-            <?php echo $this->Html->link(
-                'contact us',
-                array('controller' => 'pages', 'action' => 'contact')
-            ); ?>
-            for details.
+            If you opt to certify instructors on your campus, certification fees start at $375. Individual certification is permanent, provided that the instructor teaches the course at least once every 12 months and follows other standards set by the program.
         </p>
+        <ul>
+            <li>
+                In addition to the certification costs, each instructor must have access to the multimedia module that is used to teach the program.  There is a one-time fee of $150 per instructor.
+            </li>
+            <li>
+                Instructors or the institutions for which they offer Elemental as a condition of their employment must carry appropriate insurance.
+            </li>
+            <li>
+                Lastly, each student who completes Elemental should receive access to the online student review materials.  These cost $5 per student.
+            </li>
+        </ul>
     </dd>
 
 
@@ -200,15 +181,6 @@
                 include grappling on beds, couches, and on the ground.
             </li>
         </ul>
-
-        <p>
-            We offer reduced-rate certification for those with backgrounds in To-Shin Do;
-            <?php echo $this->Html->link(
-                'contact us',
-                array('controller' => 'pages', 'action' => 'contact')
-            ); ?>
-            for details.
-        </p>
     </dd>
 
 
@@ -228,7 +200,7 @@
             requires passing grades of 80% or better in each of the 9 modules. Second, upon
             completion of the online course, trainees demonstrate their ability to teach
             the techniques and have an opportunity to receive additional feedback during a
-            face-to-face or webcast session with Drs. Holtzman and Menning, which they must
+            face-to-face or webcast session with Dr. Holtzman, which they must
             also pass with a score of 80% or better.
         </p>
         <p>
@@ -245,25 +217,20 @@
     </dt>
     <dd>
         <p>
-            Needs will vary depending on the number of students
-            being taught. We restrict enrollment to 40 students per session; 20-30 students
-            is ideal.
+            Needs will vary depending on the number of students being taught. Consider restricting enrollment to 40 students per session; 20-30 students is ideal.
         </p>
         <p>
             Each session should have the following available:
         </p>
         <ul>
             <li>
-                1 Elemental instructor
+                1 Elemental instructor (but may team teach if desired)
             </li>
             <li>
-                1 Assistant (a.k.a., "Creeper") for every 10 students enrolled. We strongly recommend having a minimum of 2 "Creepers" &mdash; one male and one female.
+                1 Assistant (a.k.a., "Creeper") for every 10-15 students enrolled. It is strongly recommended that you have a minimum of 2 "Creepers"—one male and one female.
             </li>
             <li>
-                We strongly encourage a counselor to be on call in case
-                a participant encounters content that triggers memories of prior assault
-                experiences. Basic precautions should also be taken with regard to first aid
-                availability.
+                You are encouraged to have a counselor on call in case a participant encounters content that triggers memories of prior assault experiences. Basic precautions should also be taken with regard to first aid.
             </li>
         </ul>
     </dd>
@@ -271,43 +238,50 @@
 
 
     <dt id="faq_equipment">
-        What are the equipment needs and their associated costs?
+        What are the equipment needs for Elemental?
     </dt>
     <dd>
         <p>
-            To run the seminar, a minimum of the following is required:
+            The seminar requires several pieces of equipment.  If hiring an independent instructor, the equipment needs will be shared between the instructor and institution in the following ways:
         </p>
+
+        <em>Instructor-Provided Supplies</em>
         <ul>
             <li>
-                A computer with a reliable internet connection (most institutions have this)
+                Laptops
             </li>
             <li>
-                Classroom instructional module (rented by the instructor on a yearly basis for $150)
+                Instructional materials
             </li>
             <li>
-                Student handouts (4 printed pages total per student; file provided to instructors)
+                Protective gear for trained assistants (see personnel needs)
             </li>
             <li>
-                A large-screen audiovisual setup to be connected to the computer (most institutions have this)
-            </li>
-            <li>
-                1 set of mattresses and box springs for every 10 students enrolled. (Double-stacked residence hall mattresses work well; most institutions have this.)
-            </li>
-            <li>
-                Gymnastic or wrestling mats sufficient to cover the floor around the beds. (Most institutions have this.)
-            </li>
-            <li>
-                Padding for the Assistants (i.e., "Creepers"). This can be assembled from components or purchased outright as a force-on-force suit. (Professional suits cost $1200-$1500 each. Components may be assembled for less.)
-            </li>
-            <li>
-                Basic first aid kit ($20)
-            </li>
-            <li>
-                Insurance (Costs vary. Instructors teaching Elemental as part of regular job duties at an institution may already be covered by their institution's policy. Independent instructors must carry appropriate liability coverage as a condition of their certification.)
+                Refreshments, nametags, handouts, and other related incidentals
             </li>
         </ul>
+
+        <em>Institution-Provided Supplies</em>
+        <ul>
+            <li>
+                Seminar space that includes reliable internet access
+            </li>
+            <li>
+                A large-screen audiovisual setup with computer connections
+            </li>
+            <li>
+                2-4 residence hall mattresses, depending on the number of attendees (mattresses will be double stacked)
+            </li>
+            <li>
+                Gymnastic or wrestling mats sufficient to cover the floor around the beds
+            </li>
+            <li>
+                1-2 very well-padded couches (optional – program can be modified to rely on mattresses only)
+            </li>
+        </ul>
+
         <p>
-            We also recommend 1 very well-padded couch for every 10 students, water, cups, snacks, nametag stickers, pens, and related incidentals.
+            If you certify instructors on your campus, your institution will supply all equipment.  Most colleges and universities have all needed supplies on hand.  The one exception is the protective gear for assistants.  This can be assembled from components or purchased outright as a force-on-force suit.
         </p>
     </dd>
 
@@ -469,14 +443,7 @@
     </dt>
     <dd>
         <p>
-            There are a number of efforts at the federal, state, and local levels
-            to reduce sexual assault. The federal SAVE Act, for example, requires (among
-            other mandates) that college campuses include programming for all incoming
-            students, faculty, and staff, as well as maintain ongoing programming designed
-            to reduce assault. Elemental encompasses facets of both primary prevention and
-            risk reduction programming, with a greater focus on the latter, and is meant to
-            augment and dovetail with any primary prevention programming offered by an
-            institution.
+            There are a number of efforts at the federal, state, and local levels to reduce sexual assault. The federal SaVE Act, for example, requires (among other mandates) that college campuses include programming for all incoming students, faculty, and staff, as well as maintain ongoing programming designed to reduce assault. Elemental encompasses facets of both primary prevention and risk reduction programming and is meant to augment and dovetail with existing programming offered by an institution.
         </p>
     </dd>
 </dl>

@@ -6,187 +6,326 @@
 
 <section class="scholarly">
     <h2>
-        Published Work on Elemental
+        Published Work on Elemental and/or Sexual Violence Prevention
     </h2>
 
-    <ul>
-        <li>
-            <p>
-                Menning, Chadwick and Mellisa Holtzman. (2015). "Combining Primary Prevention and Risk Reduction
-                Approaches in Sexual Assault Programming." <i>Journal of American College Health</i>.
-                63: 513-522.
-            </p>
-            <p>
-                In June, 2016 this article was cited by the American College Health Association in their updated
-                guidelines for colleges and universities on sexual assault prevention. In prior guidelines the
-                Association had stressed <em>only</em> primary prevention, but our work on the importance of combining
-                primary prevention with risk reduction spurred the Association to change its position and recommend
-                that both approaches be used in prevention efforts. This is a major policy change that has
-                resulted, at least in part, from our research. The guidelines can be found at:
-                <a href="http://www.acha.org/documents/resources/guidelines/Addressing_Sexual_Violence.pdf">
-                    http://www.acha.org/documents/resources/guidelines/Addressing_Sexual_Violence.pdf
-                </a>
-            </p>
-        </li>
-        <li>
-            Holtzman, Mellisa and Chadwick Menning. (2015). "Primary Prevention and Risk Reduction Programming for
-            College-Level Sexual Assault Prevention:  Illustrating the Benefits of a Combined Approach"
-            <i>eJournal of Public Affairs</i> 4: 12-38.
-        </li>
-        <li>
-            Holtzman, Mellisa and Chadwick Menning. (2015). "Integrating Experiential Learning and
-            Applied Research to Promote Student Learning and Faculty Research."  <i>College Teaching</i> 63: 112-118.
-        </li>
-        <li>
-            <p>
-                Holtzman, Mellisa and Chadwick L. Menning. (2015). "A New Model for Sexual Assault Protection:
-                Creation and Initial Testing of Elemental." <i>Journal of Applied Social Sciences</i> 9: 139-155.
-            </p>
-            <p>
-                To listen to a podcast associated with this article, please visit the following link:
-                <a href="http://jax.sagepub.com/site/misc/Index/Podcasts.xhtml">
-                    http://jax.sagepub.com/site/misc/Index/Podcasts.xhtml
-                </a>
-            </p>
-        </li>
-    </ul>
+    <table class="table">
+        <tr>
+            <td>
+                Forthcoming
+            </td>
+            <td>
+                Menning, Chadwick and Mellisa Holtzman. "Predicting Successful Self-Protection to Attempted Sexual Assault: Factors, Tactics, and Outcomes." <em>Sociological Focus</em>.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2015
+            </td>
+            <td>
+                <p>
+                    Menning, Chadwick and Mellisa Holtzman. "Combining Primary Prevention and Risk Reduction Approaches in Sexual Assault Programming." <em>Journal of American College Health</em> 63: 513-522
+                </p>
+                <p>
+                    In June, 2016 this article was cited by the American College Health Association in their updated guidelines for colleges and universities on sexual assault prevention. In prior guidelines the Association had stressed only primary prevention, but our work on the importance of combining primary prevention with risk reduction spurred the Association to change its position and recommend that both approaches be used in prevention efforts. This is a major policy change that has resulted, at least in part, from our research. The guidelines can be found at: <a href="http://www.acha.org/documents/resources/guidelines/Addressing_Sexual_Violence.pdf">http://www.acha.org/documents/resources/guidelines/Addressing_Sexual_Violence.pdf</a>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2015
+            </td>
+            <td>
+                Holtzman, Mellisa and Chadwick Menning. "Primary Prevention and Risk Reduction Programming for College-Level Sexual Assault Prevention: Illustrating the Benefits of a Combined Approach" <em>eJournal of Public Affairs</em> 4: 12-38.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2015
+            </td>
+            <td>
+                Holtzman, Mellisa and Chadwick Menning. "Integrating Experiential Learning and
+                Applied Research to Promote Student Learning and Faculty Research." <em>College Teaching</em> 63: 112-118.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2015
+            </td>
+            <td>
+                <p>
+                    Holtzman, Mellisa and Chadwick L. Menning. "A New Model for Sexual Assault
+                    Protection: Creation and Initial Testing of Elemental." <em>Journal of Applied Social Sciences</em> 9: 139-155.
+                </p>
+                <p>
+                    To listen to a podcast associated with this article, please visit the following link: <a href="http://jax.sagepub.com/site/misc/Index/Podcasts.xhtml">http://jax.sagepub.com/site/misc/Index/Podcasts.xhtml</a>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2014
+            </td>
+            <td>
+                Menning, Chadwick and Mellisa Holtzman. "Processes and Patterns in Gay, Lesbian, and Bisexual Sexual Assault: A Multimethodological Assessment." <em>Journal of Interpersonal Violence</em> 29: 1071-1093.
+            </td>
+        </tr>
+    </table>
 </section>
 
 <section class="scholarly">
     <h2>
-        Manuscripts Under Review or in Progress
+        Invited Presentations on Elemental and/or Sexual Violence Prevention
     </h2>
-    <ul>
-        <li>
-            Menning, Chadwick and Mellisa Holtzman. "Predicting Successful Self-Protection to Attempted Sexual
-            Assault: Factors, Tactics, and Outcomes."
-        </li>
-        <li>
-            Holtzman, Mellisa and Chadwick Menning. "Developments in Sexual Assault Resistance Education: Combining
-            Risk Reduction and Primary Prevention."
-        </li>
-    </ul>
+    <table class="table">
+        <tr>
+            <td>
+                2018
+            </td>
+            <td>
+                Holtzman, Mellisa. "The Science behind Effective Sexual Assault Prevention
+                Programming on College Campuses: What Practitioners Need to Know." Presented at Central Wyoming College, Riverton, WY. (Invited keynote)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2018
+            </td>
+            <td>
+                Holtzman, Mellisa. "Elemental: An Evidence-Based Sexual Assault Protection Program." Presented at Central Wyoming College, Riverton, WY. (Invited workshop)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2018
+            </td>
+            <td>
+                Holtzman, Mellisa. "Rethinking Risk Reduction: When to Use It, How to Use it, and Why It is Important." Presented at Grinnell College, Grinnell, IA (Invited keynote)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2018
+            </td>
+            <td>
+                Holtzman, Mellisa. "Elemental: An Evidence-Based Sexual Assault Protection Program." Presented at the Midwest Campus Safety Summit, Muncie, IN. (Invited workshop)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2017
+            </td>
+            <td>
+                Holtzman, Mellisa. "Beyond Victim-Blaming: Students’ Perceptions of Bystanders Who Fail to Intervene." Presented at the Heartland Campus Safety Summit, Overland, KS. (Invited breakout session)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2017
+            </td>
+            <td>
+                Holtzman, Mellisa. "The Evolution of Sexual Assault Prevention on College Campuses: Why Primary Prevention and Risk Reduction Matter." Presented at the Midwest Campus Safety Summit, Muncie, IN and the Rocky Mountain Campus Safety Summit, Colorado Springs, CO. (Invited breakout session)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2017
+            </td>
+            <td>
+                Holtzman, Mellisa. "Elemental: An Evidence-Based Sexual Assault Protection Program." Presented at the Midwest Campus Safety Summit, Muncie, IN and the Rocky Mountain Campus Safety Summit, Colorado Springs, CO. (Invited workshop)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2016
+            </td>
+            <td>
+                Holtzman, Mellisa. "New Developments in Sexual Assault Prevention Efforts: Why Primary Prevention and Risk Reduction Matter." Presented at the Heartland Campus Safety Summit, Overland, KS. (Invited breakout session)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2016
+            </td>
+            <td>
+                Holtzman, Mellisa. "Elemental: An Evidence-Based Sexual Assault Protection Program." Presented at the Heartland Campus Safety Summit, Overland, KS. (Invited workshop)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2016
+            </td>
+            <td>
+                Holtzman, Mellisa and Chadwick Menning. "Developments in Sexual Assault Resistance Education: Combining Risk Reduction and Primary Prevention." Presented at the American Psychological Association Annual Meetings, Denver, CO. (Invited symposium panel presenter)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2016
+            </td>
+            <td>
+                Holtzman, Mellisa and Chadwick Menning. "Comprehensive Sexual Violence Prevention Programming in Schools: Why Does It Matter?" Presented at the Action in Education Summer Institute, Northern Michigan University, Marquette, MI. (Invited keynote)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2016
+            </td>
+            <td>
+                McEvoy, Alan, Chadwick Menning, and Mellisa Holtzman. "Helping Students End Sexual Assault and Relationship Violence." Presented at the Action in Education Summer Institute, Northern Michigan University, Marquette, MI. (Invited workshop)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2016
+            </td>
+            <td>
+                Menning, Chadwick and Mellisa Holtzman. "Combining Primary Prevention and Risk Reduction Programming to Increase the Efficacy of Sexual Assault Prevention on College Campuses."  Presented at the Rocky Mountain Campus Safety Summit, Colorado Springs, CO. (Invited breakout session)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2016
+            </td>
+            <td>
+                Holtzman, Mellisa. "Next Steps in College Sexual Assault Prevention: Comprehensive Programming." Presented at ConsenTED, Ball State University, Muncie, IN. (Invited keynote)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2015
+            </td>
+            <td>
+                Holtzman, Mellisa and Chadwick Menning. "Primary Prevention and Risk Reduction Programming for College-Level Sexual Assault Prevention: Illustrating the Benefits of a Combined Approach." Presented at the Heartland Campus Safety Summit, Overland, KS. (Invited breakout session)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2015
+            </td>
+            <td>
+                <p>
+                    Holtzman, Mellisa. "What If Sexual Assault Self-Protection Could be Nonviolent?" Presented at TEDx Ball State University, Muncie, IN (Invited TEDx talk)
+                </p>
+                <p>
+                    TEDx talks focus on "ideas worth spreading" and the theme for this particular event was "What if . . ." Thus, all talks offered a provocative and unique look at familiar topics using a "What if . . ." lens. Video of the presentation can be found at: <a href="http://youtu.be/u-7VAFBGWqc">http://youtu.be/u-7VAFBGWqc</a>
+                </p>
+            </td>
+        </tr>
+    </table>
 </section>
 
 <section class="scholarly">
     <h2>
-        Scholarly Presentations on Elemental
+        Refereed Conference Presentations on Elemental and/or Sexual Violence Prevention
     </h2>
-
-    <ul>
-        <li>
-            Holtzman, Mellisa. (2016). "New Developments in Sexual Assault Prevention Efforts: Why Primary Prevention
-            <em>and</em> Risk Reduction Matter." Presented at the Heartland Campus Safety Summit, Overland, KS. (Invited
-            Breakout Session)
-        </li>
-        <li>
-            Holtzman, Mellisa and Chadwick Menning. (2016). "Elemental: An Evidence-Based Sexual Assault Protection
-            Program." Presented at the Heartland Campus Safety Summit, Overland, KS. (Invited Workshop)
-        </li>
-        <li>
-            Holtzman, Mellisa and Chadwick Menning. (2016). "Developments in Sexual Assault Resistance Education:
-            Combining Risk Reduction and Primary Prevention." Presented at the American Psychological Association Annual
-            Meetings, Denver, CO. (Invited Panel Session)
-        </li>
-        <li>
-            Holtzman, Mellisa and Chadwick Menning. (2016). "Comprehensive Sexual Violence Prevention Programming in
-            Schools: Why Does It Matter?" Presented at the Action in Education Summer Institute, Northern Michigan
-            University, Marquette, MI. (Invited Keynote Presentation)
-        </li>
-        <li>
-            McEvoy, Alan, Chadwick Menning, and Mellisa Holtzman. (2016). "Helping Students End Sexual Assault and
-            Relationship Violence." Presented at the Action in Education Summer Institute, Northern Michigan University,
-            Marquette, MI. (Invited Breakout Session)
-        </li>
-        <li>
-            Menning, Chadwick and Mellisa Holtzman. (2016). "Combining Primary Prevention and Risk Reduction Programming
-            to Increase the Efficacy of Sexual Assault Prevention on College Campuses." Presented at the Rocky Mountain
-            Campus Safety Summit, Colorado Springs, CO. (Invited Breakout Session)
-        </li>
-        <li>
-            Holtzman, Mellisa (with Chadwick Menning). (2016). "Next Steps in College Sexual Assault Prevention:
-            Comprehensive Programming." Presented at ConsenTED, Ball State University, Muncie, IN. (Invited Keynote
-            Presentation)
-        </li>
-        <li>
-            Menning, Chadwick and Mellisa Holtzman. (2016). "Precursors and Processes of Attempted Sexual Assault: A
-            Multimethodological Approach." Presented at the North Central Sociological Association meetings, Chicago,
-            IL.
-        </li>
-        <li>
-            <p>
-                Holtzman, Mellisa (with Chadwick Menning). (2015). "What If Sexual Assault Self-Protection Could be
-                Nonviolent?" Presented at TEDx Ball State University, Muncie, IN
-            </p>
-            <p>
-                Invited by the TEDx organizers to be 1 of 12 featured speakers for an event in November, 2015. TEDx
-                talks focus on "ideas worth spreading" and the theme for this particular event was "What if . . ." Thus,
-                all talks offered a provocative and unique look at familiar topics using a "What if . . ." lens. Video
-                of the presentation can be found at:
-                <a href="http://youtu.be/u-7VAFBGWqc">
-                    http://youtu.be/u-7VAFBGWqc
-                </a>
-            </p>
-        </li>
-
-
-        <li>
-            Holtzman, Mellisa and Chadwick Menning. (2015). "Primary Prevention and Risk Reduction
-            Programming for College-Level Sexual Assault Prevention:  Illustrating the Benefits of a Combined
-            Approach." Presented at the Heartland Campus Safety Summit, Overland, KS. (Invited Breakout Session)
-        </li>
-        <li>
-            Menning, Chadwick L., and Mellisa Holtzman. (2015). "Combining Primary
-            Prevention and Risk Reduction Approaches in Sexual Assault Programming." Annual
-            meeting of the North Central Sociological Association, Cleveland, OH.
-        </li>
-        <li>
-            Holtzman, Mellisa and Chadwick L. Menning. (2014). "Perceptions of the
-            major and the status of the discipline: Using applied research and experiential
-            learning to address two areas of concern for sociology." Annual meeting of the
-            Association for Applied and Clinical Sociology, Pittsburgh, PA.
-        </li>
-        <li>
-            Holtzman, Mellisa and Chadwick L. Menning. (2014). "Applying sociology
-            to develop a new model for sexual assault protection: Creation and initial
-            testing of Elemental. Annual meeting of the North Central Sociological
-            Association, Cincinnati, OH.
-        </li>
-        <li>
-            Holtzman, Mellisa and Chadwick L. Menning. (2014). "A demonstration of
-            a new sexual assault protection program: Introducing Elemental." Annual meeting
-            of the North Central Sociological Association, Cincinnati, OH.
-        </li>
-        <li>
-            Menning, Chadwick L. (2014). "Sociology as a martial art: Synthesizing
-            scholarship of discovery and application to blaze new paths in sexual assault
-            self-protection programming." BSU Assigned Leave Presentation, Muncie, IN.
-        </li>
-        <li>
-            Menning, Chadwick L. and Mellisa Holtzman. (2013).  "Elemental: Using
-            sociology to develop a new model for sexual assault protection." Annual meeting
-            of the Association for Applied and Clinical Sociology, Portland, OR.
-        </li>
-        <li>
-            Menning, Chadwick L. and Mellisa Holtzman. (2013). "Elemental Sexual
-            Assault Protection: A demonstration." Annual meeting of the Association for
-            Applied and Clinical Sociology, Portland, OR.
-        </li>
-        <li>
-            Wolf, Hayley, Chadwick L. Menning and Mellisa Holtzman. (2013).
-            "Elemental: Self defense proven effective through social science." Butler
-            Undergraduate Research Conference, Indianapolis, IN.
-        </li>
-        <li>
-            Menning, Chadwick L. and Mellisa Holtzman. (2012). "Addressing sexual
-            assault self-protection needs in the GLBTQ population: The development of
-            Elemental." Queertopia 5.0, Chicago, IL.
-        </li>
-        <li>
-            Menning, Chadwick L. and Sarah Bartolo. (2011). "Applying sociology to
-            develop a sexual assault protection program: Toward an interdisciplinary,
-            flexible, and inclusive approach." Annual meeting of the North Central
-            Sociological Association, Cleveland, OH.
-        </li>
-    </ul>
+    <table class="table">
+        <tr>
+            <td>
+                2018
+            </td>
+            <td>
+                Holtzman, Mellisa and Chadwick Menning. "New Developments in Sexual Assault Prevention: Why Primary Prevention and Risk Reduction Matter." Presented at the Summit on the Prevention of Campus Sexual Assault, University of Michigan Injury Prevention Center, Ann Arbor, MI.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2018
+            </td>
+            <td>
+                Holtzman, Mellisa. "Beyond Victim-Blaming: Students’ Perceptions of Bystanders Who
+                Fail to Intervene." Presented at the North Central Sociological Association meetings, Pittsburgh, PA.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2017
+            </td>
+            <td>
+                Menning, Chadwick and Mellisa Holtzman. "What Does Successful Sexual Assault Protection Look Like?: Lessons Learned from Elemental." Presented at the North Central Sociological Association meetings, Indianapolis, IN.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2016
+            </td>
+            <td>
+                Menning, Chadwick and Mellisa Holtzman. "Precursors and Processes of Attempted Sexual Assault: A Multimethodological Approach." Presented at the North Central Sociological Association meetings, Chicago, IL.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2015
+            </td>
+            <td>
+                Menning, Chadwick and Mellisa Holtzman. "Combining Primary Prevention and Risk Reduction Approaches in Sexual Assault Programming." Presented at the North Central Sociological Association meetings, Cleveland, OH.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2014
+            </td>
+            <td>
+                Holtzman, Mellisa and Chadwick Menning. "Perceptions of the Major and the Status of the Discipline:  Using Applied Research and Experiential Learning to Address Two Areas of Concern for Sociology."  Presented at the Association for Applied and Clinical Sociology meetings, Pittsburg, PA.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2014
+            </td>
+            <td>
+                Holtzman, Mellisa and Chadwick Menning. "Applying Sociology to Develop a New
+                Model for Sexual Assault Protection: Creation and Initial Testing of Elemental." Presented at the North Central Sociological Association meetings, Cincinnati, OH
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2014
+            </td>
+            <td>
+                Holtzman, Mellisa and Chadwick Menning. "A Demonstration of a New Sexual Assault
+                Protection Program:  Introducing Elemental." Presented at the North Central Sociological Association meetings, Cincinnati, OH
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2013
+            </td>
+            <td>
+                Menning, Chadwick and Mellisa Holtzman. "Elemental: Using Sociology to Develop a New Model for Sexual Assault Protection." Presented at the Association for Applied and Clinical Sociology meetings, Portland, OR
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2013
+            </td>
+            <td>
+                Menning, Chadwick and Mellisa Holtzman. "Elemental Sexual Assault Protection: A Demonstration." Presented at the Association for Applied and Clinical Sociology meetings, Portland, OR
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2013
+            </td>
+            <td>
+                Wolf, Hayley, Chadwick Menning, and Mellisa Holtzman. "Elemental: Self Defense Proven Effective through Social Science." Presented at the Butler Undergraduate Research Conference, Indianapolis, IN
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2012
+            </td>
+            <td>
+                Menning, Chadwick and Mellisa Holtzman. "Processes and Patterns in GLBTQ Sexual Assault: A Multimethodological Assessment." Presented at Queertopia 5.0, Chicago, IL
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2012
+            </td>
+            <td>
+                Menning, Chadwick and Mellisa Holtzman. "Addressing Sexual Assault Self-Protection Needs in the GLBTQ Population: The Development of Elemental." Presented at Queertopia 5.0, Chicago, IL
+            </td>
+        </tr>
+    </table>
 </section>

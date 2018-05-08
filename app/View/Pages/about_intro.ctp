@@ -4,23 +4,12 @@
 	</h1>
 </div>
 
-<section class="about alert alert-info">
-	<h2>
-		New Podcast
-	</h2>
-	<p>
-		Mellisa Holtzman, one of the directors of Elemental, recently recorded a podcast about the program with the Journal of Applied Social Sciences.
-		In it, she describes Elemental and some of the research on the program's effectiveness.  <a href="/files/JASS_MellisaHoltzman.mp3">Download the episode</a> (10 minutes, 4MB).
-	</p>
-</section>
-
-
 <section class="about">
 	<h2>
 		What is Elemental?
 	</h2>
 	<p>
-		Elemental is a sexual assault protection program that was developed at <a href="http://bsu.edu">Ball State University</a> by Chad Menning, Mellisa Holtzman, and a team 15 students from a number of disciplines across campus.  The program combines educational programming on assault, consent, party culture, party safety and so forth with physical and verbal self-defense training.  During the 7 hour seminar, students learn how to recognize sexual threats early, give and get consent, communicate with partners about sex, and use a variety of self-protection techniques that vary in intensity and level of violence.
+        Elemental is a sexual assault protection program that was developed at <a href="http://bsu.edu">Ball State University</a> by Mellisa Holtzman, Chad Menning, and a team 15 students from a number of disciplines across campus. The program combines primary prevention educational programming on assault, consent, party culture, and party safety with physical and verbal risk reduction training. During the seminar, students learn how to recognize sexual threats early, give and get consent, communicate with partners about sex, and use a variety of self-protection techniques that vary in intensity and level of violence.
 	</p>
 </section>
 
@@ -82,6 +71,6 @@
 		Elemental Program History
 	</h2>
 	<p>
-		Since the initial interdisciplinary fellowship project to develop the program through the <a href="http://cms.bsu.edu/academics/centersandinstitutes/virginiaballcenter">Virginia Ball Center for Creative Inquiry</a> at Ball State University in the spring of 2011, over 250 students have trained in Elemental's system. The success of this innovative program on Ball State's campus and its growing record of effectiveness have sparked the expansion of the program beyond its home institution. Today, Elemental Sexual Assault Protection LLC partners with Vizi Courseware to deliver seminars, cutting-edge instructional and review materials, and instructor certification on small and large scales. Through our certification programs, individuals and institutions can receive training for themselves or their staff and then offer the Elemental program within their communities, university settings, and so forth.
-	</p>
+        Since the initial interdisciplinary fellowship project to develop the program through the <a href="http://cms.bsu.edu/academics/centersandinstitutes/virginiaballcenter">Virginia Ball Center for Creative Inquiry</a> at Ball State University in the spring of 2011, hundreds of students have trained in Elemental’s system. The success of this innovative program on Ball State’s campus and its growing record of effectiveness have sparked the expansion of the program beyond its home institution. Elemental is now taught in a number of states, including Indiana, Ohio, Iowa, and Wisconsin. Professor Holtzman is also a sought-after speaker at campus events and campus safety summits throughout the US. As such, Elemental Sexual Assault Protection, LLC currently partners with Vizi Courseware to deliver seminars, cutting-edge instructional and review materials, and instructor certification on small and large scales. Through Elemental’s certification programs, individuals and institutions can receive training for themselves or their staff and then offer the Elemental program within their communities and university settings. To learn more about how you can bring Elemental to your institution or become an instructor, visit the Elemental website at <a href="http://www.elementalprotection.org/">www.elementalprotection.org</a> or contact Professor Holtzman directly at <a href="mailto:mkholtzman@bsu.edu">mkholtzman@bsu.edu</a> or <a href="mailto:mkholtzman@elementalprotection.org">mkholtzman@elementalprotection.org</a>.
+    </p>
 </section>

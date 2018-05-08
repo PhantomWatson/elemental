@@ -16,14 +16,14 @@
 				At the heart of Elemental are 5 multi-media, interactive videos that set up <strong>common sexual assault scenarios for college students</strong>.  These scenarios introduce a variety of important contextual factors, including the often ambiguous, and therefore problematic, nature of giving and getting consent; the role of alcohol in assault; the various ways that gender socialization contributes to assault; and college party and hook-up culture.
 			</p>
 			<blockquote>
-				"The scenarios all felt very real for me.  As a survivor of intimate partner violence, I thought those situations were much more helpful than many of the stranger-rape cases in past self-defense classes I've taken." - Fall 2012 participant
+				"The scenarios all felt very real for me.  As a survivor of intimate partner violence, I thought those situations were much more helpful than many of the stranger-rape cases in past self-defense classes I've taken."
 			</blockquote>
 			
 			<p>
 				These scenarios not only serve as the jumping-off point for important discussions, but they also serve as examples of the threats that participants are taught to defend against.  We ask students to practice physical and verbal responses to the various situations depicted in the scenarios.  This <strong>practice happens with each other, against trained, padded "attackers", and also on realistic surfaces, including beds and couches.</strong>
 			</p>
 			<blockquote>
-				"The beds and couches were also a plus for me because there is no other program that offers such realistic practice experiences. Additionally, you provided both verbal and physical solutions to all the problems which is a realistic approach. No two situations are alike, so it is best to know as many options as possible." - Fall 2013 participant
+				"The beds and couches were also a plus for me because there is no other program that offers such realistic practice experiences. Additionally, you provided both verbal and physical solutions to all the problems which is a realistic approach. No two situations are alike, so it is best to know as many options as possible."
 			</blockquote>
 		</div>
 	</div>
@@ -66,10 +66,10 @@
 				For each of the 5 scenarios in the videos, participants learn and practice verbal and physical responses associated with each element.  In this way, they have a great deal of <strong>choice in how they respond.</strong>
 			</p>
 			<blockquote>
-				"I really liked the earth, water, fire, and wind aspect to the seminar. I think it really helped by giving us four options for each scenario." - Fall 2012 participant
+				"I really liked the earth, water, fire, and wind aspect to the seminar. I think it really helped by giving us four options for each scenario."
 			</blockquote>
 			<blockquote>
-				"I liked how the different techniques weren't gender specific, and I liked how you could use each of the Elemental moves to cater to your specific personality. It made the techniques more approachable. I loved the seminar, it was really empowering!" - Fall 2013 participant
+				"I liked how the different techniques weren't gender specific, and I liked how you could use each of the Elemental moves to cater to your specific personality. It made the techniques more approachable. I loved the seminar, it was really empowering!"
 			</blockquote>
 		</div>
 	</div>
