@@ -236,4 +236,26 @@ class AppController extends Controller {
 
         return $charge;
     }
+
+    protected function verifyRecaptcha()
+    {
+        $data = array(
+            'secret' => Configure::read('Recaptcha.privateKey'),
+            'response' => $this->request->data['g-recaptcha-response']
+        );
+        $query = http_build_query($data);
+        $options = array(
+            'http' => array (
+                'header' => "Content-Type: application/x-www-form-urlencoded",
+                'method' => 'POST',
+                'content' => $query
+            )
+        );
+        $context  = stream_context_create($options);
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $verify = file_get_contents($url, false, $context);
+        $captcha_success=json_decode($verify);
+
+        return isset($captcha_success->success) ? (bool)$captcha_success->success : false;
+    }
 }

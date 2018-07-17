@@ -6,8 +6,6 @@ App::uses('AppController', 'Controller');
  * @property User $User
  */
 class UsersController extends AppController {
-	public $components = array('Recaptcha.Recaptcha');
-	public $helpers = array('Recaptcha.Recaptcha');
 	public $paginate = array(
 		'contain' => array(
 			'Role'
@@ -141,8 +139,9 @@ class UsersController extends AppController {
 			$this->request->data['User']['password'] = Security::hash($password, null, true);
 			$this->loadModel('Role');
 			$this->request->data['Role']['id'] = $this->Role->getIdWithName('student');
+            $recaptchaPassed = $this->verifyRecaptcha();
 
-			if ($this->Recaptcha->verify() && $this->User->save($this->request->data)) {
+			if ($recaptchaPassed && $this->User->save($this->request->data)) {
 
 				// Format login data (so Session.Auth is populated and formatted correctly)
 				$user = $this->User->read();
@@ -173,7 +172,7 @@ class UsersController extends AppController {
 				}
 			} else {
 				$this->Flash->error('Please correct the indicated error(s).');
-                if ($this->Recaptcha->error) {
+                if (!$recaptchaPassed) {
                     $this->set('recaptcha_error', true);
                 }
 			}
@@ -268,7 +267,8 @@ class UsersController extends AppController {
 		}
 		if ($this->request->is('post')) {
 			$this->User->set($this->request->data);
-			if ($this->Recaptcha->verify() && $this->User->validates()) {
+			$recaptchaPassed = $this->verifyRecaptcha();
+			if ($recaptchaPassed && $this->User->validates()) {
 				App::uses('Security', 'Utility');
 				$hash = Security::hash($this->request->data['User']['new_password'], null, true);
 				$this->User->set('password', $hash);
@@ -278,7 +278,7 @@ class UsersController extends AppController {
 				} else {
 					$this->Flash->error('There was an error changing your password.');
 				}
-			} elseif ($this->Recaptcha->error) {
+			} elseif (!$recaptchaPassed) {
                 $this->set('recaptcha_error', true);
             }
 			unset($this->request->data['User']['new_password']);

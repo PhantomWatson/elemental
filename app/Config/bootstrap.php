@@ -122,9 +122,6 @@ CakeLog::config('error', array(
 CakePlugin::load('DebugKit');
 App::uses('FireCake','DebugKit.Lib');
 
-// Recaptcha
-CakePlugin::load('Recaptcha');
-
 // Stripe
 CakePlugin::load('Stripe');
 CakeLog::config('stripe', array(

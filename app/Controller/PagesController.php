@@ -22,8 +22,6 @@
 App::uses('AppController', 'Controller');
 class PagesController extends AppController {
 	public $name = 'Pages';
-    public $components = array('Recaptcha.Recaptcha');
-    public $helpers = array('Recaptcha.Recaptcha');
 	public $uses = array();
 
 	public function beforeFilter() {
@@ -148,8 +146,9 @@ class PagesController extends AppController {
 		$categories = array('General');
 		if ($this->request->is('post')) {
 			$this->Dummy->set($this->request->data);
+            $recaptchaPassed = $this->verifyRecaptcha();
 
-			if ($this->Recaptcha->verify() && $this->Dummy->validates()) {
+			if ($recaptchaPassed && $this->Dummy->validates()) {
 				$email = new CakeEmail('contact_form');
 
 				// If there are choices of categories,
@@ -174,7 +173,7 @@ class PagesController extends AppController {
 						.Configure::read('admin_email').'</a> for assistance.');
 				}
 			} else {
-			    if ($this->Recaptcha->error) {
+			    if (!$recaptchaPassed) {
                     $this->set('recaptcha_error', true);
                 }
             }
