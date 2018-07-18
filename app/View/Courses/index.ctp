@@ -34,6 +34,8 @@
 								<?php endforeach; ?>
 							</ul>
 							<span class="location">
+                                <?php echo h($course['Course']['location']); ?>
+                                <br />
 								<?php echo h($course['Course']['city']); ?>, <?php echo h($course['Course']['state']); ?>
 							</span>
 							<?php echo $this->Html->link(
