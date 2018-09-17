@@ -44,7 +44,7 @@ class AppModel extends Model {
 		}
 
 		if ($field == 'email') {
-			$value == strtolower($value);
+			$value = strtolower($value);
 		}
 
 		// If editing
