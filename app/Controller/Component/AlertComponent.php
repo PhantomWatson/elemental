@@ -64,6 +64,7 @@ class AlertComponent extends Component {
 	}
 
 	protected function __refreshInstructorSrmPayment() {
+        $instructor_id = $this->Auth->user('id');
 		$key = 'alerts.instructor_srm_payment';
 		$StudentReviewModule = ClassRegistry::init('StudentReviewModule');
 		if ($StudentReviewModule->paymentNeeded($instructor_id)) {

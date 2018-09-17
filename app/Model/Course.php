@@ -382,6 +382,15 @@ class Course extends AppModel {
 		$this->User->id = $student_id;
 		$student = $this->User->read();
 
+		// Get instructor
+        $instructor_id = $course['Course']['user_id'];
+        $instructor = $this->User->find('first', array(
+            'conditions' => array(
+                'User.id' => $instructor_id
+            ),
+            'contain' => false
+        ));
+
 		// Get registration info
 		$registration = $this->CourseRegistration->find('first', array(
 			'conditions' => array(
