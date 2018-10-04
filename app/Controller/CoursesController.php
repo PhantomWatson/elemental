@@ -266,6 +266,7 @@ class CoursesController extends AppController {
 				// Set 'free' back to true if the user (for some dumb reason) selects "registration fee" and sets the cost to zero
 				$dollars = intval($this->request->data['Course']['cost_dollars']);
 				$cents = intval($this->request->data['Course']['cost_cents']);
+                $this->loadModel('StudentReviewModule');
                 $available_srm = $this->StudentReviewModule->getAvailableCount($instructor_id);
 				if ($dollars == 0 && $cents == 0 && $available_srm) {
 					$this->request->data['Course']['free'] = true;
