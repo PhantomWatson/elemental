@@ -12,7 +12,7 @@ class TestimonialsController extends AppController {
 		$this->Auth->deny(array('add', 'edit', 'delete', 'manage', 'approve'));
 	}
 
-	public function isAuthorized($user) {
+	public function isAuthorized($user = null) {
 		// Admins can access everything
 		if (parent::isAuthorized($user)) {
 			return true;

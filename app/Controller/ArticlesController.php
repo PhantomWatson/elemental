@@ -20,7 +20,7 @@ class ArticlesController extends AppController {
 		$this->Auth->deny(array('add', 'edit', 'delete', 'manage'));
 	}
 
-	public function isAuthorized($user) {
+	public function isAuthorized($user = null) {
 		// Only admins
 		return parent::isAuthorized($user);
 	}

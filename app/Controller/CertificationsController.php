@@ -40,7 +40,7 @@ class CertificationsController extends AppController {
         $this->paginate['contain']['User']['Purchase']['conditions']['product_id'] = $product_id;
 	}
 
-	public function isAuthorized($user) {
+	public function isAuthorized($user = null) {
 		$user_id = $this->Auth->user('id');
 		$this->loadModel('User');
 

@@ -16,7 +16,7 @@ class CourseRegistrationsController extends AppController {
 		);
 	}
 
-	public function isAuthorized($user) {
+	public function isAuthorized($user = null) {
 		// Instructors can remove students from a class list,
 		// or the students can remove themselves
 		if ($this->action == 'delete' && isset($this->params['pass'][0])) {

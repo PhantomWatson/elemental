@@ -15,7 +15,7 @@ class ProductsController extends AppController {
 		}
 	}
 
-	public function isAuthorized($user) {
+	public function isAuthorized($user = null) {
 		$user_id = $this->Auth->user('id');
 		$this->loadModel('User');
 		$is_instructor = $this->User->hasRole($user_id, 'instructor');
