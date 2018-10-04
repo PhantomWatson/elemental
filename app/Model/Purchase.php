@@ -25,7 +25,7 @@ class Purchase extends AppModel {
 		),
 		'order_id' => array(
 			'notempty' => array(
-				'rule' => array('notempty')
+				'rule' => 'notBlank'
 			)
 		),
 		'quantity' => array(

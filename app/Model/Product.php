@@ -5,7 +5,7 @@ class Product extends AppModel {
 	public $validate = array(
 		'name' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => 'notBlank',
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -15,7 +15,7 @@ class Product extends AppModel {
 		),
 		'description' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => 'notBlank',
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

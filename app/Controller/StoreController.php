@@ -22,7 +22,7 @@ class StoreController extends AppController {
 			// Create temporary validation rule
 			$this->Purchase->validate['instructor_id'] = array(
 				'notempty' => array(
-					'rule' => 'notEmpty',
+					'rule' => 'notBlank',
 					'required' => true,
 					'message' => 'Please select an instructor'
 				)

@@ -130,7 +130,7 @@ class PagesController extends AppController {
 		$this->loadModel('Dummy');
 		$this->Dummy->validate = array(
 			'name' => array(
-				'rule'    => 'notEmpty',
+				'rule'    => 'notBlank',
 				'message' => 'Please enter your name.'
 			),
 			'email' => array(
@@ -138,7 +138,7 @@ class PagesController extends AppController {
 				'message' => 'Please provide a valid email address. Otherwise, we can\'t respond back.'
 			),
 			'body' => array(
-				'rule'    => 'notEmpty',
+				'rule'    => 'notBlank',
 				'message' => 'This field cannot be left blank.'
 			)
 		);

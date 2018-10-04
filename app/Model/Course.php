@@ -20,7 +20,7 @@ class Course extends AppModel {
 	public $validate = array(
 		'location' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => 'notBlank',
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -30,7 +30,7 @@ class Course extends AppModel {
 		),
 		'address' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => 'notBlank',
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

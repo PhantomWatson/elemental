@@ -25,7 +25,7 @@ class CoursePayment extends AppModel {
 		),
 		'order_id' => array(
 			'notempty' => array(
-				'rule' => array('notempty')
+				'rule' => 'notBlank'
 			)
 		)
 	);

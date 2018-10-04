@@ -20,7 +20,7 @@ class Article extends AppModel {
 	public $validate = array(
 		'title' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => 'notBlank',
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -30,7 +30,7 @@ class Article extends AppModel {
 		),
 		'body' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => 'notBlank',
 				//'message' => 'Your custom message here',
 				'allowEmpty' => true,	// Required for TinyMCE
 				'required' => false,

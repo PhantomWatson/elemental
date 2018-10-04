@@ -19,7 +19,7 @@ class Testimonial extends AppModel {
 	public $validate = array(
 		'body' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => 'notBlank',
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

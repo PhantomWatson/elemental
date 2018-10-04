@@ -20,7 +20,7 @@ class User extends AppModel {
 	public $validate = array(
 		'name' => array(
 			'notempty' => array(
-				'rule' => array('notempty')
+				'rule' => 'notBlank'
 			),
 		),
 		'email' => array(
@@ -35,12 +35,12 @@ class User extends AppModel {
 		),
 		'password' => array(
 			'notempty' => array(
-				'rule' => array('notempty')
+				'rule' => 'notBlank'
 			),
 		),
 		'new_password' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => 'notBlank',
         		'message' => 'Please enter a password.'
 			),
         	'validNewPassword' => array(

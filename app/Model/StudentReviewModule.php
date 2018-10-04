@@ -11,7 +11,7 @@ class StudentReviewModule extends AppModel {
 		),
 		'instructor_id' => array(
 			'notempty' => array(
-				'rule' => array('notempty')
+				'rule' => 'notBlank'
 			)
 		),
 		'override_admin_id' => array(

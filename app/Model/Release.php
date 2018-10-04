@@ -22,7 +22,7 @@ class Release extends AppModel {
 	public $validate = array(
 		'name' => array(
 			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+				'rule' => 'notBlank',
 				'allowEmpty' => false,
 				'required' => true
 			),
@@ -47,7 +47,7 @@ class Release extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+				'rule' => 'notBlank',
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -62,7 +62,7 @@ class Release extends AppModel {
 		),
 		'guardian_name' => array(
 			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+				'rule' => 'notBlank',
 				'message' => 'This field cannot be left blank',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -72,7 +72,7 @@ class Release extends AppModel {
 		),
 		'guardian_phone' => array(
 			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+				'rule' => 'notBlank',
 				'message' => 'This field cannot be left blank',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -92,7 +92,7 @@ class Release extends AppModel {
 		),
 		'ip_address' => array(
 			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+				'rule' => 'notBlank',
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
