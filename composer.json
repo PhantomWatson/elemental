@@ -6,8 +6,9 @@
 	"require": {
 		"php": ">=7.2.0",
 		"ext-mcrypt": "*",
-		"cakephp/cakephp": "~2.9"
-	},
+		"cakephp/cakephp": "~2.9",
+      	"ext-json": "*"
+    },
 	"require-dev": {
 		"phpunit/phpunit": "3.7.*"
 	},
