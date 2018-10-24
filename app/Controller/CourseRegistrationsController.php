@@ -156,9 +156,9 @@ class CourseRegistrationsController extends AppController {
 			// Confirmation, removal from class list
 			} else {
 				if ($user_is_instructor) {
-					$this->Flash->success('Student un-registered from course.');
+                    $this->Flash->success('Your registration has been canceled.');
 				} else {
-					$this->Flash->success('Your registration has been canceled.');
+                    $this->Flash->success('Student un-registered from course.');
 				}
 			}
 
