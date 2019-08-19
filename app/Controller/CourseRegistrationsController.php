@@ -155,7 +155,7 @@ class CourseRegistrationsController extends AppController {
 				}
 				CakeLog::info(
 					sprintf(
-						'User %s\'s registration #%s removed from waiting list for course %s via button (%s)',
+						'User #%s\'s registration #%s removed from waiting list for course #%s via button (%s)',
 						$registration_user_id,
 						$id,
 						$course_id,
@@ -174,7 +174,7 @@ class CourseRegistrationsController extends AppController {
 
 				CakeLog::info(
 					sprintf(
-						'User %s\'s registration #%s removed from course %s via button (%s)',
+						'User #%s\'s registration #%s removed from course #%s via button (%s)',
 						$registration_user_id,
 						$id,
 						$course_id,
@@ -231,7 +231,7 @@ class CourseRegistrationsController extends AppController {
 				$msg_class = 'success';
 				CakeLog::info(
 					sprintf(
-						'Course registration %s unregistered via link (%s)',
+						'Course registration #%s unregistered via link (%s)',
 						$id,
 						$this->request->clientIp()
 					),

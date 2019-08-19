@@ -577,7 +577,7 @@ class CoursesController extends AppController {
 		if ($result) {
 			CakeLog::info(
 				sprintf(
-					'User %s\'s registration #%s %s for course %s (%s)',
+					'User #%s\'s registration #%s %s for course #%s (%s)',
 					$user_id,
 					$registration_id,
 					$elevate_registration ? 'elevated from waiting list to registered' : 'registered',
