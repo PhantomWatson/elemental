@@ -105,8 +105,16 @@ class CourseRegistration extends AppModel {
 		return $this->Course->field('user_id');
     }
 
+	/**
+	 * Returns the security hash corresponding to the specified course registration
+	 *
+	 * @param int|string $id ID of record in course_registrations table
+	 * @return string
+	 */
     public function getUnregisterHash($id) {
-    	return md5($id.'unregister_me_securely');
+		$salt = Configure::write('unregistration_hash_salt');
+
+    	return md5($id . $salt);
     }
 
 	public function userIsRegistered($user_id, $course_id) {
