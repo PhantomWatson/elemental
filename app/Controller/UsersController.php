@@ -142,6 +142,15 @@ class UsersController extends AppController {
             $recaptchaPassed = $this->verifyRecaptcha();
 
 			if ($recaptchaPassed && $this->User->save($this->request->data)) {
+				CakeLog::info(
+					sprintf(
+						'User account %s created for email address %s (%s)',
+						$this->User->id,
+						$clean_email,
+						$this->request->clientIp()
+					),
+					'site_activity'
+				);
 
 				// Format login data (so Session.Auth is populated and formatted correctly)
 				$user = $this->User->read();

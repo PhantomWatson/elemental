@@ -275,6 +275,16 @@ class CoursesController extends AppController {
 
 			if ($this->Course->saveAssociated($this->request->data)) {
 				$this->Flash->success('The course has been added');
+
+				CakeLog::info(
+					sprintf(
+						'Course #%s created (%s)',
+						$this->Course->id,
+						$this->request->clientIp()
+					),
+					'site_activity'
+				);
+
 				$this->redirect(array('action' => 'manage'));
 			} else {
 				$this->Flash->error('The course could not be added. Please correct any errors and try again.');
@@ -390,6 +400,16 @@ class CoursesController extends AppController {
 		}
 		if ($this->Course->delete()) {
 			$this->Flash->success('Course deleted');
+
+			CakeLog::info(
+				sprintf(
+					'Course #%s removed (%s)',
+					$id,
+					$this->request->clientIp()
+				),
+				'site_activity'
+			);
+
             $this->__refundStudents($id);
             $this->Flash->manualOutput();
             $this->set('title_for_layout', 'Course Deleted');
@@ -555,6 +575,18 @@ class CoursesController extends AppController {
 			$result = $this->CourseRegistration->save();
 		}
 		if ($result) {
+			CakeLog::info(
+				sprintf(
+					'User %s\'s registration #%s %s for course %s (%s)',
+					$user_id,
+					$registration_id,
+					$elevate_registration ? 'elevated from waiting list to registered' : 'registered',
+					$course_id,
+					$this->request->clientIp()
+				),
+				'site_activity'
+			);
+
 			if ($joining_waiting_list) {
 				$message = 'You are now on this course\'s waiting list. You will be contacted by an instructor if space becomes available.';
 			} else {

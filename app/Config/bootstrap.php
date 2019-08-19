@@ -130,3 +130,10 @@ CakeLog::config('stripe', array(
     'scopes' => array('stripe'),
     'file' => 'stripe',
 ));
+
+CakeLog::config('site_activity', array(
+	'engine' => 'FileLog',
+	'types' => array('info', 'error'),
+	'scopes' => array('site_activity'),
+	'file' => 'site_activity'
+));

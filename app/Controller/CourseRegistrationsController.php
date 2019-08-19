@@ -109,12 +109,13 @@ class CourseRegistrationsController extends AppController {
 		return true;
 	}
 
-/**
- * delete method
- *
- * @param string $id
- * @return void
- */
+	/**
+	 * Delete method
+	 *
+	 * @param string|int $id ID of course registration record
+	 * @param string $hash Security hash
+	 * @return void
+	 */
 	public function delete($id = null, $hash = null) {
 		if (! $id && isset($this->request->named['id'])) {
 			$id = $this->request->named['id'];
@@ -152,6 +153,16 @@ class CourseRegistrationsController extends AppController {
 				} else {
 					$this->Flash->success('Student removed from waiting list.');
 				}
+				CakeLog::info(
+					sprintf(
+						'User %s\'s registration #%s removed from waiting list for course %s via button (%s)',
+						$registration_user_id,
+						$id,
+						$course_id,
+						$this->request->clientIp()
+					),
+					'site_activity'
+				);
 
 			// Confirmation, removal from class list
 			} else {
@@ -160,6 +171,17 @@ class CourseRegistrationsController extends AppController {
 				} else {
                     $this->Flash->success('Student un-registered from course.');
 				}
+
+				CakeLog::info(
+					sprintf(
+						'User %s\'s registration #%s removed from course %s via button (%s)',
+						$registration_user_id,
+						$id,
+						$course_id,
+						$this->request->clientIp()
+					),
+					'site_activity'
+				);
 			}
 
 			// Waiting list elevation
@@ -207,6 +229,14 @@ class CourseRegistrationsController extends AppController {
 				$this->Course->elevateWaitingListMembers($course_id);
 				$message = 'You have been successfully unregistered.';
 				$msg_class = 'success';
+				CakeLog::info(
+					sprintf(
+						'Course registration %s unregistered via link (%s)',
+						$id,
+						$this->request->clientIp()
+					),
+					'site_activity'
+				);
 
 				// Send refund, if appropriate
 				$this->__autoRefund($course_id, $user_id);
