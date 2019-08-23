@@ -242,7 +242,7 @@ class CourseRegistrationsController extends AppController {
 			return;
 		}
 
-		$confirmed = $this->request->is('post') && isset($this->request->data['confirm']);
+		$confirmed = $this->request->is('post') && isset($this->request->data['CourseRegistration']['confirm']);
 		if (!$confirmed) {
 			$this->set('confirmationNeeded', true);
 
