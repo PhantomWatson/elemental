@@ -215,24 +215,57 @@ class CourseRegistrationsController extends AppController {
 	}
 
 	public function unregister_via_link($id = null, $hash = null) {
-		if ($this->CourseRegistration->exists($id)) {
-			$expected_hash = $this->CourseRegistration->getUnregisterHash($id);
-			if ($hash != $expected_hash) {
-				throw new ForbiddenException('Error unregistering. Security code incorrect.');
-			}
+		$this->set('title_for_layout', 'Cancel Course Registration');
+		$contactEmail = 'contact@elementalprotection.org';
+		$contactEmailMsg = sprintf(
+			'Please contact <a href="mailto:%s">%s</a> for assistance.',
+			$contactEmail,
+			$contactEmail
+		);
 
+		if (!$this->CourseRegistration->exists($id)) {
+			$this->set(array(
+				'message' => 'Course registration not found. It looks like you already canceled your registration.',
+				'msg_class' => 'info'
+			));
+
+			return;
+		}
+
+		$expected_hash = $this->CourseRegistration->getUnregisterHash($id);
+		if ($hash != $expected_hash) {
+			$this->set(array(
+				'message' => 'Error unregistering: Security code incorrect. ' . $contactEmailMsg,
+				'msg_class' => 'danger'
+			));
+
+			return;
+		}
+
+		$confirmed = $this->request->is('post') && isset($this->request->data['confirm']);
+		if (!$confirmed) {
+			$this->set('confirmationNeeded', true);
+
+			return;
+		}
+
+		if ($confirmed) {
 			$this->CourseRegistration->id = $id;
 			$course_id = $this->CourseRegistration->field('course_id');
 			$user_id = $this->CourseRegistration->field('user_id');
 			if ($this->CourseRegistration->delete()) {
 				$this->loadModel('Course');
 				$this->Course->elevateWaitingListMembers($course_id);
-				$message = 'You have been successfully unregistered.';
-				$msg_class = 'success';
+				$this->set(array(
+					'message' => 'You have been successfully unregistered.',
+					'msg_class' => 'success'
+				));
 				CakeLog::info(
 					sprintf(
-						'Course registration #%s unregistered via link (%s)',
+						'Course registration #%s unregistered via link for user #%s and course #%s (%s)',
 						$id,
+						$user_id,
+						$course_id,
 						$this->request->clientIp()
 					),
 					'site_activity'
@@ -240,19 +273,16 @@ class CourseRegistrationsController extends AppController {
 
 				// Send refund, if appropriate
 				$this->__autoRefund($course_id, $user_id);
-			} else {
-				$message = 'There was an error canceling your registration.';
-				$msg_class = 'danger';
-			}
-		} else {
-			$message = 'Course registration not found. It looks like you already canceled your registration.';
-			$msg_class = 'info';
-		}
 
-		$this->set(array(
-			'title_for_layout' => 'Cancel Course Registration',
-			'message' => $message,
-			'msg_class' => $msg_class
-		));
+				return;
+			}
+
+			$this->set(array(
+				'message' => 'There was an error canceling your registration. ' . $contactEmailMsg,
+				'msg_class' => 'danger'
+			));
+
+			return;
+		}
 	}
 }
