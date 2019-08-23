@@ -232,12 +232,26 @@ class CourseRegistrationsController extends AppController {
 			return;
 		}
 
+		$this->CourseRegistration->id = $id;
+		$course_id = $this->CourseRegistration->field('course_id');
+		$user_id = $this->CourseRegistration->field('user_id');
 		$expected_hash = $this->CourseRegistration->getUnregisterHash($id);
 		if ($hash != $expected_hash) {
 			$this->set(array(
 				'message' => 'Error unregistering: Security code incorrect. ' . $contactEmailMsg,
 				'msg_class' => 'danger'
 			));
+
+			CakeLog::info(
+				sprintf(
+					'Failed attempt to cancel registration #%s via link for user #%s and course #%s because of invalid hash (%s)',
+					$id,
+					$user_id,
+					$course_id,
+					$this->request->clientIp()
+				),
+				'site_activity'
+			);
 
 			return;
 		}
@@ -250,9 +264,6 @@ class CourseRegistrationsController extends AppController {
 		}
 
 		if ($confirmed) {
-			$this->CourseRegistration->id = $id;
-			$course_id = $this->CourseRegistration->field('course_id');
-			$user_id = $this->CourseRegistration->field('user_id');
 			if ($this->CourseRegistration->delete()) {
 				$this->loadModel('Course');
 				$this->Course->elevateWaitingListMembers($course_id);
@@ -281,6 +292,18 @@ class CourseRegistrationsController extends AppController {
 				'message' => 'There was an error canceling your registration. ' . $contactEmailMsg,
 				'msg_class' => 'danger'
 			));
+
+			CakeLog::info(
+				sprintf(
+					"Failed attempt to cancel registration #%s via link for user #%s and course #%s (%s)\nDetails: %s",
+					$id,
+					$user_id,
+					$course_id,
+					$this->request->clientIp(),
+					print_r($this->CourseRegistration->validationErrors, true)
+				),
+				'site_activity'
+			);
 
 			return;
 		}
