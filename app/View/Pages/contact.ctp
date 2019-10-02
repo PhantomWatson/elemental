@@ -5,21 +5,21 @@
 </div>
 
 <?php echo $this->Form->create(
-	'Dummy', 
+	'Dummy',
 	array(
 		'url' => array(
-			'controller' => 'pages', 
+			'controller' => 'pages',
 			'action' => 'contact'
 		)
 	)
 ); ?>
 
-<?php 
+<?php
 	if (count($categories) > 1) {
 		echo $this->Form->input(
-			'category', 
+			'category',
 			array(
-				'label' => 'Category', 
+				'label' => 'Category',
 				'options' => $categories
 			)
 		);
@@ -27,37 +27,35 @@
 ?>
 
 <?php echo $this->Form->input(
-	'name', 
+	'name',
 	array(
 		'default' => $this->Session->read('Auth.User.name'),
-		'class' => 'form-control', 
+		'class' => 'form-control',
 		'div' => array('class' => 'form-group')
 	)
 ); ?>
 
 <?php echo $this->Form->input(
-	'email', 
+	'email',
 	array(
 		'default' => $this->Session->read('Auth.User.email'),
-		'class' => 'form-control', 
+		'class' => 'form-control',
 		'div' => array('class' => 'form-group')
 	)
 ); ?>
 
 <?php echo $this->Form->input(
-	'body', 
+	'body',
 	array(
-		'label' => 'Message', 
-		'type' => 'textarea', 
+		'label' => 'Message',
+		'type' => 'textarea',
 		'style' => 'width: 400px; height: 200px;',
-		'class' => 'form-control', 
+		'class' => 'form-control',
 		'div' => array('class' => 'form-group')
 	)
 ); ?>
 
-<?php if (! $this->Session->read('Auth.User.id')): ?>
-	<?php echo $this->element('recaptcha', array('label' => false)); ?>
-<?php endif; ?>
+<?php echo $this->element('recaptcha', array('label' => false)); ?>
 
 <?php echo $this->Form->submit(
 	'Send',
