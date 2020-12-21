@@ -1,24 +1,33 @@
 {
-	"name": "elemental",
+	"name": "phantomwatson/elemental",
 	"description": "Elemental",
 	"homepage": "https://elementalprotection.org",
+	"type": "library",
 	"license": "MIT",
 	"require": {
-		"php": ">=7.2.0",
-		"ext-mcrypt": "*",
-		"cakephp/cakephp": "~2.9",
-      	"ext-json": "*"
-    },
-	"require-dev": {
-		"phpunit/phpunit": "3.7.*"
+		"php": ">=5.3.0,<8.0.0"
 	},
 	"suggest": {
-		"cakephp/cakephp-codesniffer": "Easily check code formatting against the CakePHP coding standards."
+		"ext-openssl": "You need to install ext-openssl or ext-mcrypt to use AES-256 encryption",
+		"ext-mcrypt": "You need to install ext-openssl or ext-mcrypt to use AES-256 encryption"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^3.7",
+		"cakephp/cakephp-codesniffer": "^1.0.0"
+	},
+	"config": {
+		"vendor-dir": "vendors/",
+		"process-timeout": 0
 	},
 	"bin": [
 		"lib/Cake/Console/cake"
 	],
-	"config": {
-		"vendor-dir": "Vendor/"
+	"scripts": {
+		"check": [
+			"@cs-check",
+			"@test"
+		],
+		"cs-check": "./vendors/bin/phpcs -p --extensions=php --standard=CakePHP ./lib/Cake",
+		"test": "./lib/Cake/Console/cake test core AllTests --stderr --verbose"
 	}
 }
