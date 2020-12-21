@@ -123,65 +123,7 @@ class PagesController extends AppController {
 	}
 
 	public function contact() {
-		App::uses('CakeEmail', 'Network/Email');
-
-		$this->modelClass = 'Dummy';
-		// Use a dummy model for validation
-		$this->loadModel('Dummy');
-		$this->Dummy->validate = array(
-			'name' => array(
-				'rule'    => 'notBlank',
-				'message' => 'Please enter your name.'
-			),
-			'email' => array(
-				'rule' => 'email',
-				'message' => 'Please provide a valid email address. Otherwise, we can\'t respond back.'
-			),
-			'body' => array(
-				'rule'    => 'notBlank',
-				'message' => 'This field cannot be left blank.'
-			)
-		);
-
-		$categories = array('General');
-		if ($this->request->is('post')) {
-			$this->Dummy->set($this->request->data);
-            $recaptchaPassed = $this->verifyRecaptcha();
-
-			if ($recaptchaPassed && $this->Dummy->validates()) {
-				$email = new CakeEmail('contact_form');
-
-				// If there are choices of categories,
-				// add the selected category to the subject
-				$subject = 'ElementalProtection.org contact form';
-				if (count($categories > 1) && isset($this->request->data['Dummy']['category'])) {
-					if (isset($categories[$this->request->data['Dummy']['category']])) {
-						$category = $categories[$this->request->data['Dummy']['category']];
-						$subject .= ': '.$category;
-					}
-				}
-
-				$email->from(array($this->request->data['Dummy']['email'] => $this->request->data['Dummy']['name']))
-					->to(Configure::read('admin_email'))
-					->subject($subject);
-				if ($email->send(nl2br($this->request->data['Dummy']['body']))) {
-					$this->Flash->success('Message sent. Thank you for contacting us. We will try to respond to your message soon.');
-					$this->request->data = array();
-				} else {
-					$this->Flash->error('There was some problem sending your email.
-						Please contact <a href="mailto:'.Configure::read('admin_email').'">'
-						.Configure::read('admin_email').'</a> for assistance.');
-				}
-			} else {
-			    if (!$recaptchaPassed) {
-                    $this->set('recaptcha_error', true);
-                }
-            }
-		}
-		$this->set(array(
-			'title_for_layout' => 'Contact Us',
-			'categories' => $categories
-		));
+		$this->set(['title_for_layout' => 'Contact Us']);
 	}
 
 	public function booking() {
